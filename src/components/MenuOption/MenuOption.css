@@ -1,0 +1,27 @@
+@font-face {
+	font-family: BoschSans;
+	src: url(../../assets/fonts/BoschSans-Regular.ttf);
+}
+
+*{
+	font-family: 'BoschSans';
+}
+
+.menu-option-info {
+	background-color: #fff;
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	border-top: 0.4px solid #cad6dd;
+}
+
+.menu-option-icon {
+    margin-left: 15px;
+    margin-top: 3px;
+}
+
+@media (min-width: 1280px) {
+	.menu-option-icon{
+		
+	}
+}

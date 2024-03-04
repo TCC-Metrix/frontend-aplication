@@ -1,0 +1,48 @@
+@font-face {
+	font-family: BoschSans;
+	src: url(../../assets/fonts/BoschSans-Regular.ttf);
+}
+
+*{
+	font-family: 'BoschSans';
+}
+
+.imgProfile {
+	padding: 0;
+	border-radius: 100%;
+	width: 3rem;
+	height: 3rem;
+	object-fit: cover;
+	
+}
+
+.nameImg {
+	display: flex;
+	gap: 20px;
+    width: 90%;
+	align-items: center;
+    align-self: center;
+	font-size: 12px;
+}
+
+.menu-option {
+    align-self: center;
+	width: 90%;
+	margin-top: 10px;
+	font-size: 10px;
+}
+
+@media (min-width: 1280px) {
+	.imgProfile{
+		width: 3.5rem;
+		height: 3.5rem;
+	}
+	.nameImg{
+		gap: 25px;
+		font-size: 15px;
+	}
+	.menu-option {
+		margin-top: 20px;
+		font-size: 13px;
+	}
+}

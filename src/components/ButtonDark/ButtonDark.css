@@ -1,0 +1,15 @@
+.btn-dark {
+	background-color: #476273;
+	border-style: none;
+    height: 1rem;
+	width: 9.2%;
+	font-size: 0.5rem;
+	color: #fff;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+.btn-dark:hover {
+	background-color: #364a57;
+	transition: 0.4s;
+}
