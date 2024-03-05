@@ -20,3 +20,8 @@ section{
     font-size: 0.9rem;
     color: #476273;
 }
+
+.mov-info h1{
+    color: #476273;
+    font-size: 9px;
+}

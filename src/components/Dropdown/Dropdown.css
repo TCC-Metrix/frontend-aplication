@@ -1,0 +1,38 @@
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #fff;
+	border: 1px solid #7995A6;
+	padding: 10px;
+	cursor: pointer;
+	position: relative;
+	width: 33vh;
+	height: 2rem;
+    font-size: 0.7rem;
+}
+
+.dropdown-menu {
+	position: absolute;
+	background-color: #fff;
+	border: 1px solid #7995A6;
+	top: 100%;
+	left: 0;
+	width: 99.4%;
+	overflow-y: auto;
+}
+
+.dropdown-item {
+	padding: 5px 10px;
+	cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.dropdown-item:hover {
+	background-color: #f0f0f0;
+}

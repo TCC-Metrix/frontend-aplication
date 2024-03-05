@@ -9,7 +9,7 @@
 
 .container {
 	z-index: 999;
-	position: fixed;
+	position: absolute;
 	width: 100%;
 	height: 4.5rem;
 	top: 0px;
