@@ -1,4 +1,4 @@
-section{
+main{
     display: flex;
     justify-content: center;
 }
@@ -21,7 +21,26 @@ section{
     color: #476273;
 }
 
+.mov-info{
+    width: 100%;
+    margin-top: 15%;
+    display: flex;
+    gap: 7%;
+}
+
 .mov-info h1{
     color: #476273;
-    font-size: 9px;
+    font-size: 0.9rem;
+}
+
+.responsavel-recebimento{
+    padding-top: 11%;
+}
+
+.data-saída{
+    padding-top: 11%;
+}
+
+.responsáveis-mov{
+    width: 25%;
 }

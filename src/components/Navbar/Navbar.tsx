@@ -142,7 +142,7 @@ export default function NavBar() {
 			<div className={`menu ${menu_class}`}>
 				<Menu />
 			</div>
-			{isMenuClicked && <div className="overlay" onClick={updateMenu}>BECK</div>}
+			{isMenuClicked && <div className="overlay" onClick={updateMenu}></div>}
 		</div>
 	);
 }
