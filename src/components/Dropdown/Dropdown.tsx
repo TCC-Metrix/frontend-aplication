@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import "./Dropdown.css";
 
 interface Option {
@@ -8,18 +7,20 @@ interface Option {
 
 interface DropdownSearchProps {
 	options: Option[];
-  placeholder: string;
+	placeholder: string;
+	isActive: boolean;
+	title: string;
 }
 
-const Dropdown: React.FC<DropdownSearchProps> = ({ options, placeholder }) => {
-	const [isOpen, setIsOpen] = useState(false);
+const Dropdown: React.FC<DropdownSearchProps> = ({
+	options,
+	placeholder,
+	isActive,
+	title,
+}) => {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedOption, setSelectedOption] = useState<string | null>(null);
 	const [filteredOptions, setFilteredOptions] = useState<Option[]>(options);
-
-	const toggleDropdown = () => {
-		setIsOpen(!isOpen);
-	};
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const searchTerm = event.target.value;
@@ -35,45 +36,36 @@ const Dropdown: React.FC<DropdownSearchProps> = ({ options, placeholder }) => {
 	const handleSelectOption = (value: string, label: string) => {
 		setSearchTerm(label); // Atualiza o searchTerm com o rótulo da opção selecionada
 		setSelectedOption(value);
-		setIsOpen(false);
 	};
 
 	return (
-		<div className="container-input">
-			<div className="input-style">
+		<div className="container-dropdown">
+			<div className="input-container">
 				<input
 					type="text"
 					value={searchTerm}
 					onChange={handleInputChange}
-					onFocus={toggleDropdown}
+					// onFocus={toggleDropdown}
 					placeholder={placeholder}
-					className="input-drop"
+					className="input-area"
+					name={title}
 				/>
-
-				<div className="arrow-style">
-					{isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
-				</div>
 			</div>
-			<div
-				className="drop-itens"
-				style={{ display: isOpen ? "block" : "none"}}
-			>
-				{isOpen && (
-					<ul className="options-list">
-						{filteredOptions.map((option, index) => (
-							<li
-								key={index}
-								onClick={() => handleSelectOption(option.label, option.label)}
-								className={selectedOption === option.label ? "selected" : ""}
-							>
-								{option.label}
-                {index !== filteredOptions.length - 1 && (
-                  <div className="border-bot-drop"></div>
-                )}
-							</li>
-						))}
-					</ul>
-				)}
+			<div className={isActive ? "drop-itens" : "none"}>
+				<ul className="options-list">
+					{filteredOptions.map((option, index) => (
+						<li
+							key={index}
+							onClick={() => handleSelectOption(option.label, option.label)}
+							className={selectedOption === option.label ? "selected" : ""}
+						>
+							{option.label}
+							{index !== filteredOptions.length - 1 && (
+								<div className="border-bot-drop"></div>
+							)}
+						</li>
+					))}
+				</ul>
 			</div>
 		</div>
 	);

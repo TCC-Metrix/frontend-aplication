@@ -3,6 +3,8 @@ import "./MovSaidaUso.css";
 import ButtonDark from "../../../components/ButtonDark/ButtonDark";
 import TableMovSaidaUso from "../../../components/TableMovSaidaUso/TableMovSaidaUso";
 import Dropdown from "../../../components/Dropdown/Dropdown";
+import { useState } from "react";
+
 
 export const MovSaidaUso = () => {
 	const options = [
@@ -13,9 +15,20 @@ export const MovSaidaUso = () => {
 		{ label: "Option 5" },
 	]; // será alimentado pela API provavelmente em outro arquivo
 
+	const [activeEntrega, setActiveEntrega] = useState<boolean>(false);
+	const [activeReceb, setActiveReceb] = useState<boolean>(false);
+	const [activeArea, setActiveArea] = useState<boolean>(false);
+
+	function validInputActive(event: any) {
+		const name = event.target.name;
+		console.log(name === "area");
+		setActiveArea(name === "area");
+		setActiveEntrega(name === "resp-entrega");
+		setActiveReceb(name === "resp-receb");
+	}
 
 	return (
-		<main>
+		<main onClick={(e) => validInputActive(e)}>
 			<NavBar />
 			<div className="container-main">
 				<div className="top-information">
@@ -27,23 +40,45 @@ export const MovSaidaUso = () => {
 					<TableMovSaidaUso />
 				</div>
 				<section className="mov-info">
-					<div className="responsáveis-mov">
-						<h1>Responsável entrega</h1>
-						<Dropdown
-							options={options}
-							placeholder="Busque por código ou nome"
-						/>
-						<h1 className="responsavel-recebimento">Responsavel Recebimento</h1>
-						<Dropdown
-							options={options}
-							placeholder="Busque por código ou nome"
-						/>
+					<div className="form-column">
+						<div>
+							<h1>Responsável entrega</h1>
+							<Dropdown
+								options={options}
+								placeholder="Busque por código ou nome"
+								isActive={activeEntrega}
+								title="resp-entrega"
+							/>
+						</div>
+						<div>
+							<h1>Responsavel Recebimento</h1>
+							<Dropdown
+								options={options}
+								placeholder="Busque por código ou nome"
+								isActive={activeReceb}
+								title="resp-receb"
+							/>
+						</div>
 					</div>
-					<div>
-						<h1>Área</h1>
-						<Dropdown options={options} placeholder="Busque por descrição" />
-
-						<h1 className="data-saída">Data de Saída</h1>
+					<div className="form-column">
+						<div>
+							<h1>Área</h1>
+							<Dropdown
+								options={options}
+								placeholder="Busque por descrição"
+								isActive={activeArea}
+								title="area"
+							/>
+						</div>
+						<div>
+							<h1>Data de Saída</h1>
+							<input
+								type="date"
+								id="birthday"
+								name="birthday"
+								className="date-input"
+							/>
+						</div>
 					</div>
 				</section>
 			</div>

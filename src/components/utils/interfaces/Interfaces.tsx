@@ -12,6 +12,6 @@ export interface List {
 }
 
 export interface MenuOptionProps {
-	img: string // Tipo para o componente de ícone
+	name: string // Tipo para o componente de ícone
 	text: string; // Texto a ser exibido
 }
