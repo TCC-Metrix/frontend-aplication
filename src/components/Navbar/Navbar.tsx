@@ -69,7 +69,7 @@ export default function NavBar() {
 							<ul className={`dropdown ${dropdownVisible.Mov ? "open" : ""}`}>
 								{movLinks.map((item, index) => (
 									<li key={index}>
-										<a href="">{item.name}</a>
+										<a href="" className="drop-link">{item.name}</a>
 										{index !== movLinks.length - 1 && (
 											<div className="border-bot"></div>
 										)}
@@ -86,8 +86,8 @@ export default function NavBar() {
 						{dropdownVisible.Cad && (
 							<ul className={`dropdown ${dropdownVisible.Cad ? "open" : ""}`}>
 								{cadLinks.map((item, index) => (
-									<li key={index}>
-										<a href="">{item.name}</a>
+									<li key={index} >
+										<a href="" className="drop-link">{item.name}</a>
 										{index !== cadLinks.length - 1 && (
 											<div className="border-bot"></div>
 										)}
@@ -105,7 +105,7 @@ export default function NavBar() {
 							<ul className={`dropdown ${dropdownVisible.Cons ? "open" : ""}`}>
 								{consultaLinks.map((item, index) => (
 									<li key={index}>
-										<a href="">{item.name}</a>
+										<a href="" className="drop-link">{item.name}</a>
 										{index !== consultaLinks.length - 1 && (
 											<div className="border-bot"></div>
 										)}
@@ -123,7 +123,7 @@ export default function NavBar() {
 							<ul className={`dropdown ${dropdownVisible.Rel ? "open" : ""}`}>
 								{relatorioLinks.map((item, index) => (
 									<li key={index}>
-										<a href="">{item.name}</a>
+										<a href="" className="drop-link">{item.name}</a>
 										{index !== relatorioLinks.length - 1 && (
 											<div className="border-bot"></div>
 										)}

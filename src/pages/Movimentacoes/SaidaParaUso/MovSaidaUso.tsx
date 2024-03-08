@@ -4,6 +4,8 @@ import ButtonDark from "../../../components/ButtonDark/ButtonDark";
 import TableMovSaidaUso from "../../../components/TableMovSaidaUso/TableMovSaidaUso";
 import Dropdown from "../../../components/Dropdown/Dropdown";
 import { useState } from "react";
+import { IoMdCalendar } from "react-icons/io";
+
 
 
 export const MovSaidaUso = () => {
@@ -78,6 +80,7 @@ export const MovSaidaUso = () => {
 								name="birthday"
 								className="date-input"
 							/>
+							<IoMdCalendar />
 						</div>
 					</div>
 				</section>
