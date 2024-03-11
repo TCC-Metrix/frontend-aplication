@@ -18,19 +18,20 @@ export const MovSaidaUso = () => {
 	const [activeEntrega, setActiveEntrega] = useState<boolean>(false);
 	const [activeReceb, setActiveReceb] = useState<boolean>(false);
 	const [activeArea, setActiveArea] = useState<boolean>(false);
+	const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
 
 	function validInputActive(event: any) {
 		const name = event.target.name;
-		console.log(name === "area");
 		setActiveArea(name === "area");
 		setActiveEntrega(name === "resp-entrega");
 		setActiveReceb(name === "resp-receb");
+		setActiveNavbar(false);
 	}
 
 	return (
-		<main onClick={(e) => validInputActive(e)}>
-			<NavBar />
-			<div className="container-main">
+		<main >
+			<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
+			<div className="container-main" onClick={(e) => validInputActive(e)}>
 				<div className="top-information">
 					<h1>Saída para uso</h1>
 					<p>Instrumento</p>
@@ -73,15 +74,9 @@ export const MovSaidaUso = () => {
 						<div>
 							<h1>Data de Saída</h1>
 							<div className="flex-column-calendar-icon">
-								<input
-									type="date"
-									id="birthday"
-									name="birthday"
-									className="date-input"
-									
-								/>
+								<input type="date" name="exit-date" className="date-input" />
 								<div className="calendar-input">
-									<IoMdCalendar size={23} color="476273"/>
+									<IoMdCalendar size={23} color="476273" />
 								</div>
 							</div>
 						</div>

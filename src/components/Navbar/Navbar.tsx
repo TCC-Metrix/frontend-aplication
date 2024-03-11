@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Logo } from "../../index";
 import "./Navbar.css";
 import {
@@ -11,7 +11,13 @@ import { DropdownState } from "../utils/interfaces/Interfaces";
 import Menu from "../Menu/Menu";
 import NavDropdown from "../NavDropdown/NavDropdown";
 
-export default function NavBar() {
+
+interface NavBarProps {
+  activeNavbar: boolean;
+  setActiveNavbar: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 	const [bar, setBar] = useState("bar unclicked");
 	const [menu_class, setMenuClass] = useState("menu-hidden");
 	const [isMenuClicked, setIsMenuClicked] = useState(false);
@@ -29,12 +35,15 @@ export default function NavBar() {
 				if (Object.prototype.hasOwnProperty.call(prevState, key)) {
 					if (dropdown && key === dropdown) {
 						updatedState[key] = !prevState[key];
+						setActiveNavbar(() => {
+							return true;
+						});
 					} else {
 						updatedState[key] = false;
 					}
 				}
 			}
-			console.log(updatedState)
+			console.log(updatedState);
 			return updatedState;
 		});
 	};
@@ -56,22 +65,56 @@ export default function NavBar() {
 	return (
 		<div className="container">
 			<nav className="navbar">
-			<img src={Logo} alt="logoRexroth" className="logoImg"></img>
+				<img src={Logo} alt="logoRexroth" className="logoImg"></img>
 				<ul className="nav-links">
 					<li>
-						<a href="#">Início</a>
+						<a href="#" className="nav-link">
+							Início
+						</a>
 					</li>
-					<NavDropdown option={dropdownVisible.Mov} setDropdownVisible={setDropdownVisible} title="Movimentação" optionKey="Mov" links={movLinks}/>
-					<NavDropdown option={dropdownVisible.Cad} setDropdownVisible={setDropdownVisible} title="Cadastro" optionKey="Cad" links={cadLinks}/>
-					<NavDropdown option={dropdownVisible.Cons} setDropdownVisible={setDropdownVisible} title="Consulta" optionKey="Cons" links={consultaLinks}/>
-					<NavDropdown option={dropdownVisible.Rel} setDropdownVisible={setDropdownVisible} title="Relatório" optionKey="Rel" links={relatorioLinks}/>
+					<NavDropdown
+						option={dropdownVisible.Mov}
+						setDropdownVisible={setDropdownVisible}
+						title="Movimentação"
+						optionKey="Mov"
+						links={movLinks}
+						activeNavbar={activeNavbar}
+						setActiveNavbar={setActiveNavbar}
+					/>
+					<NavDropdown
+						option={dropdownVisible.Cad}
+						setDropdownVisible={setDropdownVisible}
+						title="Cadastro"
+						optionKey="Cad"
+						links={cadLinks}
+						activeNavbar={activeNavbar}
+						setActiveNavbar={setActiveNavbar}
+					/>
+					<NavDropdown
+						option={dropdownVisible.Cons}
+						setDropdownVisible={setDropdownVisible}
+						title="Consulta"
+						optionKey="Cons"
+						links={consultaLinks}
+						activeNavbar={activeNavbar}
+						setActiveNavbar={setActiveNavbar}
+					/>
+					<NavDropdown
+						option={dropdownVisible.Rel}
+						setDropdownVisible={setDropdownVisible}
+						title="Relatório"
+						optionKey="Rel"
+						links={relatorioLinks}
+						activeNavbar={activeNavbar}
+						setActiveNavbar={setActiveNavbar}
+					/>
 				</ul>
 			</nav>
-				<div className="menu-toggle" onClick={updateMenu}>
-					<span className={bar}></span>
-					<span className={bar}></span>
-					<span className={bar}></span>
-				</div>
+			<div className="menu-toggle" onClick={updateMenu}>
+				<span className={bar}></span>
+				<span className={bar}></span>
+				<span className={bar}></span>
+			</div>
 			<div className={`menu ${menu_class}`}>
 				<Menu />
 			</div>
