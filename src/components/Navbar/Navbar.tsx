@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Logo } from "../../index";
 import "./Navbar.css";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import {
 	cadLinks,
 	consultaLinks,
@@ -10,6 +9,7 @@ import {
 } from "../utils/Links/Links";
 import { DropdownState } from "../utils/interfaces/Interfaces";
 import Menu from "../Menu/Menu";
+import NavDropdown from "../NavDropdown/NavDropdown";
 
 export default function NavBar() {
 	const [bar, setBar] = useState("bar unclicked");
@@ -34,6 +34,7 @@ export default function NavBar() {
 					}
 				}
 			}
+			console.log(updatedState)
 			return updatedState;
 		});
 	};
@@ -60,78 +61,10 @@ export default function NavBar() {
 					<li>
 						<a href="#">Início</a>
 					</li>
-					<li>
-						<a href="#" onClick={() => toggleDropdown("Mov")}>
-							Movimentação
-							{dropdownVisible.Mov ? <IoIosArrowUp /> : <IoIosArrowDown />}
-						</a>
-						{dropdownVisible.Mov && (
-							<ul className={`dropdown ${dropdownVisible.Mov ? "open" : ""}`}>
-								{movLinks.map((item, index) => (
-									<li key={index}>
-										<a href="" className="drop-link">{item.name}</a>
-										{index !== movLinks.length - 1 && (
-											<div className="border-bot"></div>
-										)}
-									</li>
-								))}
-							</ul>
-						)}
-					</li>
-					<li>
-						<a href="#" onClick={() => toggleDropdown("Cad")}>
-							Cadastro
-							{dropdownVisible.Cad ? <IoIosArrowUp /> : <IoIosArrowDown />}
-						</a>
-						{dropdownVisible.Cad && (
-							<ul className={`dropdown ${dropdownVisible.Cad ? "open" : ""}`}>
-								{cadLinks.map((item, index) => (
-									<li key={index} >
-										<a href="" className="drop-link">{item.name}</a>
-										{index !== cadLinks.length - 1 && (
-											<div className="border-bot"></div>
-										)}
-									</li>
-								))}
-							</ul>
-						)}
-					</li>
-					<li>
-						<a href="#" onClick={() => toggleDropdown("Cons")}>
-							Consulta
-							{dropdownVisible.Cons ? <IoIosArrowUp /> : <IoIosArrowDown />}
-						</a>
-						{dropdownVisible.Cons && (
-							<ul className={`dropdown ${dropdownVisible.Cons ? "open" : ""}`}>
-								{consultaLinks.map((item, index) => (
-									<li key={index}>
-										<a href="" className="drop-link">{item.name}</a>
-										{index !== consultaLinks.length - 1 && (
-											<div className="border-bot"></div>
-										)}
-									</li>
-								))}
-							</ul>
-						)}
-					</li>
-					<li>
-						<a href="#" onClick={() => toggleDropdown("Rel")}>
-							Relatório
-							{dropdownVisible.Rel ? <IoIosArrowUp /> : <IoIosArrowDown />}
-						</a>
-						{dropdownVisible.Rel && (
-							<ul className={`dropdown ${dropdownVisible.Rel ? "open" : ""}`}>
-								{relatorioLinks.map((item, index) => (
-									<li key={index}>
-										<a href="" className="drop-link">{item.name}</a>
-										{index !== relatorioLinks.length - 1 && (
-											<div className="border-bot"></div>
-										)}
-									</li>
-								))}
-							</ul>
-						)}
-					</li>
+					<NavDropdown option={dropdownVisible.Mov} setDropdownVisible={setDropdownVisible} title="Movimentação" optionKey="Mov" links={movLinks}/>
+					<NavDropdown option={dropdownVisible.Cad} setDropdownVisible={setDropdownVisible} title="Cadastro" optionKey="Cad" links={cadLinks}/>
+					<NavDropdown option={dropdownVisible.Cons} setDropdownVisible={setDropdownVisible} title="Consulta" optionKey="Cons" links={consultaLinks}/>
+					<NavDropdown option={dropdownVisible.Rel} setDropdownVisible={setDropdownVisible} title="Relatório" optionKey="Rel" links={relatorioLinks}/>
 				</ul>
 			</nav>
 				<div className="menu-toggle" onClick={updateMenu}>
