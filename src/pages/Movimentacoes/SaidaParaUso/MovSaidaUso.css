@@ -48,7 +48,23 @@ main {
 	border: 1px solid #7995a6;
 	padding-left: 12px;
 	height: 2rem;
-	background-clip: padding-box;
+	
+}
+
+.flex-column-calendar-icon{
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	position: relative;
+}
+
+.calendar-input{
+	position: absolute;
+	bottom: 0;
+	right: 9px;
+	display: flex;
+	align-items: center;
+	height: 100%;
 }
 
 .date-input:focus {
@@ -57,4 +73,8 @@ main {
 
 input[type="date"]::-webkit-calendar-picker-indicator {
 	opacity: 0;
+	height: 40px;
+	background-color: #476211 ;
+	z-index: 1;
+	width: 30px;
 }

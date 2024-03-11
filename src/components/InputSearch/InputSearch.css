@@ -26,7 +26,7 @@
 	outline: 1px solid #00738f;
 }
 
-.container-dropdown {
+.container-inputsearch {
 	display: flex;
 	align-items: center;
 	position: relative;
@@ -40,7 +40,7 @@
 	pointer-events: none;
 }
 
-.drop-itens {
+.search-itens {
 	position: absolute;
 	top: 100%;
 	width: 100%;
@@ -48,20 +48,20 @@
 	z-index: 999;
 }
 
-.drop-itens li {
+.search-itens li {
 	list-style: none;
 	font-size: 14px;
 	padding-left: 12px;
 	height: 2rem;
 }
 
-.drop-itens li:hover {
+.search-itens li:hover {
 	cursor: pointer;
 }
 .none{
 	display: none;
 }
-.border-bot-drop {
+.border-bot-inputsearch {
 	height: 0px;
 	border-bottom: 0.4px solid #cad6dd;
 	width: 75%;

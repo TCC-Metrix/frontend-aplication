@@ -2,11 +2,9 @@ import NavBar from "../../../components/Navbar/Navbar";
 import "./MovSaidaUso.css";
 import ButtonDark from "../../../components/ButtonDark/ButtonDark";
 import TableMovSaidaUso from "../../../components/TableMovSaidaUso/TableMovSaidaUso";
-import Dropdown from "../../../components/Dropdown/Dropdown";
 import { useState } from "react";
 import { IoMdCalendar } from "react-icons/io";
-
-
+import InputSearch from "../../../components/InputSearch/InputSearch";
 
 export const MovSaidaUso = () => {
 	const options = [
@@ -45,7 +43,7 @@ export const MovSaidaUso = () => {
 					<div className="form-column">
 						<div>
 							<h1>Responsável entrega</h1>
-							<Dropdown
+							<InputSearch
 								options={options}
 								placeholder="Busque por código ou nome"
 								isActive={activeEntrega}
@@ -54,7 +52,7 @@ export const MovSaidaUso = () => {
 						</div>
 						<div>
 							<h1>Responsavel Recebimento</h1>
-							<Dropdown
+							<InputSearch
 								options={options}
 								placeholder="Busque por código ou nome"
 								isActive={activeReceb}
@@ -65,7 +63,7 @@ export const MovSaidaUso = () => {
 					<div className="form-column">
 						<div>
 							<h1>Área</h1>
-							<Dropdown
+							<InputSearch
 								options={options}
 								placeholder="Busque por descrição"
 								isActive={activeArea}
@@ -74,13 +72,18 @@ export const MovSaidaUso = () => {
 						</div>
 						<div>
 							<h1>Data de Saída</h1>
-							<input
-								type="date"
-								id="birthday"
-								name="birthday"
-								className="date-input"
-							/>
-							<IoMdCalendar />
+							<div className="flex-column-calendar-icon">
+								<input
+									type="date"
+									id="birthday"
+									name="birthday"
+									className="date-input"
+									
+								/>
+								<div className="calendar-input">
+									<IoMdCalendar size={23} color="476273"/>
+								</div>
+							</div>
 						</div>
 					</div>
 				</section>

@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import "./Dropdown.css";
+import "./InputSearch.css";
 
 interface Option {
 	label: string;
 }
 
-interface DropdownSearchProps {
+interface InputSearchProps {
 	options: Option[];
 	placeholder: string;
 	isActive: boolean;
 	title: string;
 }
 
-const Dropdown: React.FC<DropdownSearchProps> = ({
+const InputSearch: React.FC<InputSearchProps> = ({
 	options,
 	placeholder,
 	isActive,
@@ -39,19 +39,18 @@ const Dropdown: React.FC<DropdownSearchProps> = ({
 	};
 
 	return (
-		<div className="container-dropdown">
+		<div className="container-inputsearch">
 			<div className="input-container">
 				<input
 					type="text"
 					value={searchTerm}
 					onChange={handleInputChange}
-					// onFocus={toggleDropdown}
 					placeholder={placeholder}
 					className="input-area"
 					name={title}
 				/>
 			</div>
-			<div className={isActive ? "drop-itens" : "none"}>
+			<div className={isActive ? "search-itens" : "none"}>
 				<ul className="options-list">
 					{filteredOptions.map((option, index) => (
 						<li
@@ -61,7 +60,7 @@ const Dropdown: React.FC<DropdownSearchProps> = ({
 						>
 							{option.label}
 							{index !== filteredOptions.length - 1 && (
-								<div className="border-bot-drop"></div>
+								<div className="border-bot-inputsearch"></div>
 							)}
 						</li>
 					))}
@@ -71,4 +70,4 @@ const Dropdown: React.FC<DropdownSearchProps> = ({
 	);
 };
 
-export default Dropdown;
+export default InputSearch;
