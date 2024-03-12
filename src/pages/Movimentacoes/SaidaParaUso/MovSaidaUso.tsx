@@ -148,7 +148,7 @@ export const MovSaidaUso = () => {
 					<Checkbox text="Instrumento reprovado" />
 				</div>
 				<div className="confirm-btn-center">
-					<Buttons name="Confirmar" className="main-blue-1" />
+					<Buttons name="Confirmar" className="main-blue-1" onClickFunction={setOpenModal} />
 				</div>
 			</div>
 		</main>
