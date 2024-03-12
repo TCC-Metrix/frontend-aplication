@@ -95,6 +95,7 @@ export const MovSaidaUso = () => {
 						</div>
 
 						<h1 className="alertGray">Nenhum instrumento selecionado</h1>
+
 					</Modal>
 				</div>
 				<div>

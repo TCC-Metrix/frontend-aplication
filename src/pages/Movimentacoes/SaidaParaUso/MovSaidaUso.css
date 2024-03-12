@@ -112,6 +112,11 @@ main {
 	height: 100%;
 }
 
+.alertGray {
+	color: #476273;
+	font-size: 28px;
+}
+
 input[type="date"]::-webkit-calendar-picker-indicator {
 	opacity: 0;
 	height: 40px;
