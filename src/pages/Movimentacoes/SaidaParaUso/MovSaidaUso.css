@@ -93,17 +93,24 @@ main {
 	color: #002936;
 	position: absolute;
 	top: 25px;
-	left: 25px;
+	left: 3%;
 }
 
 .normalText {
 	position: absolute;
 	font-size: 16px;
-	top: 85px;
-	left: 27px;
+	top: 20%;
+	left: 3%;
 	color: #002936;
 }
 
+.inputFilter {
+	position: absolute;
+	left: 3%;
+	top: 25%;
+	width: 100%;
+	height: 100%;
+}
 
 input[type="date"]::-webkit-calendar-picker-indicator {
 	opacity: 0;

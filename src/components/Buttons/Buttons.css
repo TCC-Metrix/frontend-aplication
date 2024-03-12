@@ -25,6 +25,9 @@
 	top: 25px;
 	right: 25px;
 	cursor: pointer;
+	display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .main-blue-1{
@@ -36,4 +39,12 @@
 	color: #fff;
 	border-radius: 2px;
 	cursor: pointer;
+}
+
+.closeIcon {
+	size: 35;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	align-self: center;
 }

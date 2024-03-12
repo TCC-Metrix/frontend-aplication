@@ -1,23 +1,27 @@
 import React, { FC, ReactNode } from "react";
-import './Modal.css'
+import "./Modal.css";
 import Buttons from "../Buttons/Buttons";
 
 interface ModalProps {
 	isOpen: boolean;
-  setModalOpen: () => void
-  children?: ReactNode
+	setModalOpen: () => void;
+	children?: ReactNode;
 }
 
 const Modal: FC<ModalProps> = ({ isOpen, setModalOpen, children }) => {
 	if (isOpen) {
 		return (
-			<div className="background" >
+			<div className="background">
 				<div className="modal">
-          <div>
-            {children}
-          </div>
-          <Buttons name="X" className="closeButton" onClickFunction={setModalOpen} />
-        </div>
+					<div>{children}</div>
+					<div className="flex-align-center-icon">
+						<Buttons
+							name="close"
+							className="closeButton"
+							onClickFunction={setModalOpen}
+						/>
+					</div>
+				</div>
 			</div>
 		);
 	}
