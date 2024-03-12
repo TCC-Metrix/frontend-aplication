@@ -1,3 +1,12 @@
+@font-face {
+	font-family: BoschSans;
+	src: url(../../assets/fonts/BoschSans-Regular.ttf);
+}
+
+* {
+	font-family: "BoschSans";
+}
+
 .background {
   position: fixed;
   top: 0;

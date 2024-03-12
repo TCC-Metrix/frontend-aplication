@@ -7,7 +7,6 @@ import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Buttons from "../../../components/Buttons/Buttons";
 import Modal from "../../../components/Modal/Modal"
-import NavDropdown from "../../../components/NavDropdown/NavDropdown";
 
 export const MovSaidaUso = () => {
 	const options = [
