@@ -14,6 +14,18 @@
 	transition: 0.4s;
 }
 
+.closeButton {
+  background-color: #ED0007;
+  color: #fff;
+  width: 52px;
+  height: 48px;
+  border: none;
+	font-size: 22px;
+	position: absolute;
+	top: 25px;
+	right: 25px;
+}
+
 .main-blue-1{
 	background-color: #00C8F7;
 	border-style: none;

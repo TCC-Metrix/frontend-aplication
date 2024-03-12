@@ -87,6 +87,23 @@ main {
 	outline: 1px solid #00738f;
 }
 
+.mainText {
+	font-size: 28px;
+	font-weight: bold;
+	color: #002936;
+	position: absolute;
+	top: 25px;
+	left: 25px;
+}
+
+.normalText {
+	position: absolute;
+	font-size: 16px;
+	top: 85px;
+	left: 27px;
+	color: #002936;
+}
+
 
 input[type="date"]::-webkit-calendar-picker-indicator {
 	opacity: 0;
