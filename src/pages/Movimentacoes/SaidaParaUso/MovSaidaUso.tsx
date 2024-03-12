@@ -7,6 +7,8 @@ import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Buttons from "../../../components/Buttons/Buttons";
 import Modal from "../../../components/Modal/Modal"
+import InputSearchFilter from "../../../components/InputSearchFilter/InputSearchFilter";
+
 
 export const MovSaidaUso = () => {
 	const options = [
@@ -15,11 +17,33 @@ export const MovSaidaUso = () => {
 		{ label: "Option 3" },
 		{ label: "Option 4" },
 		{ label: "Option 5" },
+		{ label: "Option 3" },
+		{ label: "Option 4" },
+		{ label: "Option 5" },
+	]; // será alimentado pela API provavelmente em outro arquivo
+
+	const optionsInstrument = [
+		{ value: "Option 1" },
+		{ value: "Option 2" },
+		{ value: "Option 3" },
+		{ value: "Option 4" },
+		{ value: "Option 5" },
+		{ value: "Option 3" },
+		{ value: "Option 4" },
+		{ value: "Option 5" },
+	]; // será alimentado pela API provavelmente em outro arquivo
+
+	const filtersOptions = [
+		{ value: "Descrição" },
+		{ value: "Nome" },
+		{ value: "Outro nome" },
+		{ value: "Exemplo" },
 	]; // será alimentado pela API provavelmente em outro arquivo
 
 	const [activeEntrega, setActiveEntrega] = useState<boolean>(false);
 	const [activeReceb, setActiveReceb] = useState<boolean>(false);
 	const [activeArea, setActiveArea] = useState<boolean>(false);
+	const [activeInstrument, setActiveInstrument] = useState<boolean>(false);
 	const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
 
 	const [openModal, setOpenModal] = useState<boolean>(false)
@@ -29,6 +53,7 @@ export const MovSaidaUso = () => {
 		setActiveArea(name === "area");
 		setActiveEntrega(name === "resp-entrega");
 		setActiveReceb(name === "resp-receb");
+		setActiveInstrument(name === "search-instrument");
 		setActiveNavbar(false);
 	}
 
@@ -108,6 +133,14 @@ export const MovSaidaUso = () => {
 				<div className="confirm-btn-center">
 					<Buttons name="Confirmar" className="main-blue-1" />
 				</div>
+				<InputSearchFilter
+					dropdownOptions={filtersOptions}
+					searchOptions={optionsInstrument}
+					placeholder="Buscar por descrição do instrumento"
+					placeholderOption="Descrição"
+					isActive={activeInstrument}
+					title="search-instrument"
+				/>
 			</div>
 		</main>
 	);
