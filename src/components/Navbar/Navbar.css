@@ -133,7 +133,7 @@ a {
 	background-color: #fff;
 	color: #000;
 	transform: translateX(110%);
-	transition: ease-in 0.3s;
+	transition: ease-in-out 0.3s;
 	display: flex;
 	flex-direction: column;
 }

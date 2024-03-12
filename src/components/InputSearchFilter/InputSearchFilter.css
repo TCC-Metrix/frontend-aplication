@@ -1,4 +1,5 @@
-.options-list {
+.options-list-filter {
+	width: auto;
 	padding: 0px;
 	margin: 0px;
 	border: 1px solid #7995a6;
@@ -6,42 +7,36 @@
     overflow-y: scroll;
 }
 
-.input-container {
+.input-search-filter-container {
 	position: relative;
 	display: flex;
 	align-items: center;
 	width: 100%;
 }
 
-.input-area {
+.input-search-filter-area {
 	display: flex;
 	align-items: center;
 	border: 1px solid #7995a6;
-	padding-left: 12px;
+	padding-left: 16%;
 	width: 100%;
 	height: 2rem;
-	font-size: 0.7rem;
+	font-size: 0.8rem;
 }
 
-.input-area:focus {
+.input-search-filter-area:focus {
 	outline: 1px solid #00738f;
 }
 
-.container-inputsearch {
+.container-input-search-filter {
 	display: flex;
 	align-items: center;
 	position: relative;
 	cursor: pointer;
+	width: 70%;
 }
 
-.arrow-style {
-	display: flex;
-	position: absolute;
-	right: 2%;
-	pointer-events: none;
-}
-
-.search-itens {
+.search-filter-instrument {
 	position: absolute;
 	top: 100%;
 	width: 100%;
@@ -49,7 +44,7 @@
 	z-index: 999;
 }
 
-.search-itens li {
+.search-filter-instrument li {
 	list-style: none;
 	font-size: 14px;
 	padding-left: 12px;
@@ -59,11 +54,17 @@
 	justify-content: center;
 }
 
-.search-itens li:hover {
+.search-filter-instrument li:hover {
 	cursor: pointer;
-	background-color: #7995a6;
-
+	background-color: #cccccc4d !important;
+	width: 100%;
 }
-.none {
-	display: none;
+
+.filter-dropdown {
+	position: absolute;
+	width: 14%;
+	height: 70%;
+	margin-left: 1%;
+	border: 1px solid #7995a6;
+	border-radius: 0px;
 }
