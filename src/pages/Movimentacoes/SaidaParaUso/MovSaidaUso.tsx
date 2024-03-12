@@ -1,11 +1,11 @@
 import NavBar from "../../../components/Navbar/Navbar";
 import "./MovSaidaUso.css";
-import ButtonDark from "../../../components/ButtonDark/ButtonDark";
 import TableMovSaidaUso from "../../../components/TableMovSaidaUso/TableMovSaidaUso";
 import { useState } from "react";
 import { IoMdCalendar } from "react-icons/io";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
+import Buttons from "../../../components/Buttons/Buttons";
 
 export const MovSaidaUso = () => {
 	const options = [
@@ -36,7 +36,7 @@ export const MovSaidaUso = () => {
 				<div className="top-information">
 					<h1>Saída para uso</h1>
 					<p>Instrumento</p>
-					<ButtonDark name="+ Adicionar" className="btn-dark" />
+					<Buttons name="+ Adicionar" className="btn-dark" />
 				</div>
 				<div>
 					<TableMovSaidaUso />
@@ -88,7 +88,7 @@ export const MovSaidaUso = () => {
 					<Checkbox text="Instrumento reprovado" />
 				</div>
 				<div className="confirm-btn-center">
-					<ButtonDark name="Confirmar" className="main-blue-1" />
+					<Buttons name="Confirmar" className="main-blue-1" />
 				</div>
 			</div>
 		</main>

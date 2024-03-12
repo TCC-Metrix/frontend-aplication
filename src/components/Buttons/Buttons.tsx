@@ -1,11 +1,11 @@
 import { ButtonProps } from '../utils/Types/Types'
-import './ButtonDark.css'
+import './Buttons.css'
 
 
-const ButtonDark = (props: ButtonProps) => {
+const Buttons = (props: ButtonProps) => {
   return (
     <button className={props.className}>{props.name}</button>
   )
 }
 
-export default ButtonDark
+export default Buttons
