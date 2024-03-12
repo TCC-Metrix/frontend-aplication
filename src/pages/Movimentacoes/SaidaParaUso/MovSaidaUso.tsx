@@ -5,6 +5,7 @@ import TableMovSaidaUso from "../../../components/TableMovSaidaUso/TableMovSaida
 import { useState } from "react";
 import { IoMdCalendar } from "react-icons/io";
 import InputSearch from "../../../components/InputSearch/InputSearch";
+import Checkbox from "../../../components/Checkbox/Checkbox";
 
 export const MovSaidaUso = () => {
 	const options = [
@@ -29,13 +30,13 @@ export const MovSaidaUso = () => {
 	}
 
 	return (
-		<main >
+		<main>
 			<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
 			<div className="container-main" onClick={(e) => validInputActive(e)}>
 				<div className="top-information">
 					<h1>Saída para uso</h1>
 					<p>Instrumento</p>
-					<ButtonDark name="+ Adicionar" />
+					<ButtonDark name="+ Adicionar" className="btn-dark" />
 				</div>
 				<div>
 					<TableMovSaidaUso />
@@ -82,6 +83,13 @@ export const MovSaidaUso = () => {
 						</div>
 					</div>
 				</section>
+				<div className="margin-top-checkbox">
+					<Checkbox text="Instrumento com calibração vencida" />
+					<Checkbox text="Instrumento reprovado" />
+				</div>
+				<div className="confirm-btn-center">
+					<ButtonDark name="Confirmar" className="main-blue-1" />
+				</div>
 			</div>
 		</main>
 	);

@@ -4,7 +4,7 @@ import './ButtonDark.css'
 
 const ButtonDark = (props: ButtonProps) => {
   return (
-    <button className='btn-dark'>{props.name}</button>
+    <button className={props.className}>{props.name}</button>
   )
 }
 

@@ -69,14 +69,28 @@ main {
 	cursor: pointer;
 }
 
+.margin-top-checkbox{
+	margin-top: 4%;
+}
+
+.confirm-btn-center{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 8%;
+	padding-bottom: 15%;
+}
+
+
+
 .date-input:focus {
 	outline: 1px solid #00738f;
 }
 
+
 input[type="date"]::-webkit-calendar-picker-indicator {
 	opacity: 0;
 	height: 40px;
-	background-color: #476211 ;
 	z-index: 1;
 	width: 30px;
 	cursor: pointer;

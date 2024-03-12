@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Logo } from "../../index";
 import "./Navbar.css";
 import {
@@ -43,7 +43,6 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 					}
 				}
 			}
-			console.log(updatedState);
 			return updatedState;
 		});
 	};

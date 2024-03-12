@@ -13,3 +13,14 @@
 	background-color: #364a57;
 	transition: 0.4s;
 }
+
+.main-blue-1{
+	background-color: #00C8F7;
+	border-style: none;
+    height: 2.5rem;
+	width: 13%;
+	font-size: 0.9rem;
+	color: #fff;
+	border-radius: 2px;
+	cursor: pointer;
+}
