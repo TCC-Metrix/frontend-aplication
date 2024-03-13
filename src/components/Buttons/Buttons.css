@@ -30,6 +30,20 @@
   align-items: center;
 }
 
+.closeButtonWithoutBack {
+	width: 5%;
+	height: 5%;
+	border: none;
+	position: absolute;
+	top: 25px;
+	right: 25px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: transparent;
+}
+
 .main-blue-1{
 	background-color: #00C8F7;
 	border-style: none;

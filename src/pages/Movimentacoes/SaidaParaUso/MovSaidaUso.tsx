@@ -2,11 +2,12 @@ import NavBar from "../../../components/Navbar/Navbar";
 import "./MovSaidaUso.css";
 import TableMovSaidaUso from "../../../components/TableMovSaidaUso/TableMovSaidaUso";
 import { useState } from "react";
-import { IoMdCalendar } from "react-icons/io";
+import { IoMdCalendar, IoMdAlert } from "react-icons/io";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Buttons from "../../../components/Buttons/Buttons";
 import Modal from "../../../components/Modal/Modal";
+import ModalErro from "../../../components/Modal/ModalErro"
 import InputSearchFilter from "../../../components/InputSearchFilter/InputSearchFilter";
 
 export const MovSaidaUso = () => {
@@ -46,6 +47,7 @@ export const MovSaidaUso = () => {
 	const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
 
 	const [openModal, setOpenModal] = useState<boolean>(false);
+	const [openErrorModal, setOpenErrorModal] = useState<boolean>(false)
 
 	function validInputActive(event: any) {
 		const name = event.target.name;
@@ -55,10 +57,6 @@ export const MovSaidaUso = () => {
 		setActiveInstrument(name === "search-instrument");
 		setActiveNavbar(false);
 	}
-
-	const handleAddButtonClick = () => {
-		setOpenModal(true);
-	};
 
 	return (
 		<main>
@@ -148,7 +146,21 @@ export const MovSaidaUso = () => {
 					<Checkbox text="Instrumento reprovado" />
 				</div>
 				<div className="confirm-btn-center">
-					<Buttons name="Confirmar" className="main-blue-1" onClickFunction={setOpenModal} />
+					<Buttons name="Confirmar" className="main-blue-1" onClickFunction={setOpenErrorModal} />
+					<ModalErro
+						isOpen={openErrorModal}
+						setModalErrorOpen={() => {
+							setOpenErrorModal(!openErrorModal)
+						}}
+					>
+						<div className="alert">
+							<IoMdAlert 
+								size={250}
+								color="#ff0000"
+							/>
+							<h1 className="alertText">Campo "responsável recebimento" ou "área" precisa ser informado.</h1>
+						</div>
+					</ModalErro>
 				</div>
 			</div>
 		</main>
