@@ -99,7 +99,7 @@ main {
 .normalText {
 	position: absolute;
 	font-size: 16px;
-	top: 20%;
+	top: 23%;
 	left: 3%;
 	color: #002936;
 }
@@ -107,7 +107,7 @@ main {
 .inputFilter {
 	position: absolute;
 	left: 3%;
-	top: 25%;
+	top: 29%;
 	width: 100%;
 	height: 100%;
 }
