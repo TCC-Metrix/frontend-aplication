@@ -8,7 +8,7 @@ interface CheckboxProps {
 const Checkbox = (props: CheckboxProps) => {
 	return (
 		<div className="container-checkbox">
-			<input type="checkbox"/>
+			<input type="checkbox" className="checkbox-style"/>
 			<span>{props.text}</span>
 		</div>
 	);

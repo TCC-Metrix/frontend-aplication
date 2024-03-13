@@ -4,14 +4,20 @@ const TableMovSaidaUso = () => {
 	return (
 		<div>
 			<table className="table-saidauso">
-				<tbody>
-					<tr className="firt-line">
-						<th>Código</th>
+				<thead>
+					<tr className="first-line">
+						<th className="first-clounm-table">Código</th>
 						<th>Descrição</th>
 						<th>Referência Adicional</th>
+						<th></th>
 					</tr>
+				</thead>
+				<tbody>
 					<tr>
-						<td>Nenhum instrumento adicionado</td>
+						<td>1214-11</td>
+						<td>Micrometro Externo</td>
+						<td>50mm / 0,010</td>
+						<td className="remove-item-list">Remover</td>
 					</tr>
 				</tbody>
 			</table>

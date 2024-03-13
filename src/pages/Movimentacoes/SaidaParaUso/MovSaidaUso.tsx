@@ -6,9 +6,8 @@ import { IoMdCalendar } from "react-icons/io";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Buttons from "../../../components/Buttons/Buttons";
-import Modal from "../../../components/Modal/Modal"
+import Modal from "../../../components/Modal/Modal";
 import InputSearchFilter from "../../../components/InputSearchFilter/InputSearchFilter";
-
 
 export const MovSaidaUso = () => {
 	const options = [
@@ -46,7 +45,7 @@ export const MovSaidaUso = () => {
 	const [activeInstrument, setActiveInstrument] = useState<boolean>(false);
 	const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
 
-	const [openModal, setOpenModal] = useState<boolean>(false)
+	const [openModal, setOpenModal] = useState<boolean>(false);
 
 	function validInputActive(event: any) {
 		const name = event.target.name;
@@ -58,8 +57,8 @@ export const MovSaidaUso = () => {
 	}
 
 	const handleAddButtonClick = () => {
-		setOpenModal(true)
-	}
+		setOpenModal(true);
+	};
 
 	return (
 		<main>
@@ -68,17 +67,21 @@ export const MovSaidaUso = () => {
 				<div className="top-information">
 					<h1>Saída para uso</h1>
 					<p>Instrumento</p>
-					<Buttons name="+ Adicionar" className="btn-dark" onClickFunction={setOpenModal} />
+					<Buttons
+						name="+ Adicionar"
+						className="btn-dark"
+						onClickFunction={handleAddButtonClick}
+					/>
 					{/* <button className="btn-dark" onClick={handleAddButtonClick}>+ Adicionar</button> */}
-					<Modal isOpen={openModal} setModalOpen={() => {
-						
-						console.log('entrei na')
-						setOpenModal(!openModal)}}>
-
-							<text className="mainText">Selecionar instrumento(s)</text>
-							<text className="normalText">Buscar por</text>
-
-						
+					<Modal
+						isOpen={openModal}
+						setModalOpen={() => {
+							console.log("entrei na");
+							setOpenModal(!openModal);
+						}}
+					>
+						<text className="mainText">Selecionar instrumento(s)</text>
+						<text className="normalText">Buscar por</text>
 					</Modal>
 				</div>
 				<div>
@@ -131,16 +134,11 @@ export const MovSaidaUso = () => {
 					<Checkbox text="Instrumento reprovado" />
 				</div>
 				<div className="confirm-btn-center">
-					<Buttons name="Confirmar" className="main-blue-1" />
+					<Buttons
+						name="Confirmar"
+						className="main-blue-1"
+					/>
 				</div>
-				<InputSearchFilter
-					dropdownOptions={filtersOptions}
-					searchOptions={optionsInstrument}
-					placeholder="Buscar por descrição do instrumento"
-					placeholderOption="Descrição"
-					isActive={activeInstrument}
-					title="search-instrument"
-				/>
 			</div>
 		</main>
 	);

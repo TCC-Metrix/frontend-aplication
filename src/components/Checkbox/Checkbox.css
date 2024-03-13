@@ -1,8 +1,19 @@
-.container-checkbox{
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    font-size: 0.8rem;
-    gap: 1%;
-    padding-bottom: 1%;
+.container-checkbox {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	font-size: 0.8rem;
+	gap: 1%;
+	padding-bottom: 1%;
+}
+
+.checkbox-style {
+	width: 16px; /* Define a largura do checkbox */
+	height: 16px; /* Define a altura do checkbox */
+	border: 1.5px solid #ccc; /* Adiciona uma borda ao redor do checkbox */
+	background-color: transparent; 
+}
+
+.checkbox-style:checked {
+	background-color: gray; /* Define a cor de fundo quando o checkbox está selecionado */
 }
