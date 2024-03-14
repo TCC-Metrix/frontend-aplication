@@ -1,6 +1,30 @@
+import { useState } from "react";
 import "./TableMovSaidaUso.css";
 
-const TableMovSaidaUso = () => {
+interface Option {
+	value: string;
+	label: string;
+}
+
+interface Props {
+	options: Option[];
+}
+
+interface Item {
+	code: string;
+	description: string;
+	reference: string;
+}
+
+const TableMovSaidaUso = (props: Props) => {
+	const [items, setItems] = useState<Item[]>([]);
+
+	const removeItem = (index: number) => {
+		const updatedItems = [...items];
+		updatedItems.splice(index, 1);
+		setItems(updatedItems);
+	};
+
 	return (
 		<div>
 			<table className="table-saidauso">
@@ -13,12 +37,33 @@ const TableMovSaidaUso = () => {
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1214-11</td>
-						<td>Micrometro Externo</td>
-						<td>50mm / 0,010</td>
-						<td className="remove-item-list">Remover</td>
-					</tr>
+					{items.length === 0 ? (
+						<span className="no-items-table">
+							Nenhum instrumento selecionado
+						</span>
+					) : (
+						items.map((item, index) => (
+							<tr key={index}>
+								<td>{item.code}</td>
+								<td>{item.description}</td>
+								<td>
+									<select className="dropdown-select-ref">
+										{props.options.map((option, index) => (
+											<option key={index} value={option.value}>
+												{option.label}
+											</option>
+										))}
+									</select>
+								</td>
+								<td
+									className="remove-item-list"
+									onClick={() => removeItem(index)}
+								>
+									Remover
+								</td>
+							</tr>
+						))
+					)}
 				</tbody>
 			</table>
 		</div>

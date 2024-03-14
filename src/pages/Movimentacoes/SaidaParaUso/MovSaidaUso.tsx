@@ -52,6 +52,11 @@ export const MovSaidaUso = () => {
 		},
 	]);
 
+	const refAdicionalOptions = [
+    { value: '50mm/11', label: '50mm/11' },
+    // Adicione outras opções conforme necessário
+  ];
+
 	const [openModal, setOpenModal] = useState<boolean>(false);
 
 	function validInputActive(event: any) {
@@ -98,7 +103,7 @@ export const MovSaidaUso = () => {
 					</Modal>
 				</div>
 				<div className="flex-center-table">
-					<TableMovSaidaUso />
+					<TableMovSaidaUso options={refAdicionalOptions}/>
 				</div>
 				<section className="mov-info">
 					<div className="form-column">
