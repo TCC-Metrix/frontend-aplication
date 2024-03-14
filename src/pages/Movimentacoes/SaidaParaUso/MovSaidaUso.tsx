@@ -2,11 +2,12 @@ import NavBar from "../../../components/Navbar/Navbar";
 import "./MovSaidaUso.css";
 import TableMovSaidaUso from "../../../components/TableMovSaidaUso/TableMovSaidaUso";
 import { useState } from "react";
-import { IoMdCalendar } from "react-icons/io";
+import { IoMdCalendar, IoMdAlert } from "react-icons/io";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Buttons from "../../../components/Buttons/Buttons";
 import Modal from "../../../components/Modal/Modal";
+import ModalErro from "../../../components/Modal/ModalErro"
 import InputSearchFilter from "../../../components/InputSearchFilter/InputSearchFilter";
 
 export const MovSaidaUso = () => {
@@ -58,6 +59,7 @@ export const MovSaidaUso = () => {
   ];
 
 	const [openModal, setOpenModal] = useState<boolean>(false);
+	const [openErrorModal, setOpenErrorModal] = useState<boolean>(false)
 
 	function validInputActive(event: any) {
 		const name = event.target.name;
@@ -77,7 +79,7 @@ export const MovSaidaUso = () => {
     updatedItems.splice(index, 1);
     setItems(updatedItems);
   };
-	
+  
 	return (
 		<main>
 			<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
@@ -89,6 +91,7 @@ export const MovSaidaUso = () => {
 						name="+ Adicionar"
 						className="btn-dark"
 						onClickFunction={handleAddButtonClick}
+						onClickFunction={setOpenModal}
 					/>
 					{/* <button className="btn-dark" onClick={handleAddButtonClick}>+ Adicionar</button> */}
 					<Modal
@@ -100,6 +103,21 @@ export const MovSaidaUso = () => {
 					>
 						<text className="mainText">Selecionar instrumento(s)</text>
 						<text className="normalText">Buscar por</text>
+						<h1 className="mainText">Selecionar instrumento(s)</h1>
+						<text className="normalText">Buscar por</text>
+
+						<div className="inputFilter">
+							<InputSearchFilter
+								dropdownOptions={filtersOptions}
+								searchOptions={optionsInstrument}
+								placeholder="Buscar por descrição do instrumento"
+								placeholderOption="Descrição"
+								isActive={activeInstrument}
+								title="search-instrument"
+							/>
+						</div>
+
+						<h1 className="alertGray">Nenhum instrumento selecionado</h1>
 					</Modal>
 				</div>
 				<div className="flex-center-table">
@@ -152,7 +170,21 @@ export const MovSaidaUso = () => {
 					<Checkbox text="Instrumento reprovado" />
 				</div>
 				<div className="confirm-btn-center">
-					<Buttons name="Confirmar" className="main-blue-1" />
+					<Buttons name="Confirmar" className="main-blue-1" onClickFunction={setOpenErrorModal} />
+					<ModalErro
+						isOpen={openErrorModal}
+						setModalErrorOpen={() => {
+							setOpenErrorModal(!openErrorModal)
+						}}
+					>
+						<div className="alert">
+							<IoMdAlert 
+								size={250}
+								color="#ff0000"
+							/>
+							<h1 className="alertText">Campo "responsável recebimento" ou "área" precisa ser informado.</h1>
+						</div>
+					</ModalErro>
 				</div>
 			</div>
 		</main>

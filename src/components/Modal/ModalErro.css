@@ -1,10 +1,10 @@
 @font-face {
-	font-family: BoschSans;
-	src: url(../../assets/fonts/BoschSans-Regular.ttf);
+  font-family: BoschSans;
+  src: url(../../assets/fonts/BoschSans-Regular.ttf);
 }
 
 * {
-	font-family: "BoschSans";
+  font-family: "BoschSans";
 }
 
 .background {
@@ -25,8 +25,8 @@
   padding: 150px;
   background-color: #fff;
   color: #002936;
-  width: 700px;
-  height: 50%;
+  width: 30%;
+  height: 10%;
   display: flex;
   align-items: center;
   justify-content: center;

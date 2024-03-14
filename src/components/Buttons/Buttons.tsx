@@ -1,6 +1,7 @@
 import React from 'react'
 import { ButtonProps } from '../utils/Types/Types'
 import './Buttons.css'
+import { IoMdClose } from "react-icons/io";
 
 
 // const Buttons = (props: ButtonProps) => {
@@ -13,7 +14,7 @@ import './Buttons.css'
           }
         }}
       >
-        {props.name}
+        {props.name === "close" ? <IoMdClose size={35} /> : props.name}
       </button>
     );
   }
