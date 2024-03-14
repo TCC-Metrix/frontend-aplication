@@ -44,6 +44,13 @@ export const MovSaidaUso = () => {
 	const [activeArea, setActiveArea] = useState<boolean>(false);
 	const [activeInstrument, setActiveInstrument] = useState<boolean>(false);
 	const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
+	const [items, setItems] = useState<Item[]>([
+		{
+			codigo: "1214-11",
+			descricao: "manometro",
+			referencia: "111mm",
+		},
+	]);
 
 	const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -60,6 +67,12 @@ export const MovSaidaUso = () => {
 		setOpenModal(true);
 	};
 
+	const handleRemoveItem = (index: number) => {
+    const updatedItems = [...items];
+    updatedItems.splice(index, 1);
+    setItems(updatedItems);
+  };
+	
 	return (
 		<main>
 			<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
@@ -84,7 +97,7 @@ export const MovSaidaUso = () => {
 						<text className="normalText">Buscar por</text>
 					</Modal>
 				</div>
-				<div>
+				<div className="flex-center-table">
 					<TableMovSaidaUso />
 				</div>
 				<section className="mov-info">
@@ -134,10 +147,7 @@ export const MovSaidaUso = () => {
 					<Checkbox text="Instrumento reprovado" />
 				</div>
 				<div className="confirm-btn-center">
-					<Buttons
-						name="Confirmar"
-						className="main-blue-1"
-					/>
+					<Buttons name="Confirmar" className="main-blue-1" />
 				</div>
 			</div>
 		</main>

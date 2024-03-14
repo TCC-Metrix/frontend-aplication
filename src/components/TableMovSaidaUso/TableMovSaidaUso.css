@@ -8,8 +8,8 @@
 	align-items: center;
 }
 
-.first-colunm-table{
-    width: 10%;
+.first-colunm-table {
+	width: 10%;
 }
 
 .table-saidauso th {
@@ -30,7 +30,7 @@
 	text-align: center; /* Centraliza o texto */
 }
 
-.remove-item-list {
+.table-saidauso td.remove-item-list {
 	font-size: 0.65rem;
 	width: 0.1rem;
 	cursor: pointer;
