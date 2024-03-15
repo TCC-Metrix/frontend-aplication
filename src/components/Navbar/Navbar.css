@@ -52,6 +52,15 @@
 	height: 100%;
 	display: flex;
 	align-items: center;
+	user-select: none;
+	background-color: #fff;
+	background-color: #fff;
+	position: relative;
+	z-index: 999;
+}
+
+.nav-header-option p{
+
 }
 
 .navbar ul li p:hover {
@@ -80,14 +89,6 @@
 	margin: 3px 0;
 }
 
-/* ------------- sliding menu ------------------ */
-.hidden {
-	display: none;
-}
-
-.visible {
-	display: inherit;
-}
 
 /* ----- animations--------- */
 /* clicked */
@@ -131,7 +132,6 @@ a {
 	flex-direction: column;
 	justify-content: center;
 	padding: 33px;
-
 }
 
 .menu-visible {

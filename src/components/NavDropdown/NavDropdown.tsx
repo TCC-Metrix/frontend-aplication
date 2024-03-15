@@ -59,8 +59,8 @@ const NavDropdown = ({
 				{title}
 				{option && activeNavbar ? <IoIosArrowUp /> : <IoIosArrowDown />}
 			</p>
-			{option && activeNavbar && (
-				<ul className={`dropdown open ${option && activeNavbar && 'open'}`}>
+		
+				<ul className={`dropdown ${option && activeNavbar ? 'open' : 'hidden'}`}>
 					{links.map((item, index) => (
 						<li key={index} className="navbar-option-li">
 							<a href="" className="drop-link small-text">
@@ -70,7 +70,7 @@ const NavDropdown = ({
 						</li>
 					))}
 				</ul>
-			)}
+		
 		</li>
 	);
 };

@@ -1,10 +1,13 @@
 .navbar li ul.dropdown {
 	position: absolute;
 	height: fit-content;
-	width: 90%;
-	display: none;
-	z-index: 999;
+	visibility: hidden;
+	z-index: -1 !important;
+	background-color: aqua;
+	top: -100vh;
+	transition: top  cubic-bezier(0.215, 0.610, 0.355, 1) .2s;
 }
+
 
 .dropdown li a {
 	justify-content: flex-start;
@@ -13,18 +16,18 @@
 	padding: 0;
 }
 
-
 .navbar li ul.dropdown.open {
 	display: block;
     background-color: #fff;
     box-shadow: var(--box-shadow);
-    padding-bottom: 8px;
     position: absolute;
+	visibility: visible;
     margin: 0;
     width: 100%;
     top: 100%;
 	padding: 12px 12px;
 	box-sizing: border-box;
+	z-index: -1 !important;
 }
 
 
@@ -53,8 +56,3 @@ li .border{
 	width: 93% !important;
 }
 
-.nav-header-option{
-	&.dropdown{
-		transition: .2s;
-	}
-}
