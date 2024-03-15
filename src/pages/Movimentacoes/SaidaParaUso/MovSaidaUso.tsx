@@ -1,6 +1,6 @@
 import NavBar from "../../../components/Navbar/Navbar";
 import "./MovSaidaUso.css";
-import TableMovSaidaUso from "../../../components/TableMovSaidaUso/TableMovSaidaUso";
+import Table from "../../../components/Table/Table";
 import { useState } from "react";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
@@ -109,12 +109,13 @@ export const MovSaidaUso = () => {
 							/>
 						</div>
 
-						<TableMovSaidaUso />
+						<Table />
 					</Modal>
 				</div>
 				<div className="flex-center-table">
-					<TableMovSaidaUso options={refAdicionalOptions} />
+					<Table options={refAdicionalOptions} />
 				</div>
+				<div className="form-section-container">
 				<section className="mov-info">
 					<div className="form-column">
 						<div>
@@ -152,10 +153,12 @@ export const MovSaidaUso = () => {
 						</div>	
 					</div>
 				</section>
-				<div className="margin-top-checkbox">
+				<div>
 					<Checkbox text="Instrumento com calibração vencida" />
 					<Checkbox text="Instrumento reprovado" />
 				</div>
+				</div>
+		
 				<div className="confirm-btn-center">
 					{/* <Buttons name="Confirmar" className="main-blue-1" onClickFunction={setOpenErrorModal} /> */}
 					{/* <ModalErro

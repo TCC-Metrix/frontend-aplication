@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./TableMovSaidaUso.css";
+import "./Table.css";
 
 interface Option {
 	value: string;
@@ -18,7 +18,7 @@ interface Item {
 	reference: string;
 }
 
-const TableMovSaidaUso = (props: Props) => {
+const Table = (props: Props) => {
 	const [items, setItems] = useState<Item[]>([]);
 	const [newItem, setNewItem] = useState<Item>({ code: '', description: '', reference: '' });
 
@@ -103,4 +103,4 @@ const TableMovSaidaUso = (props: Props) => {
 	);
 };
 
-export default TableMovSaidaUso;
+export default Table;

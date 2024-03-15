@@ -1,5 +1,4 @@
-// import { IoMdPerson, IoIosLogOut } from "react-icons/io";
-import { Profile, User, LogOut } from "../../index";
+import { Profile } from "../../index";
 import MenuOption from "../MenuOption/MenuOption";
 import "./Menu.css";
 const Menu = () => {
@@ -11,8 +10,10 @@ const Menu = () => {
 					<p>Matheus Aprigio</p>
 				</div>
 			</div>
-			<div className="menu-option">
+			<div className="menu-infos-container">
+				<div className="border"></div>
 				<MenuOption name={"person"} text="Meu perfil" />
+				<div className="border"></div>
 				<MenuOption name={"exit"} text="Sair" />
 			</div>
 		</>

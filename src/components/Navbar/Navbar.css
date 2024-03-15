@@ -2,14 +2,15 @@
 
 .container {
 	z-index: 999;
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	height: 4.5rem;
 	top: 0px;
 	left: 0px;
-	box-shadow: 0px -3px 21px 0px rgba(0, 0, 0, 0.2);
+	box-shadow: var(--box-shadow);
 	display: flex;
 	align-items: center;
+	background-color: var(--white);
 }
 
 .logoImg {
@@ -31,24 +32,23 @@
 
 .navbar ul {
 	display: flex;
-	padding: 0;
-	list-style: none;
+    list-style: none;
+    align-items: center;
+    margin-left: 6rem;
 	height: 100%;
-	align-items: center;
-	margin-left: 6rem;
 }
 
 .navbar li {
 	position: relative;
-	height: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
-.navbar li a {
+.nav-header-option, .navbar li a {
 	padding: 0px 27px;
 	width: auto;
-	margin-left: 17px;
 	gap: 5px;
-	height: 100%;
 }
 
 .navbar ul li a:hover {
@@ -61,7 +61,8 @@
 	align-items: center;
 	flex-direction: column;
 	cursor: pointer;
-	background-color: red;
+	max-width: 88px;
+	background-color: var(--main-red);
 	width: 7.2%;
 	height: 100%;
 	z-index: 999;
@@ -119,8 +120,6 @@ a {
 	position: fixed;
 	top: 4.5rem;
 	right: 0;
-	width: 25%;
-	height: 35%;
 	background-color: #fff;
 	color: #000;
 	transform: translateX(110%);
@@ -128,6 +127,8 @@ a {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	padding: 33px;
+
 }
 
 .menu-visible {
@@ -136,18 +137,19 @@ a {
 	display: flex;
 	justify-content: center;
 	font-size: 0.8rem;
-	padding: 0px 15px 0px 15px;
 	z-index: 999;
+	box-shadow: var(--box-shadow);
 }
 
 .overlay {
 	position: fixed;
-	top: 0;
+	bottom: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: rgba(0, 0, 0, 0.2);
 	z-index: 950;
+	transition: var(--transition);
 }
 
 .no-scroll {

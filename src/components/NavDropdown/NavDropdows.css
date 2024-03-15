@@ -21,7 +21,7 @@
 .navbar li ul.dropdown.open {
 	display: block;
 	background-color: #fff;
-	box-shadow: 1px 5px 5px -1px rgba(0, 0, 0, 0.2);
+	box-shadow: var(--box-shadow);
 	padding-bottom: 8px;
 	position: absolute;
 	left: 17px;
@@ -29,10 +29,9 @@
 }
 
 .drop-link:hover {
-	/* background-color: transparent !important; */
-	/* display: block; */
+
 	background-color: #cccccc4d !important;
-	padding-left: 6%;
+	padding-left: 7px;
 	width: 80%;
 	height: 30px;
 	margin: 3px 10px;

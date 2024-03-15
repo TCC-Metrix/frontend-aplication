@@ -1,17 +1,16 @@
 .btn-dark {
 	background-color: var(--sec-dark-gray);
 	border-style: none;
-    height: 1.8rem;
-	width: 9.2%;
-	font-size: 14px;
+	font-family: 'Regular';
 	color: var(--white);
 	border-radius: 2px;
 	cursor: pointer;
+	padding: 7px 16px;
 }
 
 .btn-dark:hover {
 	background-color: #364a57;
-	transition: 0.4s;
+	transition: var(--transition-pattern);
 }
 
 .close-button {
@@ -20,7 +19,6 @@
 	width: 52px;
 	height: 48px;
 	border: none;
-	font-size: 20px;
 	position: absolute;
 	top: 25px;
 	right: 25px;
@@ -30,19 +28,11 @@
 	align-items: center;
 }
 
-.closeButtonWithoutBack {
-	width: 5%;
-	height: 5%;
-	border: none;
-	position: absolute;
-	top: 25px;
-	right: 25px;
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: transparent;
+.close-button:hover{
+	background-color: var(--dark-red);
+	transition: var(--transition-pattern);
 }
+
 
 .btn-blue-1{
 	background-color: var(--main-blue);
@@ -55,10 +45,4 @@
 	cursor: pointer;
 }
 
-.closeIcon {
-	size: 35;
-	align-items: center;
-	justify-content: center;
-	display: flex;
-	align-self: center;
-}
+
