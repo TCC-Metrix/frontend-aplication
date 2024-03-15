@@ -43,15 +43,18 @@
     height: 100%;
     display: flex;
     align-items: center;
+	cursor: pointer;
 }
 
-.nav-header-option, .navbar li a {
+.nav-header-option{
 	padding: 0px 27px;
 	width: auto;
-	gap: 5px;
+	height: 100%;
+	display: flex;
+	align-items: center;
 }
 
-.navbar ul li a:hover {
+.navbar ul li p:hover {
 	background-color: #cccccc93;
 }
 
