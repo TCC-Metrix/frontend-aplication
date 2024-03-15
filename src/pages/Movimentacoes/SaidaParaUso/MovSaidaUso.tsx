@@ -54,9 +54,9 @@ export const MovSaidaUso = () => {
 	]);
 
 	const refAdicionalOptions = [
-    { value: '50mm/11', label: '50mm/11' },
-    // Adicione outras opções conforme necessário
-  ];
+		{ value: "50mm/11", label: "50mm/11" },
+		// Adicione outras opções conforme necessário
+	];
 
 	const [openModal, setOpenModal] = useState<boolean>(false);
 	// const [openErrorModal, setOpenErrorModal] = useState<boolean>(false)
@@ -73,7 +73,7 @@ export const MovSaidaUso = () => {
 	const handleAddButtonClick = () => {
 		setOpenModal(true);
 	};
-  
+
 	return (
 		<main>
 			<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
@@ -93,11 +93,12 @@ export const MovSaidaUso = () => {
 							setOpenModal(!openModal);
 						}}
 					>
-						<text className="mainText">Selecionar instrumento(s)</text>
-						<text className="normalText">Buscar por</text>
-						
+						<div>
+							<h1 className="mainText">Selecionar instrumento(s)</h1>
+							<p className="normalText">Buscar por</p>
+						</div>
 
-						<div className="inputFilter">
+						<div className="input-filter">
 							<InputSearchFilter
 								dropdownOptions={filtersOptions}
 								searchOptions={optionsInstrument}
@@ -108,11 +109,11 @@ export const MovSaidaUso = () => {
 							/>
 						</div>
 
-						<p className="alertGray">Nenhum instrumento selecionado</p>
+						<TableMovSaidaUso />
 					</Modal>
 				</div>
 				<div className="flex-center-table">
-					<TableMovSaidaUso options={refAdicionalOptions}/>
+					<TableMovSaidaUso options={refAdicionalOptions} />
 				</div>
 				<section className="mov-info">
 					<div className="form-column">

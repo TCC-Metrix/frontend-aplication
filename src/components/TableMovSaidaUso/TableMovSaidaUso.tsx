@@ -18,6 +18,16 @@ interface Item {
 
 const TableMovSaidaUso = (props: Props) => {
 	const [items, setItems] = useState<Item[]>([]);
+	const [newItem, setNewItem] = useState<Item>({ code: '', description: '', reference: '' });
+
+  const addItem = () => {
+    if (newItem.code && newItem.description && newItem.reference) {
+      setItems([...items, newItem]);
+      setNewItem({ code: '', description: '', reference: '' });
+    } else {
+      alert('Por favor, preencha todos os campos.');
+    }
+  };
 
 	const removeItem = (index: number) => {
 		const updatedItems = [...items];
@@ -27,7 +37,28 @@ const TableMovSaidaUso = (props: Props) => {
 
 	return (
 		<div>
-			<table className="table-saidauso">
+			{/* <input
+				type="text"
+				placeholder="Código"
+				value={newItem.code}
+				onChange={(e) => setNewItem({ ...newItem, code: e.target.value })}
+			/>
+			<input
+				type="text"
+				placeholder="Descrição"
+				value={newItem.description}
+				onChange={(e) =>
+					setNewItem({ ...newItem, description: e.target.value })
+				}
+			/>
+			<input
+				type="text"
+				placeholder="Referência"
+				value={newItem.reference}
+				onChange={(e) => setNewItem({ ...newItem, reference: e.target.value })}
+			/> */}
+			{/* <button onClick={addItem}>Adicionar</button> */}
+			<table className="table-container">
 				<thead>
 					<tr className="first-line">
 						<th className="first-clounm-table">Código</th>
