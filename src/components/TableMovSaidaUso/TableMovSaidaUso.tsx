@@ -71,15 +71,15 @@ const TableMovSaidaUso = (props: Props) => {
 				</thead>
 				<tbody>
 					{items.length === 0 ? (
-						<span className="no-items-table">
+						<span className="text">
 							Nenhum instrumento selecionado
 						</span>
 					) : (
 						items.map((item, index) => (
 							<tr key={index}>
-								<td>{item.code}</td>
-								<td>{item.description}</td>
-								<td>
+								<td className="text">{item.code}</td>
+								<td className="text">{item.description}</td>
+								<td className="text">
 									<select className="dropdown-select-ref">
 										{props.options.map((option, index) => (
 											<option key={index} value={option.value}>
@@ -89,7 +89,7 @@ const TableMovSaidaUso = (props: Props) => {
 									</select>
 								</td>
 								<td
-									className="remove-item-list"
+									className="remove-item-list text"
 									onClick={() => removeItem(index)}
 								>
 									Remover

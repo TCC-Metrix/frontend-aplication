@@ -26,6 +26,7 @@
     --one-dark-gray: #7995A6;
     --sec-dark-gray: #476273;
     --main-red: #ED0007;
+    --hover: #cccccc4d
 }
 
 body{
@@ -43,6 +44,10 @@ a{
 
 .text{
     font-size: 14px;
+}
+
+.text-major{
+    font-size: 16px;
 }
 
 .normal-text{

@@ -94,8 +94,8 @@ export const MovSaidaUso = () => {
 						}}
 					>
 						<div>
-							<h1 className="mainText">Selecionar instrumento(s)</h1>
-							<p className="normalText">Buscar por</p>
+							<h1 className="header-three">Selecionar instrumento(s)</h1>
+							<p className="text-major">Buscar por</p>
 						</div>
 
 						<div className="input-filter">
@@ -118,7 +118,7 @@ export const MovSaidaUso = () => {
 				<section className="mov-info">
 					<div className="form-column">
 						<div>
-							<p>Responsável entrega</p>
+							<p className="text-major">Responsável entrega</p>
 							<InputSearch
 								options={options}
 								placeholder="Busque por código ou nome"
@@ -127,7 +127,7 @@ export const MovSaidaUso = () => {
 							/>
 						</div>
 						<div>
-							<p>Responsavel Recebimento</p>
+							<p className="text-major">Responsavel Recebimento</p>
 							<InputSearch
 								options={options}
 								placeholder="Busque por código ou nome"
@@ -138,7 +138,7 @@ export const MovSaidaUso = () => {
 					</div>
 					<div className="form-column">
 						<div>
-							<p>Área</p>
+							<p className="text-major">Área</p>
 							<InputSearch
 								options={options}
 								placeholder="Busque por descrição"
@@ -147,7 +147,7 @@ export const MovSaidaUso = () => {
 							/>
 						</div>
 						<div>
-							<p>Data de Saída</p>
+							<p className="text-major">Data de Saída</p>
 							<DateInput/>
 						</div>	
 					</div>

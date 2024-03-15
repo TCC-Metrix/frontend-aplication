@@ -5,15 +5,18 @@
 	align-items: center;
 	gap: 15px;
 	border-top: 0.4px solid #cad6dd;
+	cursor: pointer;
+
+}
+
+.menu-option-info:hover{
+	background-color: var(--hover);
+	margin: 2px;
+	box-sizing: border-box;
+
 }
 
 .menu-option-icon {
     margin-left: 15px;
     margin-top: 3px;
-}
-
-@media (min-width: 1280px) {
-	.menu-option-icon{
-		
-	}
 }

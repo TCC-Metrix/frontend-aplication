@@ -16,7 +16,7 @@ const Modal: FC<ModalProps> = ({ isOpen, setModalOpen, children }) => {
 					<div className="flex-align-center-icon">
 						<Buttons
 							name="close"
-							className="closeButton"
+							className="close-button"
 							onClickFunction={setModalOpen}
 							/>
 					</div>

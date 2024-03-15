@@ -2,9 +2,9 @@
 	display: flex;
 	align-items: center;
 	flex-direction: row;
-	font-size: 0.8rem;
 	gap: 1%;
 	padding-bottom: 1%;
+	
 }
 
 .checkbox-style {
@@ -12,6 +12,7 @@
 	height: 16px; /* Define a altura do checkbox */
 	border: 1.5px solid #ccc; /* Adiciona uma borda ao redor do checkbox */
 	background-color: transparent; 
+	cursor: pointer;
 }
 
 .checkbox-style:checked {

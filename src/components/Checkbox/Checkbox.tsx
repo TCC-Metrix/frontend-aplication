@@ -9,7 +9,7 @@ const Checkbox = (props: CheckboxProps) => {
 	return (
 		<div className="container-checkbox">
 			<input type="checkbox" className="checkbox-style"/>
-			<span>{props.text}</span>
+			<span className="text">{props.text}</span>
 		</div>
 	);
 };

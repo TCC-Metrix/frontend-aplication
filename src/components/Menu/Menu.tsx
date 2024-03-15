@@ -5,8 +5,8 @@ import "./Menu.css";
 const Menu = () => {
 	return (
 		<>
-			<div className="nameImg">
-				<img src={Profile} alt="logoRexroth" className="imgProfile"></img>
+			<div className="name-img text">
+				<img src={Profile} alt="logo-rexroth" className="img-profile"></img>
 				<div>
 					<p>Matheus Aprigio</p>
 				</div>

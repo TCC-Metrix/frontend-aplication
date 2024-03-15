@@ -11,7 +11,6 @@ main {
 }
 
 
-
 .mov-info {
 	width: 100%;
 	margin-top: 15%;
@@ -20,19 +19,12 @@ main {
 }
 
 
-
-.responsavel-recebimento {
-	padding-top: 11%;
-}
-
 .form-column {
 	width: 25%;
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
 }
-
-
 
 
 
@@ -48,40 +40,9 @@ main {
 	padding-bottom: 15%;
 }
 
-
-
-
-.main-text {
-	font-size: 28px;
-	font-weight: bold;
-	color: #002936;
-}
-
-.normal-text {
-	color: #002936;
-}
-
 .input-filter {
 	width: 100%;
 }
 
-.alertGray {
-	color: #476273;
-	font-size: 28px;
-}
 
-.alert {
-	width: 100%;
-	height: 100%;
-	justify-content: space-between;
-	align-items: center;
-	display: flex;
-		
-}
-
-.alertText {
-	color: #ff0000;
-	font-size: 28px;
-	display: flex;
-}
 
