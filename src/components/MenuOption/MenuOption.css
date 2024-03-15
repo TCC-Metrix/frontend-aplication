@@ -1,11 +1,3 @@
-@font-face {
-	font-family: BoschSans;
-	src: url(../../assets/fonts/BoschSans-Regular.ttf);
-}
-
-*{
-	font-family: 'BoschSans';
-}
 
 .menu-option-info {
 	background-color: #fff;

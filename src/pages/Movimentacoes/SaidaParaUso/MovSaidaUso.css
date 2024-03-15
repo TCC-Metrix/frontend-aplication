@@ -10,16 +10,7 @@ main {
 	background-color: #fff;
 }
 
-.top-information h1 {
-	color: #476273;
-	font-size: 1.5rem;
-}
 
-.top-information p {
-	margin-top: 5%;
-	font-size: 0.9rem;
-	color: #476273;
-}
 
 .mov-info {
 	width: 100%;
@@ -28,10 +19,7 @@ main {
 	gap: 7%;
 }
 
-.mov-info h1 {
-	color: #476273;
-	font-size: 0.9rem;
-}
+
 
 .responsavel-recebimento {
 	padding-top: 11%;
@@ -44,30 +32,9 @@ main {
 	gap: 1rem;
 }
 
-.date-input {
-	border: 1px solid #7995a6;
-	padding-left: 12px;
-	height: 2rem;
-	cursor: pointer;
-	
-}
 
-.flex-column-calendar-icon{
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	position: relative;
-}
 
-.calendar-input{
-	position: absolute;
-	bottom: 0;
-	right: 9px;
-	display: flex;
-	align-items: center;
-	height: 100%;
-	cursor: pointer;
-}
+
 
 .margin-top-checkbox{
 	margin-top: 4%;
@@ -83,30 +50,19 @@ main {
 
 
 
-.date-input:focus {
-	outline: 1px solid #00738f;
-}
 
-.mainText {
+.main-text {
 	font-size: 28px;
 	font-weight: bold;
 	color: #002936;
-	position: absolute;
-	top: 25px;
-	left: 3%;
 }
 
-.normalText {
-	position: absolute;
-	font-size: 16px;
-	top: 23%;
-	left: 3%;
+.normal-text {
 	color: #002936;
 }
 
 .input-filter {
 	width: 100%;
-	background-color: red;
 }
 
 .alertGray {
@@ -127,13 +83,5 @@ main {
 	color: #ff0000;
 	font-size: 28px;
 	display: flex;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-	opacity: 0;
-	height: 40px;
-	z-index: 1;
-	width: 30px;
-	cursor: pointer;
 }
 

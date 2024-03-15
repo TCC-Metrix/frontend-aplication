@@ -1,0 +1,45 @@
+.flex-column-calendar-icon{
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	position: relative;
+}
+
+.flex-column-calendar-icon input{
+    color: var(--dark-blue);
+    text-transform: uppercase;
+    font-family: 'Regular';
+    font-size: 12px;
+}
+
+.calendar-input{
+	position: absolute;
+	bottom: 0;
+	right: 9px;
+	display: flex;
+	align-items: center;
+	height: 100%;
+	cursor: pointer;
+}
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+	opacity: 0;
+	height: 40px;
+	z-index: 1;
+	width: 30px;
+	cursor: pointer;
+}
+
+.date-input {
+	border: 1px solid #7995a6;
+	padding-left: 12px;
+	height: 2rem;
+	cursor: pointer;
+	
+}
+
+
+.date-input:focus {
+	outline: 1px solid #00738f;
+}

@@ -1,0 +1,65 @@
+@font-face {
+	font-family: Regular;
+	src: url(../src/assets/fonts/BoschSans-Regular.ttf);
+}
+
+@font-face {
+	font-family: Medium;
+	src: url(../src/assets/fonts/BoschSans-Medium.ttf);
+}
+
+@font-face {
+	font-family: Bold;
+	src: url(../src/assets/fonts/BoschSans-Bold.ttf);
+}
+
+
+@font-face {
+	font-family: Light;
+	src: url(../src/assets/fonts/BoschSans-Light.ttf);
+}
+
+:root{
+    --dark-blue: #002936;
+    --main-blue: #00C8F7;
+    --white: #fff;
+    --one-dark-gray: #7995A6;
+    --sec-dark-gray: #476273;
+    --main-red: #ED0007;
+}
+
+body{
+    font-family: 'Regular', 'sans-serif';
+    color: var(--dark-blue);
+}
+
+a{
+    color: var(--dark-blue);
+}
+
+.small-text{
+    font-size: 12px;
+}
+
+.text{
+    font-size: 14px;
+}
+
+.normal-text{
+    font-size: 20px;
+}
+.header-one {
+    font-size: 42px;
+}
+
+.header-two{
+    font-size: 32px;
+}
+
+.header-three{
+    font-size: 28px;
+}
+
+.header-four{
+    font-size: 16px;
+}

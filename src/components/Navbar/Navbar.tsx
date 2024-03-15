@@ -65,9 +65,9 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 		<div className="container">
 			<nav className="navbar">
 				<img src={Logo} alt="logoRexroth" className="logoImg"></img>
-				<ul className="nav-links">
+				<ul>
 					<li>
-						<a href="#" className="nav-link">
+						<a href="#" className="text">
 							Início
 						</a>
 					</li>

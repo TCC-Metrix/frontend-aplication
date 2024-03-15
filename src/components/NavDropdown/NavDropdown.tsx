@@ -53,9 +53,10 @@ const NavDropdown = ({
 		<li>
 			<a
 				href="#"
-				className="nav-link"
+				className="text"
 				onClick={() => toggleDropdown(optionKey)}
 			>
+		
 				{title}
 				{option && activeNavbar ? <IoIosArrowUp /> : <IoIosArrowDown />}
 			</a>
@@ -63,7 +64,7 @@ const NavDropdown = ({
 				<ul className={`dropdown open`}>
 					{links.map((item, index) => (
 						<li key={index}>
-							<a href="" className="drop-link">
+							<a href="" className="drop-link small-text">
 								{item.name}
 							</a>
 							{index !== links.length - 1 && <div className="border-bot"></div>}

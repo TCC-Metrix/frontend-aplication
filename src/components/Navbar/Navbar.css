@@ -1,11 +1,4 @@
-@font-face {
-	font-family: BoschSans;
-	src: url(../../assets/fonts/BoschSans-Regular.ttf);
-}
 
-* {
-	font-family: "BoschSans";
-}
 
 .container {
 	z-index: 999;
@@ -52,9 +45,7 @@
 
 .navbar li a {
 	padding: 0px 27px;
-	font-size: 14px;
 	width: auto;
-	color: black;
 	margin-left: 17px;
 	gap: 5px;
 	height: 100%;
