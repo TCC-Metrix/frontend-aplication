@@ -7,7 +7,6 @@ interface Option {
 }
 
 
-
 interface Props {
 	options: Option[];
 }
@@ -21,6 +20,29 @@ interface Item {
 const Table = (props: Props) => {
 	const [items, setItems] = useState<Item[]>([]);
 	const [newItem, setNewItem] = useState<Item>({ code: '', description: '', reference: '' });
+
+	const item = [
+		{
+			code: '09237',
+			description: 'Paquimetro',
+			reference: '50mm'
+		},
+		{
+			code: '09237',
+			description: 'Paquimetro',
+			reference: '50mm'
+		},
+		{
+			code: '09237',
+			description: 'Paquimetro',
+			reference: '50mm'
+		},
+		{
+			code: '09237',
+			description: 'Paquimetro',
+			reference: '50mm'
+		}
+	]
 
   const addItem = () => {
     if (newItem.code && newItem.description && newItem.reference) {
@@ -70,12 +92,12 @@ const Table = (props: Props) => {
 					</tr>
 				</thead>
 				<tbody>
-					{items.length === 0 ? (
+					{item.length === 0 ? (
 						<span className="text">
 							Nenhum instrumento selecionado
 						</span>
 					) : (
-						items.map((item, index) => (
+						item.map((item, index) => (
 							<tr key={index}>
 								<td className="text">{item.code}</td>
 								<td className="text">{item.description}</td>

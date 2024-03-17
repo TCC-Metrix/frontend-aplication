@@ -24,7 +24,7 @@
 	display: flex;
 	align-items: center;
 	flex-direction: row;
-
+	z-index: -1;
 	height: 100%;
 	width: 100%;
 	justify-content: center;
@@ -34,8 +34,8 @@
 	display: flex;
     list-style: none;
     align-items: center;
-    margin-left: 6rem;
-	height: 100%;
+    height: 100%;
+    gap: 41px;
 }
 
 .navbar li {
@@ -44,6 +44,7 @@
     display: flex;
     align-items: center;
 	cursor: pointer;
+	background-color: #fff;
 }
 
 .nav-header-option{
@@ -59,9 +60,7 @@
 	z-index: 999;
 }
 
-.nav-header-option p{
 
-}
 
 .navbar ul li p:hover {
 	background-color: #cccccc93;

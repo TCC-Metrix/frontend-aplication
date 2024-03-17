@@ -5,14 +5,13 @@
 	z-index: -1 !important;
 	background-color: aqua;
 	top: -100vh;
-	transition: top  cubic-bezier(0.215, 0.610, 0.355, 1) .2s;
+	transition: top  .4s ease;
 }
 
 
 .dropdown li a {
 	justify-content: flex-start;
 	height: 2.2rem;
-
 	padding: 0;
 }
 
@@ -27,7 +26,6 @@
     top: 100%;
 	padding: 12px 12px;
 	box-sizing: border-box;
-	z-index: -1 !important;
 }
 
 
