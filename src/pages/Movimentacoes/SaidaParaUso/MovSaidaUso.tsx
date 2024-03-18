@@ -1,14 +1,14 @@
 import NavBar from "../../../components/Navbar/Navbar";
 import "./MovSaidaUso.css";
-import TableMovSaidaUso from "../../../components/TableMovSaidaUso/TableMovSaidaUso";
+import Table from "../../../components/Table/Table";
 import { useState } from "react";
-import { IoMdCalendar, IoMdAlert } from "react-icons/io";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Buttons from "../../../components/Buttons/Buttons";
 import Modal from "../../../components/Modal/Modal";
 // import ModalErro from "../../../components/Modal/ModalErro"
 import InputSearchFilter from "../../../components/InputSearchFilter/InputSearchFilter";
+import DateInput from "../../../components/DateInput/DateInput";
 
 export const MovSaidaUso = () => {
 	const options = [
@@ -78,9 +78,9 @@ export const MovSaidaUso = () => {
 		<main>
 			<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
 			<div className="container-main" onClick={(e) => validInputActive(e)}>
-				<div className="top-information">
-					<h1>Saída para uso</h1>
-					<p>Instrumento</p>
+				<div>
+					<h1 className="header-three">Saída para uso</h1>
+					<p className="text">Instrumento</p>
 					<Buttons
 						name="+ Adicionar"
 						className="btn-dark"
@@ -94,8 +94,8 @@ export const MovSaidaUso = () => {
 						}}
 					>
 						<div>
-							<h1 className="mainText">Selecionar instrumento(s)</h1>
-							<p className="normalText">Buscar por</p>
+							<h1 className="header-three">Selecionar instrumento(s)</h1>
+							<p className="text-major">Buscar por</p>
 						</div>
 
 						<div className="input-filter">
@@ -109,16 +109,17 @@ export const MovSaidaUso = () => {
 							/>
 						</div>
 
-						<TableMovSaidaUso />
+						<Table />
 					</Modal>
 				</div>
 				<div className="flex-center-table">
-					<TableMovSaidaUso options={refAdicionalOptions} />
+					<Table options={refAdicionalOptions} />
 				</div>
+				<div className="form-section-container">
 				<section className="mov-info">
 					<div className="form-column">
 						<div>
-							<h1>Responsável entrega</h1>
+							<p className="text-major">Responsável entrega</p>
 							<InputSearch
 								options={options}
 								placeholder="Busque por código ou nome"
@@ -127,7 +128,7 @@ export const MovSaidaUso = () => {
 							/>
 						</div>
 						<div>
-							<h1>Responsavel Recebimento</h1>
+							<p className="text-major">Responsavel Recebimento</p>
 							<InputSearch
 								options={options}
 								placeholder="Busque por código ou nome"
@@ -138,7 +139,7 @@ export const MovSaidaUso = () => {
 					</div>
 					<div className="form-column">
 						<div>
-							<h1>Área</h1>
+							<p className="text-major">Área</p>
 							<InputSearch
 								options={options}
 								placeholder="Busque por descrição"
@@ -147,20 +148,17 @@ export const MovSaidaUso = () => {
 							/>
 						</div>
 						<div>
-							<h1>Data de Saída</h1>
-							<div className="flex-column-calendar-icon">
-								<input type="date" name="exit-date" className="date-input" />
-								<div className="calendar-input">
-									<IoMdCalendar size={23} color="476273" />
-								</div>
-							</div>
-						</div>
+							<p className="text-major">Data de Saída</p>
+							<DateInput/>
+						</div>	
 					</div>
 				</section>
-				<div className="margin-top-checkbox">
+				<div>
 					<Checkbox text="Instrumento com calibração vencida" />
 					<Checkbox text="Instrumento reprovado" />
 				</div>
+				</div>
+		
 				<div className="confirm-btn-center">
 					{/* <Buttons name="Confirmar" className="main-blue-1" onClickFunction={setOpenErrorModal} /> */}
 					{/* <ModalErro

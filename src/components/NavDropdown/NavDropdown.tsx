@@ -51,26 +51,26 @@ const NavDropdown = ({
 
 	return (
 		<li>
-			<a
-				href="#"
-				className="nav-link"
+			<p
+				className="text nav-header-option"
 				onClick={() => toggleDropdown(optionKey)}
 			>
+		
 				{title}
 				{option && activeNavbar ? <IoIosArrowUp /> : <IoIosArrowDown />}
-			</a>
-			{option && activeNavbar && (
-				<ul className={`dropdown open`}>
+			</p>
+		
+				<ul className={`dropdown ${option && activeNavbar ? 'open' : 'hidden'}`}>
 					{links.map((item, index) => (
-						<li key={index}>
-							<a href="" className="drop-link">
+						<li key={index} className="navbar-option-li">
+							<a href="" className="drop-link small-text">
 								{item.name}
 							</a>
-							{index !== links.length - 1 && <div className="border-bot"></div>}
+							{index !== links.length - 1 && <div className="border small-margin"></div>}
 						</li>
 					))}
 				</ul>
-			)}
+		
 		</li>
 	);
 };

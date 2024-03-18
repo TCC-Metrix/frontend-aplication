@@ -1,40 +1,56 @@
 .navbar li ul.dropdown {
 	position: absolute;
 	height: fit-content;
-	width: 90%;
-	display: none;
-	z-index: 999;
+	visibility: hidden;
+	z-index: -1 !important;
+	background-color: aqua;
+	top: -100vh;
+	transition: top  .4s ease;
 }
+
 
 .dropdown li a {
-	font-size: 0.7rem;
 	justify-content: flex-start;
 	height: 2.2rem;
-	padding: 0px;
-}
-
-.border-bot {
-	border-bottom: 0.4px solid #cad6dd;
-	width: 75%;
-	margin-left: 1rem;
+	padding: 0;
 }
 
 .navbar li ul.dropdown.open {
 	display: block;
-	background-color: #fff;
-	box-shadow: 1px 5px 5px -1px rgba(0, 0, 0, 0.2);
-	padding-bottom: 8px;
-	position: absolute;
-	left: 17px;
-	margin: 0;
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+    position: absolute;
+	visibility: visible;
+    margin: 0;
+    width: 100%;
+    top: 100%;
+	padding: 12px 12px;
+	box-sizing: border-box;
 }
 
-.drop-link:hover {
-	/* background-color: transparent !important; */
-	/* display: block; */
-	background-color: #cccccc4d !important;
-	padding-left: 6%;
-	width: 80%;
-	height: 30px;
-	margin: 3px 10px;
+
+
+.navbar-option-li{
+	position: static !important;
+    height: auto !important;
+    display: block !important;
+    align-items: normal !important;
 }
+
+.drop-link{
+	padding: 10px;
+}
+
+.drop-link:hover{
+	background-color: var(--hover);
+	padding:  0 4px;
+
+	box-sizing: border-box;
+	width: 100%;
+
+}
+
+li .border{
+	width: 93% !important;
+}
+

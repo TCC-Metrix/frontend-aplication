@@ -1,38 +1,23 @@
 .btn-dark {
-	background-color: #476273;
+	background-color: var(--sec-dark-gray);
 	border-style: none;
-    height: 1.8rem;
-	width: 9.2%;
-	font-size: 0.7rem;
-	color: #fff;
+	font-family: 'Regular';
+	color: var(--white);
 	border-radius: 2px;
 	cursor: pointer;
+	padding: 7px 16px;
 }
 
 .btn-dark:hover {
 	background-color: #364a57;
-	transition: 0.4s;
+	transition: var(--transition-pattern);
 }
 
-.closeButton {
-  background-color: #ED0007;
-  color: #fff;
-  width: 52px;
-  height: 48px;
-  border: none;
-	font-size: 22px;
-	position: absolute;
-	top: 25px;
-	right: 25px;
-	cursor: pointer;
-	display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.closeButtonWithoutBack {
-	width: 5%;
-	height: 5%;
+.close-button {
+	background-color: #ED0007;
+	color: #fff;
+	width: 52px;
+	height: 48px;
 	border: none;
 	position: absolute;
 	top: 25px;
@@ -41,24 +26,23 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: transparent;
 }
 
-.main-blue-1{
-	background-color: #00C8F7;
+.close-button:hover{
+	background-color: var(--dark-red);
+	transition: var(--transition-pattern);
+}
+
+
+.btn-blue-1{
+	background-color: var(--main-blue);
 	border-style: none;
     height: 2.5rem;
 	width: 13%;
-	font-size: 0.9rem;
+	font-size: 14px;
 	color: #fff;
 	border-radius: 2px;
 	cursor: pointer;
 }
 
-.closeIcon {
-	size: 35;
-	align-items: center;
-	justify-content: center;
-	display: flex;
-	align-self: center;
-}
+

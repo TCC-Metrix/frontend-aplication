@@ -13,15 +13,17 @@ const Modal: FC<ModalProps> = ({ isOpen, setModalOpen, children }) => {
 		return (
 			<div className="background">
 				<div className="modal">
-					<div>{children}</div>
 					<div className="flex-align-center-icon">
 						<Buttons
 							name="close"
-							className="closeButton"
+							className="close-button"
 							onClickFunction={setModalOpen}
-						/>
+							/>
 					</div>
+							<div>{children}</div>
 				</div>
+
+				
 			</div>
 		);
 	}

@@ -4,7 +4,8 @@ import { RxExit } from "react-icons/rx";
 import "./MenuOption.css";
 const MenuOption: React.FC<MenuOptionProps> = ({ name, text }) => {
 	return (
-		<div className="menu-option-info">
+		<div className="menu-option-container">
+			<div className="menu-option-row">
 			<div className="menu-option-icon">
 				{name === "person" ? 
 				(
@@ -16,7 +17,9 @@ const MenuOption: React.FC<MenuOptionProps> = ({ name, text }) => {
 				}
 				
 			</div>
-			<p>{text}</p>
+			<p className="text">{text}</p>
+			</div>
+
 		</div>
 	);
 };

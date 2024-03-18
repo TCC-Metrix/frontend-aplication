@@ -1,10 +1,11 @@
 import { useState } from "react";
-import "./TableMovSaidaUso.css";
+import "./Table.css";
 
 interface Option {
 	value: string;
 	label: string;
 }
+
 
 interface Props {
 	options: Option[];
@@ -16,9 +17,32 @@ interface Item {
 	reference: string;
 }
 
-const TableMovSaidaUso = (props: Props) => {
+const Table = (props: Props) => {
 	const [items, setItems] = useState<Item[]>([]);
 	const [newItem, setNewItem] = useState<Item>({ code: '', description: '', reference: '' });
+
+	const item = [
+		{
+			code: '09237',
+			description: 'Paquimetro',
+			reference: '50mm'
+		},
+		{
+			code: '09237',
+			description: 'Paquimetro',
+			reference: '50mm'
+		},
+		{
+			code: '09237',
+			description: 'Paquimetro',
+			reference: '50mm'
+		},
+		{
+			code: '09237',
+			description: 'Paquimetro',
+			reference: '50mm'
+		}
+	]
 
   const addItem = () => {
     if (newItem.code && newItem.description && newItem.reference) {
@@ -68,16 +92,16 @@ const TableMovSaidaUso = (props: Props) => {
 					</tr>
 				</thead>
 				<tbody>
-					{items.length === 0 ? (
-						<span className="no-items-table">
+					{item.length === 0 ? (
+						<span className="text">
 							Nenhum instrumento selecionado
 						</span>
 					) : (
-						items.map((item, index) => (
+						item.map((item, index) => (
 							<tr key={index}>
-								<td>{item.code}</td>
-								<td>{item.description}</td>
-								<td>
+								<td className="text">{item.code}</td>
+								<td className="text">{item.description}</td>
+								<td className="text">
 									<select className="dropdown-select-ref">
 										{props.options.map((option, index) => (
 											<option key={index} value={option.value}>
@@ -87,7 +111,7 @@ const TableMovSaidaUso = (props: Props) => {
 									</select>
 								</td>
 								<td
-									className="remove-item-list"
+									className="remove-item-list text"
 									onClick={() => removeItem(index)}
 								>
 									Remover
@@ -101,4 +125,4 @@ const TableMovSaidaUso = (props: Props) => {
 	);
 };
 
-export default TableMovSaidaUso;
+export default Table;

@@ -59,9 +59,6 @@ const InputSearch: React.FC<InputSearchProps> = ({
 							className={selectedOption === option.label ? "selected" : ""}
 						>
 							{option.label}
-							{/* {index !== filteredOptions.length - 1 && (
-								<div className="border-bot-inputsearch"></div>
-							)} */}
 						</li>
 					))}
 				</ul>

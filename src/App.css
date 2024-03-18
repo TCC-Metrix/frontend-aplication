@@ -1,0 +1,113 @@
+@font-face {
+	font-family: Regular;
+	src: url(../src/assets/fonts/BoschSans-Regular.ttf);
+}
+
+@font-face {
+	font-family: Medium;
+	src: url(../src/assets/fonts/BoschSans-Medium.ttf);
+}
+
+@font-face {
+	font-family: Bold;
+	src: url(../src/assets/fonts/BoschSans-Bold.ttf);
+}
+
+
+@font-face {
+	font-family: Light;
+	src: url(../src/assets/fonts/BoschSans-Light.ttf);
+}
+
+:root{
+    --dark-blue: #002936;
+    --main-blue: #00C8F7;
+    --white: #fff;
+    --one-dark-gray: #7995A6;
+    --sec-dark-gray: #476273;
+    --main-red: #ED0007;
+    --hover: #cccccc4d;
+    --two-light-gray: #CAD6DD;
+    --dark-red: #A80003;
+    --box-shadow: 0px 9px 18px rgba(0, 0, 0, 0.12);
+    --transition-pattern: {
+        transition: 0.4s;
+    };
+}
+
+body{
+    font-family: 'Regular', 'sans-serif';
+    color: var(--dark-blue);
+    overflow-y: scroll !important;
+}
+
+a{
+    color: var(--dark-blue);
+}
+
+.small-text{
+    font-size: 12px;
+}
+
+.text{
+    font-size: 14px;
+}
+
+.text-major{
+    font-size: 16px;
+}
+
+.normal-text{
+    font-size: 20px;
+}
+.header-one {
+    font-size: 42px;
+}
+
+.header-two{
+    font-size: 32px;
+}
+
+.header-three{
+    font-size: 28px;
+}
+
+.header-four{
+    font-size: 16px;
+}
+
+input::placeholder{
+    color: var(--two-light-gray);
+    font-size: 14px;
+}
+
+.border{
+    width: 100%;
+    background-color: var(--two-light-gray);
+    height: 1px;
+}
+.small-margin{
+    margin: 3px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+
+@media (min-width: 1500px) {
+	.container-main{
+		max-width: 1400px;
+	}
+    .modal{
+        width: 50%;
+    }
+
+    .menu-visible{
+        width: 15%;
+    }
+}
+
+

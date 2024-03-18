@@ -60,16 +60,16 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 		setIsMenuClicked(!isMenuClicked);
 		toggleDropdown();
 	};
-
+	
 	return (
 		<div className="container">
 			<nav className="navbar">
 				<img src={Logo} alt="logoRexroth" className="logoImg"></img>
-				<ul className="nav-links">
+				<ul>
 					<li>
-						<a href="#" className="nav-link">
+						<p className="nav-header-option">
 							Início
-						</a>
+						</p>
 					</li>
 					<NavDropdown
 						option={dropdownVisible.Mov}
@@ -79,7 +79,7 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 						links={movLinks}
 						activeNavbar={activeNavbar}
 						setActiveNavbar={setActiveNavbar}
-					/>
+						/>
 					<NavDropdown
 						option={dropdownVisible.Cad}
 						setDropdownVisible={setDropdownVisible}
@@ -88,7 +88,7 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 						links={cadLinks}
 						activeNavbar={activeNavbar}
 						setActiveNavbar={setActiveNavbar}
-					/>
+						/>
 					<NavDropdown
 						option={dropdownVisible.Cons}
 						setDropdownVisible={setDropdownVisible}
@@ -97,7 +97,7 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 						links={consultaLinks}
 						activeNavbar={activeNavbar}
 						setActiveNavbar={setActiveNavbar}
-					/>
+						/>
 					<NavDropdown
 						option={dropdownVisible.Rel}
 						setDropdownVisible={setDropdownVisible}
@@ -106,9 +106,10 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 						links={relatorioLinks}
 						activeNavbar={activeNavbar}
 						setActiveNavbar={setActiveNavbar}
-					/>
+						/>
 				</ul>
 			</nav>
+			{isMenuClicked && <div className="overlay" onClick={updateMenu}></div>}
 			<div className="menu-toggle" onClick={updateMenu}>
 				<span className={bar}></span>
 				<span className={bar}></span>
@@ -117,7 +118,6 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 			<div className={`menu ${menu_class}`}>
 				<Menu />
 			</div>
-			{isMenuClicked && <div className="overlay" onClick={updateMenu}></div>}
 		</div>
 	);
 }
