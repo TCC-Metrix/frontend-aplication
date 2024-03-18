@@ -44,6 +44,38 @@ const Table = (props: Props) => {
 		}
 	]
 
+	const tableHeader = [
+		'Codigo', 
+		'Descrição',
+		'Família',
+		'Freq. Calibração',
+		'Próx. Calibração'
+	]
+
+	const itemMoreDescritive = [
+		{
+			code: '1214-11',
+			description: 'Micrometro externo',
+			family: 'Micrometro Universal',
+			freqCalibration: '12 meses',
+			nextCalibration: '19/03/2025'
+		},
+		{
+			code: '1214-11',
+			description: 'Micrometro externo',
+			family: 'Micrometro Universal',
+			freqCalibration: '12 meses',
+			nextCalibration: '19/03/2025'
+		},
+		{
+			code: '1214-11',
+			description: 'Micrometro externo',
+			family: 'Micrometro Universal',
+			freqCalibration: '12 meses',
+			nextCalibration: '19/03/2025'
+		}
+	]
+
   const addItem = () => {
     if (newItem.code && newItem.description && newItem.reference) {
       setItems([...items, newItem]);
@@ -61,33 +93,12 @@ const Table = (props: Props) => {
 
 	return (
 		<div>
-			{/* <input
-				type="text"
-				placeholder="Código"
-				value={newItem.code}
-				onChange={(e) => setNewItem({ ...newItem, code: e.target.value })}
-			/>
-			<input
-				type="text"
-				placeholder="Descrição"
-				value={newItem.description}
-				onChange={(e) =>
-					setNewItem({ ...newItem, description: e.target.value })
-				}
-			/>
-			<input
-				type="text"
-				placeholder="Referência"
-				value={newItem.reference}
-				onChange={(e) => setNewItem({ ...newItem, reference: e.target.value })}
-			/> */}
-			{/* <button onClick={addItem}>Adicionar</button> */}
 			<table className="table-container">
 				<thead>
 					<tr className="first-line">
-						<th className="first-clounm-table">Código</th>
-						<th>Descrição</th>
-						<th>Referência Adicional</th>
+						{tableHeader.map((item, index) => (
+							<th>{item}</th>
+						))}
 						<th></th>
 					</tr>
 				</thead>
