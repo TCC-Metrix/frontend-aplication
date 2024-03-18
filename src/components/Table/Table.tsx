@@ -92,7 +92,7 @@ const Table = (props: Props) => {
 					</tr>
 				</thead>
 				<tbody>
-					{item.length === 0 ? (
+					{items.length === 0 ? (
 						<span className="text">
 							Nenhum instrumento selecionado
 						</span>

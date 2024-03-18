@@ -31,12 +31,13 @@
 }
 
 .navbar ul {
-	display: flex;
+    display: flex;
     list-style: none;
     align-items: center;
     height: 100%;
-    gap: 41px;
+    margin-left: 8rem;
 }
+
 
 .navbar li {
 	position: relative;
