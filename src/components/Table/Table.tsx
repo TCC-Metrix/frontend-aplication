@@ -93,7 +93,7 @@ const Table = (props: Props) => {
 
 
   return (
-    <div>
+    <div className="table-container-main">
       <table className="table-container">
         <thead>
           <tr className="first-line">

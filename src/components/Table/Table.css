@@ -12,6 +12,14 @@
 	border-top: 1px solid #000;
 }
 
+.table-container-main{
+	display: flex;
+	gap: 2rem;
+	flex-direction: column;
+}
+
+
+
 .table-container th {
 
 	padding: 10px;
@@ -19,7 +27,7 @@
 
 
 .active-page{
-	color: aqua;
+	color: blue;
 }
 
 .table-container td {
@@ -51,7 +59,7 @@
 
 
 .pagination{
-	background-color: #ccc;
+	
 	display: flex;
 	justify-content: center;
 	gap: 40px;
