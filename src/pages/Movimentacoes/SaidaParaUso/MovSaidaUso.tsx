@@ -109,7 +109,7 @@ export const MovSaidaUso = () => {
 							/>
 						</div>
 
-						<Table />
+						<Table options={refAdicionalOptions} />
 					</Modal>
 				</div>
 				<div className="flex-center-table">

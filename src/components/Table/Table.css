@@ -5,13 +5,16 @@
 	align-items: center;
 }
 
-
-.table-container th {
+.first-line{
+    /* width: 100vw; */
+    justify-content: space-around;
 	border-bottom: 1px solid #000;
 	border-top: 1px solid #000;
+}
+
+.table-container th {
+
 	padding: 10px;
-	background-color: #7995a6;
-	border: 1px solid black;
 }
 
 .table-container td {
