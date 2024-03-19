@@ -39,7 +39,7 @@ const Table = (props: Props) => {
     },
     {
       code: "09237",
-      description: "Teste",
+      description: "paginationNumbersList",
       reference: "50mm",
     },
     {
@@ -59,7 +59,7 @@ const Table = (props: Props) => {
     },
     {
       code: "09237",
-      description: "Teste",
+      description: "paginationNumbersList",
       reference: "50mm",
     },
     {
@@ -77,51 +77,7 @@ const Table = (props: Props) => {
       description: "Paquimetro",
       reference: "50mm",
     },
-    {
-      code: "09237",
-      description: "Teste",
-      reference: "50mm",
-    },
-    {
-      code: "09237",
-      description: "Paquimetro",
-      reference: "50mm",
-    },
-    {
-      code: "09237",
-      description: "Paquimetro",
-      reference: "50mm",
-    },
-    {
-      code: "09237",
-      description: "Paquimetro",
-      reference: "50mm",
-    },
-    {
-      code: "09237",
-      description: "Teste",
-      reference: "50mm",
-    },
-    {
-      code: "09237",
-      description: "Paquimetro",
-      reference: "50mm",
-    },
-    {
-      code: "09237",
-      description: "Paquimetro",
-      reference: "50mm",
-    },
-    {
-      code: "09237",
-      description: "Paquimetro",
-      reference: "50mm",
-    },
-    {
-      code: "09237",
-      description: "Teste",
-      reference: "50mm",
-    }
+
 
   ];
 
@@ -132,8 +88,9 @@ const Table = (props: Props) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = item.slice(indexOfFirstItem, indexOfLastItem);
-  const teste = Array.from({ length: Math.ceil(item.length / itemsPerPage) }, (_, i) => i + 1)
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const paginationNumbersList = Array.from({ length: Math.ceil(item.length / itemsPerPage) }, (_, i) => i + 1)
+  const maxPages = paginationNumbersList.length;
+
 
   return (
     <div>
@@ -172,7 +129,7 @@ const Table = (props: Props) => {
                   } else {
                     return (
                       <td key={idx} className="text">
-                        {item[key]}
+                        {item[key as keyof typeof item]}
                       </td>
                     );
                   }
@@ -185,36 +142,16 @@ const Table = (props: Props) => {
           )}
         </tbody>
       </table>
-      {item.length > itemsPerPage && (
-  <ul className="pagination">
-    {currentPage > 5 && (
-      <li onClick={() => paginate(Math.max(1, currentPage - 1))}>
-        <IoIosArrowBack />
-      </li>
-    )}
-    {teste.map((number) => {
-      if (number === currentPage) {
-        return (
-          <li key={number} className="active" onClick={() => paginate(number)}>
-            {number}
-          </li>
-        );
-      } else if (number >= currentPage - 2 && number <= currentPage + 2) {
-        return (
-          <li key={number} onClick={() => paginate(number)}>
-            {number}
-          </li>
-        );
-      }
-      return null;
-    })}
-    {teste.length > 5  && (
-      <li onClick={() => paginate(Math.min(teste.length, currentPage + 1))}>
-        <IoIosArrowForward />
-      </li>
-    )}
-  </ul>
-)}
+      <ul className="pagination">
+        {!(currentPage == 1) && <li onClick={() => {setCurrentPage(currentPage - 1)}}> <IoIosArrowBack/> </li>}
+        {((currentPage + 2 > maxPages) && currentPage + 2 != maxPages + 1) && <li onClick={() => {setCurrentPage(currentPage - 2 )}}>{!(maxPages < currentPage - 2) && currentPage - 2}</li>}
+        {((currentPage + 1 > maxPages) || currentPage == maxPages -1 ) && <li onClick={() => {setCurrentPage(currentPage - 1)}}>{!(maxPages < currentPage - 1) && currentPage - 1}</li>}
+        <li onClick={() => {setCurrentPage(currentPage)}} className="active-page">{currentPage}</li>
+       {!((currentPage + 2 > maxPages) && currentPage + 2 != maxPages + 1) && <li onClick={() => {setCurrentPage(currentPage + 1)}}>{!(maxPages < currentPage + 1) && currentPage + 1}</li>}
+        {!((currentPage + 1 > maxPages) || currentPage == maxPages -1 ) && <li onClick={() => {setCurrentPage(currentPage + 2)}}>{!(maxPages < currentPage + 2) && currentPage + 2}</li>}
+        {!(currentPage == maxPages) && <li onClick={() => {setCurrentPage(currentPage + 1)}}> <IoIosArrowForward/> </li>}
+      </ul>
+
 
     </div>
   );
