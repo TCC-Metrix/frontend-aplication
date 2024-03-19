@@ -4,3 +4,4 @@ export type ButtonProps = {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   onClickFunction: React.Dispatch<React.SetStateAction<boolean>>
 }
+

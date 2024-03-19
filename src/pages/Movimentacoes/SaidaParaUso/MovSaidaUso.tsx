@@ -1,7 +1,7 @@
 import NavBar from "../../../components/Navbar/Navbar";
 import "./MovSaidaUso.css";
 import Table from "../../../components/Table/Table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Buttons from "../../../components/Buttons/Buttons";
@@ -9,6 +9,9 @@ import Modal from "../../../components/Modal/Modal";
 // import ModalErro from "../../../components/Modal/ModalErro"
 import InputSearchFilter from "../../../components/InputSearchFilter/InputSearchFilter";
 import DateInput from "../../../components/DateInput/DateInput";
+import instance from "../../../services/axiosInstace";
+import { Instruments } from "../../../components/utils/interfaces/Interfaces";
+import { AxiosResponse } from "axios";
 
 export const MovSaidaUso = () => {
 	const options = [
@@ -45,13 +48,7 @@ export const MovSaidaUso = () => {
 	const [activeArea, setActiveArea] = useState<boolean>(false);
 	const [activeInstrument, setActiveInstrument] = useState<boolean>(false);
 	const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
-	const [items, setItems] = useState<Item[]>([
-		{
-			codigo: "1214-11",
-			descricao: "manometro",
-			referencia: "111mm",
-		},
-	]);
+	const [instrument, setInstruments] = useState<Instruments[]>([]);
 
 	const refAdicionalOptions = [
 		{ value: "50mm/11", label: "50mm/11" },
@@ -73,6 +70,25 @@ export const MovSaidaUso = () => {
 	const handleAddButtonClick = () => {
 		setOpenModal(true);
 	};
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response: AxiosResponse<Instruments[]> = await instance.get(
+					"instrument/all"
+				);
+				const fetchedInstruments: Instruments[] = response.data;
+				setInstruments(fetchedInstruments);
+				console.log("oi");
+				console.log(instrument);
+			} catch (error: any) {
+				console.log(error?.response?.data);
+			}
+		};
+
+		fetchData();
+		console.log(instrument);
+	}, []);
 
 	return (
 		<main>
@@ -116,51 +132,55 @@ export const MovSaidaUso = () => {
 					<Table options={refAdicionalOptions} />
 				</div>
 				<div className="form-section-container">
-				<section className="mov-info">
-					<div className="form-column">
-						<div>
-							<p className="text-major">Responsável entrega</p>
-							<InputSearch
-								options={options}
-								placeholder="Busque por código ou nome"
-								isActive={activeEntrega}
-								title="resp-entrega"
-							/>
+					<section className="mov-info">
+						<div className="form-column">
+							<div>
+								<p className="text-major">Responsável entrega</p>
+								<InputSearch
+									options={options}
+									placeholder="Busque por código ou nome"
+									isActive={activeEntrega}
+									title="resp-entrega"
+								/>
+							</div>
+							<div>
+								<p className="text-major">Responsavel Recebimento</p>
+								<InputSearch
+									options={options}
+									placeholder="Busque por código ou nome"
+									isActive={activeReceb}
+									title="resp-receb"
+								/>
+							</div>
 						</div>
-						<div>
-							<p className="text-major">Responsavel Recebimento</p>
-							<InputSearch
-								options={options}
-								placeholder="Busque por código ou nome"
-								isActive={activeReceb}
-								title="resp-receb"
-							/>
+						<div className="form-column">
+							<div>
+								<p className="text-major">Área</p>
+								<InputSearch
+									options={options}
+									placeholder="Busque por descrição"
+									isActive={activeArea}
+									title="area"
+								/>
+							</div>
+							<div>
+								<p className="text-major">Data de Saída</p>
+								<DateInput />
+							</div>
 						</div>
+					</section>
+					<div>
+						<Checkbox text="Instrumento com calibração vencida" />
+						<Checkbox text="Instrumento reprovado" />
 					</div>
-					<div className="form-column">
-						<div>
-							<p className="text-major">Área</p>
-							<InputSearch
-								options={options}
-								placeholder="Busque por descrição"
-								isActive={activeArea}
-								title="area"
-							/>
-						</div>
-						<div>
-							<p className="text-major">Data de Saída</p>
-							<DateInput/>
-						</div>	
-					</div>
-				</section>
-				<div>
-					<Checkbox text="Instrumento com calibração vencida" />
-					<Checkbox text="Instrumento reprovado" />
 				</div>
-				</div>
-		
+
 				<div className="confirm-btn-center">
-					{/* <Buttons name="Confirmar" className="main-blue-1" onClickFunction={setOpenErrorModal} /> */}
+					<Buttons
+						name="Confirmar"
+						className="btn-blue-1"
+						onClickFunction={() => console.log("funcionando")}
+					/>
 					{/* <ModalErro
 						isOpen={openErrorModal}
 						setModalErrorOpen={() => {
