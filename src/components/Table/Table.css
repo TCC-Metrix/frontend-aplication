@@ -17,6 +17,11 @@
 	padding: 10px;
 }
 
+
+.active{
+	color: aqua;
+}
+
 .table-container td {
 	padding: 10px;
 	border-bottom: 1px solid #ccc;
@@ -44,3 +49,10 @@
 	padding-left: 5px;
 }
 
+
+.pagination{
+	background-color: #ccc;
+	display: flex;
+	justify-content: center;
+	
+}

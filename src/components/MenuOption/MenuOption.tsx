@@ -1,4 +1,4 @@
-import { MenuOptionProps } from "../utils/interfaces/Interfaces";
+import { MenuOptionProps } from "../../utils/interfaces/Interfaces";
 import { GoPerson } from "react-icons/go";
 import { RxExit } from "react-icons/rx";
 import "./MenuOption.css";

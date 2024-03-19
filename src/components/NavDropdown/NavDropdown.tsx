@@ -1,5 +1,5 @@
 import React, { SetStateAction } from "react";
-import { DropdownState, List } from "../utils/interfaces/Interfaces";
+import { DropdownState, List } from "../../utils/interfaces/Interfaces";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import "./NavDropdows.css";
 
