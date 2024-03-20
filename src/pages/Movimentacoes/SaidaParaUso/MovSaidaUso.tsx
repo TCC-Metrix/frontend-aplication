@@ -43,12 +43,14 @@ export const MovSaidaUso = () => {
 		{ value: "Exemplo" },
 	]; // será alimentado pela API provavelmente em outro arquivo
 
+	const [instruments, setInstruments] = useState<Instruments[]>([]);
+
 	const [activeEntrega, setActiveEntrega] = useState<boolean>(false);
 	const [activeReceb, setActiveReceb] = useState<boolean>(false);
 	const [activeArea, setActiveArea] = useState<boolean>(false);
 	const [activeInstrument, setActiveInstrument] = useState<boolean>(false);
 	const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
-	const [instrument, setInstruments] = useState<Instruments[]>([]);
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const refAdicionalOptions = [
 		{ value: "50mm/11", label: "50mm/11" },
@@ -70,25 +72,27 @@ export const MovSaidaUso = () => {
 	const handleAddButtonClick = () => {
 		setOpenModal(true);
 	};
-
 	useEffect(() => {
 		const fetchData = async () => {
-			try {
-				const response: AxiosResponse<Instruments[]> = await instance.get(
-					"instrument/all"
-				);
-				const fetchedInstruments: Instruments[] = response.data;
-				setInstruments(fetchedInstruments);
-				console.log("oi");
-				console.log(instrument);
-			} catch (error: any) {
-				console.log(error?.response?.data);
-			}
+			instance
+				.get("instrument/all")
+				.then((e) => {
+					const fetchedInstruments: Instruments[] = e.data;
+					console.log("Dados recebidos da API:", fetchedInstruments);
+					setInstruments(fetchedInstruments);
+					console.log(instruments)
+				})
+				.catch((e) => {
+					console.log(e);
+				});
 		};
 
 		fetchData();
-		console.log(instrument);
 	}, []);
+
+	if (loading) {
+		return <p>Loading...</p>;
+	}
 
 	return (
 		<main>
@@ -97,6 +101,9 @@ export const MovSaidaUso = () => {
 				<div>
 					<h1 className="header-three">Saída para uso</h1>
 					<p className="text">Instrumento</p>
+					{instruments.length > 0 && (
+						<p>{instruments[0].description}</p>
+					)}
 					<Buttons
 						name="+ Adicionar"
 						className="btn-dark"
