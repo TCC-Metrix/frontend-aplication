@@ -20,30 +20,71 @@
 }
 
 :root{
-    --dark-blue: #002936;
-    --main-blue: #00C8F7;
-    --white: #fff;
-    --one-dark-gray: #7995A6;
-    --sec-dark-gray: #476273;
-    --main-red: #ED0007;
-    --hover: #cccccc4d;
-    --light-gray: #EDF1F4;
-    --sec-light-gray: #CAD6DD;
-    --dark-red: #A80003;
+    --color-red-brand-01: #ed0007;
+    --color-red-brand-02: #d50005;
+    --color-red-brand-03: #a80003;
+    --color-turquoise-01: #00c8f7;
+    --color-turquoise-02: #00b9e5;
+    --color-turquoise-03: #009cc2;
+    --color-turquoise-04: #00738f;
+    --color-turquoise-05: #004d61;
+    --color-turquoise-06: #002936;
+    --color-grey-01: #edf1f4;
+    --color-grey-02: #cad6dd;
+    --color-grey-03: #a3bac8;
+    --color-grey-04: #99aebb;
+    --color-grey-05: #7995a6;
+    --color-grey-06: #506e81;
+    --color-grey-07: #476273;
+    --color-grey-08: #354956;
+    --color-grey-09: #2d3e48;
+    --color-grey-10: #1c272e;
+    --color-green-01: #d9e8d0;
+    --color-green-02: #528236;
+    --color-green-03: #1a2a11;
+    --color-yellow-01: #f9f3bc;
+    --color-yellow-02: #ebd417;
+    --color-yellow-03: #2a2604;
+    --color-red-01: #f7bfc8;
+    --color-red-02: #da1e28;
+    --color-red-03: #54000e;
+    --color-dark-blue-01: #d1dce3;
+    --color-dark-blue-02: #002b49;
+    --color-dark-blue-03: #00243e;
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-prussian-blue: #002b49;
+    --color-aqua: #00ccff;
+    --color-monza: #ed0007;
+    --color-alabaster: #fcfcfc;
+    --color-black-haze: #e5e5e5;
+    --color-smalt-blue: #5a7c91;
+    --color-casper: #a3bac8;
+    --color-heather: #c0ced8;
+    --color-mine-shaft: #333333;
+    --color-dusty-gray: #969696;
+    --color-catskill-white: #e8eef1;
+    --color-mystic: #e8eef1;
+    --color-athens-gray: #f2f4f6;
+    --color-regent-gray: #7f95a4;
+    --color-loblolly: #bfcad1;
+    --color-athens-gray-darker: #e5eaed;
+    --color-anakiwa: #7fe5ff;
     --box-shadow: 0px 9px 18px rgba(0, 0, 0, 0.12);
     --transition-pattern: {
-        transition: 0.4s;
-    };
+        transition: 2s;
+    }; 
+
 }
 
 body{
     font-family: 'Regular', 'sans-serif';
-    color: var(--dark-blue);
+    color: var(--color-turquoise-06);
     overflow-y: scroll !important;
 }
 
 a{
-    color: var(--dark-blue);
+    color: var(--color-turquoise-06);
 }
 
 .small-text{
@@ -71,7 +112,7 @@ a{
 
 .header-three{
     font-size: 28px;
-    color: var(--sec-dark-gray);
+    color: var(--color-grey-07);
 }
 
 .header-four{
@@ -79,13 +120,13 @@ a{
 }
 
 input::placeholder{
-    color: var(--sec-light-gray);
+    color: var(--color-grey-02);
     font-size: 14px;
 }
 
 .border{
     width: 100%;
-    background-color: var(--sec-light-gray);
+    background-color: var(--color-grey-02);
     height: 1px;
 }
 .small-margin{

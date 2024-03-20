@@ -58,11 +58,11 @@ const Table: React.FC<TableProps> = ({ tableContent, tableHeaders }) => {
                 {Object.keys(item).map((key, idx) => {
                   if (key === "references") {
                     return (
-                      <td key={idx} className="text">
+                      <td key={idx} className="text select-td">
                         <select className="dropdown-select-ref" value={item.reference}>
                           
-                          {item[key].map((option, idx) => (
-                            <option key={idx} value={option.value}>
+                          {item[key].map((option: string, idx: any) => (
+                            <option key={idx} value={option}>
                               {option}
                             </option>
                           ))}

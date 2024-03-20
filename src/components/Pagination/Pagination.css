@@ -17,10 +17,10 @@
     user-select: none;
 }
 .pagination li:hover{
-    background-color: var(--hover);
+    background-color: var(--color-grey-01);
 }
 .active-page{
-    background-color: var(--sec-light-gray);
+    background-color: var(--color-grey-02);
 }
 
 
