@@ -20,26 +20,28 @@
 
 
 
+
 .table-container th {
 
 	padding: 10px;
 }
 
 
-.active-page{
-	color: blue;
-}
+
 
 .table-container td {
 	padding: 10px;
-	border-bottom: 1px solid #ccc;
-	color: #002936;
-	
+	border-bottom: 1px solid var(--sec-light-gray);
 }
+
+
+
+
 
 .table-container th,
 .table-container td {
-	text-align: center; /* Centraliza o texto */
+	text-align: center;
+	 /* Centraliza o texto */
 }
 
 .table-container td.remove-item-list {
@@ -49,7 +51,7 @@
 }
 
 .dropdown-select-ref {
-	width: 38%;
+	width: 100%;
 	height: 1.8rem;
 	margin-left: 1%;
 	border: 1px solid #7995a6;
@@ -57,10 +59,12 @@
 	padding-left: 5px;
 }
 
-
-.pagination{
-	
-	display: flex;
-	justify-content: center;
-	gap: 40px;
+.td-text{
+	width: 9rem;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin: auto;
 }
+
+

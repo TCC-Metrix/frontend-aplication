@@ -74,6 +74,44 @@ export const MovSaidaUso = () => {
 		setOpenModal(true);
 	};
 
+
+
+
+	const itemRecebido = [
+		{
+			code: '1214-11',
+			description: 'Micrômetro Externo',
+			references: ['50mm/0,10','50mm/0,10' ],
+		},
+		{
+			code: '1214-12',
+			description: 'Paquimetro Universal',
+			references: ['50mm/0,10','50mm/0,10' ],
+		},
+		{
+			code: '1212-32',
+			description: 'Calibrador Tampão Roscado',
+			additionalReference1: '50mm/0,10',
+			references: ['50mm/0,10','50mm/0,10' ],
+		},
+		{
+			code: '1212-22',
+			description: 'Multimetro Digital',
+			references: ['50mm/0,10','50mm/0,10' ],
+		},
+				{
+			code: '1214-12',
+			description: 'Paquimetro Universal',
+			references: ['50mm/0,10','50mm/0,10' ],
+		},
+
+	]
+
+
+
+
+
+
 	return (
 		<main>
 			<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
@@ -109,11 +147,11 @@ export const MovSaidaUso = () => {
 							/>
 						</div>
 
-						<Table options={refAdicionalOptions} />
 					</Modal>
 				</div>
 				<div className="flex-center-table">
-					<Table options={refAdicionalOptions} />
+						<Table tableContent={itemRecebido} tableHeaders={['Codigo', 'Descrição', 'Referência Adicional']}/>
+					{/* <Table options={refAdicionalOptions} /> */}
 				</div>
 				<div className="form-section-container">
 				<section className="mov-info">

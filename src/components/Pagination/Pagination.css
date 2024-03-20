@@ -1,0 +1,29 @@
+.pagination{
+	display: flex;
+	justify-content: center;
+    align-items: center;
+	gap: 29px;
+}
+
+.pagination li{
+    /* background-color: antiquewhite; */
+    display: flex;
+    height: 30px;
+    width: 30px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    cursor: pointer;
+    user-select: none;
+}
+.pagination li:hover{
+    background-color: var(--hover);
+}
+.active-page{
+    background-color: var(--sec-light-gray);
+}
+
+
+.pagination-row-none{
+    visibility: hidden;
+}
