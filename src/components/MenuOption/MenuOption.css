@@ -18,6 +18,6 @@
 }
 
 .menu-option-row:hover{
-	background-color: var(--hover);
+	background-color: var(--color-grey-01);
 }
 

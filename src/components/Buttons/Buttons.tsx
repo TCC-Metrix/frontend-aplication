@@ -1,5 +1,5 @@
 import React from 'react'
-import { ButtonProps } from '../utils/Types/Types'
+import { ButtonProps } from '../../utils/Types/Types'
 import './Buttons.css'
 import { IoMdClose } from "react-icons/io";
 

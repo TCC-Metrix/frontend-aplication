@@ -10,7 +10,7 @@
 	box-shadow: var(--box-shadow);
 	display: flex;
 	align-items: center;
-	background-color: var(--white);
+	background-color: var(--color-white);
 }
 
 .logoImg {
@@ -31,12 +31,13 @@
 }
 
 .navbar ul {
-	display: flex;
+    display: flex;
     list-style: none;
     align-items: center;
     height: 100%;
-    gap: 41px;
+    margin-left: 8rem;
 }
+
 
 .navbar li {
 	position: relative;
@@ -47,6 +48,12 @@
 	background-color: #fff;
 }
 
+
+.navbar ul li p:hover {
+	color: var(--color-turquoise-01);
+	text-decoration: underline;
+	transition: all 350ms ease-out;
+}
 .nav-header-option{
 	padding: 0px 27px;
 	width: auto;
@@ -62,8 +69,8 @@
 
 
 
-.navbar ul li p:hover {
-	background-color: #cccccc93;
+.navbar ul li p{
+	font-family: 'Medium';
 }
 
 .menu-toggle {
@@ -73,7 +80,7 @@
 	flex-direction: column;
 	cursor: pointer;
 	max-width: 88px;
-	background-color: var(--main-red);
+	background-color: var(--color-red-brand-01);
 	width: 7.2%;
 	height: 100%;
 	z-index: 999;
@@ -89,28 +96,6 @@
 }
 
 
-/* ----- animations--------- */
-/* clicked */
-.bar.clicked:nth-child(1) {
-	transform: rotate(45deg) translate(0.31em, 0.23em);
-	transition: ease-out 0.5s;
-}
-
-.bar.clicked:nth-child(2) {
-	transform: scale(0.1);
-	transition: ease-out 0.5s;
-}
-
-.bar.clicked:nth-child(3) {
-	transform: rotate(135deg) translate(-0.42em, 0.4em);
-	transition: ease-out 0.5s;
-}
-
-/* unclicked */
-.bar.unclicked {
-	transform: rotate(0) translate(0);
-	transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s;
-}
 
 a {
 	display: flex;
@@ -151,7 +136,7 @@ a {
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.2);
 	z-index: 950;
-	transition: var(--transition);
+	transition: all 350ms ease-out; 
 }
 
 .no-scroll {

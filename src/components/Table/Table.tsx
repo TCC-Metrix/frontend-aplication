@@ -1,128 +1,102 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./Table.css";
+import Pagination from "../Pagination/Pagination";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 interface Option {
-	value: string;
-	label: string;
+  value: string;
+  label: string;
 }
-
 
 interface Props {
-	options: Option[];
+  options: Option[];
 }
 
-interface Item {
-	code: string;
-	description: string;
-	reference: string;
+interface TableProps {
+  tableContent: any[]; // Lista de objetos com chaves variáveis
+  tableHeaders: string[]; // Objeto representando os cabeçalhos da tabela
 }
 
-const Table = (props: Props) => {
-	const [items, setItems] = useState<Item[]>([]);
-	const [newItem, setNewItem] = useState<Item>({ code: '', description: '', reference: '' });
+const Table: React.FC<TableProps> = ({ tableContent, tableHeaders }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
 
-	const item = [
-		{
-			code: '09237',
-			description: 'Paquimetro',
-			reference: '50mm'
-		},
-		{
-			code: '09237',
-			description: 'Paquimetro',
-			reference: '50mm'
-		},
-		{
-			code: '09237',
-			description: 'Paquimetro',
-			reference: '50mm'
-		},
-		{
-			code: '09237',
-			description: 'Paquimetro',
-			reference: '50mm'
-		}
-	]
 
-  const addItem = () => {
-    if (newItem.code && newItem.description && newItem.reference) {
-      setItems([...items, newItem]);
-      setNewItem({ code: '', description: '', reference: '' });
-    } else {
-      alert('Por favor, preencha todos os campos.');
-    }
-  };
 
-	const removeItem = (index: number) => {
-		const updatedItems = [...items];
-		updatedItems.splice(index, 1);
-		setItems(updatedItems);
-	};
+  const tableOne = ["Codigo", "Descrição", "Ref Adicional", "teste", "teste"];
 
-	return (
-		<div>
-			{/* <input
-				type="text"
-				placeholder="Código"
-				value={newItem.code}
-				onChange={(e) => setNewItem({ ...newItem, code: e.target.value })}
-			/>
-			<input
-				type="text"
-				placeholder="Descrição"
-				value={newItem.description}
-				onChange={(e) =>
-					setNewItem({ ...newItem, description: e.target.value })
-				}
-			/>
-			<input
-				type="text"
-				placeholder="Referência"
-				value={newItem.reference}
-				onChange={(e) => setNewItem({ ...newItem, reference: e.target.value })}
-			/> */}
-			{/* <button onClick={addItem}>Adicionar</button> */}
-			<table className="table-container">
-				<thead>
-					<tr className="first-line">
-						<th className="first-clounm-table">Código</th>
-						<th>Descrição</th>
-						<th>Referência Adicional</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					{item.length === 0 ? (
-						<span className="text">
-							Nenhum instrumento selecionado
-						</span>
-					) : (
-						item.map((item, index) => (
-							<tr key={index}>
-								<td className="text">{item.code}</td>
-								<td className="text">{item.description}</td>
-								<td className="text">
-									<select className="dropdown-select-ref">
-										{props.options.map((option, index) => (
-											<option key={index} value={option.value}>
-												{option.label}
-											</option>
-										))}
-									</select>
-								</td>
-								<td
-									className="remove-item-list text"
-									onClick={() => removeItem(index)}
-								>
-									Remover
-								</td>
-							</tr>
-						))
-					)}
-				</tbody>
-			</table>
-		</div>
-	);
+
+  // Paginação
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = tableContent.slice(indexOfFirstItem, indexOfLastItem);
+  const paginationNumbersList = Array.from({ length: Math.ceil(tableContent.length / itemsPerPage) }, (_, i) => i + 1)
+  const maxPages = paginationNumbersList.length;
+
+
+  return (
+    <div className="table-container-main">
+      <table className="table-container">
+        <thead>
+          <tr className="first-line">
+            {tableHeaders.map((item, index) => (
+              <th key={index}>{item}</th>
+            ))}
+            {tableOne.length === 3 && <th></th>}
+          </tr>
+        </thead>
+        <tbody>
+          {currentItems.length === 0 ? (
+            <tr>
+              <td colSpan={tableOne.length + 1} className="text">
+                Nenhum instrumento selecionado
+              </td>
+            </tr>
+          ) : (
+            currentItems.map((item, index) => (
+              <tr key={index}>
+                {Object.keys(item).map((key, idx) => {
+                  if (key === "references") {
+                    return (
+                      <td key={idx} className="text select-td">
+                        <select className="dropdown-select-ref" value={item.reference}>
+                          
+                          {item[key].map((option: string, idx: any) => (
+                            <option key={idx} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      
+                    );
+                  } else {
+                    return (
+                      <td key={idx} className="text">
+                       <p className="td-text">
+                        {item[key as keyof typeof item]}
+                        
+                      </p>
+                      </td>
+                    );
+                  }
+                })}
+                <td className="remove-item-list text">
+                  Remover
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+      {tableContent.length > itemsPerPage && (
+      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} maxPages={maxPages} />
+
+      )}
+
+
+    </div>
+  );
 };
 
 export default Table;

@@ -3,9 +3,8 @@
 	height: fit-content;
 	visibility: hidden;
 	z-index: -1 !important;
-	background-color: aqua;
 	top: -100vh;
-	transition: top  .4s ease;
+	transition: top 350ms ease-out;
 }
 
 
@@ -42,12 +41,8 @@
 }
 
 .drop-link:hover{
-	background-color: var(--hover);
-	padding:  0 4px;
-
-	box-sizing: border-box;
-	width: 100%;
-
+	color: var(--color-turquoise-01);
+	transition: all 350ms ease-out;
 }
 
 li .border{

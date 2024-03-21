@@ -6,8 +6,8 @@ import {
 	consultaLinks,
 	movLinks,
 	relatorioLinks,
-} from "../utils/Links/Links";
-import { DropdownState } from "../utils/interfaces/Interfaces";
+} from "../../utils/Links/Links";
+import { DropdownState } from "../../utils/interfaces/Interfaces";
 import Menu from "../Menu/Menu";
 import NavDropdown from "../NavDropdown/NavDropdown";
 
@@ -67,7 +67,7 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 				<img src={Logo} alt="logoRexroth" className="logoImg"></img>
 				<ul>
 					<li>
-						<p className="nav-header-option">
+						<p className="nav-header-option text">
 							Início
 						</p>
 					</li>
