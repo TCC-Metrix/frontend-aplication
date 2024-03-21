@@ -50,7 +50,6 @@ export const MovSaidaUso = () => {
 	const [activeArea, setActiveArea] = useState<boolean>(false);
 	const [activeInstrument, setActiveInstrument] = useState<boolean>(false);
 	const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
-	const [loading, setLoading] = useState<boolean>(false);
 
 	const refAdicionalOptions = [
 		{ value: "50mm/11", label: "50mm/11" },
@@ -89,10 +88,6 @@ export const MovSaidaUso = () => {
 
 		fetchData();
 	}, []);
-
-	if (loading) {
-		return <p>Loading...</p>;
-	}
 
 	return (
 		<main>
