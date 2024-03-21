@@ -78,7 +78,7 @@ export const MovSaidaUso = () => {
     {
       code: "1214-11",
       description: "Micrômetro Externo",
-      references: ["50mm/0,10", "50mm/0,10"],
+      references: ["50mm/0,10", "50mm/0,10"]
     },
     {
       code: "1214-12",
@@ -100,6 +100,24 @@ export const MovSaidaUso = () => {
       code: "1214-12",
       description: "Paquimetro Universal",
       references: ["50mm/0,10", "50mm/0,10"],
+    },
+
+    {
+      code: "1214-12",
+      description: "Paquimetro Universal",
+      references: ["50mm/0,10", "50mm/0,10"],
+    },
+
+    {
+      code: "1214-12",
+      description: "Paquimetro Universal",
+      references: ["50mm/0,10", "50mm/0,10"],
+    },
+
+    {
+      code: "1214-12",
+      description: "Paquimetro Universal",
+      references: ["50mm/0,10", "50mm/0,10", "50mm/0,10", "50mm/0,10"],
     },
 
     {
