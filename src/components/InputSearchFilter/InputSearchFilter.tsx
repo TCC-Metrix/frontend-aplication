@@ -91,7 +91,7 @@ const InputSearchFilter = (props: InputSearchProps) => {
 							>
 								{optionItens.code}&nbsp;&nbsp;
 								{optionItens.description}&nbsp;/
-								Prox. calibração {optionItens.nextCalibration}
+								Próx. calibração {optionItens.nextCalibration}
 							</li>
 						))}
 					</ul>
