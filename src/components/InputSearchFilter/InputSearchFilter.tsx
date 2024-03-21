@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import "./InputSearchFilter.css";
 import "../InputSearch/InputSearch.css";
-
-interface Option {
-	value: string;
-}
+import { Instruments, Option } from "../../utils/interfaces/Interfaces";
 
 interface InputSearchProps {
-	searchOptions: Option[]; // Opções para filtrar
+	searchOptions: Instruments[]; // Opções para filtrar
 	dropdownOptions: Option[]; // Opções para o dropdown
 	placeholder: string;
 	isActive: boolean;
@@ -20,7 +17,7 @@ const InputSearchFilter = (props: InputSearchProps) => {
 	const [selectedOption, setSelectedOption] = useState<string>("");
 	const [selectedOptionInput, setSelectedOptionInput] = useState<string>("");
 	const [placeholder, setPlaceholder] = useState<string>("");
-	const [filteredOptions, setFilteredOptions] = useState<Option[]>(
+	const [filteredOptions, setFilteredOptions] = useState<Instruments[]>(
 		props.searchOptions
 	);
 
@@ -29,8 +26,11 @@ const InputSearchFilter = (props: InputSearchProps) => {
 		console.log(searchTerm);
 		setSearchTerm(searchTerm);
 
-		const filteredOptions = props.searchOptions.filter((option) =>
-			option.value.toLowerCase().includes(searchTerm.toLowerCase())
+		const filteredOptions = props.searchOptions.filter(
+			(option) =>
+				option.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				option.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				option.nextCalibration.toLowerCase().includes(searchTerm.toLowerCase())
 		);
 
 		setSelectedOptionInput(""); // Limpa a opção selecionada ao digitar no input de texto
@@ -80,13 +80,18 @@ const InputSearchFilter = (props: InputSearchProps) => {
 							<li
 								key={index}
 								onClick={() => {
-									setSearchTerm(optionItens.value);
+									setSelectedOptionInput(optionItens.description);
+									setSearchTerm(optionItens.description);
 								}}
 								className={
-									selectedOptionInput === optionItens.value ? "selected" : ""
+									selectedOptionInput === optionItens.description
+										? "selected"
+										: ""
 								}
 							>
-								{optionItens.value}
+								{optionItens.code}&nbsp;&nbsp;
+								{optionItens.description}&nbsp;/
+								Prox. calibração {optionItens.nextCalibration}
 							</li>
 						))}
 					</ul>
