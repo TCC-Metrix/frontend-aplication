@@ -1,23 +1,28 @@
 import React from 'react'
-import { ButtonProps } from '../../utils/Types/Types'
-import './Buttons.css'
+import { ButtonProps } from '../../utils/types/Types'
+import './Button.css'
 import { IoMdClose } from "react-icons/io";
 
 
 // const Buttons = (props: ButtonProps) => {
-  const Buttons: React.FC<ButtonProps> = (props) => {
+  const Button: React.FC<ButtonProps> = (props) => {
     return (
+      <div className='module-button'>
       <button className={props.className} 
         onClick={() => {
           if (props.onClickFunction) {
-            props.onClickFunction(true);
+            props.onClickFunction();
           }
         }}
       >
+        <span className='text button-font'>
         {props.name === "close" ? <IoMdClose size={35} /> : props.name}
+        </span>
       </button>
+      <div className="button-animation"></div>
+      </div>
     );
   }
   
- export default Buttons;
+ export default Button;
   

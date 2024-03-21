@@ -23,8 +23,6 @@ const Table: React.FC<TableProps> = ({ tableContent, tableHeaders }) => {
 
 
 
-  const tableOne = ["Codigo", "Descrição", "Ref Adicional", "teste", "teste"];
-
 
   // Paginação
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -42,13 +40,13 @@ const Table: React.FC<TableProps> = ({ tableContent, tableHeaders }) => {
             {tableHeaders.map((item, index) => (
               <th key={index}>{item}</th>
             ))}
-            {tableOne.length === 3 && <th></th>}
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {currentItems.length === 0 ? (
             <tr>
-              <td colSpan={tableOne.length + 1} className="text">
+              <td colSpan={tableHeaders.length + 1} className="text">
                 Nenhum instrumento selecionado
               </td>
             </tr>

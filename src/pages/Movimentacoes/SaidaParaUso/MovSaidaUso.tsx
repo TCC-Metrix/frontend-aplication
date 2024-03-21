@@ -4,11 +4,11 @@ import Table from "../../../components/Table/Table";
 import { useState } from "react";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
-import Buttons from "../../../components/Buttons/Buttons";
+import Button from "../../../components/Buttons/Button";
 import Modal from "../../../components/Modal/Modal";
-// import ModalErro from "../../../components/Modal/ModalErro"
 import InputSearchFilter from "../../../components/InputSearchFilter/InputSearchFilter";
 import DateInput from "../../../components/DateInput/DateInput";
+import { Instruments, ModalInstrument } from "../../../utils/interfaces/Interfaces";
 
 export const MovSaidaUso = () => {
   const options = [
@@ -45,19 +45,7 @@ export const MovSaidaUso = () => {
   const [activeArea, setActiveArea] = useState<boolean>(false);
   const [activeInstrument, setActiveInstrument] = useState<boolean>(false);
   const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
-  const [items, setItems] = useState<Item[]>([
-    {
-      codigo: "1214-11",
-      descricao: "manometro",
-      referencia: "111mm",
-    },
-  ]);
-
-  const refAdicionalOptions = [
-    { value: "50mm/11", label: "50mm/11" },
-    // Adicione outras opções conforme necessário
-  ];
-
+  const [tableModalList, setTableModalList] = useState<ModalInstrument[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
   // const [openErrorModal, setOpenErrorModal] = useState<boolean>(false)
 
@@ -78,7 +66,7 @@ export const MovSaidaUso = () => {
     {
       code: "1214-11",
       description: "Micrômetro Externo",
-      references: ["50mm/0,10", "50mm/0,10"]
+      references: ["50mm/0,10", "50mm/0,10"],
     },
     {
       code: "1214-12",
@@ -127,6 +115,10 @@ export const MovSaidaUso = () => {
     },
   ];
 
+  const addItemToTableModalList = (instrument: ModalInstrument) => {
+    setTableModalList([...tableModalList, instrument]);
+  }
+
   return (
     <main>
       <NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
@@ -134,12 +126,12 @@ export const MovSaidaUso = () => {
         <div>
           <h1 className="header-three">Saída para uso</h1>
           <p className="text">Instrumento</p>
-          <Buttons
+          <Button
             name="+ Adicionar"
-            className="btn-dark"
+            className="btn btn-tertiary"
             onClickFunction={handleAddButtonClick}
           />
-          {/* <button className="btn-dark" onClick={handleAddButtonClick}>+ Adicionar</button> */}
+          {/* MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL */}
           <Modal
             isOpen={openModal}
             setModalOpen={() => {
@@ -150,25 +142,43 @@ export const MovSaidaUso = () => {
               <h1 className="header-three">Selecionar instrumento(s)</h1>
               <p className="text-major">Buscar por</p>
             </div>
-
-            <div className="input-filter">
-              <InputSearchFilter
-                dropdownOptions={filtersOptions}
-                searchOptions={optionsInstrument}
-                placeholder="Buscar por descrição do instrumento"
-                placeholderOption="Descrição"
-                isActive={activeInstrument}
-                title="search-instrument"
-              />
+            <div className="search-modal-area">
+              <div className="input-filter">
+                <InputSearchFilter
+                  dropdownOptions={filtersOptions}
+                  searchOptions={optionsInstrument}
+                  placeholder="Buscar por descrição do instrumento"
+                  placeholderOption="Descrição"
+                  isActive={activeInstrument}
+                  title="search-instrument"
+                />
+              </div>
+              <Button
+                name="Adicionar"
+                className="btn-sm btn-secondary"
+                onClickFunction={() => {
+                  setTableModalList([...tableModalList, {
+                    code: '1214-11',
+                    description: 'Micrometro Externo',
+                    familyId: 'a',
+                    calibrationFrequency: 12,
+                    nextCalibration: '19/03/2025',
+                  }])
+                }}
+              ></Button>
+            </div>
+            <div className="modal-content">
+                <Table tableContent={tableModalList} tableHeaders={['Código', 'Descrição', 'Família', 'Freq. Calibração', 'Próx. Calibração']}/>
+             
             </div>
           </Modal>
+          {/* FECHOU MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL */}
         </div>
         <div className="flex-center-table">
           <Table
             tableContent={itemRecebido}
             tableHeaders={["Codigo", "Descrição", "Referência Adicional"]}
           />
-          {/* <Table options={refAdicionalOptions} /> */}
         </div>
         <div className="form-section-container">
           <section className="mov-info">
@@ -215,7 +225,7 @@ export const MovSaidaUso = () => {
         </div>
 
         <div className="confirm-btn-center">
-          {/* <Buttons name="Confirmar" className="main-blue-1" onClickFunction={setOpenErrorModal} /> */}
+          {/* <Button name="Confirmar" className="main-blue-1" onClickFunction={setOpenErrorModal} /> */}
           {/* <ModalErro
 						isOpen={openErrorModal}
 						setModalErrorOpen={() => {
