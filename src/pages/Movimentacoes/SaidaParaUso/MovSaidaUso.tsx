@@ -131,7 +131,7 @@ export const MovSaidaUso = () => {
             className="btn btn-tertiary"
             onClickFunction={handleAddButtonClick}
           />
-          {/* MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL */}
+
           <Modal
             isOpen={openModal}
             setModalOpen={() => {
