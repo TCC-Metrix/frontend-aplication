@@ -143,34 +143,63 @@ export const MovSaidaUso = () => {
 				<div>
 					<h1 className="header-three">Saída para uso</h1>
 					<p className="text">Instrumento</p>
-					<Buttons
-						name="+ Adicionar"
-						className="btn-dark"
-						onClickFunction={handleAddButtonClick}
-					/>
+					  <Button
+					    name="+ Adicionar"
+					    className="btn btn-tertiary"
+					    onClickFunction={handleAddButtonClick}
+					  />
 					{/* <button className="btn-dark" onClick={handleAddButtonClick}>+ Adicionar</button> */}
-					<Modal
-						isOpen={openModal}
-						setModalOpen={() => {
-							setOpenModal(!openModal);
-						}}
-					>
-						<div>
-							<h1 className="header-three">Selecionar instrumento(s)</h1>
-							<p className="text-major">Buscar por</p>
-						</div>
-
-						<div className="input-filter">
-							<InputSearchFilter
-								dropdownOptions={filtersOptions}
-								searchOptions={instrument}
-								placeholder="Buscar por descrição do instrumento"
-								placeholderOption="Descrição"
-								isActive={activeInstrument}
-								title="search-instrument"
-							/>
-						</div>
-					</Modal>
+				          <Modal
+				            isOpen={openModal}
+				            setModalOpen={() => {
+				              setOpenModal(!openModal);
+				            }}
+				          >
+				            <div>
+				              <h1 className="header-three">Selecionar instrumento(s)</h1>
+				              <p className="text-major">Buscar por</p>
+				            </div>
+				            <div className="search-modal-area">
+				              <div className="input-filter">
+				                <InputSearchFilter
+				                  dropdownOptions={filtersOptions}
+				                  searchOptions={instrument}
+				                  placeholder="Buscar por descrição do instrumento"
+				                  placeholderOption="Descrição"
+				                  isActive={activeInstrument}
+				                  title="search-instrument"
+				                />
+				              </div>
+				              <Button
+				                name="Adicionar"
+				                className="btn-sm btn-secondary"
+				                onClickFunction={() => {
+				                  setTableModalList([
+				                    ...tableModalList,
+				                    {
+				                      code: "1214-11",
+				                      description: "Micrometro Externo",
+				                      familyId: "a",
+				                      calibrationFrequency: 12,
+				                      nextCalibration: "19/03/2025",
+				                    },
+				                  ]);
+				                }}
+				              ></Button>
+				            </div>
+				            <div className="modal-content">
+				              <Table
+				                tableContent={tableModalList}
+				                tableHeaders={[
+				                  "Código",
+				                  "Descrição",
+				                  "Família",
+				                  "Freq. Calibração",
+				                  "Próx. Calibração",
+				                ]}
+				              />
+				            </div>
+				          </Modal>
 				</div>
 				<div className="flex-center-table">
 					<Table
