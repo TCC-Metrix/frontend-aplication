@@ -10,7 +10,6 @@ interface PaginationProps {
 
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, setCurrentPage, maxPages }) => {
-    console.log(maxPages, currentPage )
   return (
     <ul className="pagination">
     {maxPages !== 2 ? (

@@ -23,7 +23,6 @@ const InputSearchFilter = (props: InputSearchProps) => {
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const searchTerm = event.target.value;
-		console.log(searchTerm);
 		setSearchTerm(searchTerm);
 
 		const filteredOptions = props.searchOptions.filter(

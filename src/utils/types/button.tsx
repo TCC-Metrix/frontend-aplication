@@ -1,5 +1,10 @@
+import { ReactNode } from "react";
+
+
 export type ButtonProps = {
-  name: string;
   className: string;
   onClickFunction: Function;
+  children?: ReactNode;
 }
+
+

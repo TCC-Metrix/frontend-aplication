@@ -21,15 +21,13 @@ const Table: React.FC<TableProps> = ({ tableContent, tableHeaders }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-
-
-
   // Paginação
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = tableContent.slice(indexOfFirstItem, indexOfLastItem);
   const paginationNumbersList = Array.from({ length: Math.ceil(tableContent.length / itemsPerPage) }, (_, i) => i + 1)
   const maxPages = paginationNumbersList.length;
+
 
 
   return (

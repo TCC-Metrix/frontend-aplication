@@ -1,20 +1,22 @@
 import NavBar from "../../../components/Navbar/Navbar";
 import "./MovSaidaUso.css";
 import Table from "../../../components/Table/Table";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Button from "../../../components/Buttons/Button";
 import Modal from "../../../components/Modal/Modal";
-// import ModalErro from "../../../components/Modal/ModalErro"
 import InputSearchFilter from "../../../components/InputSearchFilter/InputSearchFilter";
 import DateInput from "../../../components/DateInput/DateInput";
-import instance from "../../../services/axiosInstance";
+import { PiMagnifyingGlassBold } from "react-icons/pi";
 import {
   GeneralInstrument,
   ModalInstrument,
+  SearchPattern,
 } from "../../../utils/interfaces/Interfaces";
-import { useInstrument } from "../../../services/queries";
+import { useAllInstruments, useInstrument } from "../../../services/queries";
+import { useGetInstrumentBy } from "../../../services/mutation";
+import { SubmitHandler } from "react-hook-form";
 
 export const MovSaidaUso = () => {
   const options = [
@@ -114,9 +116,15 @@ export const MovSaidaUso = () => {
     setTableModalList([...tableModalList, instrument]);
   };
 
-  //API CALLING WITH REACT QUERY
+  const getInstrumentBy = useGetInstrumentBy()
 
-  const { data: instrument, isError, isPending } = useInstrument();
+  const handleSearch: SubmitHandler<SearchPattern> = (data) => {
+      getInstrumentBy.mutate(data)
+  }
+
+  //API CALLING WITH REACT QUERY
+  const { data: instruments, isError, isPending } = useAllInstruments();
+ 
 
   if (isPending) {
     return <span>loading...</span>;
@@ -132,10 +140,11 @@ export const MovSaidaUso = () => {
           <h1 className="header-three">Saída para uso</h1>
           <p className="text">Instrumento</p>
           <Button
-            name="+ Adicionar"
             className="btn btn-tertiary"
             onClickFunction={handleAddButtonClick}
-          />
+          >
+            + Adicionar
+          </Button>
 
           <Modal
             isOpen={openModal}
@@ -151,7 +160,7 @@ export const MovSaidaUso = () => {
               <div className="input-filter">
                 <InputSearchFilter
                   dropdownOptions={filtersOptions}
-                  searchOptions={instrument}
+                  searchOptions={instruments}
                   placeholder="Buscar por descrição do instrumento"
                   placeholderOption="Descrição"
                   isActive={activeInstrument}
@@ -159,7 +168,18 @@ export const MovSaidaUso = () => {
                 />
               </div>
               <Button
-                name="Adicionar"
+                className="btn btn-sm btn-secondary"
+                onClickFunction={() => {
+                  console.log('envieiii')
+                  handleSearch({
+                    column: "description",
+                    value: "a"
+                  })
+                }}
+              >
+                <PiMagnifyingGlassBold size={20} />
+              </Button>
+              <Button
                 className="btn-sm btn-secondary"
                 onClickFunction={() => {
                   setTableModalList([
@@ -173,7 +193,9 @@ export const MovSaidaUso = () => {
                     },
                   ]);
                 }}
-              ></Button>
+              >
+                Adicionar
+              </Button>
             </div>
             <div className="modal-content">
               <Table
@@ -256,8 +278,8 @@ export const MovSaidaUso = () => {
 							<h1 className="alertText">Campo "responsável recebimento" ou "área" precisa ser informado.</h1>
 						</div>
 					</ModalErro> */}
-				</div>
-			</div>
-		</main>
-	);
+        </div>
+      </div>
+    </main>
+  );
 };
