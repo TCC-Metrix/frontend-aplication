@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getInstruments } from "./api";
-import { Instruments } from "../utils/interfaces/Interfaces";
+import { GeneralInstrument } from "../utils/interfaces/Interfaces";
+
 
 export function useInstrument() {
   return useQuery({
@@ -9,3 +10,5 @@ export function useInstrument() {
     refetchOnWindowFocus: false,
   })
 }
+
+

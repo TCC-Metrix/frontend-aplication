@@ -16,9 +16,9 @@ export interface MenuOptionProps {
 	text: string; // Texto a ser exibid
 }
 
-export type PreInstrument = Instruments[]
+export type PreInstrument = GeneralInstrument[]
 
-export interface Instruments {
+export interface GeneralInstrument {
   id: string
   code: string
   description: string
@@ -27,7 +27,7 @@ export interface Instruments {
   acquisitionDate: string
   supplier: any
   manufacturer: any
-  familyId: FamilyId
+  familyId: Family
   additionalReference1: any
   additionalReference2: any
   additionalReference3: any
@@ -44,14 +44,24 @@ export interface Instruments {
   nextCalibration: string
 }
 
-export interface FamilyId {
+
+export interface ModalInstrument {
+	code: string
+	description: string
+	familyId: string
+	calibrationFrequency: number
+	nextCalibration: string
+  }
+        
+export interface Option {
+	value: string;
+}
+
+
+export interface Family {
   id: string
   code: string
   description: string
   calibrationFrequencyInMonths: number
   calibrationTimeCounter: string
-}
-
-export interface Option {
-	value: string;
 }

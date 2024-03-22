@@ -70,12 +70,14 @@
     --color-loblolly: #bfcad1;
     --color-athens-gray-darker: #e5eaed;
     --color-anakiwa: #7fe5ff;
-    --box-shadow: 0px 9px 18px rgba(0, 0, 0, 0.12);
+    --box-shadow: 0 15px 30px 0 rgba(90, 124, 145, 0.35);
     --transition-pattern: {
         transition: 2s;
     }; 
 
 }
+
+
 
 body{
     font-family: 'Regular', 'sans-serif';

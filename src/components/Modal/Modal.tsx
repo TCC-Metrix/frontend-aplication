@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from "react";
 import "./Modal.css";
-import Buttons from "../Buttons/Buttons";
+import Button from "../Buttons/Button";
 
 interface ModalProps {
 	isOpen: boolean;
@@ -13,14 +13,12 @@ const Modal: FC<ModalProps> = ({ isOpen, setModalOpen, children }) => {
 		return (
 			<div className="background">
 				<div className="modal">
-					<div className="flex-align-center-icon">
-						<Buttons
+						<Button
 							name="close"
 							className="close-button"
 							onClickFunction={setModalOpen}
 							/>
-					</div>
-							<div>{children}</div>
+							{children}
 				</div>
 
 				

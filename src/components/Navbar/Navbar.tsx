@@ -6,7 +6,7 @@ import {
 	consultaLinks,
 	movLinks,
 	relatorioLinks,
-} from "../../utils/Links/Links";
+} from "../../utils/Links/Links"
 import { DropdownState } from "../../utils/interfaces/Interfaces";
 import Menu from "../Menu/Menu";
 import NavDropdown from "../NavDropdown/NavDropdown";

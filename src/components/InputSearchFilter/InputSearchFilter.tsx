@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./InputSearchFilter.css";
 import "../InputSearch/InputSearch.css";
-import { Instruments, Option } from "../../utils/interfaces/Interfaces";
+import { GeneralInstrument, Option } from "../../utils/interfaces/Interfaces";
 
 interface InputSearchProps {
-	searchOptions: Instruments[]; // Opções para filtrar
+	searchOptions: GeneralInstrument[]; // Opções para filtrar
+  interface InputSearchProps {
 	dropdownOptions: Option[]; // Opções para o dropdown
 	placeholder: string;
 	isActive: boolean;
@@ -50,7 +51,6 @@ const InputSearchFilter = (props: InputSearchProps) => {
 	};
 
 	return (
-		<div className="container-input-search-filter">
 			<div className="input-search-filter-container">
 				<input
 					type="text"
@@ -65,11 +65,11 @@ const InputSearchFilter = (props: InputSearchProps) => {
 				<select
 					value={selectedOption}
 					onChange={(e) => handleSelectOption(e.target.value)}
-					className="filter-dropdown"
+					className="filter-dropdown small-text"
 				>
-					<option value="">{props.placeholderOption}</option>
+					<option  value="">{props.placeholderOption}</option>
 					{props.dropdownOptions.map((option, index) => (
-						<option key={index} value={option.value}>
+						<option className="text" key={index} value={option.value}>
 							{option.value}
 						</option>
 					))}
@@ -78,26 +78,26 @@ const InputSearchFilter = (props: InputSearchProps) => {
 					<ul className="options-list-filter">
 						{filteredOptions.map((optionItens, index) => (
 							<li
-								key={index}
-								onClick={() => {
-									setSelectedOptionInput(optionItens.description);
-									setSearchTerm(optionItens.description);
-								}}
-								className={
-									selectedOptionInput === optionItens.description
-										? "selected"
-										: ""
-								}
-							>
-								{optionItens.code}&nbsp;&nbsp;
-								{optionItens.description}&nbsp;/
-								Próx. calibração {optionItens.nextCalibration}
-							</li>
+							key={index}
+							onClick={() => {
+								setSelectedOptionInput(optionItens.description);
+								setSearchTerm(optionItens.description);
+							}}
+							className={
+								selectedOptionInput === optionItens.description
+									? "selected"
+									: ""
+							}
+						>
+							{optionItens.code}&nbsp;&nbsp;
+							{optionItens.description}&nbsp;/
+							Próx. calibração {optionItens.nextCalibration}
+						</li>
 						))}
 					</ul>
 				</div>
 			</div>
-		</div>
+	
 	);
 };
 
