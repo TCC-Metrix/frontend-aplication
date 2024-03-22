@@ -256,8 +256,8 @@ export const MovSaidaUso = () => {
 							<h1 className="alertText">Campo "responsável recebimento" ou "área" precisa ser informado.</h1>
 						</div>
 					</ModalErro> */}
-        </div>
-      </div>
-    </main>
-  );
+				</div>
+			</div>
+		</main>
+	);
 };

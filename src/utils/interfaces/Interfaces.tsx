@@ -13,7 +13,7 @@ export interface List {
 
 export interface MenuOptionProps {
 	name: string // Tipo para o componente de ícone
-	text: string; // Texto a ser exibido
+	text: string; // Texto a ser exibid
 }
 
 export type PreInstrument = GeneralInstrument[]
@@ -52,6 +52,10 @@ export interface ModalInstrument {
 	calibrationFrequency: number
 	nextCalibration: string
   }
+        
+export interface Option {
+	value: string;
+}
 
 
 export interface Family {
@@ -60,8 +64,4 @@ export interface Family {
   description: string
   calibrationFrequencyInMonths: number
   calibrationTimeCounter: string
-}
-
-export interface Option {
-	value: string;
 }
