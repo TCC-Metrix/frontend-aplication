@@ -9,7 +9,7 @@ import Modal from "../../../components/Modal/Modal";
 // import ModalErro from "../../../components/Modal/ModalErro"
 import InputSearchFilter from "../../../components/InputSearchFilter/InputSearchFilter";
 import DateInput from "../../../components/DateInput/DateInput";
-import instance from "../../../services/axiosInstence";
+import instance from "../../../services/axiosInstance";
 import {
   GeneralInstrument,
   ModalInstrument,

@@ -5,7 +5,6 @@ import { GeneralInstrument, Option } from "../../utils/interfaces/Interfaces";
 
 interface InputSearchProps {
 	searchOptions: GeneralInstrument[]; // Opções para filtrar
-  interface InputSearchProps {
 	dropdownOptions: Option[]; // Opções para o dropdown
 	placeholder: string;
 	isActive: boolean;
@@ -18,7 +17,7 @@ const InputSearchFilter = (props: InputSearchProps) => {
 	const [selectedOption, setSelectedOption] = useState<string>("");
 	const [selectedOptionInput, setSelectedOptionInput] = useState<string>("");
 	const [placeholder, setPlaceholder] = useState<string>("");
-	const [filteredOptions, setFilteredOptions] = useState<Instruments[]>(
+	const [filteredOptions, setFilteredOptions] = useState<GeneralInstrument[]>(
 		props.searchOptions
 	);
 
