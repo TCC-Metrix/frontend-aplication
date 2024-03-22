@@ -1,14 +1,20 @@
 import NavBar from "../../../components/Navbar/Navbar";
 import "./MovSaidaUso.css";
 import Table from "../../../components/Table/Table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Button from "../../../components/Buttons/Button";
 import Modal from "../../../components/Modal/Modal";
+// import ModalErro from "../../../components/Modal/ModalErro"
 import InputSearchFilter from "../../../components/InputSearchFilter/InputSearchFilter";
 import DateInput from "../../../components/DateInput/DateInput";
-import { Instruments, ModalInstrument } from "../../../utils/interfaces/Interfaces";
+import instance from "../../../services/axiosInstence";
+import {
+  GeneralInstrument,
+  ModalInstrument,
+} from "../../../utils/interfaces/Interfaces";
+import { useInstrument } from "../../../services/queries";
 
 export const MovSaidaUso = () => {
   const options = [
@@ -20,17 +26,6 @@ export const MovSaidaUso = () => {
     { label: "Option 3" },
     { label: "Option 4" },
     { label: "Option 5" },
-  ]; // será alimentado pela API provavelmente em outro arquivo
-
-  const optionsInstrument = [
-    { value: "Option 1" },
-    { value: "Option 2" },
-    { value: "Option 3" },
-    { value: "Option 4" },
-    { value: "Option 5" },
-    { value: "Option 3" },
-    { value: "Option 4" },
-    { value: "Option 5" },
   ]; // será alimentado pela API provavelmente em outro arquivo
 
   const filtersOptions = [
@@ -117,7 +112,17 @@ export const MovSaidaUso = () => {
 
   const addItemToTableModalList = (instrument: ModalInstrument) => {
     setTableModalList([...tableModalList, instrument]);
+  };
+
+  //API CALLING WITH REACT QUERY
+
+  const { data: instrument, isError, isPending } = useInstrument();
+
+  if (isPending) {
+    return <span>loading...</span>;
   }
+
+  if (isError) return <span>there is an error</span>;
 
   return (
     <main>
@@ -146,7 +151,7 @@ export const MovSaidaUso = () => {
               <div className="input-filter">
                 <InputSearchFilter
                   dropdownOptions={filtersOptions}
-                  searchOptions={optionsInstrument}
+                  searchOptions={instrument}
                   placeholder="Buscar por descrição do instrumento"
                   placeholderOption="Descrição"
                   isActive={activeInstrument}
@@ -157,19 +162,30 @@ export const MovSaidaUso = () => {
                 name="Adicionar"
                 className="btn-sm btn-secondary"
                 onClickFunction={() => {
-                  setTableModalList([...tableModalList, {
-                    code: '1214-11',
-                    description: 'Micrometro Externo',
-                    familyId: 'a',
-                    calibrationFrequency: 12,
-                    nextCalibration: '19/03/2025',
-                  }])
+                  setTableModalList([
+                    ...tableModalList,
+                    {
+                      code: "1214-11",
+                      description: "Micrometro Externo",
+                      familyId: "a",
+                      calibrationFrequency: 12,
+                      nextCalibration: "19/03/2025",
+                    },
+                  ]);
                 }}
               ></Button>
             </div>
             <div className="modal-content">
-                <Table tableContent={tableModalList} tableHeaders={['Código', 'Descrição', 'Família', 'Freq. Calibração', 'Próx. Calibração']}/>
-             
+              <Table
+                tableContent={tableModalList}
+                tableHeaders={[
+                  "Código",
+                  "Descrição",
+                  "Família",
+                  "Freq. Calibração",
+                  "Próx. Calibração",
+                ]}
+              />
             </div>
           </Modal>
           {/* FECHOU MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL */}

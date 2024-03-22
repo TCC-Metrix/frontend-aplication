@@ -27,7 +27,7 @@ export interface GeneralInstrument {
   acquisitionDate: string
   supplier: any
   manufacturer: any
-  familyId: FamilyId
+  familyId: Family
   additionalReference1: any
   additionalReference2: any
   additionalReference3: any
@@ -60,4 +60,8 @@ export interface Family {
   description: string
   calibrationFrequencyInMonths: number
   calibrationTimeCounter: string
+}
+
+export interface Option {
+	value: string;
 }
