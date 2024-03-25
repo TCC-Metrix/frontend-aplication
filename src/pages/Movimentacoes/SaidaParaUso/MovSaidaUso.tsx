@@ -30,38 +30,56 @@ export const MovSaidaUso = () => {
     { label: "Option 5" },
   ];
 
-  const filtersOptions = [
+  const dropdownOptions = [
     { value: "Descrição" },
     { value: "Codigo" },
   ];
 
-  const [activeEntrega, setActiveEntrega] = useState<boolean>(false);
-  const [activeReceb, setActiveReceb] = useState<boolean>(false);
-  const [activeArea, setActiveArea] = useState<boolean>(false);
+  //Sessão de validação de inputs/navbar, se estão em foco ou não
+  const [activeShippingInput, setActiveShippingInput] = useState<boolean>(false);
+  const [activeReceiverInput, setActiveReceiverInput] = useState<boolean>(false);
+  const [activeAreaInput, setActiveAreaInput] = useState<boolean>(false);
   const [activeInputDropdown, setActiveInputDropdown] = useState<boolean>(false);
   const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
+
+
+  //Tabela de instrumentos inclusa no modal
   const [tableModalList, setTableModalList] = useState<ModalInstrument[]>([]);
+
+  //Seta se o modal está aberto ou não
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  //Lista de instrumentos filtrados pelo input do modal
   const [instrumentsFiltered, setInstrumentsFiltered] = useState<GeneralInstrument[]>()
+
+  //Opção selecionada do dropdown incluso no input do modal
   const [dropdownSelected, setDropdownSelected] =
     useState<string>("description");
+
+  //Valor setado no input  do modal  
   const [inputSearchValue, setInputSearchValue] = useState<string>("");
 
 
+  //Valida onde o usuario está clicando, para que feche os dropdowns dos inputs abertos
   function validInputActive(event: any) {
     const name = event.target.name;
-    setActiveArea(name === "area");
-    setActiveEntrega(name === "resp-entrega");
-    setActiveReceb(name === "resp-receb");
+    setActiveAreaInput(name === "area");
+    setActiveShippingInput(name === "resp-entrega");
+    setActiveReceiverInput(name === "resp-receb");
+    setActiveNavbar(false);
+
+
+    //Se o usuário clicar no botão de search, então ele seta o dropdown do modal como true, para abrir ao pesquisar algo
     if(event.target.classList.contains('search-btn')){
       setActiveInputDropdown(true)
     }else{
       setActiveInputDropdown(name === "search-instrument");
     }
-    setActiveNavbar(false);
   }
 
-  const handleAddButtonClick = () => {
+
+  //Abre o modal
+  const handleModal = () => {
     setOpenModal(true);
   };
 
@@ -73,12 +91,18 @@ export const MovSaidaUso = () => {
     },
   ];
 
+
+  //Adiciona o instrumento na lista do modal
   const addItemToTableModalList = (instrument: ModalInstrument) => {
     setTableModalList([...tableModalList, instrument]);
   };
 
+
+  //Hook de api, o qual busca o instrumento por algum parametro
   const getInstrumentBy = useGetInstrumentBy();
 
+
+  //Função que de fato chama a api, e seta o resultado nos instrumentos filtrados
   const handleSearch: SubmitHandler<SearchPattern> = (data) => {
     getInstrumentBy.mutate(data, {
       onSettled: (data, error) => {
@@ -87,14 +111,14 @@ export const MovSaidaUso = () => {
           return;
         }
         setInstrumentsFiltered(data?.data);
-        console.log("Mutação concluída:", data?.data);
+        
       },
     });
   };
 
+  //Função que valida se o input está vazio, e envia os parametros para a função que chama a api caso não esteja
   const handleSearchButton = () => {
     setActiveInputDropdown(true);
-    console.log("is active?", activeInputDropdown)
 
     if (inputSearchValue !== "") {
       handleSearch({
@@ -118,7 +142,7 @@ export const MovSaidaUso = () => {
           <p className="text">Instrumento</p>
           <Button
             className="btn btn-tertiary "
-            onClickFunction={handleAddButtonClick}
+            onClickFunction={handleModal}
           >
             + Adicionar
           </Button>
@@ -135,13 +159,13 @@ export const MovSaidaUso = () => {
             <div className="search-modal-area">
               <div className="input-filter">
                 <InputSearchFilter
-                  dropdownOptions={filtersOptions}
-                  instrumentsFiltered={instrumentsFiltered}
+                  dropdownOptions={dropdownOptions} //Opções que aparecerão no dropdown
+                  instrumentsFiltered={instrumentsFiltered} //Instrumentos filtrados
                   setInstrumentsFiltered={setInstrumentsFiltered}
-                  isActive={activeInputDropdown}
+                  isActive={activeInputDropdown} // Define de está ativo ou inativo o dropdown de instrumentos
                   title="search-instrument"
-                  setDropdownSelected={setDropdownSelected}
-                  setInputSearchValue={setInputSearchValue}
+                  setDropdownSelected={setDropdownSelected} //Seta a opção selecionada do dropdown de opções
+                  setInputSearchValue={setInputSearchValue}//Seta o valor do input do modal
                 />
               </div>
               <Button
@@ -197,7 +221,7 @@ export const MovSaidaUso = () => {
                 <InputSearch
                   options={options}
                   placeholder="Busque por código ou nome"
-                  isActive={activeEntrega}
+                  isActive={activeShippingInput}
                   title="resp-entrega"
                 />
               </div>
@@ -206,7 +230,7 @@ export const MovSaidaUso = () => {
                 <InputSearch
                   options={options}
                   placeholder="Busque por código ou nome"
-                  isActive={activeReceb}
+                  isActive={activeReceiverInput}
                   title="resp-receb"
                 />
               </div>
@@ -217,7 +241,7 @@ export const MovSaidaUso = () => {
                 <InputSearch
                   options={options}
                   placeholder="Busque por descrição"
-                  isActive={activeArea}
+                  isActive={activeAreaInput}
                   title="area"
                 />
               </div>
