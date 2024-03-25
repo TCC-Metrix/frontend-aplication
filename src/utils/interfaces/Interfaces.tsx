@@ -55,7 +55,9 @@ export interface ModalInstrument {
 
 export interface SearchPattern {
   column: string,
-  value: string
+  value: string,
+  secondColumn: string,
+  secondValue: string
 }
         
 export interface Option {

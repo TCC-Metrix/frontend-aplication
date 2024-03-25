@@ -11,10 +11,8 @@ import './Button.css'
       <button className={props.className} 
         onClick={() => {
           if (props.onClickFunction) {
-            console.log("a")
             props.onClickFunction();
           }
-          console.log('aa')
         }}
       >
         <span className='text button-font'>
