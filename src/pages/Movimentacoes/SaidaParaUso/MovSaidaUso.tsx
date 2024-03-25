@@ -14,9 +14,13 @@ import {
   ModalInstrument,
   SearchPattern,
 } from "../../../utils/interfaces/Interfaces";
+
 import { useAllInstruments, useInstrument } from "../../../services/queries";
 import { useGetInstrumentBy } from "../../../services/mutation";
 import { SubmitHandler } from "react-hook-form";
+import { useInstrument } from "../../../services/queries";
+import LoadingPage from "../../../components/LoadingPage/LoadingPage";
+
 
 export const MovSaidaUso = () => {
   const options = [
@@ -95,7 +99,7 @@ export const MovSaidaUso = () => {
  
 
   if (isPending) {
-    return <span>loading...</span>;
+    return <LoadingPage />;
   }
 
   if (isError) return <span>there is an error</span>;
