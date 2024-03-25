@@ -14,9 +14,9 @@ import {
   ModalInstrument,
   SearchPattern,
 } from "../../../utils/interfaces/Interfaces";
-import { useAllInstruments } from "../../../services/queries";
 import { useGetInstrumentBy } from "../../../services/mutation";
 import { SubmitHandler } from "react-hook-form";
+
 
 export const MovSaidaUso = () => {
   const options = [
@@ -108,13 +108,6 @@ export const MovSaidaUso = () => {
     }
   };
 
-  const { data: instruments, isError, isPending } = useAllInstruments();
-
-  if (isPending) {
-    return <span>loading...</span>;
-  }
-
-  if (isError) return <span>there is an error</span>;
 
   return (
     <main>
