@@ -1,10 +1,8 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { getInstrumentById, getInstruments } from "./api";
-import { GeneralInstrument } from "../utils/interfaces/Interfaces";
 
 
-
-//Pega todos os instrumentos
+//Retorna todos os instrumentos da API
 export function useAllInstruments() {
   return useQuery({
     queryKey: ["instruments"],
@@ -13,7 +11,7 @@ export function useAllInstruments() {
   })
 }
 
-//Pega os instrumentos através dos ids
+//Retorna todos os intrumentos através do ID
 export function useInstrument(ids: (string | undefined)[] | undefined){
    return useQueries({
     queries: (ids ?? []).map((id) => {
@@ -25,7 +23,7 @@ export function useInstrument(ids: (string | undefined)[] | undefined){
    })
 }
 
-//Pega o  instrumento através do id
+//Retorna somente um instrumento através do ID
 export function useInstrumentById(id: string | undefined) {
   return useQuery({
     queryKey: ["instrument", id],

@@ -78,7 +78,7 @@ const InputSearchFilter = (props: InputSearchProps) => {
 							key={index}
 							onClick={() => {
 								setSelectedOptionInput(optionItens.description);
-								setSearchTerm(optionItens.description);
+								setSearchTerm(optionItens.code + ' / ' + optionItens.description);
 							}}
 							className={
 								selectedOptionInput === optionItens.description
