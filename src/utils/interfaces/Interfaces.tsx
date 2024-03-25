@@ -16,7 +16,6 @@ export interface MenuOptionProps {
 	text: string; // Texto a ser exibid
 }
 
-export type PreInstrument = GeneralInstrument[]
 
 export interface GeneralInstrument {
   id: string
@@ -52,6 +51,12 @@ export interface ModalInstrument {
 	calibrationFrequency: number
 	nextCalibration: string
   }
+
+
+export interface SearchPattern {
+  column: string,
+  value: string
+}
         
 export interface Option {
 	value: string;

@@ -1,21 +1,26 @@
 import NavBar from "../../../components/Navbar/Navbar";
 import "./MovSaidaUso.css";
 import Table from "../../../components/Table/Table";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Button from "../../../components/Buttons/Button";
 import Modal from "../../../components/Modal/Modal";
-// import ModalErro from "../../../components/Modal/ModalErro"
 import InputSearchFilter from "../../../components/InputSearchFilter/InputSearchFilter";
 import DateInput from "../../../components/DateInput/DateInput";
-import instance from "../../../services/axiosInstance";
+import { PiMagnifyingGlassBold } from "react-icons/pi";
 import {
   GeneralInstrument,
   ModalInstrument,
+  SearchPattern,
 } from "../../../utils/interfaces/Interfaces";
+
+import { useAllInstruments, useInstrument } from "../../../services/queries";
+import { useGetInstrumentBy } from "../../../services/mutation";
+import { SubmitHandler } from "react-hook-form";
 import { useInstrument } from "../../../services/queries";
 import LoadingPage from "../../../components/LoadingPage/LoadingPage";
+
 
 export const MovSaidaUso = () => {
   const options = [
@@ -27,14 +32,13 @@ export const MovSaidaUso = () => {
     { label: "Option 3" },
     { label: "Option 4" },
     { label: "Option 5" },
-  ]; // será alimentado pela API provavelmente em outro arquivo
+  ]; 
 
   const filtersOptions = [
     { value: "Descrição" },
-    { value: "Nome" },
-    { value: "Outro nome" },
-    { value: "Exemplo" },
-  ]; // será alimentado pela API provavelmente em outro arquivo
+    { value: "Codigo" },
+    { value: "Prox Calibração" }
+  ]; 
 
   const [activeEntrega, setActiveEntrega] = useState<boolean>(false);
   const [activeReceb, setActiveReceb] = useState<boolean>(false);
@@ -43,6 +47,9 @@ export const MovSaidaUso = () => {
   const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
   const [tableModalList, setTableModalList] = useState<ModalInstrument[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [instrumentsFiltered, setInstrumentsFiltered] = useState<GeneralInstrument[]>()
+  const [dropdownSelected, setDropdownSelected] = useState<string>("description");
+  const [inputSearchValue, setInputSearchValue] = useState<string>("")
   // const [openErrorModal, setOpenErrorModal] = useState<boolean>(false)
 
   function validInputActive(event: any) {
@@ -60,51 +67,6 @@ export const MovSaidaUso = () => {
 
   const itemRecebido = [
     {
-      code: "1214-11",
-      description: "Micrômetro Externo",
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-    {
-      code: "1214-12",
-      description: "Paquimetro Universal",
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-    {
-      code: "1212-32",
-      description: "Calibrador Tampão Roscado",
-
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-    {
-      code: "1212-22",
-      description: "Multimetro Digital",
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-    {
-      code: "1214-12",
-      description: "Paquimetro Universal",
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-
-    {
-      code: "1214-12",
-      description: "Paquimetro Universal",
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-
-    {
-      code: "1214-12",
-      description: "Paquimetro Universal",
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-
-    {
-      code: "1214-12",
-      description: "Paquimetro Universal",
-      references: ["50mm/0,10", "50mm/0,10", "50mm/0,10", "50mm/0,10"],
-    },
-
-    {
       code: "1214-12",
       description: "Paquimetro Universal",
       references: ["50mm/0,10", "50mm/0,10"],
@@ -115,15 +77,33 @@ export const MovSaidaUso = () => {
     setTableModalList([...tableModalList, instrument]);
   };
 
-  //API CALLING WITH REACT QUERY
+  const getInstrumentBy = useGetInstrumentBy()
 
-  const { data: instrument, isError, isPending } = useInstrument();
+  const handleSearch: SubmitHandler<SearchPattern> = (data) => {
+    getInstrumentBy.mutate(data, {
+      // Callbacks opcionais de mutação
+      onSettled: (data, error) => {
+          if (error) {
+              console.error('Ocorreu um erro:', error);
+              return;
+          }
+          setInstrumentsFiltered(data?.data)
+          console.log('Mutação concluída:', data?.data);
+          // Faça algo com data?.data aqui
+      }
+  })
+  }
+
+  //API CALLING WITH REACT QUERY
+  const { data: instruments, isError, isPending } = useAllInstruments();
+ 
 
   if (isPending) {
     return <LoadingPage />;
   }
 
   if (isError) return <span>there is an error</span>;
+
 
   return (
     <main>
@@ -133,11 +113,12 @@ export const MovSaidaUso = () => {
           <h1 className="header-three">Saída para uso</h1>
           <p className="text">Instrumento</p>
           <Button
-            name="+ Adicionar"
             className="btn btn-tertiary"
             onClickFunction={handleAddButtonClick}
-          />
-
+          >
+            + Adicionar
+          </Button>
+          {/* ABRIUUUUU MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL */}
           <Modal
             isOpen={openModal}
             setModalOpen={() => {
@@ -152,15 +133,26 @@ export const MovSaidaUso = () => {
               <div className="input-filter">
                 <InputSearchFilter
                   dropdownOptions={filtersOptions}
-                  searchOptions={instrument}
-                  placeholder="Buscar por descrição do instrumento"
-                  placeholderOption="Descrição"
+                  searchOptions={instrumentsFiltered}
                   isActive={activeInstrument}
                   title="search-instrument"
+                  setDropdownSelected={setDropdownSelected}
+                  setInputSearchValue = {setInputSearchValue}
                 />
               </div>
               <Button
-                name="Adicionar"
+                className="btn btn-sm btn-secondary"
+                onClickFunction={() => {
+                  console.log('envieiii')
+                  handleSearch({
+                    column: dropdownSelected,
+                    value: inputSearchValue
+                  })
+                }}
+              >
+                <PiMagnifyingGlassBold size={20} />
+              </Button>
+              <Button
                 className="btn-sm btn-secondary"
                 onClickFunction={() => {
                   setTableModalList([
@@ -174,7 +166,9 @@ export const MovSaidaUso = () => {
                     },
                   ]);
                 }}
-              ></Button>
+              >
+                Adicionar
+              </Button>
             </div>
             <div className="modal-content">
               <Table
@@ -257,8 +251,8 @@ export const MovSaidaUso = () => {
 							<h1 className="alertText">Campo "responsável recebimento" ou "área" precisa ser informado.</h1>
 						</div>
 					</ModalErro> */}
-				</div>
-			</div>
-		</main>
-	);
+        </div>
+      </div>
+    </main>
+  );
 };

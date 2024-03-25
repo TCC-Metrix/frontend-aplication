@@ -1,6 +1,7 @@
 import React, { FC, ReactNode } from "react";
 import "./Modal.css";
 import Button from "../Buttons/Button";
+import {IoIosClose} from 'react-icons/io'
 
 interface ModalProps {
 	isOpen: boolean;
@@ -14,10 +15,11 @@ const Modal: FC<ModalProps> = ({ isOpen, setModalOpen, children }) => {
 			<div className="background">
 				<div className="modal">
 						<Button
-							name="close"
 							className="close-button"
 							onClickFunction={setModalOpen}
-							/>
+							>
+								<IoIosClose size={35}/>
+							</Button>
 							{children}
 				</div>
 
