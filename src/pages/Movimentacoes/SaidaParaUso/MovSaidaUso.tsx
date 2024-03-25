@@ -28,14 +28,13 @@ export const MovSaidaUso = () => {
     { label: "Option 3" },
     { label: "Option 4" },
     { label: "Option 5" },
-  ]; // será alimentado pela API provavelmente em outro arquivo
+  ]; 
 
   const filtersOptions = [
     { value: "Descrição" },
-    { value: "Nome" },
-    { value: "Outro nome" },
-    { value: "Exemplo" },
-  ]; // será alimentado pela API provavelmente em outro arquivo
+    { value: "Codigo" },
+    { value: "Prox Calibração" }
+  ]; 
 
   const [activeEntrega, setActiveEntrega] = useState<boolean>(false);
   const [activeReceb, setActiveReceb] = useState<boolean>(false);
@@ -44,6 +43,9 @@ export const MovSaidaUso = () => {
   const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
   const [tableModalList, setTableModalList] = useState<ModalInstrument[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [instrumentsFiltered, setInstrumentsFiltered] = useState<GeneralInstrument[]>()
+  const [dropdownSelected, setDropdownSelected] = useState<string>("description");
+  const [inputSearchValue, setInputSearchValue] = useState<string>("")
   // const [openErrorModal, setOpenErrorModal] = useState<boolean>(false)
 
   function validInputActive(event: any) {
@@ -61,51 +63,6 @@ export const MovSaidaUso = () => {
 
   const itemRecebido = [
     {
-      code: "1214-11",
-      description: "Micrômetro Externo",
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-    {
-      code: "1214-12",
-      description: "Paquimetro Universal",
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-    {
-      code: "1212-32",
-      description: "Calibrador Tampão Roscado",
-
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-    {
-      code: "1212-22",
-      description: "Multimetro Digital",
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-    {
-      code: "1214-12",
-      description: "Paquimetro Universal",
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-
-    {
-      code: "1214-12",
-      description: "Paquimetro Universal",
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-
-    {
-      code: "1214-12",
-      description: "Paquimetro Universal",
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-
-    {
-      code: "1214-12",
-      description: "Paquimetro Universal",
-      references: ["50mm/0,10", "50mm/0,10", "50mm/0,10", "50mm/0,10"],
-    },
-
-    {
       code: "1214-12",
       description: "Paquimetro Universal",
       references: ["50mm/0,10", "50mm/0,10"],
@@ -119,7 +76,18 @@ export const MovSaidaUso = () => {
   const getInstrumentBy = useGetInstrumentBy()
 
   const handleSearch: SubmitHandler<SearchPattern> = (data) => {
-      getInstrumentBy.mutate(data)
+    getInstrumentBy.mutate(data, {
+      // Callbacks opcionais de mutação
+      onSettled: (data, error) => {
+          if (error) {
+              console.error('Ocorreu um erro:', error);
+              return;
+          }
+          setInstrumentsFiltered(data?.data)
+          console.log('Mutação concluída:', data?.data);
+          // Faça algo com data?.data aqui
+      }
+  })
   }
 
   //API CALLING WITH REACT QUERY
@@ -131,6 +99,7 @@ export const MovSaidaUso = () => {
   }
 
   if (isError) return <span>there is an error</span>;
+
 
   return (
     <main>
@@ -145,7 +114,7 @@ export const MovSaidaUso = () => {
           >
             + Adicionar
           </Button>
-
+          {/* ABRIUUUUU MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL */}
           <Modal
             isOpen={openModal}
             setModalOpen={() => {
@@ -160,11 +129,11 @@ export const MovSaidaUso = () => {
               <div className="input-filter">
                 <InputSearchFilter
                   dropdownOptions={filtersOptions}
-                  searchOptions={instruments}
-                  placeholder="Buscar por descrição do instrumento"
-                  placeholderOption="Descrição"
+                  searchOptions={instrumentsFiltered}
                   isActive={activeInstrument}
                   title="search-instrument"
+                  setDropdownSelected={setDropdownSelected}
+                  setInputSearchValue = {setInputSearchValue}
                 />
               </div>
               <Button
@@ -172,8 +141,8 @@ export const MovSaidaUso = () => {
                 onClickFunction={() => {
                   console.log('envieiii')
                   handleSearch({
-                    column: "description",
-                    value: "a"
+                    column: dropdownSelected,
+                    value: inputSearchValue
                   })
                 }}
               >

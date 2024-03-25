@@ -4,27 +4,30 @@ import "../InputSearch/InputSearch.css";
 import { GeneralInstrument, Option } from "../../utils/interfaces/Interfaces";
 
 interface InputSearchProps {
-	searchOptions: GeneralInstrument[]; // Opções para filtrar
+	searchOptions: GeneralInstrument[] | undefined; // Opções para filtrar
 	dropdownOptions: Option[]; // Opções para o dropdown
-	placeholder: string;
 	isActive: boolean;
 	title: string;
-	placeholderOption: string;
+	setDropdownSelected: (dropdownValue: string) => void
+	setInputSearchValue: (inputValue: string) => void
 }
 
 const InputSearchFilter = (props: InputSearchProps) => {
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [selectedOption, setSelectedOption] = useState<string>("");
 	const [selectedOptionInput, setSelectedOptionInput] = useState<string>("");
-	const [placeholder, setPlaceholder] = useState<string>("");
-	const [filteredOptions, setFilteredOptions] = useState<GeneralInstrument[]>(
+	const [placeholder, setPlaceholder] = useState<string>("Busque pela descrição do instrumento");
+	const [filteredOptions, setFilteredOptions] = useState<GeneralInstrument[] | undefined>(
 		props.searchOptions
 	);
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const searchTerm = event.target.value;
 		setSearchTerm(searchTerm);
-
+		props.setInputSearchValue(searchTerm)
+		if (props.searchOptions === undefined){
+			return null
+		}
 		const filteredOptions = props.searchOptions.filter(
 			(option) =>
 				option.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -37,12 +40,15 @@ const InputSearchFilter = (props: InputSearchProps) => {
 	};
 
 	const handleSelectOption = (value: string) => {
-		if (value === "Nome") {
-			setPlaceholder("Busque por nome do instrumento");
-		} else if (value === "Exemplo") {
-			setPlaceholder("Busque por exemplo do instrumento");
-		} else if (value === "") {
-			setPlaceholder("Busque por descrição do instrumento");
+		if (value === "Codigo") {
+			setPlaceholder("Busque pelo codigo do instrumento");
+			props.setDropdownSelected('code')
+		} else if (value === "Descrição") {
+			setPlaceholder("Busque pela descrição do instrumento");
+			props.setDropdownSelected('description')
+		} else if (value === "Prox Calibração") {
+			setPlaceholder("Busque pela data de próxima calibração");
+			props.setDropdownSelected('nextCalibration')
 		}
 		setSearchTerm("");
 		setSelectedOption(value);
@@ -65,16 +71,16 @@ const InputSearchFilter = (props: InputSearchProps) => {
 					onChange={(e) => handleSelectOption(e.target.value)}
 					className="filter-dropdown small-text"
 				>
-					<option  value="">{props.placeholderOption}</option>
 					{props.dropdownOptions.map((option, index) => (
 						<option className="text" key={index} value={option.value}>
 							{option.value}
 						</option>
 					))}
 				</select>
-				<div className={props.isActive ? "search-filter-instrument" : "none"}>
+				<div className={props.isActive ? "search-filter-instrument" : "search-filter-instrument"}>
 					<ul className="options-list-filter">
-						{filteredOptions.map((optionItens, index) => (
+						{props.searchOptions && 
+						props.searchOptions.map((optionItens, index) => (
 							<li
 							key={index}
 							onClick={() => {
@@ -92,6 +98,8 @@ const InputSearchFilter = (props: InputSearchProps) => {
 							Próx. calibração {optionItens.nextCalibration}
 						</li>
 						))}
+
+						
 					</ul>
 				</div>
 			</div>
