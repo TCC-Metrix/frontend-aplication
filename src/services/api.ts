@@ -15,7 +15,9 @@ export const getInstrumentBySome = async (data: SearchPattern) => {
 	return instance.post<GeneralInstrument[]>('instrument/filter', {
 		searchRequestDto: {
 			column: data.column,
-			value: data.value
+			value: data.value,
+			secondColumn: data.secondColumn,
+			secondValue: data.secondValue
 		}
 	})
   };

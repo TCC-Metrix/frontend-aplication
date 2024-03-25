@@ -14,12 +14,8 @@ import {
   ModalInstrument,
   SearchPattern,
 } from "../../../utils/interfaces/Interfaces";
-
-import { useAllInstruments, useInstrument } from "../../../services/queries";
 import { useGetInstrumentBy } from "../../../services/mutation";
 import { SubmitHandler } from "react-hook-form";
-import { useInstrument } from "../../../services/queries";
-import LoadingPage from "../../../components/LoadingPage/LoadingPage";
 
 
 export const MovSaidaUso = () => {
@@ -32,32 +28,36 @@ export const MovSaidaUso = () => {
     { label: "Option 3" },
     { label: "Option 4" },
     { label: "Option 5" },
-  ]; 
+  ];
 
   const filtersOptions = [
     { value: "Descrição" },
     { value: "Codigo" },
-    { value: "Prox Calibração" }
-  ]; 
+  ];
 
   const [activeEntrega, setActiveEntrega] = useState<boolean>(false);
   const [activeReceb, setActiveReceb] = useState<boolean>(false);
   const [activeArea, setActiveArea] = useState<boolean>(false);
-  const [activeInstrument, setActiveInstrument] = useState<boolean>(false);
+  const [activeInputDropdown, setActiveInputDropdown] = useState<boolean>(false);
   const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
   const [tableModalList, setTableModalList] = useState<ModalInstrument[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [instrumentsFiltered, setInstrumentsFiltered] = useState<GeneralInstrument[]>()
-  const [dropdownSelected, setDropdownSelected] = useState<string>("description");
-  const [inputSearchValue, setInputSearchValue] = useState<string>("")
-  // const [openErrorModal, setOpenErrorModal] = useState<boolean>(false)
+  const [dropdownSelected, setDropdownSelected] =
+    useState<string>("description");
+  const [inputSearchValue, setInputSearchValue] = useState<string>("");
+
 
   function validInputActive(event: any) {
     const name = event.target.name;
     setActiveArea(name === "area");
     setActiveEntrega(name === "resp-entrega");
     setActiveReceb(name === "resp-receb");
-    setActiveInstrument(name === "search-instrument");
+    if(event.target.classList.contains('search-btn')){
+      setActiveInputDropdown(true)
+    }else{
+      setActiveInputDropdown(name === "search-instrument");
+    }
     setActiveNavbar(false);
   }
 
@@ -77,32 +77,36 @@ export const MovSaidaUso = () => {
     setTableModalList([...tableModalList, instrument]);
   };
 
-  const getInstrumentBy = useGetInstrumentBy()
+  const getInstrumentBy = useGetInstrumentBy();
 
   const handleSearch: SubmitHandler<SearchPattern> = (data) => {
     getInstrumentBy.mutate(data, {
-      // Callbacks opcionais de mutação
       onSettled: (data, error) => {
-          if (error) {
-              console.error('Ocorreu um erro:', error);
-              return;
-          }
-          setInstrumentsFiltered(data?.data)
-          console.log('Mutação concluída:', data?.data);
-          // Faça algo com data?.data aqui
-      }
-  })
-  }
+        if (error) {
+          console.error("Ocorreu um erro:", error);
+          return;
+        }
+        setInstrumentsFiltered(data?.data);
+        console.log("Mutação concluída:", data?.data);
+      },
+    });
+  };
 
-  //API CALLING WITH REACT QUERY
-  const { data: instruments, isError, isPending } = useAllInstruments();
- 
+  const handleSearchButton = () => {
+    setActiveInputDropdown(true);
+    console.log("is active?", activeInputDropdown)
 
-  if (isPending) {
-    return <LoadingPage />;
-  }
-
-  if (isError) return <span>there is an error</span>;
+    if (inputSearchValue !== "") {
+      handleSearch({
+        column: dropdownSelected,
+        value: inputSearchValue,
+        secondColumn: "status",
+        secondValue: "disponivel",
+      });
+    } else{
+      setInstrumentsFiltered([])
+    }
+  };
 
 
   return (
@@ -113,12 +117,11 @@ export const MovSaidaUso = () => {
           <h1 className="header-three">Saída para uso</h1>
           <p className="text">Instrumento</p>
           <Button
-            className="btn btn-tertiary"
+            className="btn btn-tertiary "
             onClickFunction={handleAddButtonClick}
           >
             + Adicionar
           </Button>
-          {/* ABRIUUUUU MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL */}
           <Modal
             isOpen={openModal}
             setModalOpen={() => {
@@ -133,24 +136,19 @@ export const MovSaidaUso = () => {
               <div className="input-filter">
                 <InputSearchFilter
                   dropdownOptions={filtersOptions}
-                  searchOptions={instrumentsFiltered}
-                  isActive={activeInstrument}
+                  instrumentsFiltered={instrumentsFiltered}
+                  setInstrumentsFiltered={setInstrumentsFiltered}
+                  isActive={activeInputDropdown}
                   title="search-instrument"
                   setDropdownSelected={setDropdownSelected}
-                  setInputSearchValue = {setInputSearchValue}
+                  setInputSearchValue={setInputSearchValue}
                 />
               </div>
               <Button
-                className="btn btn-sm btn-secondary"
-                onClickFunction={() => {
-                  console.log('envieiii')
-                  handleSearch({
-                    column: dropdownSelected,
-                    value: inputSearchValue
-                  })
-                }}
+                className="btn btn-sm btn-secondary search-btn"
+                onClickFunction={handleSearchButton}
               >
-                <PiMagnifyingGlassBold size={20} />
+                <PiMagnifyingGlassBold size={20} className="search-btn"/>
               </Button>
               <Button
                 className="btn-sm btn-secondary"
@@ -183,7 +181,7 @@ export const MovSaidaUso = () => {
               />
             </div>
           </Modal>
-          {/* FECHOU MODAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL */}
+         
         </div>
         <div className="flex-center-table">
           <Table
@@ -236,21 +234,6 @@ export const MovSaidaUso = () => {
         </div>
 
         <div className="confirm-btn-center">
-          {/* <Button name="Confirmar" className="main-blue-1" onClickFunction={setOpenErrorModal} /> */}
-          {/* <ModalErro
-						isOpen={openErrorModal}
-						setModalErrorOpen={() => {
-							setOpenErrorModal(!openErrorModal)
-						}}
-					>
-						<div className="alert">
-							<IoMdAlert 
-								size={250}
-								color="#ff0000"
-							/>
-							<h1 className="alertText">Campo "responsável recebimento" ou "área" precisa ser informado.</h1>
-						</div>
-					</ModalErro> */}
         </div>
       </div>
     </main>
