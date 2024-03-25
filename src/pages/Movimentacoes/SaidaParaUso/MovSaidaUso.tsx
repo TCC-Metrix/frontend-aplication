@@ -15,6 +15,7 @@ import {
   ModalInstrument,
 } from "../../../utils/interfaces/Interfaces";
 import { useInstrument } from "../../../services/queries";
+import LoadingPage from "../../../components/LoadingPage/LoadingPage";
 
 export const MovSaidaUso = () => {
   const options = [
@@ -119,7 +120,7 @@ export const MovSaidaUso = () => {
   const { data: instrument, isError, isPending } = useInstrument();
 
   if (isPending) {
-    return <span>loading...</span>;
+    return <LoadingPage />;
   }
 
   if (isError) return <span>there is an error</span>;
