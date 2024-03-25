@@ -11,6 +11,7 @@ import DateInput from "../../../components/DateInput/DateInput";
 import { PiMagnifyingGlassBold } from "react-icons/pi";
 import {
   GeneralInstrument,
+  InstrumentToModalTableUseOutput,
   ModalInstrument,
   SearchPattern,
 } from "../../../utils/interfaces/Interfaces";
@@ -44,7 +45,15 @@ export const MovSaidaUso = () => {
 
 
   //Tabela de instrumentos inclusa no modal
-  const [tableModalList, setTableModalList] = useState<ModalInstrument[]>([]);
+  const [tableModalList, setTableModalList] = useState<InstrumentToModalTableUseOutput[]>([]);
+
+  const [instrumentSelected, setInstrumentSelected] = useState<InstrumentToModalTableUseOutput>({
+    code: "",
+    description: "",
+    family: "",
+    calibrationFrequency: 0,
+    nextCalibration: ""
+  })
 
   //Seta se o modal está aberto ou não
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -93,9 +102,9 @@ export const MovSaidaUso = () => {
 
 
   //Adiciona o instrumento na lista do modal
-  const addItemToTableModalList = (instrument: ModalInstrument) => {
-    setTableModalList([...tableModalList, instrument]);
-  };
+  // const addItemToTableModalList = (instrument: ModalInstrument) => {
+  //   setTableModalList([...tableModalList, instrument]);
+  // };
 
 
   //Hook de api, o qual busca o instrumento por algum parametro
@@ -166,6 +175,9 @@ export const MovSaidaUso = () => {
                   title="search-instrument"
                   setDropdownSelected={setDropdownSelected} //Seta a opção selecionada do dropdown de opções
                   setInputSearchValue={setInputSearchValue}//Seta o valor do input do modal
+                  setInstrumentSelected={setInstrumentSelected}
+                  instrumentSelected={instrumentSelected}
+                  tableModalList={tableModalList}
                 />
               </div>
               <Button
@@ -177,30 +189,29 @@ export const MovSaidaUso = () => {
               <Button
                 className="btn-sm btn-secondary"
                 onClickFunction={() => {
-                  setTableModalList([
-                    ...tableModalList,
-                    {
-                      code: "1214-11",
-                      description: "Micrometro Externo",
-                      familyId: "a",
-                      calibrationFrequency: 12,
-                      nextCalibration: "19/03/2025",
-                    },
-                  ]);
+                  const hasInstrumentInTableList = tableModalList.some(item => item.code === instrumentSelected.code)
+                  if(!hasInstrumentInTableList){
+                    setTableModalList([
+                      ...tableModalList,
+                      instrumentSelected
+                    ]);
+
+                  }
                 }}
               >
                 Adicionar
               </Button>
             </div>
             <div className="modal-content">
+              
               <Table
                 tableContent={tableModalList}
                 tableHeaders={[
                   "Código",
                   "Descrição",
                   "Família",
-                  "Freq. Calibração",
                   "Próx. Calibração",
+                  "Freq. Calibração",
                 ]}
               />
             </div>

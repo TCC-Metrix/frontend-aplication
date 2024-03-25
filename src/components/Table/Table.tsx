@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Table.css";
 import Pagination from "../Pagination/Pagination";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 interface Option {
   value: string;

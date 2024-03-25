@@ -72,3 +72,11 @@ export interface Family {
   calibrationFrequencyInMonths: number
   calibrationTimeCounter: string
 }
+
+export interface InstrumentToModalTableUseOutput {
+  code: string
+  description: string
+  family: string
+  calibrationFrequency: number
+  nextCalibration: string
+}
