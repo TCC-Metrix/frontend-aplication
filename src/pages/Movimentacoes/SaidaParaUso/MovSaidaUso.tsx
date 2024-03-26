@@ -1,7 +1,7 @@
 import NavBar from "../../../components/Navbar/Navbar";
 import "./MovSaidaUso.css";
 import Table from "../../../components/Table/Table";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Button from "../../../components/Buttons/Button";
@@ -12,7 +12,6 @@ import { PiMagnifyingGlassBold } from "react-icons/pi";
 import {
   GeneralInstrument,
   InstrumentToModalTableUseOutput,
-  ModalInstrument,
   SearchPattern,
 } from "../../../utils/interfaces/Interfaces";
 import { useGetInstrumentBy } from "../../../services/mutation";
@@ -45,6 +44,15 @@ export const MovSaidaUso = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const [inputError, setInputError] = useState<string>("");
+
+  const prevSearchTerm = useRef('')
+
+  useEffect(() => {
+    prevSearchTerm.current = searchTerm
+    console.log("mudou o search term, o antigo é: ", prevSearchTerm)
+  }, [searchTerm])
+
+  
 
   //Tabela de instrumentos inclusa no modal
   const [tableModalList, setTableModalList] = useState<
@@ -133,7 +141,8 @@ export const MovSaidaUso = () => {
   //Função que valida se o input está vazio, e envia os parametros para a função que chama a api caso não esteja
   const handleSearchButton = () => {
     setActiveInputDropdown(true);
-    console.log("erro: ", searchTerm)
+    console.log("prevstate searchterm: ", prevSearchTerm)
+    console.log("atual searchterm: ",searchTerm)
     if (searchTerm !== "") {
       handleSearch({
         column: dropdownSelected,
@@ -230,7 +239,7 @@ export const MovSaidaUso = () => {
                 className="btn btn-sm btn-secondary search-btn"
                 onClickFunction={handleSearchButton}
               >
-                <PiMagnifyingGlassBold size={20} className="search-btn" />
+                <PiMagnifyingGlassBold size={20} className="search-btn" onClick={handleSearchButton}/>
               </Button>
               <Button
                 className="btn-sm btn-secondary"
