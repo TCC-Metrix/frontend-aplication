@@ -23,10 +23,14 @@
 
 
 .table-container th {
-
-	padding: 10px;
+	min-width: 155px;
+	padding: 10px 0; 
 }
 
+
+.table-container tr th:last-child {
+	min-width: 78px !important;
+}
 
 
 
