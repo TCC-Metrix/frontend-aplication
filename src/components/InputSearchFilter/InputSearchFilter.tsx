@@ -13,36 +13,34 @@ interface InputSearchProps {
   isActive: boolean;
   title: string;
   setDropdownSelected: (dropdownValue: string) => void;
-  setInputSearchValue: (inputValue: string) => void;
   setInstrumentsFiltered: (arg: GeneralInstrument[] | undefined) => void;
   setInstrumentSelected: (arg: InstrumentToModalTableUseOutput) => void;
   instrumentSelected: InstrumentToModalTableUseOutput;
   tableModalList: InstrumentToModalTableUseOutput[];
+  inputError: string;
+  setInputError: (arg: string) => void;
+  setSearchTerm: (arg: string) => void;
+  searchTerm: string
 }
 
 const InputSearchFilter = (props: InputSearchProps) => {
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedOption, setSelectedOption] = useState<string>("description");
-  const [selectedOptionInput, setSelectedOptionInput] = useState<string>("");
-  const [error, setError] = useState<string>("")
   const [placeholder, setPlaceholder] = useState<string>(
     "Busque pela descrição do instrumento"
   );
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value;
-    props.setInputSearchValue(searchTerm);
-    setSearchTerm(searchTerm);
+    props.setSearchTerm(searchTerm);
+    props.setInputError("")
 
     if (searchTerm === "") {
       props.setInstrumentsFiltered([]);
     }
 
-    setSelectedOptionInput(""); // Limpa a opção selecionada ao digitar no input de texto
   };
 
   const handleSelectOption = (value: string) => {
-    if (value === "Codigo") {
+    if (value === "Código") {
       setPlaceholder("Busque pelo codigo do instrumento");
       props.setDropdownSelected("code");
     } else if (value === "Descrição") {
@@ -50,10 +48,23 @@ const InputSearchFilter = (props: InputSearchProps) => {
       props.setDropdownSelected("description");
     }
 
-    setSearchTerm("");
+    props.setSearchTerm("");
 
-    setSelectedOption(value);
   };
+
+  const setSelectedInstrumentToInputValue = (instrumentItem: GeneralInstrument) => {
+    props.setSearchTerm(
+      instrumentItem.code + " / " + instrumentItem.description
+      );
+      
+        props.setInstrumentSelected({
+          code: instrumentItem.code,
+          description: instrumentItem.description,
+          family: instrumentItem.familyId.description,
+          nextCalibration: instrumentItem.nextCalibration,
+          calibrationFrequency: instrumentItem.familyId.calibrationFrequencyInMonths,
+        });
+          }
 
   return (
 	<>
@@ -61,15 +72,15 @@ const InputSearchFilter = (props: InputSearchProps) => {
     <div className="input-search-filter-container">
       <input
         type="text"
-        value={searchTerm}
+        value={props.searchTerm}
         onChange={handleInputChange}
         placeholder={placeholder}
-        className={error == "" ? "input-search-filter-area" : "input-search-filter-area error-formatted"}
+        className={props.inputError == "" ? "input-search-filter-area" : "input-search-filter-area error-formatted"}
         name={props.title}
       />
 
       <select
-        value={selectedOption}
+    
         onChange={(e) => handleSelectOption(e.target.value)}
         className="filter-dropdown small-text"
 		>
@@ -79,38 +90,14 @@ const InputSearchFilter = (props: InputSearchProps) => {
           </option>
         ))}
       </select>
+      
       <div className={props.isActive ? "search-filter-instrument" : "none"}>
         <ul className="options-list-filter">
           {props.instrumentsFiltered &&
             props.instrumentsFiltered.map((instrumentItem, index) => (
 				<li
                 key={index}
-                onClick={() => {
-					setSelectedOptionInput(instrumentItem.description);
-					setSearchTerm(
-						instrumentItem.code + " / " + instrumentItem.description
-						);
-						const hasInstrumentInTableList = props.tableModalList.some(item => item.code === instrumentItem.code)
-						
-						if (!hasInstrumentInTableList){
-							props.setInstrumentSelected({
-								code: instrumentItem.code,
-								description: instrumentItem.description,
-								family: instrumentItem.familyId.description,
-								nextCalibration: instrumentItem.nextCalibration,
-								calibrationFrequency: instrumentItem.familyId.calibrationFrequencyInMonths,
-							});
-							setError("")
-					}else{
-						console.log("aaaaaaaaaaaaaaaaaaaaaaaaa")
-						setError("instrumento já adicionado")
-					}
-                }}
-                className={
-					selectedOptionInput === instrumentItem.description
-                    ? "selected"
-                    : ""
-                }
+                onClick={() => setSelectedInstrumentToInputValue(instrumentItem)}
 				>
                 <span>{instrumentItem.code} /&nbsp;</span>
                 <span className="description-instrument-width">{instrumentItem.description}&nbsp; </span>
@@ -121,7 +108,9 @@ const InputSearchFilter = (props: InputSearchProps) => {
 			
       </div>
     </div>
-	{error}
+    <span className="error-text small-text">
+    {props.inputError}
+    </span>
 	</>
   );
 };

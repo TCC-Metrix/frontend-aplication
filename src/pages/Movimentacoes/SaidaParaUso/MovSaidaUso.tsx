@@ -18,7 +18,6 @@ import {
 import { useGetInstrumentBy } from "../../../services/mutation";
 import { SubmitHandler } from "react-hook-form";
 
-
 export const MovSaidaUso = () => {
   const options = [
     { label: "Option 1" },
@@ -31,43 +30,48 @@ export const MovSaidaUso = () => {
     { label: "Option 5" },
   ];
 
-  const dropdownOptions = [
-    { value: "Descrição" },
-    { value: "Codigo" },
-  ];
+  const dropdownOptions = [{ value: "Descrição" }, { value: "Código" }];
 
   //Sessão de validação de inputs/navbar, se estão em foco ou não
-  const [activeShippingInput, setActiveShippingInput] = useState<boolean>(false);
-  const [activeReceiverInput, setActiveReceiverInput] = useState<boolean>(false);
+  const [activeShippingInput, setActiveShippingInput] =
+    useState<boolean>(false);
+  const [activeReceiverInput, setActiveReceiverInput] =
+    useState<boolean>(false);
   const [activeAreaInput, setActiveAreaInput] = useState<boolean>(false);
-  const [activeInputDropdown, setActiveInputDropdown] = useState<boolean>(false);
+  const [activeInputDropdown, setActiveInputDropdown] =
+    useState<boolean>(false);
   const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
 
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const [inputError, setInputError] = useState<string>("");
 
   //Tabela de instrumentos inclusa no modal
-  const [tableModalList, setTableModalList] = useState<InstrumentToModalTableUseOutput[]>([]);
+  const [tableModalList, setTableModalList] = useState<
+    InstrumentToModalTableUseOutput[]
+  >([]);
 
-  const [instrumentSelected, setInstrumentSelected] = useState<InstrumentToModalTableUseOutput>({
-    code: "",
-    description: "",
-    family: "",
-    calibrationFrequency: 0,
-    nextCalibration: ""
-  })
+  const [instrumentSelected, setInstrumentSelected] =
+    useState<InstrumentToModalTableUseOutput>({
+      code: "",
+      description: "",
+      family: "",
+      calibrationFrequency: 0,
+      nextCalibration: "",
+    });
 
   //Seta se o modal está aberto ou não
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   //Lista de instrumentos filtrados pelo input do modal
-  const [instrumentsFiltered, setInstrumentsFiltered] = useState<GeneralInstrument[]>()
+  const [instrumentsFiltered, setInstrumentsFiltered] =
+    useState<GeneralInstrument[]>();
 
   //Opção selecionada do dropdown incluso no input do modal
   const [dropdownSelected, setDropdownSelected] =
     useState<string>("description");
 
-  //Valor setado no input  do modal  
-  const [inputSearchValue, setInputSearchValue] = useState<string>("");
-
+  //Valor setado no input  do modal
 
   //Valida onde o usuario está clicando, para que feche os dropdowns dos inputs abertos
   function validInputActive(event: any) {
@@ -77,15 +81,13 @@ export const MovSaidaUso = () => {
     setActiveReceiverInput(name === "resp-receb");
     setActiveNavbar(false);
 
-
     //Se o usuário clicar no botão de search, então ele seta o dropdown do modal como true, para abrir ao pesquisar algo
-    if(event.target.classList.contains('search-btn')){
-      setActiveInputDropdown(true)
-    }else{
+    if (event.target.classList.contains("search-btn")) {
+      setActiveInputDropdown(true);
+    } else {
       setActiveInputDropdown(name === "search-instrument");
     }
   }
-
 
   //Abre o modal
   const handleModal = () => {
@@ -101,15 +103,8 @@ export const MovSaidaUso = () => {
   ];
 
 
-  //Adiciona o instrumento na lista do modal
-  // const addItemToTableModalList = (instrument: ModalInstrument) => {
-  //   setTableModalList([...tableModalList, instrument]);
-  // };
-
-
   //Hook de api, o qual busca o instrumento por algum parametro
   const getInstrumentBy = useGetInstrumentBy();
-
 
   //Função que de fato chama a api, e seta o resultado nos instrumentos filtrados
   const handleSearch: SubmitHandler<SearchPattern> = (data) => {
@@ -119,8 +114,18 @@ export const MovSaidaUso = () => {
           console.error("Ocorreu um erro:", error);
           return;
         }
-        setInstrumentsFiltered(data?.data);
-        
+        const instruments = data?.data;
+
+        const instrumentsReloaded =
+          instruments &&
+          instruments.filter((item) => item.code !== instrumentSelected.code);
+
+          
+        setInstrumentsFiltered(instrumentsReloaded);
+
+        if (instrumentsReloaded?.length == 0) {
+          setInputError("Instrumento não encontrado.");
+        }
       },
     });
   };
@@ -128,19 +133,59 @@ export const MovSaidaUso = () => {
   //Função que valida se o input está vazio, e envia os parametros para a função que chama a api caso não esteja
   const handleSearchButton = () => {
     setActiveInputDropdown(true);
-
-    if (inputSearchValue !== "") {
+    console.log("erro: ", searchTerm)
+    if (searchTerm !== "") {
       handleSearch({
         column: dropdownSelected,
-        value: inputSearchValue,
+        value: searchTerm,
         secondColumn: "status",
         secondValue: "disponivel",
       });
-    } else{
-      setInstrumentsFiltered([])
+    } else {
+      setInstrumentsFiltered([]);
+      setInputError("Campo não pode ser vazio");
     }
   };
- 
+
+
+  const resetInstrument = () => {
+    setInstrumentSelected({
+      code: "",
+      description: "",
+      family: "",
+      calibrationFrequency: 0,
+      nextCalibration: ""
+    })
+  }
+
+  const resetAllModalData = () => {
+    setInputError("")
+    setInstrumentsFiltered([])
+    setSearchTerm("")
+    resetInstrument()
+    setTableModalList([])
+  }
+
+  const handleAddButton = () => {
+    if (instrumentSelected.code !== "") {
+
+      const isCodeAlreadyInList = tableModalList.some(item => item.code === instrumentSelected.code);
+
+      if (!isCodeAlreadyInList){
+        setTableModalList([...tableModalList, instrumentSelected]);
+        resetInstrument()
+        setSearchTerm("");
+        setInstrumentsFiltered([]);
+      }else{
+        setInputError("Instrumento já está adicionado")
+        setSearchTerm("")
+      }
+    } else {
+      setInputError("Nenhum instrumento selecionado");
+    }
+  };
+
+
 
   return (
     <main>
@@ -149,15 +194,13 @@ export const MovSaidaUso = () => {
         <div>
           <h1 className="header-three">Saída para uso</h1>
           <p className="text">Instrumento</p>
-          <Button
-            className="btn btn-tertiary "
-            onClickFunction={handleModal}
-          >
+          <Button className="btn btn-tertiary " onClickFunction={handleModal}>
             + Adicionar
           </Button>
           <Modal
             isOpen={openModal}
             setModalOpen={() => {
+              resetAllModalData()
               setOpenModal(!openModal);
             }}
           >
@@ -174,36 +217,29 @@ export const MovSaidaUso = () => {
                   isActive={activeInputDropdown} // Define de está ativo ou inativo o dropdown de instrumentos
                   title="search-instrument"
                   setDropdownSelected={setDropdownSelected} //Seta a opção selecionada do dropdown de opções
-                  setInputSearchValue={setInputSearchValue}//Seta o valor do input do modal
                   setInstrumentSelected={setInstrumentSelected}
                   instrumentSelected={instrumentSelected}
                   tableModalList={tableModalList}
+                  inputError={inputError}
+                  setInputError={setInputError}
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
                 />
               </div>
               <Button
                 className="btn btn-sm btn-secondary search-btn"
                 onClickFunction={handleSearchButton}
               >
-                <PiMagnifyingGlassBold size={20} className="search-btn"/>
+                <PiMagnifyingGlassBold size={20} className="search-btn" />
               </Button>
               <Button
                 className="btn-sm btn-secondary"
-                onClickFunction={() => {
-                  const hasInstrumentInTableList = tableModalList.some(item => item.code === instrumentSelected.code)
-                  if(!hasInstrumentInTableList){
-                    setTableModalList([
-                      ...tableModalList,
-                      instrumentSelected
-                    ]);
-
-                  }
-                }}
+                onClickFunction={handleAddButton}
               >
                 Adicionar
               </Button>
             </div>
             <div className="modal-content">
-              
               <Table
                 tableContent={tableModalList}
                 tableHeaders={[
@@ -216,7 +252,6 @@ export const MovSaidaUso = () => {
               />
             </div>
           </Modal>
-         
         </div>
         <div className="flex-center-table">
           <Table
@@ -268,8 +303,7 @@ export const MovSaidaUso = () => {
           </div>
         </div>
 
-        <div className="confirm-btn-center">
-        </div>
+        <div className="confirm-btn-center"></div>
       </div>
     </main>
   );
