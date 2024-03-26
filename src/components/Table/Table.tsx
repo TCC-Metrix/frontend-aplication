@@ -2,14 +2,6 @@ import React, { useState } from "react";
 import "./Table.css";
 import Pagination from "../Pagination/Pagination";
 
-interface Option {
-  value: string;
-  label: string;
-}
-
-interface Props {
-  options: Option[];
-}
 
 interface TableProps {
   tableContent: any[]; // Lista de objetos com chaves variáveis

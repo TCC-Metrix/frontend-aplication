@@ -99,9 +99,9 @@ const InputSearchFilter = (props: InputSearchProps) => {
                 key={index}
                 onClick={() => setSelectedInstrumentToInputValue(instrumentItem)}
 				>
-                {instrumentItem.code} /&nbsp;
-                {instrumentItem.description}&nbsp;/ Próx. calibração{" "}
-                {instrumentItem.nextCalibration}
+                <span>{instrumentItem.code} /&nbsp;</span>
+                <span className="description-instrument-width">{instrumentItem.description}&nbsp; </span>
+                <span>/ Próx. calibração {instrumentItem.nextCalibration}</span>
               </li>
             ))}
         </ul>

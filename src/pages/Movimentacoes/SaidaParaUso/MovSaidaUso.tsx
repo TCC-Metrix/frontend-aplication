@@ -97,7 +97,7 @@ export const MovSaidaUso = () => {
   const itemRecebido = [
     {
       code: "1214-12",
-      description: "Paquimetro Universal",
+      description: "Paquimetro Universal",  //AQUI MATHEUS AQUI, PAY ATTENTION
       references: ["50mm/0,10", "50mm/0,10"],
     },
   ];
@@ -147,6 +147,7 @@ export const MovSaidaUso = () => {
     }
   };
 
+
   const resetInstrument = () => {
     setInstrumentSelected({
       code: "",
@@ -183,6 +184,8 @@ export const MovSaidaUso = () => {
       setInputError("Nenhum instrumento selecionado");
     }
   };
+
+
 
   return (
     <main>
