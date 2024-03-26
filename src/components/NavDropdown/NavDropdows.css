@@ -8,10 +8,18 @@
 }
 
 
+
 .dropdown li a {
 	justify-content: flex-start;
 	height: 2.2rem;
 	padding: 0;
+}
+
+.dropdown{
+	box-shadow: none !important;
+	border-bottom: 1px  solid var(--color-grey-02);
+	border-left: 1px  solid var(--color-grey-02);
+	border-right: 1px  solid var(--color-grey-02);
 }
 
 .navbar li ul.dropdown.open {
