@@ -1,7 +1,7 @@
 import NavBar from "../../../components/Navbar/Navbar";
 import "./MovSaidaUso.css";
 import Table from "../../../components/Table/Table";
-import { useEffect, useRef, useState } from "react";
+import {useState } from "react";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Button from "../../../components/Buttons/Button";
@@ -12,6 +12,7 @@ import { PiMagnifyingGlassBold } from "react-icons/pi";
 import {
   GeneralInstrument,
   InstrumentToModalTableUseOutput,
+  InstrumentUseOutput,
   SearchPattern,
 } from "../../../utils/interfaces/Interfaces";
 import { useGetInstrumentBy } from "../../../services/mutation";
@@ -45,19 +46,15 @@ export const MovSaidaUso = () => {
 
   const [inputError, setInputError] = useState<string>("");
 
-  const prevSearchTerm = useRef('')
-
-  useEffect(() => {
-    prevSearchTerm.current = searchTerm
-    console.log("mudou o search term, o antigo é: ", prevSearchTerm)
-  }, [searchTerm])
-
-  
 
   //Tabela de instrumentos inclusa no modal
   const [tableModalList, setTableModalList] = useState<
     InstrumentToModalTableUseOutput[]
   >([]);
+
+  const [tableMainPage, setTableMainPage] = useState<InstrumentUseOutput[]>([])
+
+  
 
   const [instrumentSelected, setInstrumentSelected] =
     useState<InstrumentToModalTableUseOutput>({
@@ -66,6 +63,7 @@ export const MovSaidaUso = () => {
       family: "",
       calibrationFrequency: 0,
       nextCalibration: "",
+      additionalReferences: []
     });
 
   //Seta se o modal está aberto ou não
@@ -102,13 +100,6 @@ export const MovSaidaUso = () => {
     setOpenModal(true);
   };
 
-  const itemRecebido = [
-    {
-      code: "1214-12",
-      description: "Paquimetro Universal",  //AQUI MATHEUS AQUI, PAY ATTENTION
-      references: ["50mm/0,10", "50mm/0,10"],
-    },
-  ];
 
 
   //Hook de api, o qual busca o instrumento por algum parametro
@@ -140,9 +131,8 @@ export const MovSaidaUso = () => {
 
   //Função que valida se o input está vazio, e envia os parametros para a função que chama a api caso não esteja
   const handleSearchButton = () => {
+    setInputError("")
     setActiveInputDropdown(true);
-    console.log("prevstate searchterm: ", prevSearchTerm)
-    console.log("atual searchterm: ",searchTerm)
     if (searchTerm !== "") {
       handleSearch({
         column: dropdownSelected,
@@ -163,7 +153,8 @@ export const MovSaidaUso = () => {
       description: "",
       family: "",
       calibrationFrequency: 0,
-      nextCalibration: ""
+      nextCalibration: "",
+      additionalReferences: []
     })
   }
 
@@ -176,10 +167,9 @@ export const MovSaidaUso = () => {
   }
 
   const handleAddButton = () => {
-    if (instrumentSelected.code !== "") {
-
+    setInputError("")
+    if (searchTerm !== "" && instrumentSelected.code !== "") {
       const isCodeAlreadyInList = tableModalList.some(item => item.code === instrumentSelected.code);
-
       if (!isCodeAlreadyInList){
         setTableModalList([...tableModalList, instrumentSelected]);
         resetInstrument()
@@ -191,6 +181,40 @@ export const MovSaidaUso = () => {
       }
     } else {
       setInputError("Nenhum instrumento selecionado");
+    }
+  };
+
+
+  const handleButtonConfirmModal = () => {
+    const repeatedItems: InstrumentToModalTableUseOutput[] = [];
+  
+    // Verifica se todos os itens em tableModalList são exclusivos em relação a tableMainPage
+    const allItemsAreUnique = tableModalList.every((item) => {
+      const isUnique = !tableMainPage.some((existingItem) => {
+        return existingItem.code === item.code && existingItem.description === item.description;
+      });
+  
+      if (!isUnique) {
+        repeatedItems.push(item);
+      }
+  
+      return isUnique;
+    });
+  
+    if (allItemsAreUnique) {
+      // Adiciona todos os itens de tableModalList a tableMainPage
+      setTableMainPage((prevTableMainPage) => [
+        ...prevTableMainPage,
+        ...tableModalList.map((item) => ({
+          code: item.code,
+          description: item.description,
+          additionalReferences: item.additionalReferences
+        }))
+      ]);
+    } else {
+      // Trata a situação em que há itens repetidos
+      console.log('Há itens repetidos em tableMainPage:', repeatedItems);
+
     }
   };
 
@@ -258,14 +282,23 @@ export const MovSaidaUso = () => {
                   "Próx. Calibração",
                   "Freq. Calibração",
                 ]}
+                setTableContent={setTableModalList}
+                isReferencesPresent = {false}
               />
+            </div>
+            <div className="last-modal-section">
+            <Button onClickFunction={handleButtonConfirmModal} className="btn btn-secondary">
+              Confirmar
+            </Button>
             </div>
           </Modal>
         </div>
         <div className="flex-center-table">
           <Table
-            tableContent={itemRecebido}
+            tableContent={tableMainPage}
             tableHeaders={["Codigo", "Descrição", "Referência Adicional"]}
+            setTableContent={setTableMainPage}
+            isReferencesPresent = {true}
           />
         </div>
         <div className="form-section-container">
@@ -312,7 +345,7 @@ export const MovSaidaUso = () => {
           </div>
         </div>
 
-        <div className="confirm-btn-center"></div>
+    
       </div>
     </main>
   );

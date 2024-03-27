@@ -6,6 +6,8 @@ import {
   InstrumentToModalTableUseOutput,
   Option,
 } from "../../utils/interfaces/Interfaces";
+import { IoAlertCircle } from "react-icons/io5";
+
 
 interface InputSearchProps {
   instrumentsFiltered: GeneralInstrument[] | undefined; // Opções para filtrar
@@ -20,7 +22,7 @@ interface InputSearchProps {
   inputError: string;
   setInputError: (arg: string) => void;
   setSearchTerm: (arg: string) => void;
-  searchTerm: string
+  searchTerm: string;
 }
 
 const InputSearchFilter = (props: InputSearchProps) => {
@@ -31,12 +33,11 @@ const InputSearchFilter = (props: InputSearchProps) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = event.target.value;
     props.setSearchTerm(searchTerm);
-    props.setInputError("")
+    props.setInputError("");
 
     if (searchTerm === "") {
       props.setInstrumentsFiltered([]);
     }
-
   };
 
   const handleSelectOption = (value: string) => {
@@ -49,69 +50,83 @@ const InputSearchFilter = (props: InputSearchProps) => {
     }
 
     props.setSearchTerm("");
-
   };
 
-  const setSelectedInstrumentToInputValue = (instrumentItem: GeneralInstrument) => {
+  const setSelectedInstrumentToInputValue = (
+    instrumentItem: GeneralInstrument
+  ) => {
     props.setSearchTerm(
       instrumentItem.code + " / " + instrumentItem.description
-      );
-      
-        props.setInstrumentSelected({
-          code: instrumentItem.code,
-          description: instrumentItem.description,
-          family: instrumentItem.familyId.description,
-          nextCalibration: instrumentItem.nextCalibration,
-          calibrationFrequency: instrumentItem.familyId.calibrationFrequencyInMonths,
-        });
-          }
+    );
+
+    props.setInstrumentSelected({
+      code: instrumentItem.code,
+      description: instrumentItem.description,
+      family: instrumentItem.familyId.description,
+      nextCalibration: instrumentItem.nextCalibration,
+      calibrationFrequency: instrumentItem.familyId.calibrationFrequencyInMonths,
+      additionalReferences: instrumentItem.additionalReferences
+    });
+  };
 
   return (
-	<>
-	
-    <div className="input-search-filter-container">
-      <input
-        type="text"
-        value={props.searchTerm}
-        onChange={handleInputChange}
-        placeholder={placeholder}
-        className={props.inputError == "" ? "input-search-filter-area" : "input-search-filter-area error-formatted"}
-        name={props.title}
-      />
+    <>
+      <div className="input-search-filter-container">
+        <input
+          type="text"
+          value={props.searchTerm}
+          onChange={handleInputChange}
+          placeholder={placeholder}
+          className={
+            props.inputError == ""
+              ? "input-search-filter-area"
+              : "input-search-filter-area error-formatted"
+          }
+          name={props.title}
+        />
 
-      <select
-    
-        onChange={(e) => handleSelectOption(e.target.value)}
-        className="filter-dropdown small-text"
-		>
-        {props.dropdownOptions.map((option, index) => (
-			<option className="text" key={index} value={option.value}>
-            {option.value}
-          </option>
-        ))}
-      </select>
-      
-      <div className={props.isActive ? "search-filter-instrument" : "none"}>
-        <ul className="options-list-filter">
-          {props.instrumentsFiltered &&
-            props.instrumentsFiltered.map((instrumentItem, index) => (
-				<li
-                key={index}
-                onClick={() => setSelectedInstrumentToInputValue(instrumentItem)}
-				>
-                <span>{instrumentItem.code} /&nbsp;</span>
-                <span className="description-instrument-width">{instrumentItem.description}&nbsp; </span>
-                <span>/ Próx. calibração {instrumentItem.nextCalibration}</span>
-              </li>
-            ))}
-        </ul>
-			
+        <select
+          onChange={(e) => handleSelectOption(e.target.value)}
+          className="filter-dropdown small-text"
+        >
+          {props.dropdownOptions.map((option, index) => (
+            <option className="text" key={index} value={option.value}>
+              {option.value}
+            </option>
+          ))}
+        </select>
+
+        <div className={props.isActive ? "search-filter-instrument" : "none"}>
+          <ul className="options-list-filter">
+            {props.instrumentsFiltered &&
+              props.instrumentsFiltered.map((instrumentItem, index) => (
+                <li
+                  key={index}
+                  onClick={() =>
+                    setSelectedInstrumentToInputValue(instrumentItem)
+                  }
+                >
+                  <span>{instrumentItem.code} /&nbsp;</span>
+                  <span className="description-instrument-width">
+                    {instrumentItem.description}&nbsp;{" "}
+                  </span>
+                  <span>
+                    / Próx. calibração {instrumentItem.nextCalibration}
+                  </span>
+                </li>
+              ))}
+          </ul>
+        </div>
       </div>
-    </div>
-    <span className="error-text small-text">
-    {props.inputError}
-    </span>
-	</>
+      <span className="error-text small-text">
+        {props.inputError && (
+          <>
+          <IoAlertCircle size={15}/>
+          {props.inputError}
+          </>
+          )}
+      </span>
+    </>
   );
 };
 

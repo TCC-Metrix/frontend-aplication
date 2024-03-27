@@ -13,7 +13,6 @@ export function useGetInstrumentBy(){
         onError: () => {
         },
         onSettled(data, error, variables, context) {
-            console.log(data?.data)
         }
     })
 }

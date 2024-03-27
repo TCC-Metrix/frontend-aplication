@@ -33,15 +33,14 @@ button{
 
 .btn-secondary{
 	background-color: var(--color-turquoise-01);
-	
 }
+
 .btn-secondary:hover{
 	transition: all 320ms ease;
 	background-color: var(--color-turquoise-03);
 }
 .btn-tertiary{
 	background-color: var(--color-grey-06);
-
 	color: var(--color-white);
 }
 .btn-tertiary:hover{
@@ -49,8 +48,8 @@ button{
 	background-color: var(--color-grey-07);
 }
 .close-button {
-	background-color: #ED0007;
-	color: #fff;
+	background-color: var(--color-white);
+	color: var(--color-grey-06);
 	width: 52px;
 	height: 48px;
 	position: absolute;
@@ -62,7 +61,7 @@ button{
 }
 
 .close-button:hover{
-	background-color: var(--color-red-brand-03);
+	background-color: var(--color-grey-01);
 	transition: all 350ms ease-out;
 }
 
