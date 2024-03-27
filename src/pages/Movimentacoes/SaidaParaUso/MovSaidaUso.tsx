@@ -16,7 +16,7 @@ import {
 } from "../../../utils/interfaces/Interfaces";
 import { useGetInstrumentBy } from "../../../services/mutation";
 import { SubmitHandler } from "react-hook-form";
-import { useAllEmployees } from "../../../services/queries";
+import { useAllAreas, useAllEmployees } from "../../../services/queries";
 import LoadingPage from "../../../components/LoadingPage/LoadingPage";
 
 export const MovSaidaUso = () => {
@@ -174,6 +174,7 @@ export const MovSaidaUso = () => {
 	};
 
 	const { data: allEmployees, isLoading, isError } = useAllEmployees();
+	const { data: allAreas } = useAllAreas();
 
 	if (isError) {
 		return <span>deu erro ai na api mofi</span>;
@@ -281,7 +282,7 @@ export const MovSaidaUso = () => {
 							<div>
 								<p className="text-major">Área</p>
 								<InputSearch
-									options={allEmployees}
+									options={allAreas}
 									placeholder="Busque por descrição"
 									isActive={activeAreaInput}
 									title="area"

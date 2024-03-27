@@ -74,3 +74,7 @@ export interface GeneralEmployee {
 	email: string;
 	sector: string;
 }
+
+export interface GeneralArea {
+	description: string;
+}

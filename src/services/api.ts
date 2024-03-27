@@ -1,4 +1,4 @@
-import { GeneralEmployee, GeneralInstrument, SearchPattern } from "../utils/interfaces/Interfaces";
+import { GeneralArea, GeneralEmployee, GeneralInstrument, SearchPattern } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
 
 
@@ -10,6 +10,11 @@ export const getInstruments = async () => {
 //GET - Retorna todos os instrumentos
 export const getEmployees = async () => {
 	return (await instance.get<GeneralEmployee[]>("employee")).data
+};
+
+//GET - Retorna todos os instrumentos
+export const getArea = async () => {
+	return (await instance.get<GeneralArea[]>("area/all")).data
 };
 
 //GET - Retorna o instrumento pelo ID
