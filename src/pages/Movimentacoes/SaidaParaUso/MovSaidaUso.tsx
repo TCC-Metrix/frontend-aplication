@@ -16,19 +16,10 @@ import {
 } from "../../../utils/interfaces/Interfaces";
 import { useGetInstrumentBy } from "../../../services/mutation";
 import { SubmitHandler } from "react-hook-form";
+import { useAllEmployees } from "../../../services/queries";
+import LoadingPage from "../../../components/LoadingPage/LoadingPage";
 
 export const MovSaidaUso = () => {
-	const options = [
-		{ label: "Option 1" },
-		{ label: "Option 2" },
-		{ label: "Option 3" },
-		{ label: "Option 4" },
-		{ label: "Option 5" },
-		{ label: "Option 3" },
-		{ label: "Option 4" },
-		{ label: "Option 5" },
-	];
-
 	const dropdownOptions = [{ value: "Descrição" }, { value: "Código" }];
 
 	//Sessão de validação de inputs/navbar, se estão em foco ou não
@@ -69,8 +60,6 @@ export const MovSaidaUso = () => {
 	//Opção selecionada do dropdown incluso no input do modal
 	const [dropdownSelected, setDropdownSelected] =
 		useState<string>("description");
-
-	//Valor setado no input  do modal
 
 	//Valida onde o usuario está clicando, para que feche os dropdowns dos inputs abertos
 	function validInputActive(event: React.MouseEvent<HTMLDivElement>) {
@@ -184,6 +173,16 @@ export const MovSaidaUso = () => {
 		}
 	};
 
+	const { data: allEmployees, isLoading, isError } = useAllEmployees();
+
+	if (isError) {
+		return <span>deu erro ai na api mofi</span>;
+	}
+
+	if (isLoading) {
+		return <LoadingPage />;
+	}
+
 	return (
 		<main>
 			<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
@@ -262,7 +261,7 @@ export const MovSaidaUso = () => {
 							<div>
 								<p className="text-major">Responsável entrega</p>
 								<InputSearch
-									options={options}
+									options={allEmployees}
 									placeholder="Busque por código ou nome"
 									isActive={activeShippingInput}
 									title="resp-entrega"
@@ -271,7 +270,7 @@ export const MovSaidaUso = () => {
 							<div>
 								<p className="text-major">Responsavel Recebimento</p>
 								<InputSearch
-									options={options}
+									options={allEmployees}
 									placeholder="Busque por código ou nome"
 									isActive={activeReceiverInput}
 									title="resp-receb"
@@ -282,7 +281,7 @@ export const MovSaidaUso = () => {
 							<div>
 								<p className="text-major">Área</p>
 								<InputSearch
-									options={options}
+									options={allEmployees}
 									placeholder="Busque por descrição"
 									isActive={activeAreaInput}
 									title="area"
@@ -296,7 +295,7 @@ export const MovSaidaUso = () => {
 					</section>
 					<div>
 						<Checkbox text="Instrumento com calibração vencida" />
-						<Checkbox text="Instrumento reprovado" />
+						<Checkbox text="Instrumento reprovado  - FALAR COM A JAQUELINE SOBRE" />
 					</div>
 				</div>
 

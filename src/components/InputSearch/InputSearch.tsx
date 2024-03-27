@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import "./InputSearch.css";
-
-interface Option {
-	label: string;
-}
+import { GeneralEmployee } from "../../utils/interfaces/Interfaces";
 
 interface InputSearchProps {
-	options: Option[];
+	options: GeneralEmployee[] | undefined;
 	placeholder: string;
 	isActive: boolean;
 	title: string;
@@ -20,21 +17,21 @@ const InputSearch: React.FC<InputSearchProps> = ({
 }) => {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedOption, setSelectedOption] = useState<string | null>(null);
-	const [filteredOptions, setFilteredOptions] = useState<Option[]>(options);
+	const [filteredOptions, setFilteredOptions] = useState<GeneralEmployee[] | undefined>(options);
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const searchTerm = event.target.value;
 		setSearchTerm(searchTerm);
 
-		const filteredOptions = options.filter((option) =>
-			option.label.toLowerCase().includes(searchTerm.toLowerCase())
+		const filteredOptions = options?.filter((option) =>
+			option.name.toLowerCase().includes(searchTerm.toLowerCase())
 		);
-		setFilteredOptions(filteredOptions);
+		setFilteredOptions(filteredOptions ?? []);
 		setSelectedOption(null);
 	};
 
-	const handleSelectOption = (value: string, label: string) => {
-		setSearchTerm(label); // Atualiza o searchTerm com o rótulo da opção selecionada
+	const handleSelectOption = (value: string, name: string) => {
+		setSearchTerm(name); // Atualiza o searchTerm com o rótulo da opção selecionada
 		setSelectedOption(value);
 	};
 
@@ -46,19 +43,19 @@ const InputSearch: React.FC<InputSearchProps> = ({
 					value={searchTerm}
 					onChange={handleInputChange}
 					placeholder={placeholder}
-					className="input-area"
+					className="text input-area"
 					name={title}
 				/>
 			</div>
 			<div className={isActive ? "search-itens" : "none"}>
 				<ul className="options-list">
-					{filteredOptions.map((option, index) => (
+					{filteredOptions?.map((option, index) => (
 						<li
 							key={index}
-							onClick={() => handleSelectOption(option.label, option.label)}
-							className={selectedOption === option.label ? "selected" : ""}
+							onClick={() => handleSelectOption(option.name, option.name)}
+							className={selectedOption === option.name ? "selected" : ""}
 						>
-							{option.label}
+							{option.name}
 						</li>
 					))}
 				</ul>

@@ -1,5 +1,5 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { getInstrumentById, getInstruments } from "./api";
+import { getEmployees, getInstrumentById, getInstruments } from "./api";
 
 
 //Retorna todos os instrumentos da API
@@ -7,6 +7,15 @@ export function useAllInstruments() {
   return useQuery({
     queryKey: ["instruments"],
     queryFn: getInstruments,
+    refetchOnWindowFocus: false,
+  })
+}
+
+//Retorna todos os instrumentos da API
+export function useAllEmployees() {
+  return useQuery({
+    queryKey: ["employees"],
+    queryFn: getEmployees,
     refetchOnWindowFocus: false,
   })
 }
