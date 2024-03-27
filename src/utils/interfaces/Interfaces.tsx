@@ -43,16 +43,6 @@ export interface GeneralInstrument {
   nextCalibration: string
 }
 
-
-export interface ModalInstrument {
-	code: string
-	description: string
-	familyId: string
-	calibrationFrequency: number
-	nextCalibration: string
-  }
-
-
 export interface SearchPattern {
   column: string,
   value: string,

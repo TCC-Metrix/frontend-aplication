@@ -28,7 +28,7 @@
 /* ----- animations--------- */
 /* clicked */
 .bar.clicked:nth-child(1) {
-	transform: rotate(45deg) translate(0.31em, 0.23em);
+	transform: rotate(45deg) translate(0.32em, 0.22em);
 	transition: ease-out 0.5s;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .bar.clicked:nth-child(3) {
-	transform: rotate(135deg) translate(-0.42em, 0.4em);
+	transform: rotate(135deg) translate(-0.47em, 0.4em);
 	transition: ease-out 0.5s;
 }
 

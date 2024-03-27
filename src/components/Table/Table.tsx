@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Table.css";
 import Pagination from "../Pagination/Pagination";
 
-
 interface TableProps {
   tableContent: any[]; // Lista de objetos com chaves variáveis
   tableHeaders: string[]; // Objeto representando os cabeçalhos da tabela
@@ -48,7 +47,7 @@ const Table: React.FC<TableProps> = ({ tableContent, tableHeaders }) => {
                       <td key={idx} className="text select-td">
                         <select className="dropdown-select-ref" value={item.reference}>
                           
-                          {item[key].map((option: string, idx: any) => (
+                          {item[key].map((option: string, idx: number) => (
                             <option key={idx} value={option}>
                               {option}
                             </option>
