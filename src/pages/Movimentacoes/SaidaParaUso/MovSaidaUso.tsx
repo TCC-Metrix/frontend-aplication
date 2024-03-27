@@ -187,9 +187,9 @@ export const MovSaidaUso = () => {
 
   const handleButtonConfirmModal = () => {
     const repeatedItems: InstrumentToModalTableUseOutput[] = [];
-  
+    
     // Verifica se todos os itens em tableModalList são exclusivos em relação a tableMainPage
-    const allItemsAreUnique = tableModalList.every((item) => {
+    tableModalList.forEach((item) => {
       const isUnique = !tableMainPage.some((existingItem) => {
         return existingItem.code === item.code && existingItem.description === item.description;
       });
@@ -197,11 +197,9 @@ export const MovSaidaUso = () => {
       if (!isUnique) {
         repeatedItems.push(item);
       }
-  
-      return isUnique;
     });
   
-    if (allItemsAreUnique) {
+    if (repeatedItems.length === 0) {
       // Adiciona todos os itens de tableModalList a tableMainPage
       setTableMainPage((prevTableMainPage) => [
         ...prevTableMainPage,
@@ -211,10 +209,11 @@ export const MovSaidaUso = () => {
           additionalReferences: item.additionalReferences
         }))
       ]);
+      setOpenModal(false)
+      resetAllModalData()
     } else {
       // Trata a situação em que há itens repetidos
       console.log('Há itens repetidos em tableMainPage:', repeatedItems);
-
     }
   };
 

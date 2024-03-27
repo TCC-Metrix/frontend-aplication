@@ -27,17 +27,25 @@ const Table: React.FC<TableProps> = ({
     setCurrentItems(tableContent.slice(indexOfFirstItem, indexOfLastItem));
   }, [tableContent, currentPage, itemsPerPage]);
 
-  // Função para remover um item da lista
-  const removeItem = (index: number) => {
-    const updatedCurrentItems = [...currentItems];
-    updatedCurrentItems.splice(index, 1); // Remove 1 elemento a partir do índice index
-    setCurrentItems(updatedCurrentItems);
+// Função para remover um item da lista
+const removeItem = (index: number) => {
+  const updatedCurrentItems = [...currentItems];
+  updatedCurrentItems.splice(index, 1); // Remove 1 elemento a partir do índice index
+  setCurrentItems(updatedCurrentItems);
 
-    const indexOfItemInTableContent = (currentPage - 1) * itemsPerPage + index;
-    const updatedTableContent = [...tableContent];
-    updatedTableContent.splice(indexOfItemInTableContent, 1); // Remove o item correspondente de tableContent
-    setTableContent(updatedTableContent);
-  };
+  const indexOfItemInTableContent = (currentPage - 1) * itemsPerPage + index;
+  const updatedTableContent = [...tableContent];
+  updatedTableContent.splice(indexOfItemInTableContent, 1); // Remove o item correspondente de tableContent
+
+  // Verifica se a página atual é maior que o número total de páginas após a remoção
+  const maxPagesAfterRemoval = Math.ceil(updatedTableContent.length / itemsPerPage);
+  if (currentPage > maxPagesAfterRemoval) {
+    // Se sim, ajusta a página atual para a última página disponível
+    setCurrentPage(maxPagesAfterRemoval);
+  }
+
+  setTableContent(updatedTableContent);
+};
 
   // Paginação
   const paginationNumbersList = Array.from(
