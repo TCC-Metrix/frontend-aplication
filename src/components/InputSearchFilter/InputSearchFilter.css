@@ -71,6 +71,11 @@
 	color: var(--color-red-02);
 	font-family: 'Medium';
 	float: left;
+	height: 15px;
+	display: flex;
+	align-items: center;
+	gap: 3px;
+	margin-top: 3px;
 }
 
 .description-instrument-width{

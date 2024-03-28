@@ -1,24 +1,59 @@
-import React, { useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import "./Table.css";
 import Pagination from "../Pagination/Pagination";
+import { InstrumentToModalTableUseOutput } from "../../utils/interfaces/Interfaces";
+
 
 interface TableProps {
   tableContent: any[]; // Lista de objetos com chaves variáveis
   tableHeaders: string[]; // Objeto representando os cabeçalhos da tabela
+  setTableContent: (arg: InstrumentToModalTableUseOutput[]) => void;
+  isReferencesPresent: boolean;
 }
 
-const Table: React.FC<TableProps> = ({ tableContent, tableHeaders }) => {
+const Table: React.FC<TableProps> = ({
+  tableContent,
+  tableHeaders,
+  setTableContent,
+  isReferencesPresent,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentItems, setCurrentItems] = useState<any[]>([]);
   const itemsPerPage = 3;
 
+  // Atualiza currentItems sempre que tableContent ou currentPage mudar
+  useEffect(() => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    setCurrentItems(tableContent.slice(indexOfFirstItem, indexOfLastItem));
+  }, [tableContent, currentPage, itemsPerPage]);
+
+// Função para remover um item da lista
+const removeItem = (index: number) => {
+  const updatedCurrentItems = [...currentItems];
+  updatedCurrentItems.splice(index, 1); // Remove 1 elemento a partir do índice index
+  setCurrentItems(updatedCurrentItems);
+
+  const indexOfItemInTableContent = (currentPage - 1) * itemsPerPage + index;
+  const updatedTableContent = [...tableContent];
+  updatedTableContent.splice(indexOfItemInTableContent, 1); // Remove o item correspondente de tableContent
+
+  // Verifica se a página atual é maior que o número total de páginas após a remoção
+  const maxPagesAfterRemoval = Math.ceil(updatedTableContent.length / itemsPerPage);
+  if (currentPage > maxPagesAfterRemoval) {
+    // Se sim, ajusta a página atual para a última página disponível
+    setCurrentPage(maxPagesAfterRemoval);
+  }
+
+  setTableContent(updatedTableContent);
+};
+
   // Paginação
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = tableContent.slice(indexOfFirstItem, indexOfLastItem);
-  const paginationNumbersList = Array.from({ length: Math.ceil(tableContent.length / itemsPerPage) }, (_, i) => i + 1)
+  const paginationNumbersList = Array.from(
+    { length: Math.ceil(tableContent.length / itemsPerPage) },
+    (_, i) => i + 1
+  );
   const maxPages = paginationNumbersList.length;
-
-
 
   return (
     <div className="table-container-main">
@@ -42,32 +77,45 @@ const Table: React.FC<TableProps> = ({ tableContent, tableHeaders }) => {
             currentItems.map((item, index) => (
               <tr key={index}>
                 {Object.keys(item).map((key, idx) => {
-                  if (key === "references") {
-                    return (
-                      <td key={idx} className="text select-td">
-                        <select className="dropdown-select-ref" value={item.reference}>
-                          
-                          {item[key].map((option: string, idx: number) => (
-                            <option key={idx} value={option}>
-                              {option}
-                            </option>
-                          ))}
+                  if (isReferencesPresent && key === "additionalReferences") {
+                    return <td key={idx} className="text select-td">
+                      {item.additionalReferences.length === 0 ? (
+                        <span>--</span>
+                      ) : (
+                        <select
+                          className="dropdown-select-ref"
+                          value={item.reference}
+                        >
+                          {item.additionalReferences.map(
+                            (option: string, idx: any) => (
+                              <option key={idx} value={option}>
+                                {option}
+                              </option>
+                            )
+                          )}
+
                         </select>
-                      </td>
-                      
-                    );
+                      )}
+                    </td>;
+                  } else if (
+                    !isReferencesPresent &&
+                    key === "additionalReferences"
+                  ) {
+                    return null; // Se as referências adicionais não estiverem presentes e a chave for "additionalReferences", não renderize nada
                   } else {
                     return (
                       <td key={idx} className="text">
-                       <p className="td-text">
-                        {item[key as keyof typeof item]}
-                        
-                      </p>
+                        <p className="td-text">
+                          {item[key as keyof typeof item]}
+                        </p>
                       </td>
                     );
                   }
                 })}
-                <td className="remove-item-list text">
+                <td
+                  className="remove-item-list text"
+                  onClick={() => removeItem(index)}
+                >
                   Remover
                 </td>
               </tr>
@@ -76,11 +124,12 @@ const Table: React.FC<TableProps> = ({ tableContent, tableHeaders }) => {
         </tbody>
       </table>
       {tableContent.length > itemsPerPage && (
-      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} maxPages={maxPages} />
-
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          maxPages={maxPages}
+        />
       )}
-
-
     </div>
   );
 };

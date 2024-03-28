@@ -17,30 +17,28 @@ export interface MenuOptionProps {
 }
 
 export interface GeneralInstrument {
-	id: string;
-	code: string;
-	description: string;
-	serieNumber: string;
-	inventory: string;
-	acquisitionDate: string;
-	supplier: any;
-	manufacturer: any;
-	familyId: Family;
-	additionalReference1: any;
-	additionalReference2: any;
-	additionalReference3: any;
-	additionalReference4: any;
-	acceptanceCriteria: any;
-	measurementUnit: any;
-	situation: string;
-	situationReason: any;
-	situationJustification: any;
-	acquisitionCost: any;
-	costCenter: any;
-	calibrationFrequency: number;
-	status: string;
-	nextCalibration: string;
+  id: string
+  code: string
+  description: string
+  serieNumber: string
+  inventory: string
+  acquisitionDate: string
+  supplier: any
+  manufacturer: any
+  familyId: Family
+  additionalReferences: []
+  acceptanceCriteria: any
+  measurementUnit: any
+  situation: string
+  situationReason: any
+  situationJustification: any
+  acquisitionCost: any
+  costCenter: any
+  calibrationFrequency: number
+  status: string
+  nextCalibration: string
 }
+
 
 export interface SearchPattern {
 	column: string;
@@ -62,11 +60,12 @@ export interface Family {
 }
 
 export interface InstrumentToModalTableUseOutput {
-	code: string;
-	description: string;
-	family: string;
-	calibrationFrequency: number;
-	nextCalibration: string;
+  code: string
+  description: string
+  family: string
+  calibrationFrequency: number
+  nextCalibration: string
+  additionalReferences: []
 }
 
 export interface GeneralEmployee {
@@ -77,4 +76,10 @@ export interface GeneralEmployee {
 
 export interface GeneralArea {
 	description: string;
+}
+
+export interface InstrumentUseOutput {
+  code: string
+  description: string
+  additionalReferences: []
 }
