@@ -3,6 +3,7 @@ import "./Table.css";
 import Pagination from "../Pagination/Pagination";
 import { InstrumentToModalTableUseOutput } from "../../utils/interfaces/Interfaces";
 
+
 interface TableProps {
   tableContent: any[]; // Lista de objetos com chaves variáveis
   tableHeaders: string[]; // Objeto representando os cabeçalhos da tabela
@@ -92,6 +93,7 @@ const removeItem = (index: number) => {
                               </option>
                             )
                           )}
+
                         </select>
                       )}
                     </td>;

@@ -80,20 +80,22 @@ export const MovSaidaUso = () => {
   //Valor setado no input  do modal
 
   //Valida onde o usuario está clicando, para que feche os dropdowns dos inputs abertos
-  function validInputActive(event: any) {
-    const name = event.target.name;
-    setActiveAreaInput(name === "area");
-    setActiveShippingInput(name === "resp-entrega");
-    setActiveReceiverInput(name === "resp-receb");
-    setActiveNavbar(false);
+	function validInputActive(event: React.MouseEvent<HTMLDivElement>) {
+		const target = event.target as HTMLElement;
 
-    //Se o usuário clicar no botão de search, então ele seta o dropdown do modal como true, para abrir ao pesquisar algo
-    if (event.target.classList.contains("search-btn")) {
-      setActiveInputDropdown(true);
-    } else {
-      setActiveInputDropdown(name === "search-instrument");
-    }
-  }
+		const name = target.getAttribute("name");
+		setActiveAreaInput(name === "area");
+		setActiveShippingInput(name === "resp-entrega");
+		setActiveReceiverInput(name === "resp-receb");
+		setActiveNavbar(false);
+
+		//Se o usuário clicar no botão de search, então ele seta o dropdown do modal como true, para abrir ao pesquisar algo
+		if (target.classList.contains("search-btn")) {
+			setActiveInputDropdown(true);
+		} else {
+			setActiveInputDropdown(name === "search-instrument");
+		}
+	}
 
   //Abre o modal
   const handleModal = () => {
