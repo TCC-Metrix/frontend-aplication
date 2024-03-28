@@ -17,18 +17,10 @@ import {
 } from "../../../utils/interfaces/Interfaces";
 import { useGetInstrumentBy } from "../../../services/mutation";
 import { SubmitHandler } from "react-hook-form";
+import { useAllAreas, useAllEmployees } from "../../../services/queries";
+import LoadingPage from "../../../components/LoadingPage/LoadingPage";
 
 export const MovSaidaUso = () => {
-  const options = [
-    { label: "Option 1" },
-    { label: "Option 2" },
-    { label: "Option 3" },
-    { label: "Option 4" },
-    { label: "Option 5" },
-    { label: "Option 3" },
-    { label: "Option 4" },
-    { label: "Option 5" },
-  ];
 
   const dropdownOptions = [{ value: "Descrição" }, { value: "Código" }];
 
@@ -80,6 +72,7 @@ export const MovSaidaUso = () => {
   //Valor setado no input  do modal
 
   //Valida onde o usuario está clicando, para que feche os dropdowns dos inputs abertos
+
 	function validInputActive(event: React.MouseEvent<HTMLDivElement>) {
 		const target = event.target as HTMLElement;
 
@@ -185,6 +178,17 @@ export const MovSaidaUso = () => {
       setInputError("Nenhum instrumento selecionado");
     }
   };
+  
+  const { data: allEmployees, isLoading, isError } = useAllEmployees();
+	const { data: allAreas } = useAllAreas();
+
+	if (isError) {
+		return <span>deu erro ai na api mofi</span>;
+	}
+
+	if (isLoading) {
+		return <LoadingPage />;
+	}
 
 
   const handleButtonConfirmModal = () => {
@@ -304,42 +308,42 @@ export const MovSaidaUso = () => {
         </div>
         <div className="form-section-container">
           <section className="mov-info">
-            <div className="form-column">
-              <div>
-                <p className="text-major">Responsável entrega</p>
-                <InputSearch
-                  options={options}
-                  placeholder="Busque por código ou nome"
-                  isActive={activeShippingInput}
-                  title="resp-entrega"
-                />
-              </div>
-              <div>
-                <p className="text-major">Responsavel Recebimento</p>
-                <InputSearch
-                  options={options}
-                  placeholder="Busque por código ou nome"
-                  isActive={activeReceiverInput}
-                  title="resp-receb"
-                />
-              </div>
-            </div>
-            <div className="form-column">
-              <div>
-                <p className="text-major">Área</p>
-                <InputSearch
-                  options={options}
-                  placeholder="Busque por descrição"
-                  isActive={activeAreaInput}
-                  title="area"
-                />
-              </div>
-              <div>
-                <p className="text-major">Data de Saída</p>
-                <DateInput />
-              </div>
-            </div>
-          </section>
+						<div className="form-column">
+							<div>
+								<p className="text-major">Responsável entrega</p>
+								<InputSearch
+									options={allEmployees}
+									placeholder="Busque por código ou nome"
+									isActive={activeShippingInput}
+									title="resp-entrega"
+								/>
+							</div>
+							<div>
+								<p className="text-major">Responsavel Recebimento</p>
+								<InputSearch
+									options={allEmployees}
+									placeholder="Busque por código ou nome"
+									isActive={activeReceiverInput}
+									title="resp-receb"
+								/>
+							</div>
+						</div>
+						<div className="form-column">
+							<div>
+								<p className="text-major">Área</p>
+								<InputSearch
+									options={allAreas}
+									placeholder="Busque por descrição"
+									isActive={activeAreaInput}
+									title="area"
+								/>
+							</div>
+							<div>
+								<p className="text-major">Data de Saída</p>
+								<DateInput />
+							</div>
+						</div>
+					</section>
           <div>
             <Checkbox text="Instrumento com calibração vencida" />
             <Checkbox text="Instrumento reprovado" />

@@ -12,10 +12,9 @@ export interface List {
 }
 
 export interface MenuOptionProps {
-	name: string // Tipo para o componente de ícone
+	name: string; // Tipo para o componente de ícone
 	text: string; // Texto a ser exibid
 }
-
 
 export interface GeneralInstrument {
   id: string
@@ -42,23 +41,22 @@ export interface GeneralInstrument {
 
 
 export interface SearchPattern {
-  column: string,
-  value: string,
-  secondColumn: string,
-  secondValue: string
+	column: string;
+	value: string;
+	secondColumn: string;
+	secondValue: string;
 }
-        
+
 export interface Option {
 	value: string;
 }
 
-
 export interface Family {
-  id: string
-  code: string
-  description: string
-  calibrationFrequencyInMonths: number
-  calibrationTimeCounter: string
+	id: string;
+	code: string;
+	description: string;
+	calibrationFrequencyInMonths: number;
+	calibrationTimeCounter: string;
 }
 
 export interface InstrumentToModalTableUseOutput {
@@ -68,6 +66,16 @@ export interface InstrumentToModalTableUseOutput {
   calibrationFrequency: number
   nextCalibration: string
   additionalReferences: []
+}
+
+export interface GeneralEmployee {
+	name: string;
+	email: string;
+	sector: string;
+}
+
+export interface GeneralArea {
+	description: string;
 }
 
 export interface InstrumentUseOutput {
