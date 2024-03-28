@@ -9,6 +9,7 @@ interface TableProps {
   tableHeaders: string[]; // Objeto representando os cabeçalhos da tabela
   setTableContent: (arg: InstrumentToModalTableUseOutput[]) => void;
   isReferencesPresent: boolean;
+  
 }
 
 const Table: React.FC<TableProps> = ({
@@ -25,6 +26,7 @@ const Table: React.FC<TableProps> = ({
   useEffect(() => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    console.log()
     setCurrentItems(tableContent.slice(indexOfFirstItem, indexOfLastItem));
   }, [tableContent, currentPage, itemsPerPage]);
 
@@ -33,6 +35,7 @@ const removeItem = (index: number) => {
   const updatedCurrentItems = [...currentItems];
   updatedCurrentItems.splice(index, 1); // Remove 1 elemento a partir do índice index
   setCurrentItems(updatedCurrentItems);
+  console.log("current itens: ", currentItems)
 
   const indexOfItemInTableContent = (currentPage - 1) * itemsPerPage + index;
   const updatedTableContent = [...tableContent];
@@ -44,7 +47,7 @@ const removeItem = (index: number) => {
     // Se sim, ajusta a página atual para a última página disponível
     setCurrentPage(maxPagesAfterRemoval);
   }
-
+  console.log("removendo itens... ", updatedTableContent)
   setTableContent(updatedTableContent);
 };
 
