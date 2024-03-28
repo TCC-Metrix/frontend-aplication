@@ -40,13 +40,7 @@ main {
 	gap: 10px;
 }
 
-.confirm-btn-center{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top: 8%;
-	padding-bottom: 15%;
-}
+
 
 .input-filter {
 	width: 100%;
@@ -56,7 +50,14 @@ main {
 	height: 100%;
 	display: flex;
 	justify-content: center;
-	margin-top: 4rem;
+	margin-top: 2rem;
+
+}
+
+.last-modal-section{
+	display: flex;
+	justify-content: center;
+	margin-top: 35px;
 }
 
 

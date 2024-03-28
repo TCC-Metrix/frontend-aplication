@@ -27,10 +27,7 @@ export interface GeneralInstrument {
   supplier: any
   manufacturer: any
   familyId: Family
-  additionalReference1: any
-  additionalReference2: any
-  additionalReference3: any
-  additionalReference4: any
+  additionalReferences: []
   acceptanceCriteria: any
   measurementUnit: any
   situation: string
@@ -42,6 +39,7 @@ export interface GeneralInstrument {
   status: string
   nextCalibration: string
 }
+
 
 export interface SearchPattern {
   column: string,
@@ -69,4 +67,11 @@ export interface InstrumentToModalTableUseOutput {
   family: string
   calibrationFrequency: number
   nextCalibration: string
+  additionalReferences: []
+}
+
+export interface InstrumentUseOutput {
+  code: string
+  description: string
+  additionalReferences: []
 }
