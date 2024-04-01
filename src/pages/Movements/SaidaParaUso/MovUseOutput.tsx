@@ -1,5 +1,5 @@
 import NavBar from "../../../components/Navbar/Navbar";
-import "./MovSaidaUso.css";
+import "./MovUseOutput.css";
 import Table from "../../../components/Table/Table";
 import {useState } from "react";
 import InputSearch from "../../../components/InputSearch/InputSearch";
@@ -20,9 +20,9 @@ import { SubmitHandler } from "react-hook-form";
 import { useAllAreas, useAllEmployees } from "../../../services/queries";
 import LoadingPage from "../../../components/LoadingPage/LoadingPage";
 import Popup from "../../../components/Popup/Popup";
-import ErrorPage from "../../../components/ErrorPage/ErrorPage";
+import ErrorPage from "../../ErrorPage/ErrorPage";
 
-export const MovSaidaUso = () => {
+export const MoveUseOutput = () => {
 
   const dropdownOptions = [{ value: "Descrição" }, { value: "Código" }];
 
