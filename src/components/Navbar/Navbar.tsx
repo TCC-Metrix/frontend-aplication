@@ -14,12 +14,12 @@ import NavDropdown from "../NavDropdown/NavDropdown";
 
 interface NavBarProps {
   activeNavbar: boolean;
-  setActiveNavbar: React.Dispatch<React.SetStateAction<boolean>>;
+  setActiveNavbar: (isActive: boolean) => void;
 }
 
 export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 	const [bar, setBar] = useState("bar unclicked");
-	const [menu_class, setMenuClass] = useState("menu-hidden");
+	const [menuClass, setMenuClass] = useState("menu-hidden");
 	const [isMenuClicked, setIsMenuClicked] = useState(false);
 	const [dropdownVisible, setDropdownVisible] = useState<DropdownState>({
 		Mov: false,
@@ -35,9 +35,7 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 				if (Object.prototype.hasOwnProperty.call(prevState, key)) {
 					if (dropdown && key === dropdown) {
 						updatedState[key] = !prevState[key];
-						setActiveNavbar(() => {
-							return true;
-						});
+						setActiveNavbar(true);
 					} else {
 						updatedState[key] = false;
 					}
@@ -115,7 +113,7 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 				<span className={bar}></span>
 				<span className={bar}></span>
 			</div>
-			<div className={`menu ${menu_class}`}>
+			<div className={`menu ${menuClass}`}>
 				<Menu />
 			</div>
 		</div>
