@@ -1,5 +1,5 @@
 import {Routes, Route} from "react-router-dom"
-import { MoveUseOutput } from "./pages/Movements/SaidaParaUso/MovUseOutput";
+import { MoveUseOutput } from "./pages/Movements/UseOutput/MovUseOutput";
 import './App.css'
 
 function App() {
