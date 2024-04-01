@@ -2,7 +2,7 @@
 	position: absolute;
 	height: fit-content;
 	visibility: hidden;
-	z-index: -1 !important;
+	
 	top: -100vh;
 	transition: top 350ms ease-out;
 }
@@ -16,10 +16,7 @@
 }
 
 .dropdown{
-	box-shadow: none !important;
-	border-bottom: 1px  solid var(--color-grey-02);
-	border-left: 1px  solid var(--color-grey-02);
-	border-right: 1px  solid var(--color-grey-02);
+	box-shadow: 1px 1px 6px var(--color-grey-02) !important;
 }
 
 .navbar li ul.dropdown.open {
@@ -29,6 +26,7 @@
     position: absolute;
 	visibility: visible;
     margin: 0;
+	z-index: -1 !important;
     width: 100%;
     top: 100%;
 	padding: 12px 12px;

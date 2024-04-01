@@ -19,6 +19,7 @@ import { useGetInstrumentBy } from "../../../services/mutation";
 import { SubmitHandler } from "react-hook-form";
 import { useAllAreas, useAllEmployees } from "../../../services/queries";
 import LoadingPage from "../../../components/LoadingPage/LoadingPage";
+import Popup from "../../../components/Popup/Popup";
 
 export const MovSaidaUso = () => {
 
@@ -38,6 +39,9 @@ export const MovSaidaUso = () => {
 
   const [inputError, setInputError] = useState<string>("");
 
+  const [isLoadingInput, setIsLoadingInput] = useState<boolean>(false)
+
+  const [isPopupActive, setIsPopupActive] = useState<boolean>(false)
 
   //Tabela de instrumentos inclusa no modal
   const [tableModalList, setTableModalList] = useState<
@@ -92,7 +96,8 @@ export const MovSaidaUso = () => {
 
   //Abre o modal
   const handleModal = () => {
-    setOpenModal(true);
+    setIsPopupActive(true)
+    // setOpenModal(true);
   };
 
 
@@ -102,10 +107,13 @@ export const MovSaidaUso = () => {
 
   //Função que de fato chama a api, e seta o resultado nos instrumentos filtrados
   const handleSearch: SubmitHandler<SearchPattern> = (data) => {
+    setIsLoadingInput(true)
     getInstrumentBy.mutate(data, {
+      
       onSettled: (data, error) => {
         if (error) {
           console.error("Ocorreu um erro:", error);
+          setIsLoadingInput(false)
           return;
         }
         const instruments = data?.data;
@@ -116,11 +124,13 @@ export const MovSaidaUso = () => {
 
           
         setInstrumentsFiltered(instrumentsReloaded);
+        setIsLoadingInput(false)
 
         if (instrumentsReloaded?.length == 0) {
           setInputError("Instrumento não encontrado.");
         }
       },
+
     });
   };
 
@@ -216,6 +226,7 @@ export const MovSaidaUso = () => {
         }))
       ]);
       setOpenModal(false)
+      console.log("fechando")
       resetAllModalData()
     } else {
       // Trata a situação em que há itens repetidos
@@ -228,18 +239,20 @@ export const MovSaidaUso = () => {
   return (
     <main>
       <NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
+      <Popup isActive={isPopupActive}/>
       <div className="container-main" onClick={(e) => validInputActive(e)}>
         <div>
           <h1 className="header-three">Saída para uso</h1>
           <p className="text">Instrumento</p>
-          <Button className="btn btn-tertiary " onClickFunction={handleModal}>
+          <Button className="btn btn-tertiary " onClickFunction={handleModal} >
             + Adicionar
           </Button>
           <Modal
             isOpen={openModal}
             setModalOpen={() => {
               resetAllModalData()
-              setOpenModal(!openModal);
+              setIsPopupActive(false)
+              // setOpenModal(!openModal);
             }}
           >
             <div>
@@ -262,6 +275,7 @@ export const MovSaidaUso = () => {
                   setInputError={setInputError}
                   searchTerm={searchTerm}
                   setSearchTerm={setSearchTerm}
+                  isLoadingInput={isLoadingInput}
                 />
               </div>
               <Button
@@ -345,8 +359,8 @@ export const MovSaidaUso = () => {
 						</div>
 					</section>
           <div>
-            <Checkbox text="Instrumento com calibração vencida" />
-            <Checkbox text="Instrumento reprovado" />
+            <Checkbox text="Instrumento com calibração vencida" id="calib"/>
+            <Checkbox text="Instrumento reprovado" id="rep"/>
           </div>
         </div>
 

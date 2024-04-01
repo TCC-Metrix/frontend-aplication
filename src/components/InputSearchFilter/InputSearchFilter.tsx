@@ -23,6 +23,7 @@ interface InputSearchProps {
   setInputError: (arg: string) => void;
   setSearchTerm: (arg: string) => void;
   searchTerm: string;
+  isLoadingInput: boolean;
 }
 
 const InputSearchFilter = (props: InputSearchProps) => {
@@ -95,16 +96,18 @@ const InputSearchFilter = (props: InputSearchProps) => {
           }
           name={props.title}
         />
-        <div className="loader-container">
-          <RotatingLines
-            visible={true}
-            strokeWidth="5"
-            animationDuration="0.75"
-            ariaLabel="rotating-lines-loading"
-            strokeColor="#99aebb"
-            width="20"
-          />
-        </div>
+        {props.isLoadingInput && (
+          <div className="loader-container">
+            <RotatingLines
+              visible={true}
+              strokeWidth="5"
+              animationDuration="0.75"
+              ariaLabel="rotating-lines-loading"
+              strokeColor="#99aebb"
+              width="20"
+            />
+          </div>
+        )}
 
         <div className={props.isActive ? "search-filter-instrument" : "none"}>
           <ul className="options-list-filter">
