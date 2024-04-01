@@ -1,7 +1,6 @@
-import NavBar from "../../../components/Navbar/Navbar";
 import "./MovUseOutput.css";
 import Table from "../../../components/Table/Table";
-import {useState } from "react";
+import { useState } from "react";
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import Checkbox from "../../../components/Checkbox/Checkbox";
 import Button from "../../../components/Buttons/Button";
@@ -21,9 +20,9 @@ import { useAllAreas, useAllEmployees } from "../../../services/queries";
 import LoadingPage from "../../../components/LoadingPage/LoadingPage";
 import Popup from "../../../components/Popup/Popup";
 import ErrorPage from "../../ErrorPage/ErrorPage";
+import useStore from "../../../store/store";
 
 export const MoveUseOutput = () => {
-
   const dropdownOptions = [{ value: "Descrição" }, { value: "Código" }];
 
   //Sessão de validação de inputs/navbar, se estão em foco ou não
@@ -34,24 +33,23 @@ export const MoveUseOutput = () => {
   const [activeAreaInput, setActiveAreaInput] = useState<boolean>(false);
   const [activeInputDropdown, setActiveInputDropdown] =
     useState<boolean>(false);
-  const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
+
+  const setActiveNavbar = useStore((state) => state.setActiveNavbar);
 
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const [inputError, setInputError] = useState<string>("");
 
-  const [isLoadingInput, setIsLoadingInput] = useState<boolean>(false)
+  const [isLoadingInput, setIsLoadingInput] = useState<boolean>(false);
 
-  const [isPopupActive, setIsPopupActive] = useState<boolean>(false)
+  const [isPopupActive, setIsPopupActive] = useState<boolean>(false);
 
   //Tabela de instrumentos inclusa no modal
   const [tableModalList, setTableModalList] = useState<
     InstrumentToModalTableUseOutput[]
   >([]);
 
-  const [tableMainPage, setTableMainPage] = useState<InstrumentUseOutput[]>([])
-
-  
+  const [tableMainPage, setTableMainPage] = useState<InstrumentUseOutput[]>([]);
 
   const [instrumentSelected, setInstrumentSelected] =
     useState<InstrumentToModalTableUseOutput>({
@@ -60,7 +58,7 @@ export const MoveUseOutput = () => {
       family: "",
       calibrationFrequency: 0,
       nextCalibration: "",
-      additionalReferences: []
+      additionalReferences: [],
     });
 
   //Seta se o modal está aberto ou não
@@ -78,45 +76,42 @@ export const MoveUseOutput = () => {
 
   //Valida onde o usuario está clicando, para que feche os dropdowns dos inputs abertos
 
-	function validInputActive(event: React.MouseEvent<HTMLDivElement>) {
-		const target = event.target as HTMLElement;
+  function validInputActive(event: React.MouseEvent<HTMLDivElement>) {
+    const target = event.target as HTMLElement;
 
-		const name = target.getAttribute("name");
-		setActiveAreaInput(name === "area");
-		setActiveShippingInput(name === "resp-entrega");
-		setActiveReceiverInput(name === "resp-receb");
-		setActiveNavbar(false);
+    const name = target.getAttribute("name");
+    setActiveAreaInput(name === "area");
+    setActiveShippingInput(name === "resp-entrega");
+    setActiveReceiverInput(name === "resp-receb");
+    setActiveNavbar(false);
 
-		//Se o usuário clicar no botão de search, então ele seta o dropdown do modal como true, para abrir ao pesquisar algo
-		if (target.classList.contains("search-btn")) {
-			setActiveInputDropdown(true);
-		} else {
-			setActiveInputDropdown(name === "search-instrument");
-		}
-	}
+    //Se o usuário clicar no botão de search, então ele seta o dropdown do modal como true, para abrir ao pesquisar algo
+    if (target.classList.contains("search-btn")) {
+      setActiveInputDropdown(true);
+    } else {
+      setActiveInputDropdown(name === "search-instrument");
+    }
+  }
 
   //Abre o modal
   const handleModal = () => {
-    setIsPopupActive(true)
+    setIsPopupActive(true);
     // setOpenModal(true);
   };
-
-
 
   //Hook de api, o qual busca o instrumento por algum parametro
   const getInstrumentBy = useGetInstrumentBy();
   const { data: allEmployees, isLoading, isError } = useAllEmployees();
-	const { data: allAreas } = useAllAreas();
+  const { data: allAreas } = useAllAreas();
 
   //Função que de fato chama a api, e seta o resultado nos instrumentos filtrados
   const handleSearch: SubmitHandler<SearchPattern> = (data) => {
-    setIsLoadingInput(true)
+    setIsLoadingInput(true);
     getInstrumentBy.mutate(data, {
-      
       onSettled: (data, error) => {
         if (error) {
           console.error("Ocorreu um erro:", error);
-          setIsLoadingInput(false)
+          setIsLoadingInput(false);
           return;
         }
         const instruments = data?.data;
@@ -125,21 +120,19 @@ export const MoveUseOutput = () => {
           instruments &&
           instruments.filter((item) => item.code !== instrumentSelected.code);
 
-          
         setInstrumentsFiltered(instrumentsReloaded);
-        setIsLoadingInput(false)
+        setIsLoadingInput(false);
 
         if (instrumentsReloaded?.length == 0) {
           setInputError("Instrumento não encontrado.");
         }
       },
-
     });
   };
 
   //Função que valida se o input está vazio, e envia os parametros para a função que chama a api caso não esteja
   const handleSearchButton = () => {
-    setInputError("")
+    setInputError("");
     setActiveInputDropdown(true);
     if (searchTerm !== "") {
       handleSearch({
@@ -154,7 +147,6 @@ export const MoveUseOutput = () => {
     }
   };
 
-
   const resetInstrument = () => {
     setInstrumentSelected({
       code: "",
@@ -162,30 +154,32 @@ export const MoveUseOutput = () => {
       family: "",
       calibrationFrequency: 0,
       nextCalibration: "",
-      additionalReferences: []
-    })
-  }
+      additionalReferences: [],
+    });
+  };
 
   const resetAllModalData = () => {
-    setInputError("")
-    setInstrumentsFiltered([])
-    setSearchTerm("")
-    resetInstrument()
-    setTableModalList([])
-  }
+    setInputError("");
+    setInstrumentsFiltered([]);
+    setSearchTerm("");
+    resetInstrument();
+    setTableModalList([]);
+  };
 
   const handleAddButton = () => {
-    setInputError("")
+    setInputError("");
     if (searchTerm !== "" && instrumentSelected.code !== "") {
-      const isCodeAlreadyInList = tableModalList.some(item => item.code === instrumentSelected.code);
-      if (!isCodeAlreadyInList){
+      const isCodeAlreadyInList = tableModalList.some(
+        (item) => item.code === instrumentSelected.code
+      );
+      if (!isCodeAlreadyInList) {
         setTableModalList([...tableModalList, instrumentSelected]);
-        resetInstrument()
+        resetInstrument();
         setSearchTerm("");
         setInstrumentsFiltered([]);
-      }else{
-        setInputError("Instrumento já está adicionado")
-        setSearchTerm("")
+      } else {
+        setInputError("Instrumento já está adicionado");
+        setSearchTerm("");
       }
     } else {
       setInputError("Nenhum instrumento selecionado");
@@ -194,18 +188,21 @@ export const MoveUseOutput = () => {
 
   const handleButtonConfirmModal = () => {
     const repeatedItems: InstrumentToModalTableUseOutput[] = [];
-    
+
     // Verifica se todos os itens em tableModalList são exclusivos em relação a tableMainPage
     tableModalList.forEach((item) => {
       const isUnique = !tableMainPage.some((existingItem) => {
-        return existingItem.code === item.code && existingItem.description === item.description;
+        return (
+          existingItem.code === item.code &&
+          existingItem.description === item.description
+        );
       });
-  
+
       if (!isUnique) {
         repeatedItems.push(item);
       }
     });
-  
+
     if (repeatedItems.length === 0) {
       // Adiciona todos os itens de tableModalList a tableMainPage
       setTableMainPage((prevTableMainPage) => [
@@ -213,42 +210,48 @@ export const MoveUseOutput = () => {
         ...tableModalList.map((item) => ({
           code: item.code,
           description: item.description,
-          additionalReferences: item.additionalReferences
-        }))
+          additionalReferences: item.additionalReferences,
+        })),
       ]);
-      setOpenModal(false)
-      console.log("fechando")
-      resetAllModalData()
+      setOpenModal(false);
+      console.log("fechando");
+      resetAllModalData();
     } else {
       // Trata a situação em que há itens repetidos
-      console.log('Há itens repetidos em tableMainPage:', repeatedItems);
+      console.log("Há itens repetidos em tableMainPage:", repeatedItems);
     }
   };
 
-	if (isError) {
-		return <ErrorPage />;
-	}
+  if (isError) {
+    return <ErrorPage />;
+  }
 
-	if (isLoading) {
-		return <LoadingPage />;
-	}
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   return (
     <main>
-      <NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
-      <Popup isActive={isPopupActive}/>
+      {/* <NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} /> */}
+      <Popup
+        isActive={isPopupActive}
+        setIsActive={setIsPopupActive}
+        type="error"
+        body="erro disso e daquilo"
+        title="Ops... erro erro erro"
+      />
       <div className="container-main" onClick={(e) => validInputActive(e)}>
         <div>
           <h1 className="header-three">Saída para uso</h1>
           <p className="text">Instrumento</p>
-          <Button className="btn btn-tertiary " onClickFunction={handleModal} >
+          <Button className="btn btn-tertiary " onClickFunction={handleModal}>
             + Adicionar
           </Button>
           <Modal
             isOpen={openModal}
             setModalOpen={() => {
-              resetAllModalData()
-              setIsPopupActive(false)
+              resetAllModalData();
+              setIsPopupActive(false);
               // setOpenModal(!openModal);
             }}
           >
@@ -279,7 +282,11 @@ export const MoveUseOutput = () => {
                 className="btn btn-sm btn-secondary search-btn"
                 onClickFunction={handleSearchButton}
               >
-                <PiMagnifyingGlassBold size={20} className="search-btn" onClick={handleSearchButton}/>
+                <PiMagnifyingGlassBold
+                  size={20}
+                  className="search-btn"
+                  onClick={handleSearchButton}
+                />
               </Button>
               <Button
                 className="btn-sm btn-secondary"
@@ -299,13 +306,16 @@ export const MoveUseOutput = () => {
                   "Freq. Calibração",
                 ]}
                 setTableContent={setTableModalList}
-                isReferencesPresent = {false}
+                isReferencesPresent={false}
               />
             </div>
             <div className="last-modal-section">
-            <Button onClickFunction={handleButtonConfirmModal} className="btn btn-secondary">
-              Confirmar
-            </Button>
+              <Button
+                onClickFunction={handleButtonConfirmModal}
+                className="btn btn-secondary"
+              >
+                Confirmar
+              </Button>
             </div>
           </Modal>
         </div>
@@ -314,54 +324,52 @@ export const MoveUseOutput = () => {
             tableContent={tableMainPage}
             tableHeaders={["Codigo", "Descrição", "Referência Adicional"]}
             setTableContent={setTableMainPage}
-            isReferencesPresent = {true}
+            isReferencesPresent={true}
           />
         </div>
         <div className="form-section-container">
           <section className="mov-info">
-						<div className="form-column">
-							<div>
-								<p className="text-major">Responsável entrega</p>
-								<InputSearch
-									options={allEmployees}
-									placeholder="Busque por código ou nome"
-									isActive={activeShippingInput}
-									title="resp-entrega"
-								/>
-							</div>
-							<div>
-								<p className="text-major">Responsavel Recebimento</p>
-								<InputSearch
-									options={allEmployees}
-									placeholder="Busque por código ou nome"
-									isActive={activeReceiverInput}
-									title="resp-receb"
-								/>
-							</div>
-						</div>
-						<div className="form-column">
-							<div>
-								<p className="text-major">Área</p>
-								<InputSearch
-									options={allAreas}
-									placeholder="Busque por descrição"
-									isActive={activeAreaInput}
-									title="area"
-								/>
-							</div>
-							<div>
-								<p className="text-major">Data de Saída</p>
-								<DateInput />
-							</div>
-						</div>
-					</section>
+            <div className="form-column">
+              <div>
+                <p className="text-major">Responsável entrega</p>
+                <InputSearch
+                  options={allEmployees}
+                  placeholder="Busque por código ou nome"
+                  isActive={activeShippingInput}
+                  title="resp-entrega"
+                />
+              </div>
+              <div>
+                <p className="text-major">Responsavel Recebimento</p>
+                <InputSearch
+                  options={allEmployees}
+                  placeholder="Busque por código ou nome"
+                  isActive={activeReceiverInput}
+                  title="resp-receb"
+                />
+              </div>
+            </div>
+            <div className="form-column">
+              <div>
+                <p className="text-major">Área</p>
+                <InputSearch
+                  options={allAreas}
+                  placeholder="Busque por descrição"
+                  isActive={activeAreaInput}
+                  title="area"
+                />
+              </div>
+              <div>
+                <p className="text-major">Data de Saída</p>
+                <DateInput />
+              </div>
+            </div>
+          </section>
           <div>
-            <Checkbox text="Instrumento com calibração vencida" id="calib"/>
-            <Checkbox text="Instrumento reprovado" id="rep"/>
+            <Checkbox text="Instrumento com calibração vencida" id="calib" />
+            <Checkbox text="Instrumento reprovado" id="rep" />
           </div>
         </div>
-
-    
       </div>
     </main>
   );

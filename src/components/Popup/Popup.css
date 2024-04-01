@@ -1,17 +1,53 @@
-.overlay-active{
+.overlay-active {
     height: 100vh;
     width: 100vw;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .overlay-inative{
+    opacity: 0;
+    display: none;
+  }
+
+
+  .popup-inative {
+    height: 0;
+    width: 0;
+    background-color: none;
+    opacity: 0;
+  }
+
+
+  
+  .popup-active {
+    width: 40%; 
+    height: auto;
+    background-color: var(--color-white);
+    position: relative;
+    transition: opacity 0.3s ease;
+    padding: 50px;
+    box-sizing: border-box;
+  }
+  
+  .popup-inative .close-button {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  
+  .popup-overlay-container {
     position: fixed;
     z-index: 999;
     top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+    transition: opacity 0.3s ease;
+  }
 
-.popup-container{
-    width: 30%;
-    height: 30%;
-    background-color: var(--color-white);
-}
+
+  .error-title{
+    font-family: 'Medium';
+    color: var(--color-red-02);
+  }
+

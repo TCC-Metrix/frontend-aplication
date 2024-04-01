@@ -1,14 +1,15 @@
-import { useState } from "react";
-import NavBar from "../../components/Navbar/Navbar";
+import useStore from "../../store/store";
 import "./ErrorPage.css";
 import { CiCircleAlert } from "react-icons/ci";
 
 const ErrorPage = () => {
-	const [activeNavbar, setActiveNavbar] = useState<boolean>(true);
+	const setActiveNavbar = useStore((state) => state.setActiveNavbar);
+	const handlePageClicked = () => {
+		setActiveNavbar(false)
+	}
 	return (
 		<>
-			<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
-			<div className="container-error-page">
+			<div className="container-error-page" onClick={handlePageClicked}>
 				<CiCircleAlert size={100} className="color-icon-error-page"/>
 				<div className="header-phrase-page-error">
 					<h1 className="error-page-text-main header-three">
