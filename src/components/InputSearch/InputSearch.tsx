@@ -34,7 +34,7 @@ const InputSearch: React.FC<InputSearchProps> = ({
 
   const handleSelectOption = (option: Option) => {
     setSearchTerm('name' in option ? option.name : option.description); // Atualiza o searchTerm com o rótulo da opção selecionada
-    setSelectedOption(option);
+    setSelectedOption(option); //Setting
   };
 
   return (

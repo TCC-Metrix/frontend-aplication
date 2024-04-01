@@ -19,6 +19,7 @@ import { useGetInstrumentBy } from "../../../services/mutation";
 import { SubmitHandler } from "react-hook-form";
 import { useAllAreas, useAllEmployees } from "../../../services/queries";
 import LoadingPage from "../../../components/LoadingPage/LoadingPage";
+import ErrorPage from "../../../components/ErrorPage/ErrorPage";
 
 export const MovSaidaUso = () => {
 
@@ -99,6 +100,8 @@ export const MovSaidaUso = () => {
 
   //Hook de api, o qual busca o instrumento por algum parametro
   const getInstrumentBy = useGetInstrumentBy();
+  const { data: allEmployees, isLoading, isError } = useAllEmployees();
+	const { data: allAreas } = useAllAreas();
 
   //Função que de fato chama a api, e seta o resultado nos instrumentos filtrados
   const handleSearch: SubmitHandler<SearchPattern> = (data) => {
@@ -178,18 +181,6 @@ export const MovSaidaUso = () => {
       setInputError("Nenhum instrumento selecionado");
     }
   };
-  
-  const { data: allEmployees, isLoading, isError } = useAllEmployees();
-	const { data: allAreas } = useAllAreas();
-
-	if (isError) {
-		return <span>deu erro ai na api mofi</span>;
-	}
-
-	if (isLoading) {
-		return <LoadingPage />;
-	}
-
 
   const handleButtonConfirmModal = () => {
     const repeatedItems: InstrumentToModalTableUseOutput[] = [];
@@ -223,7 +214,13 @@ export const MovSaidaUso = () => {
     }
   };
 
+	if (isError) {
+		return <ErrorPage />;
+	}
 
+	if (isLoading) {
+		return <LoadingPage />;
+	}
 
   return (
     <main>
