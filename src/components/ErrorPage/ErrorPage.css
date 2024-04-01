@@ -1,0 +1,24 @@
+.container-error-page {
+	width: 80%;
+	height: 97vh;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.header-phrase-page-error{
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.error-page-text-main{
+    margin: 0;
+}
+
+.color-icon-error-page{
+    color: var(--color-grey-07);
+}
