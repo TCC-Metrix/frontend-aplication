@@ -12,7 +12,7 @@ export function useGetInstrumentBy(){
         },
         onError: () => {
         },
-        onSettled(data, error, variables, context) {
+        onSettled() {
         }
     })
 }

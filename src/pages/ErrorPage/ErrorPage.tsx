@@ -1,5 +1,5 @@
 import { useState } from "react";
-import NavBar from "../Navbar/Navbar";
+import NavBar from "../../components/Navbar/Navbar";
 import "./ErrorPage.css";
 import { CiCircleAlert } from "react-icons/ci";
 

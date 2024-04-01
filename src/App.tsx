@@ -1,5 +1,5 @@
 import {Routes, Route} from "react-router-dom"
-import { MovSaidaUso } from "./pages/Movimentacoes/SaidaParaUso/MovSaidaUso";
+import { MoveUseOutput } from "./pages/Movements/SaidaParaUso/MovUseOutput";
 import './App.css'
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
 	return (
 		<>
 			<Routes>
-				<Route path="/" element={<MovSaidaUso />}></Route>
+				<Route path="/" element={<MoveUseOutput />}></Route>
 			</Routes>
 		</>
 	);

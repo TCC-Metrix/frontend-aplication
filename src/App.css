@@ -127,7 +127,7 @@ input::placeholder{
 
 .border{
     width: 100%;
-    background-color: var(--color-grey-02);
+    background-color: var(--color-grey-01);
     height: 1px;
 }
 .small-margin{

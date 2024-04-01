@@ -14,9 +14,11 @@
 
 .table-container-main{
 	display: flex;
-	gap: 2rem;
-	flex-direction: column;
-	width: 100%;
+    gap: 2rem;
+    flex-direction: column;
+    width: 100%;
+    height: 15rem;
+    background: aliceblue;
 }
 
 
@@ -55,6 +57,11 @@
 	width: 0.1rem;
 	cursor: pointer;
 	text-decoration: underline;
+}
+
+.remove-item-list:hover{
+	transition: var(-- --transition-pattern);
+	color: var(--color-turquoise-03);
 }
 
 .dropdown-select-ref {
