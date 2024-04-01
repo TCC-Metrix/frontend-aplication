@@ -39,9 +39,14 @@ const removeItem = (index: number) => {
   updatedTableContent.splice(indexOfItemInTableContent, 1); // Remove o item correspondente de tableContent
 
   // Verifica se a página atual é maior que o número total de páginas após a remoção
-  const maxPagesAfterRemoval = Math.ceil(updatedTableContent.length / itemsPerPage);
+  let maxPagesAfterRemoval = 1;
+  if (updatedTableContent.length >= 1){
+    maxPagesAfterRemoval = Math.ceil(updatedTableContent.length / itemsPerPage);
+  }
+    
+
   if (currentPage > maxPagesAfterRemoval) {
-    // Se sim, ajusta a página atual para a última página disponível
+    // Se sim, ajusta a página atual para a última  página disponível
     setCurrentPage(maxPagesAfterRemoval);
   }
 

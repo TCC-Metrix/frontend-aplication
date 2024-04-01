@@ -7,7 +7,7 @@ import {
   Option,
 } from "../../utils/interfaces/Interfaces";
 import { IoAlertCircle } from "react-icons/io5";
-
+import { RotatingLines } from "react-loader-spinner";
 
 interface InputSearchProps {
   instrumentsFiltered: GeneralInstrument[] | undefined; // Opções para filtrar
@@ -64,14 +64,25 @@ const InputSearchFilter = (props: InputSearchProps) => {
       description: instrumentItem.description,
       family: instrumentItem.familyId.description,
       nextCalibration: instrumentItem.nextCalibration,
-      calibrationFrequency: instrumentItem.familyId.calibrationFrequencyInMonths,
-      additionalReferences: instrumentItem.additionalReferences
+      calibrationFrequency:
+        instrumentItem.familyId.calibrationFrequencyInMonths,
+      additionalReferences: instrumentItem.additionalReferences,
     });
   };
 
   return (
     <>
       <div className="input-search-filter-container">
+        <select
+          onChange={(e) => handleSelectOption(e.target.value)}
+          className="filter-dropdown small-text"
+        >
+          {props.dropdownOptions.map((option, index) => (
+            <option className="text" key={index} value={option.value}>
+              {option.value}
+            </option>
+          ))}
+        </select>
         <input
           type="text"
           value={props.searchTerm}
@@ -84,17 +95,16 @@ const InputSearchFilter = (props: InputSearchProps) => {
           }
           name={props.title}
         />
-
-        <select
-          onChange={(e) => handleSelectOption(e.target.value)}
-          className="filter-dropdown small-text"
-        >
-          {props.dropdownOptions.map((option, index) => (
-            <option className="text" key={index} value={option.value}>
-              {option.value}
-            </option>
-          ))}
-        </select>
+        <div className="loader-container">
+          <RotatingLines
+            visible={true}
+            strokeWidth="5"
+            animationDuration="0.75"
+            ariaLabel="rotating-lines-loading"
+            strokeColor="#99aebb"
+            width="20"
+          />
+        </div>
 
         <div className={props.isActive ? "search-filter-instrument" : "none"}>
           <ul className="options-list-filter">
@@ -121,10 +131,10 @@ const InputSearchFilter = (props: InputSearchProps) => {
       <span className="error-text small-text">
         {props.inputError && (
           <>
-          <IoAlertCircle size={15}/>
-          {props.inputError}
+            <IoAlertCircle size={15} />
+            {props.inputError}
           </>
-          )}
+        )}
       </span>
     </>
   );
