@@ -60,6 +60,7 @@ export interface Family {
 }
 
 export interface InstrumentToModalTableUseOutput {
+  id: string
   code: string
   description: string
   family: string
@@ -79,6 +80,7 @@ export interface GeneralArea {
 }
 
 export interface InstrumentUseOutput {
+  id: string
   code: string
   description: string
   additionalReferences: []

@@ -53,6 +53,7 @@ export const MoveUseOutput = () => {
 
   const [instrumentSelected, setInstrumentSelected] =
     useState<InstrumentToModalTableUseOutput>({
+      id: "",
       code: "",
       description: "",
       family: "",
@@ -95,8 +96,8 @@ export const MoveUseOutput = () => {
 
   //Abre o modal
   const handleModal = () => {
-    setIsPopupActive(true);
-    // setOpenModal(true);
+    // setIsPopupActive(true);
+    setOpenModal(true);
   };
 
   //Hook de api, o qual busca o instrumento por algum parametro
@@ -149,6 +150,7 @@ export const MoveUseOutput = () => {
 
   const resetInstrument = () => {
     setInstrumentSelected({
+      id: "",
       code: "",
       description: "",
       family: "",
@@ -208,6 +210,7 @@ export const MoveUseOutput = () => {
       setTableMainPage((prevTableMainPage) => [
         ...prevTableMainPage,
         ...tableModalList.map((item) => ({
+          id: item.id,
           code: item.code,
           description: item.description,
           additionalReferences: item.additionalReferences,
@@ -251,8 +254,8 @@ export const MoveUseOutput = () => {
             isOpen={openModal}
             setModalOpen={() => {
               resetAllModalData();
-              setIsPopupActive(false);
-              // setOpenModal(!openModal);
+              // setIsPopupActive(false);
+             setOpenModal(!openModal);
             }}
           >
             <div>

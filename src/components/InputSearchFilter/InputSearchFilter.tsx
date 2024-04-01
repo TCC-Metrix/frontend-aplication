@@ -61,6 +61,7 @@ const InputSearchFilter = (props: InputSearchProps) => {
     );
 
     props.setInstrumentSelected({
+      id: instrumentItem.id,
       code: instrumentItem.code,
       description: instrumentItem.description,
       family: instrumentItem.familyId.description,

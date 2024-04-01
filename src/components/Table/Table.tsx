@@ -82,6 +82,9 @@ const removeItem = (index: number) => {
             currentItems.map((item, index) => (
               <tr key={index}>
                 {Object.keys(item).map((key, idx) => {
+                  if(key === "id"){
+                    return
+                  }
                   if (isReferencesPresent && key === "additionalReferences") {
                     return <td key={idx} className="text select-td">
                       {item.additionalReferences.length === 0 ? (
