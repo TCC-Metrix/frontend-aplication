@@ -75,7 +75,6 @@ const InputSearch: React.FC<InputSearchProps> = ({
       }
       return inputGroupError[title];
     } else {
-      console.log('returning null')
       return null;
     }
   };
@@ -90,7 +89,7 @@ const InputSearch: React.FC<InputSearchProps> = ({
           placeholder={placeholder}
           className={`text input-area ${getErrorByTitle(title) !== null ? "error-formatted" : ""}`}
           name={title}
-          disabled={isInputActive}
+          disabled={!isInputActive}
         />
       </div>
       <p className="error-text-main-page small-text">
