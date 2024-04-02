@@ -1,5 +1,5 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { getArea, getEmployees, getInstrumentById, getInstruments } from "./api";
+import { getArea, getEmployees, getInstrumentById, getInstruments } from "./apiService";
 
 
 //Retorna todos os instrumentos da API

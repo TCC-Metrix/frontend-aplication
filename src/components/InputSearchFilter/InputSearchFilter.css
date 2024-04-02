@@ -67,10 +67,15 @@
 	border: 1px solid var(--color-red-02);
 }
 
+.error-formatted:focus{
+	outline: none;
+}
+
 .error-text{
 	color: var(--color-red-02);
 	font-family: 'Medium';
 	float: left;
+	position: absolute;
 	height: 15px;
 	display: flex;
 	align-items: center;

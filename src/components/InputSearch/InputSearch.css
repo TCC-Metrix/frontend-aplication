@@ -69,3 +69,19 @@
 .none {
 	display: none;
 }
+
+.error-text-main-page{
+    color: var(--color-red-02);
+    font-family: 'Medium';
+    float: left;
+    position: absolute;
+    bottom: -16px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin: 0 !important;
+}
+
+.inative-input{
+	background-color: #00738f !important;
+}

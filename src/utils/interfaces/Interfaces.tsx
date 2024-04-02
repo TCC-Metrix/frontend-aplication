@@ -47,6 +47,14 @@ export interface SearchPattern {
 	secondValue: string;
 }
 
+export interface OutputUsePost {
+  instrumentIds: string[];
+  shippingResponsible: string;
+  receivingResponsible: string;
+  area: string;
+  outputDate: string;
+}
+
 export interface Option {
 	value: string;
 }
@@ -70,12 +78,14 @@ export interface InstrumentToModalTableUseOutput {
 }
 
 export interface GeneralEmployee {
+  id: string;
 	name: string;
 	email: string;
 	sector: string;
 }
 
 export interface GeneralArea {
+  id: string;
 	description: string;
 }
 

@@ -2,6 +2,7 @@
     height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.5);
+    visibility: visible !important;
   }
 
   .overlay-inative{
@@ -20,13 +21,16 @@
 
   
   .popup-active {
-    width: 40%; 
+    width: auto; 
     height: auto;
     background-color: var(--color-white);
     position: relative;
-    transition: opacity 0.3s ease;
+    transition: height 0.1s ease, width 0.1s ease;
     padding: 50px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
   
   .popup-inative .close-button {
@@ -38,16 +42,34 @@
   .popup-overlay-container {
     position: fixed;
     z-index: 999;
+    left: 0;
     top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.3s ease;
+    transition: all 0.2s ease;
+    visibility: hidden;
   }
 
 
   .error-title{
-    font-family: 'Medium';
+    font-family: 'Bold';
     color: var(--color-red-02);
   }
 
+  .error-body{
+    font-family: 'Medium';
+  }
+
+  .error-body, .error-title{
+    margin: 0;
+  }
+
+
+  .popup-header{
+    text-align: center;
+  }
+
+  .module-popup-content{
+    text-align: center;
+  }

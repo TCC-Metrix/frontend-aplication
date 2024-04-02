@@ -1,16 +1,20 @@
 import "./Popup.css";
 import Button from "../Buttons/Button";
-import { IoIosClose } from "react-icons/io";
+import useStore from "../../store/store";
+import { IoAlertCircle } from "react-icons/io5";
+
 
 interface PopupProps {
   isActive: boolean;
-  setIsActive: (args: boolean) => void;
   type: string,
   title: string;
   body: string;
 }
 
-const Popup: React.FC<PopupProps> = ({ isActive, setIsActive, type, body, title }) => {
+const Popup: React.FC<PopupProps> = ({ isActive, type, body, title }) => {
+  const setIsPopupActive = useStore((state) => state.setIsPopupActive)
+
+
   return (
     <div
       className={`popup-overlay-container ${
@@ -18,22 +22,22 @@ const Popup: React.FC<PopupProps> = ({ isActive, setIsActive, type, body, title 
       }`}
     >
       <div className={isActive ? "popup-active" : "popup-inative"}>
-        <Button
-          className="close-button"
-          onClickFunction={() => {
-            setIsActive(false);
-          }}
-        >
-          <IoIosClose size={35} />
-        </Button>
+
         <div className="module-popup-content">
+          
           <div className="popup-header">
-            <p className="header-two title-popup error-title">{title}</p>
+            <IoAlertCircle color="#ed000873" size={80}/>
+            <p className="header-three error-title">{title}</p>
           </div>
           <div className="popup-body">
-            <p className="normal-text error-body">{body}</p>
+            <p className="text error-body">{body}</p>
           </div>
         </div>
+          <Button className="btn btn-primary-red" onClickFunction={() => {
+            setIsPopupActive(false)
+          }}>
+            Tentar novamente
+          </Button>
       </div>
     </div>
   );

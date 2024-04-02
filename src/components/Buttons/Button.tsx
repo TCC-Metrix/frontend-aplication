@@ -4,7 +4,7 @@ import "./Button.css";
 
 const Button: React.FC<ButtonProps> = (props) => {
 	return (
-		<div className="module-button">
+		<div className="module-button m-auto">
 			<button
 				className={props.className}
 				onClick={() => {
