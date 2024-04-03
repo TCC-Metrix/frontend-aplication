@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./InputSearch.css";
 import {
   GeneralEmployee,
@@ -13,8 +13,9 @@ interface InputSearchProps {
   setValueSelected: (args: string) => void;
   setInputGroupError: (title: string, errorMessage: string) => void;
   inputGroupError: Record<string, string>;
-  clearInputError: (title: string) => void;
+  clearInputError: (all: boolean, title: string) => void;
   isInputActive: boolean;
+  valueSelected: string;
 }
 
 type Option = GeneralEmployee | GeneralArea;
@@ -25,6 +26,7 @@ const InputSearch: React.FC<InputSearchProps> = ({
   isActive,
   title,
   setValueSelected,
+  valueSelected,
   inputGroupError,
   setInputGroupError,
   clearInputError,
@@ -35,7 +37,6 @@ const InputSearch: React.FC<InputSearchProps> = ({
   const [filteredOptions, setFilteredOptions] = useState<Option[] | undefined>(
     options
   );
-  const [error, setError] = useState<string>("");
   const label =
     title === "resp-entrega" || title === "resp-receb" ? "responsável" : "área";
 
@@ -43,6 +44,7 @@ const InputSearch: React.FC<InputSearchProps> = ({
     const searchTerm = event.target.value;
     setSearchTerm(searchTerm);
     setValueSelected("")
+    clearInputError(true, title)
 
     const filteredOptions = options?.filter((option) =>
       "name" in option
@@ -50,21 +52,20 @@ const InputSearch: React.FC<InputSearchProps> = ({
         : option.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredOptions(filteredOptions ?? []);
-    console.log("passei no input: ", filteredOptions);
-    if (filteredOptions?.length == 0) {
-      setError(`${label} não encontrado(a)`);
-      setInputGroupError(title, "tal coisa nao encontrada");
-      console.log(inputGroupError);
+    if (filteredOptions?.length == 0 && isActive) {
+      setInputGroupError(title, `${label} não encontrado(a)`);
+      
     } else {
-      clearInputError(title);
+      clearInputError(false, title);
     }
     setSelectedOption(null);
   };
 
   const handleSelectOption = (option: Option) => {
+    clearInputError(true, title)
     setSearchTerm("name" in option ? option.name : option.description); // Atualiza o searchTerm com o rótulo da opção selecionada
     setSelectedOption(option); //Setting
-    setValueSelected(option.id);
+    setValueSelected(option.id);  
   };
 
   // Função para obter o erro com base no título
@@ -73,11 +74,28 @@ const InputSearch: React.FC<InputSearchProps> = ({
       if(inputGroupError[title] == ""){
         return null
       }
+      console.log("erro: ", inputGroupError[title])
       return inputGroupError[title];
     } else {
       return null;
     }
   };
+
+
+  useEffect(() => {
+    if(!isActive){
+      if(searchTerm.length > 0){
+        if(valueSelected.length == 0){
+          setInputGroupError(title, `${label} não selecionado(a)`);
+          setSearchTerm("")
+        }
+      }
+    }
+    
+  }, [isActive])
+
+
+
 
   return (
     <div className="container-inputsearch">

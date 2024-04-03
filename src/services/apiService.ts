@@ -7,12 +7,12 @@ export const getInstruments = async () => {
 	return (await instance.get<GeneralInstrument[]>("instrument/all")).data
 };
 
-//GET - Retorna todos os instrumentos
+//GET - Retorna todos os funcionarios
 export const getEmployees = async () => {
 	return (await instance.get<GeneralEmployee[]>("employee")).data
 };
 
-//GET - Retorna todos os instrumentos
+//GET - Retorna todas as areas
 export const getArea = async () => {
 	return (await instance.get<GeneralArea[]>("area/all")).data
 };

@@ -6,14 +6,14 @@ import {
 	consultaLinks,
 	movLinks,
 	relatorioLinks,
-} from "../../utils/links/Links"
+} from "../../utils/Links/Links"
 import { DropdownState } from "../../utils/interfaces/Interfaces";
 import Menu from "../Menu/Menu";
 import NavDropdown from "../NavDropdown/NavDropdown";
 
 
 interface NavBarProps {
-  activeNavbar: boolean;
+  activeNavbar: boolean
   setActiveNavbar: (isActive: boolean) => void;
 }
 

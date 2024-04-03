@@ -23,7 +23,7 @@ import { SubmitHandler } from "react-hook-form";
 import { useAllAreas, useAllEmployees } from "../../../services/useFetchData";
 import LoadingPage from "../../../components/LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
-import useStore from "../../../store/store";
+import { useNavbarStore, usePopupStore } from "../../../store";
 import { RotatingLines } from "react-loader-spinner";
 
 export const MoveUseOutput = () => {
@@ -36,7 +36,7 @@ export const MoveUseOutput = () => {
   const [activeInputDropdown, setActiveInputDropdown] =
     useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [inputError, setInputError] = useState<string>("");
+  const [inputFilterError, setInputFilterError] = useState<string>("");
   const [isLoadingInput, setIsLoadingInput] = useState<boolean>(false);
   const [isLoadingPostUseOutput, setIsLoadingPostUseOutput] =
     useState<boolean>(false);
@@ -69,11 +69,12 @@ export const MoveUseOutput = () => {
     useState<string>("description");
 
   //Variáveis controladas no contexto da aplicação
-  const setActiveNavbar = useStore((state) => state.setActiveNavbar);
-  const setPopupType = useStore((state) => state.setPopupType);
-  const setPopupBody = useStore((state) => state.setPopupBody);
-  const setPopupTitle = useStore((state) => state.setPopupTitle);
-  const setIsPopupActive = useStore((state) => state.setIsPopupActive);
+  const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
+  const setPopupType = usePopupStore((state) => state.setPopupType);
+  const setPopupBody = usePopupStore((state) => state.setPopupBody);
+  const setPopupTitle = usePopupStore((state) => state.setPopupTitle);
+  const setIsPopupActive = usePopupStore((state) => state.setIsPopupActive);
+  const setPopupFunction = usePopupStore((state) => state.setPopupFunction)
 
   const dropdownOptions = [{ value: "Descrição" }, { value: "Código" }];
 
@@ -105,7 +106,7 @@ export const MoveUseOutput = () => {
   const getInstrumentBy = useGetInstrumentBy(); //busca instrumento por algum parametro
   const postOutputMutation = usePostOutputUse(); //posta a saida para uso
   const { data: allEmployees, isLoading, isError } = useAllEmployees(); //busca todos os funcionarios
-  const { data: allAreas } = useAllAreas(); //busca todas as áreas
+  const { data: allAreas, isLoading: isLoadingArea, isError: isErrorArea } = useAllAreas(); //busca todas as áreas
 
   //Função que de fato chama a api, e seta o resultado nos instrumentos filtrados
   const handleSearch: SubmitHandler<SearchPattern> = (data) => {
@@ -127,7 +128,7 @@ export const MoveUseOutput = () => {
         setIsLoadingInput(false);
 
         if (instrumentsReloaded?.length == 0) {
-          setInputError("Instrumento não encontrado.");
+          setInputFilterError("Instrumento não encontrado.");
         }
       },
     });
@@ -135,7 +136,7 @@ export const MoveUseOutput = () => {
 
   //Função que valida se o input está vazio, e envia os parametros para a função que chama a api caso não esteja
   const handleSearchButton = () => {
-    setInputError("");
+    setInputFilterError("");
     setActiveInputDropdown(true);
     if (searchTerm !== "") {
       handleSearch({
@@ -146,13 +147,13 @@ export const MoveUseOutput = () => {
       });
     } else {
       setInstrumentsFiltered([]);
-      setInputError("Campo não pode ser vazio");
+      setInputFilterError("Campo não pode ser vazio");
     }
   };
 
   //Adiciona instrumento na lista do modal
   const handleAddButton = () => {
-    setInputError("");
+    setInputFilterError("");
     if (searchTerm !== "" && instrumentSelected.code !== "") {
       const isCodeAlreadyInList = tableModalList.some(
         (item) => item.code === instrumentSelected.code
@@ -168,11 +169,11 @@ export const MoveUseOutput = () => {
         setSearchTerm("");
         setInstrumentsFiltered([]);
       } else {
-        setInputError("Instrumento já adicionado");
+        setInputFilterError("Instrumento já adicionado");
         setSearchTerm("");
       }
     } else {
-      setInputError("Nenhum instrumento selecionado");
+      setInputFilterError("Nenhum instrumento selecionado");
     }
   };
 
@@ -223,12 +224,14 @@ export const MoveUseOutput = () => {
           setTimeout(() => {
             setIsLoadingPostUseOutput(false);
             console.error("Ocorreu um erro:", error);
+            createPopup("error", "Erro interno do servidor", "Estamos com problemas em nosso servidor, tente novamente", () => {setIsPopupActive(false)})
             
           }, 1000);
           return;
         } else {
           console.log(data);
           setIsLoadingPostUseOutput(false);
+          createPopup("feedback", "Movimentação realizada com sucesso", "", () => {setIsPopupActive(false)})
           
         }
       },
@@ -240,7 +243,15 @@ export const MoveUseOutput = () => {
     const idsList = tableMainPage.map((item) => item.id);
 
     if (idsList.length == 0) {
-      createPopup("error", "Nenhum instrumento selecionado", "Selecione ao menos um instrumento para dar saída.")
+      createPopup("error", "Nenhum instrumento selecionado", "Selecione ao menos um instrumento para dar saída.", () => {setIsPopupActive(false)})
+      return
+    }
+    if (shippingResponsibleSelected.length == 0 || dateSelected.length == 0 ){
+      createPopup("error", "Campos incompletos", "Campos *responsável de entrega* e *data de saída* devem ser preenchidos.", () => {setIsPopupActive(false)})
+      return
+    }
+    if(areaSelected.length == 0 && receivingResponsibleSelected.length == 0){
+      createPopup("error", "Campos incompletos", "Preencha ao menos um dos campos de área ou responsável de recebimento", () => {setIsPopupActive(false)})
       return
     }
     const data = {
@@ -261,22 +272,29 @@ export const MoveUseOutput = () => {
     }));
   };
 
-  const clearInputError = (inputTitle: string) => {
-    setInputErrors(prevstate => ({
-      ...prevstate,
-      [inputTitle]: ""
-    }))
+  const clearInputError = (all: boolean, inputTitle: string) => {
+    if(all){
+      setInputErrors({})
+    }else{
+      setInputErrors(prevstate => ({
+        ...prevstate,
+        [inputTitle]: ""
+      }))
+    }
   }
 
   const createPopup = (
     type: string,
     title: string,
-    body: string
+    body: string,
+    btnFunction: Function
   ) => {
     setIsPopupActive(true);
     setPopupType(type);
     setPopupTitle(title);
     setPopupBody(body);
+    setPopupFunction(btnFunction)
+    
   };
 
   const resetInstrumentSelected = () => {
@@ -292,18 +310,18 @@ export const MoveUseOutput = () => {
   };
 
   const resetAllModalData = () => {
-    setInputError("");
+    setInputFilterError("");
     setInstrumentsFiltered([]);
     setSearchTerm("");
     resetInstrumentSelected();
     setTableModalList([]);
   };
 
-  if (isError) {
+  if (isError || isErrorArea) {
     return <ErrorPage />;
   }
 
-  if (isLoading) {
+  if (isLoading || isLoadingArea) {
     return <LoadingPage />;
   }
 
@@ -341,8 +359,8 @@ export const MoveUseOutput = () => {
                     setInstrumentSelected={setInstrumentSelected}
                     instrumentSelected={instrumentSelected}
                     tableModalList={tableModalList}
-                    inputError={inputError}
-                    setInputError={setInputError}
+                    inputError={inputFilterError}
+                    setInputError={setInputFilterError}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
                     isLoadingInput={isLoadingInput}
@@ -413,6 +431,7 @@ export const MoveUseOutput = () => {
                   inputGroupError={inputErrors}
                   clearInputError={clearInputError}
                   isInputActive={true}
+                  valueSelected={shippingResponsibleSelected}
                   />
               </div>
               <div>
@@ -427,6 +446,7 @@ export const MoveUseOutput = () => {
                   inputGroupError={inputErrors}
                   clearInputError={clearInputError}
                   isInputActive={areaSelected !== "" ? false : true}
+                  valueSelected={receivingResponsibleSelected}
                 />
               </div>
             </div>
@@ -443,6 +463,7 @@ export const MoveUseOutput = () => {
                   inputGroupError={inputErrors}
                   clearInputError={clearInputError}
                   isInputActive={receivingResponsibleSelected !== "" ? false : true}
+                  valueSelected={areaSelected}
                 />
               </div>
               <div>
