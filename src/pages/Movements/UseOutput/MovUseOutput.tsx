@@ -204,6 +204,7 @@ export const MoveUseOutput = () => {
           code: item.code,
           description: item.description,
           additionalReferences: item.additionalReferences,
+          nextCalibrationHide: item.nextCalibration
         })),
       ]);
       setOpenModal(false);
@@ -241,28 +242,35 @@ export const MoveUseOutput = () => {
   //Busca os ids dos instrumentos dentro da lista de instrumentos e chama função que envia à api
   const handleConfirmUseOutput = () => {
     const idsList = tableMainPage.map((item) => item.id);
+    setIsLoadingPostUseOutput(true)
+    setTimeout(() => {
+      setIsLoadingPostUseOutput(false)
+      if (idsList.length == 0) {
+        createPopup("error", "Nenhum instrumento selecionado", "Selecione ao menos um instrumento para dar saída.", () => {setIsPopupActive(false)})
+        return
+      }
+      if (shippingResponsibleSelected.length == 0 || dateSelected.length == 0 ){
+        createPopup("error", "Campos incompletos", "Campos *responsável de entrega* e *data de saída* devem ser preenchidos.", () => {setIsPopupActive(false)})
+        return
+      }
+      if(areaSelected.length == 0 && receivingResponsibleSelected.length == 0){
+        createPopup("error", "Campos incompletos", "Preencha ao menos um dos campos de área ou responsável de recebimento", () => {setIsPopupActive(false)})
+        return
+      }
+      tableMainPage.map((item) => {
+        console.log(item.nextCalibrationHide)
+      })
+      const data = {
+        instrumentIds: idsList,
+        shippingResponsible: shippingResponsibleSelected,
+        receivingResponsible: receivingResponsibleSelected,
+        area: areaSelected,
+        outputDate: dateSelected,
+      };
+  
+      handlePostUseOutput(data);
+    }, 1000)
 
-    if (idsList.length == 0) {
-      createPopup("error", "Nenhum instrumento selecionado", "Selecione ao menos um instrumento para dar saída.", () => {setIsPopupActive(false)})
-      return
-    }
-    if (shippingResponsibleSelected.length == 0 || dateSelected.length == 0 ){
-      createPopup("error", "Campos incompletos", "Campos *responsável de entrega* e *data de saída* devem ser preenchidos.", () => {setIsPopupActive(false)})
-      return
-    }
-    if(areaSelected.length == 0 && receivingResponsibleSelected.length == 0){
-      createPopup("error", "Campos incompletos", "Preencha ao menos um dos campos de área ou responsável de recebimento", () => {setIsPopupActive(false)})
-      return
-    }
-    const data = {
-      instrumentIds: idsList,
-      shippingResponsible: shippingResponsibleSelected,
-      receivingResponsible: receivingResponsibleSelected,
-      area: areaSelected,
-      outputDate: dateSelected,
-    };
-
-    handlePostUseOutput(data);
   };
 
   const handleInputError = (inputName: string, errorMessage: string) => {
@@ -289,11 +297,15 @@ export const MoveUseOutput = () => {
     body: string,
     btnFunction: Function
   ) => {
-    setIsPopupActive(true);
     setPopupType(type);
     setPopupTitle(title);
     setPopupBody(body);
-    setPopupFunction(btnFunction)
+    setPopupFunction(() => {
+      setPopupBody("")
+      setPopupTitle("")
+      setPopupType("none")
+      btnFunction() })
+    setIsPopupActive(true);
     
   };
 
@@ -435,7 +447,7 @@ export const MoveUseOutput = () => {
                   />
               </div>
               <div>
-                <p className="text-major">Responsavel Recebimento</p>
+                <p className={`text-major ${areaSelected !== "" ? 'label-inative' : ''}`} >Responsavel Recebimento</p>
                 <InputSearch
                   options={allEmployees}
                   placeholder="Busque por código ou nome"
@@ -452,7 +464,7 @@ export const MoveUseOutput = () => {
             </div>
             <div className="form-column">
               <div>
-                <p className="text-major">Área</p>
+              <p className={`text-major ${receivingResponsibleSelected !== "" ? 'label-inative' : ''}`}>Área</p>
                 <InputSearch
                   options={allAreas}
                   placeholder="Busque por descrição"
@@ -473,8 +485,7 @@ export const MoveUseOutput = () => {
             </div>
           </section>
           <div>
-            <Checkbox text="Instrumento com calibração vencida" id="calib" />
-            <Checkbox text="Instrumento reprovado" id="rep" />
+            <Checkbox text="Possui instrumento com calibração vencida" id="calib" />
           </div>
         </div>
         <div className="m-auto btn-session-confirm">

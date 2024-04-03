@@ -15,6 +15,10 @@
 
 }
 
+
+.input-inative{
+	border: 1px solid var(--color-grey-02) !important;
+}
 .input-area  {
 	display: flex;
 	align-items: center;

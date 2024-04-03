@@ -80,3 +80,16 @@ select:focus{
 }
 
 
+
+
+
+
+@media screen and (max-width: 1252px) {
+	.table-container th{
+		min-width: 0 !important;
+		width: 20%;
+	}
+	.td-text{
+		width: 6rem;
+	}
+}

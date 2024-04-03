@@ -94,4 +94,5 @@ export interface InstrumentUseOutput {
   code: string
   description: string
   additionalReferences: []
+  nextCalibrationHide: string
 }
