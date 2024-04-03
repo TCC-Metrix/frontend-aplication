@@ -85,6 +85,9 @@ const removeItem = (index: number) => {
                   if(key === "id"){
                     return
                   }
+                  if (key === 'nextCalibrationHide'){
+                    return
+                  }
                   if (isReferencesPresent && key === "additionalReferences") {
                     return <td key={idx} className="text select-td">
                       {item.additionalReferences.length === 0 ? (

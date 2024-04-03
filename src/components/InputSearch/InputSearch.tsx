@@ -4,6 +4,7 @@ import {
   GeneralEmployee,
   GeneralArea,
 } from "../../utils/interfaces/Interfaces";
+import { IoAlertCircle } from "react-icons/io5";
 
 interface InputSearchProps {
   options: (GeneralEmployee | GeneralArea)[] | undefined;
@@ -105,16 +106,20 @@ const InputSearch: React.FC<InputSearchProps> = ({
           value={searchTerm}
           onChange={handleInputChange}
           placeholder={placeholder}
-          className={`text input-area ${getErrorByTitle(title) !== null ? "error-formatted" : ""}`}
+          className={`text input-area ${!isInputActive ? 'input-inative' : ''} ${getErrorByTitle(title) !== null ? "error-formatted" : ""}`}
           name={title}
           disabled={!isInputActive}
         />
       </div>
-      <p className="error-text-main-page small-text">
+      <span className="error-text-main-page small-text">
+     
         {getErrorByTitle(title) && (
-          <>{getErrorByTitle(title)}</>
+          <>
+           <IoAlertCircle size={15} />
+          {getErrorByTitle(title)}
+          </>
         )}
-      </p>
+      </span>
       <div className={isActive ? "search-itens" : "none"}>
         {filteredOptions && filteredOptions?.length > 0 && (
           <ul className="options-list">
