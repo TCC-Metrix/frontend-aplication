@@ -75,6 +75,7 @@ export interface InstrumentToModalTableUseOutput {
   calibrationFrequency: number
   nextCalibration: string
   additionalReferences: []
+  nextCalibrationHide: string
 }
 
 export interface GeneralEmployee {
