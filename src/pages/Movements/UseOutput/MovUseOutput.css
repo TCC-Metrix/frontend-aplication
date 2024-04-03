@@ -40,7 +40,14 @@ main {
 	gap: 10px;
 }
 
-
+.btn-session-confirm{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem 0 9rem;
+	box-sizing: border-box;
+}
 
 .input-filter {
 	width: 100%;

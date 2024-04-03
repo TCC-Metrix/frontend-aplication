@@ -1,14 +1,16 @@
 // store/index.ts
-import {create} from 'zustand';
+import { create } from 'zustand';
 
 type State = {
   activeNavbar: boolean;
   setActiveNavbar: (isActive: boolean) => void;
-};
 
-const useStore = create<State>((set) => ({
-  activeNavbar: false,
+ };
+
+const useNavbarStore = create<State>((set) => ({
+  
   setActiveNavbar: (isActive) => set({ activeNavbar: isActive }),
+  activeNavbar: false,
 }));
 
-export default useStore;
+export default useNavbarStore;

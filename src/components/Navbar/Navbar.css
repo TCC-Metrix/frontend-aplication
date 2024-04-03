@@ -87,6 +87,10 @@
 	right: 0px;
 }
 
+.menu-toggle:hover{
+background-color: var(--color-red-brand-03);
+}
+
 .bar {
 	display: flex;
 	width: 25%;

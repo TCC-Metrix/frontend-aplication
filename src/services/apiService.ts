@@ -1,4 +1,4 @@
-import { GeneralArea, GeneralEmployee, GeneralInstrument, SearchPattern } from "../utils/interfaces/Interfaces";
+import { GeneralArea, GeneralEmployee, GeneralInstrument, SearchPattern, OutputUsePost } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
 
 
@@ -7,12 +7,12 @@ export const getInstruments = async () => {
 	return (await instance.get<GeneralInstrument[]>("instrument/all")).data
 };
 
-//GET - Retorna todos os instrumentos
+//GET - Retorna todos os funcionarios
 export const getEmployees = async () => {
 	return (await instance.get<GeneralEmployee[]>("employee")).data
 };
 
-//GET - Retorna todos os instrumentos
+//GET - Retorna todas as areas
 export const getArea = async () => {
 	return (await instance.get<GeneralArea[]>("area/all")).data
 };
@@ -33,4 +33,6 @@ export const getInstrumentBySome = async (data: SearchPattern) => {
 	})
   };
   
-
+  export const postOutputUse = async (data: OutputUsePost) => {
+	return instance.post<OutputUsePost>("use_output", data);
+};

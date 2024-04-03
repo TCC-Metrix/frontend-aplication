@@ -1,4 +1,4 @@
-import useStore from "../../store/store";
+import useStore from "../../store/navbarStore";
 import "./ErrorPage.css";
 import { CiCircleAlert } from "react-icons/ci";
 

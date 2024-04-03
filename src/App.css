@@ -140,6 +140,10 @@ ul {
     list-style: none;
 }
 
+.m-auto{
+    margin: 0 auto;
+}
+
 
 
 @media (min-width: 1500px) {

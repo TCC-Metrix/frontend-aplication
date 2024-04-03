@@ -1,39 +1,58 @@
 import "./Popup.css";
 import Button from "../Buttons/Button";
-import { IoIosClose } from "react-icons/io";
+import { IoAlertCircle } from "react-icons/io5";
+import { FaCheckCircle } from "react-icons/fa";
+
+
 
 interface PopupProps {
   isActive: boolean;
-  setIsActive: (args: boolean) => void;
   type: string,
   title: string;
   body: string;
+  btnFunction: Function;
 }
 
-const Popup: React.FC<PopupProps> = ({ isActive, setIsActive, type, body, title }) => {
+const Popup: React.FC<PopupProps> = ({ isActive, type, body, title, btnFunction }) => {
+
+  console.log("type: ", type)
+
   return (
     <div
-      className={`popup-overlay-container ${
-        isActive ? "overlay-active" : "overlay-inative"
-      }`}
+      className={`popup-overlay-container ${isActive ? "overlay-active" : "overlay-inative"
+        }`}
     >
       <div className={isActive ? "popup-active" : "popup-inative"}>
-        <Button
-          className="close-button"
-          onClickFunction={() => {
-            setIsActive(false);
-          }}
-        >
-          <IoIosClose size={35} />
-        </Button>
+
         <div className="module-popup-content">
+
           <div className="popup-header">
-            <p className="header-two title-popup error-title">{title}</p>
+            {type === "error" ? (
+              <>
+                <IoAlertCircle color="#ed000873" size={80} />
+                <p className="header-three error-title">{title}</p>
+              </>
+            ) : (
+              <>
+              <FaCheckCircle size={80} color="#00738f"/>
+              <p className="header-three feedback-title">{title}</p>
+              </>
+            )}
           </div>
           <div className="popup-body">
-            <p className="normal-text error-body">{body}</p>
+            <p className="text error-body">{body}</p>
           </div>
         </div>
+        {type === 'error' ? (
+
+        <Button className="btn btn-primary-red" onClickFunction={btnFunction}>
+          Tentar novamente
+        </Button>
+        ) : (
+          <Button className="btn btn-secondary" onClickFunction={btnFunction}>
+            Ir à página inicial
+          </Button>
+        )}
       </div>
     </div>
   );
