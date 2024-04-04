@@ -96,3 +96,20 @@ button{
 	align-items: center;
 }
 
+.btn-full{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding: 13px;
+	
+}
+
+.light-lowercase span{
+	text-transform: none;
+	font-family: 'Light';
+}
+
+.font-20 span{
+	font-size: 20px;
+}
+

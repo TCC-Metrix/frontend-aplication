@@ -5,24 +5,27 @@ import NavBar from "./components/Navbar/Navbar";
 import { useNavbarStore, usePopupStore } from "./store";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Popup from "./components/Popup/Popup";
+import PreLogin from "./pages/Auth/PreLogin/PreLogin";
 
 function App() {
-	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
-	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
+	// const activeNavbar = useNavbarStore((state) => state.activeNavbar);
+	// const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 	const popupBody = usePopupStore((state) => state.popupBody);
 	const isPopupActive = usePopupStore((state) => state.isPopupActive);
 	const popupTitle = usePopupStore((state) => state.popupTitle)
 	const popupType = usePopupStore((state) => state.popupType)
 	let popupBtnFunction = usePopupStore((state) => state.popupBtnFunction)
 	
+	
 
 	return (
 		<>	
-			<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar}/>
+			{/* <NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar}/> */}
 			<Popup isActive={isPopupActive} title={popupTitle} type={popupType} body={popupBody} btnFunction={popupBtnFunction}/>
 			<Routes>
 				<Route path="/" element={<MoveUseOutput />}></Route>
 				<Route path="/error" element={<ErrorPage />}></Route>
+				<Route path="/login" element={<PreLogin />}></Route>
 			</Routes>
 		</>
 	);

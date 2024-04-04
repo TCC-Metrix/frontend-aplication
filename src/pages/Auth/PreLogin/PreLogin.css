@@ -1,0 +1,47 @@
+.login-container{
+    width: 100vw;
+    height: 100vh;
+    background-color: aqua;
+    overflow-y: none !important ;
+    background-image: url('../../../assets/images/background01.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 32px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+.logo-top-section{
+    position: fixed;
+    float: left;
+}
+
+.logo-top-section img{
+     width: 105px;
+}
+
+.login-content-container{
+    height: 100%;
+    width: 100%;
+    background-color: aqua;
+    display: flex;
+    justify-content: center;
+}
+
+.login-content-dialog{
+    /* width: 8rem;
+    height: 8rem; */
+    background-color: var(--color-white);
+    padding: 45px;
+}
+
+.login-content-dialog img{
+    height: 79px;
+}
+
+.black-light{
+    color: var(--color-black);
+    font-family: 'Light';
+}
+
