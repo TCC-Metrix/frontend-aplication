@@ -15,7 +15,7 @@ function PreLogin() {
           <div className="login-content-dialog">
             <img src={logoDarkImage} alt="logo-metrix-dark" />
             <p className="header-three black-light">
-              Faça login com o usuário bosch
+              Faça login com o usuário Bosch
             </p>
             <Button className="btn-full btn-secondary light-lowercase font-20" onClickFunction={() => {}}>
                Ir à página de login

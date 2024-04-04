@@ -3,7 +3,7 @@ import "./InputSearch.css";
 import {
   GeneralEmployee,
   GeneralArea,
-} from "../../utils/interfaces/Interfaces";
+} from "../../../../utils/interfaces/Interfaces";
 import { IoAlertCircle } from "react-icons/io5";
 
 interface InputSearchProps {

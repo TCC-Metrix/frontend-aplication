@@ -5,7 +5,7 @@ import {
   GeneralInstrument,
   InstrumentToModalTableUseOutput,
   Option,
-} from "../../utils/interfaces/Interfaces";
+} from "../../../../utils/interfaces/Interfaces";
 import { IoAlertCircle } from "react-icons/io5";
 import { RotatingLines } from "react-loader-spinner";
 
@@ -69,6 +69,7 @@ const InputSearchFilter = (props: InputSearchProps) => {
       calibrationFrequency:
         instrumentItem.familyId.calibrationFrequencyInMonths,
       additionalReferences: instrumentItem.additionalReferences,
+      nextCalibrationHide: instrumentItem.nextCalibration
     });
   };
 
