@@ -81,7 +81,8 @@
 body{
     font-family: 'Regular', 'sans-serif';
     color: var(--color-turquoise-06);
-    overflow-y: scroll !important;
+    /* overflow-y: scroll !important; */
+    margin: 0;
 }
 
 a{
