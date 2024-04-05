@@ -6,15 +6,16 @@
     background-image: url('../../../assets/images/background01.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 32px;
-    box-sizing: border-box;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .logo-top-section{
     position: fixed;
-    float: left;
+    display: inline;
+    top: 32px;
+    left: 32px;
 }
 
 .logo-top-section img{
@@ -22,18 +23,19 @@
 }
 
 .login-content-container{
-    height: 100%;
-    width: 100%;
-    background-color: aqua;
+    width: 100vw;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .login-content-dialog{
     /* width: 8rem;
     height: 8rem; */
+    width: 30%;
     background-color: var(--color-white);
     padding: 45px;
+    text-align: center;
 }
 
 .login-content-dialog img{

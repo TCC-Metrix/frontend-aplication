@@ -1,11 +1,10 @@
 import "./MovUseOutput.css";
 import Table from "../../../components/Table/Table";
 import { useState } from "react";
-import InputSearch from "../../../components/InputSearch/InputSearch";
-import Checkbox from "../../../components/Checkbox/Checkbox";
+import InputSearch from "../../../components/Inputs/OutsideLabel/InputSearch/InputSearch";
 import Button from "../../../components/Buttons/Button";
 import Modal from "../../../components/Modal/Modal";
-import InputSearchFilter from "../../../components/InputSearchFilter/InputSearchFilter";
+import InputSearchFilter from "../../../components/Inputs/OutsideLabel/InputSearchFilter/InputSearchFilter";
 import DateInput from "../../../components/DateInput/DateInput";
 import { PiMagnifyingGlassBold } from "react-icons/pi";
 import {
@@ -68,7 +67,6 @@ export const MoveUseOutput = () => {
 		useState<GeneralInstrument[]>();
 	const [dropdownSelected, setDropdownSelected] =
 		useState<string>("description");
-	const [isChecked, setIsChecked] = useState<boolean>(false);
 
 	//Variáveis controladas no contexto da aplicação
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
@@ -104,9 +102,7 @@ export const MoveUseOutput = () => {
 		}
 	};
 
-	const handleCheckboxChange = (checked: boolean) => {
-		setIsChecked(checked);
-	};
+
 
 	//Abre o modal
 	const handleModal = () => {
@@ -319,14 +315,13 @@ export const MoveUseOutput = () => {
 
 				const monthNextCalibration: number = dateNextCalibration.getMonth() + 1;
 				const yearNextCalibration: number = dateNextCalibration.getFullYear();
-				if (!isChecked) {
 					if (currentYear > yearNextCalibration) {
 						listExpiredInstruments.push(item);
 					} else if (currentMonth >= monthNextCalibration) {
 						listExpiredInstruments.push(item);
 					}
 				}
-			});
+			);
 
 			if (listExpiredInstruments.length > 0) {
 				const messageInstruments: string = listExpiredInstruments
@@ -582,11 +577,6 @@ export const MoveUseOutput = () => {
 						</div>
 					</section>
 					<div>
-						<Checkbox
-							text="Possui instrumento com calibração vencida"
-							id="calib"
-							onCheckboxChange={handleCheckboxChange}
-						/>
 					</div>
 				</div>
 				<div className="m-auto btn-session-confirm">
