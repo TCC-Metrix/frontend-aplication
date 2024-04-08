@@ -1,25 +1,24 @@
 import { MenuOptionProps } from "../../utils/interfaces/Interfaces";
-import { GoPerson } from "react-icons/go";
 import { RxExit } from "react-icons/rx";
 import "./MenuOption.css";
-const MenuOption: React.FC<MenuOptionProps> = ({ name, text }) => {
+import { useMsal } from "@azure/msal-react";
+const MenuOption: React.FC<MenuOptionProps> = ({ text }) => {
+	const { instance } = useMsal();
+
+	const handleLogout = () => {
+		instance.logoutPopup({
+			postLogoutRedirectUri: "/login",
+			mainWindowRedirectUri: "/login",
+		});
+	};
 	return (
 		<div className="menu-option-container">
-			<div className="menu-option-row">
-			<div className="menu-option-icon">
-				{name === "person" ? 
-				(
-					<GoPerson />
-				):
-				(
-					<RxExit/>
-				)
-				}
-				
+			<div className="menu-option-row" onClick={() => handleLogout()}>
+				<div className="menu-option-icon">
+					<RxExit />
+				</div>
+				<p className="text">{text}</p>
 			</div>
-			<p className="text">{text}</p>
-			</div>
-
 		</div>
 	);
 };

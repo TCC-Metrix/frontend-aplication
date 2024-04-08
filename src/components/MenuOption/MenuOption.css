@@ -17,6 +17,11 @@
 	padding-left: 10px;
 }
 
+.menu-option-icon{
+	display: flex;
+	align-items: center;
+}
+
 .menu-option-row:hover{
 	background-color: var(--color-grey-01);
 }

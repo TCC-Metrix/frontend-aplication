@@ -2,11 +2,11 @@ import './InstrumentRegister.css'
 
 const InstrumentRegister = () => {
   return (
-    <div>
-      <div>
-        <h1>CADASTRARRRRRRRRRRRR INSTRUMENTOS</h1>
+    <>
+      <div className='main-container-instrument-register-page'>
+        <h1></h1>
       </div>
-    </div>
+    </>
   )
 }
 
