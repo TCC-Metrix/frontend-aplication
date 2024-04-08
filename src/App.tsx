@@ -8,6 +8,7 @@ import Popup from "./components/Popup/Popup";
 import PreLogin from "./pages/Auth/PreLogin/PreLogin";
 import { ProtectedRoute } from "./authSSO/protectedRoute";
 import InstrumentRegister from "./pages/Registers/InstrumentRegister";
+import Logout from "./pages/Logout/Logout";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -66,6 +67,7 @@ function App() {
 						</ProtectedRoute>
 					}
 				></Route>
+				<Route path="/logout" element={<Logout />}></Route>
 			</Routes>
 		</>
 	);
