@@ -54,7 +54,7 @@
 }
 
 .remove-item-list:hover{
-	transition: var(-- --transition-pattern);
+	transition: var(--transition-pattern);
 	color: var(--color-turquoise-03);
 }
 

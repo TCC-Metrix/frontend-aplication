@@ -1,4 +1,4 @@
-import { IoMdCalendar } from "react-icons/io";
+import { AiOutlineCalendar } from "react-icons/ai";
 import { useState, ChangeEvent } from "react";
 import "./DateInput.css";
 
@@ -25,7 +25,7 @@ const DateInput: React.FC<DateInputProps> = ({ setValueSelected }) => {
 					onChange={handleDateChange}
 				/>
 				<div className="calendar-input">
-					<IoMdCalendar size={23} color="476273" />
+					<AiOutlineCalendar size={20} color="476273" />
 				</div>
 			</div>
 		</div>

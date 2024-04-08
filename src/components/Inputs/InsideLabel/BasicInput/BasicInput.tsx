@@ -1,11 +1,20 @@
-import React from 'react'
+import "./BasicInput.css";
 
-function BasicInput() {
-  return (
-    <div>
-      
-    </div>
-  )
+interface BasicInputProps {
+  inputStyle: string;
+  // inputType: string;
+  inputPlaceholder: string;
+  // inputValue: string;
+  // setInputValue: (dropdownValue: string) => void;
 }
 
-export default BasicInput
+function BasicInput(props: BasicInputProps) {
+  return (
+    <div className={`entryarea ${props.inputStyle}`}>
+      <input type="text" className="text-input" required />
+      <div className="label-line text-major">{props.inputPlaceholder}</div>
+    </div>
+  );
+}
+
+export default BasicInput;
