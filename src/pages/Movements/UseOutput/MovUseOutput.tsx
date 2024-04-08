@@ -1,11 +1,7 @@
 import "./MovUseOutput.css";
 import Table from "../../../components/Table/Table";
 import { useState } from "react";
-import InputSearch from "../../../components/Inputs/OutsideLabel/InputSearch/InputSearch";
-import Button from "../../../components/Buttons/Button";
-import Modal from "../../../components/Modal/Modal";
-import InputSearchFilter from "../../../components/Inputs/OutsideLabel/InputSearchFilter/InputSearchFilter";
-import DateInput from "../../../components/DateInput/DateInput";
+import {InputSearch, Modal, Button, DateInput, InputSearchFilter} from '../../../components'
 import { PiMagnifyingGlassBold } from "react-icons/pi";
 import {
 	GeneralInstrument,
