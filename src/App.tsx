@@ -1,14 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import { MoveUseOutput } from "./pages/Movements/UseOutput/MovUseOutput";
-import "./App.css";
-import NavBar from "./components/Navbar/Navbar";
 import { useNavbarStore, usePopupStore } from "./store";
-import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Popup from "./components/Popup/Popup";
 import PreLogin from "./pages/Auth/PreLogin/PreLogin";
 import { ProtectedRoute } from "./authSSO/protectedRoute";
+import NavBar from "./components/Navbar/Navbar";
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
+import { MoveUseOutput } from "./pages/Movements/UseOutput/MovUseOutput";
 import InstrumentRegister from "./pages/Registers/InstrumentRegister";
-import Logout from "./pages/Logout/Logout";
+import './App.css'
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -28,6 +27,10 @@ function App() {
 				body={popupBody}
 				btnFunction={popupBtnFunction}
 			/>
+			
+			<ProtectedRoute>
+				<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
+			</ProtectedRoute>
 
 			<Routes>
 				<Route path="/login" element={<PreLogin />}></Route>
@@ -35,10 +38,6 @@ function App() {
 					path="/"
 					element={
 						<ProtectedRoute>
-							<NavBar
-								activeNavbar={activeNavbar}
-								setActiveNavbar={setActiveNavbar}
-							/>
 							<MoveUseOutput />
 						</ProtectedRoute>
 					}
@@ -47,10 +46,6 @@ function App() {
 					path="/instrument-register"
 					element={
 						<ProtectedRoute>
-							<NavBar
-								activeNavbar={activeNavbar}
-								setActiveNavbar={setActiveNavbar}
-							/>
 							<InstrumentRegister />
 						</ProtectedRoute>
 					}
@@ -59,15 +54,10 @@ function App() {
 					path="/error"
 					element={
 						<ProtectedRoute>
-							<NavBar
-								activeNavbar={activeNavbar}
-								setActiveNavbar={setActiveNavbar}
-							/>
 							<ErrorPage />
 						</ProtectedRoute>
 					}
 				></Route>
-				<Route path="/logout" element={<Logout />}></Route>
 			</Routes>
 		</>
 	);
