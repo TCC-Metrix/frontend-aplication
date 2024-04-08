@@ -7,7 +7,6 @@ export {
   export { default as Table } from "./Table/Table";
   export { default as Pagination } from "./Pagination/Pagination";
   export { default as Popup } from "./Popup/Popup";
-  export { default as LoadingPage } from "./LoadingPage/LoadingPage";
   export { default as Menu } from "./Menu/Menu";
   export { default as Checkbox } from "./Checkbox/Checkbox";
   export { default as Button } from "./Buttons/Button";
