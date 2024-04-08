@@ -26,12 +26,15 @@ const Menu = () => {
 						});
 		}
 }, [inProgress, instance, imageUrl, account?.name]);
+
+
+
 	return (
 		<>
 			<div className="name-img text">
 				<img src={imageUrl} alt="logo-rexroth" className="img-profile"></img>
 				<div>
-					<p className="text">{account?.name}</p>
+					<p className="text-major">{account?.name}</p>
 				</div>
 			</div>
 			<div className="menu-infos-container">

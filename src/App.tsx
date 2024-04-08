@@ -18,10 +18,8 @@ function App() {
 	const popupType = usePopupStore((state) => state.popupType);
 	const popupBtnFunction = usePopupStore((state) => state.popupBtnFunction);
 
-	
 	return (
 		<>
-			<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar}/>
 			<Popup
 				isActive={isPopupActive}
 				title={popupTitle}
@@ -36,6 +34,10 @@ function App() {
 					path="/"
 					element={
 						<ProtectedRoute>
+							<NavBar
+								activeNavbar={activeNavbar}
+								setActiveNavbar={setActiveNavbar}
+							/>
 							<MoveUseOutput />
 						</ProtectedRoute>
 					}
@@ -44,11 +46,26 @@ function App() {
 					path="/instrument-register"
 					element={
 						<ProtectedRoute>
+							<NavBar
+								activeNavbar={activeNavbar}
+								setActiveNavbar={setActiveNavbar}
+							/>
 							<InstrumentRegister />
 						</ProtectedRoute>
 					}
 				></Route>
-				<Route path="/error" element={<ErrorPage />}></Route>
+				<Route
+					path="/error"
+					element={
+						<ProtectedRoute>
+							<NavBar
+								activeNavbar={activeNavbar}
+								setActiveNavbar={setActiveNavbar}
+							/>
+							<ErrorPage />
+						</ProtectedRoute>
+					}
+				></Route>
 			</Routes>
 		</>
 	);
