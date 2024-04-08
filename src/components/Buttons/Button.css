@@ -52,6 +52,15 @@ button{
 	justify-content: center;
 }
 
+.btn-add{
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 25px;
+	box-sizing: border-box;
+}
+
 .btn-lg span{
  font-size: 15px
 }

@@ -1,16 +1,21 @@
 .main-container-instrument-register-page{
     width: 80%;
-    height: 100vh;
+    height: 999vh;
     margin: 0 auto;
     padding-top: 6rem;
     box-sizing: border-box;
     max-width: 800px;
 }
 
-.flex{
+.flex-form-line{
     display: flex;
     width: 100%;
     justify-content: space-between;
-    margin-top: 60px;
+}
+
+.main-form{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }
 
