@@ -6,22 +6,22 @@ import { useNavbarStore, usePopupStore } from "./store";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Popup from "./components/Popup/Popup";
 import PreLogin from "./pages/Auth/PreLogin/PreLogin";
-import { useMsal } from "@azure/msal-react";
 import { ProtectedRoute } from "./authSSO/protectedRoute";
+import InstrumentRegister from "./pages/Registers/InstrumentRegister";
 
 function App() {
-	// const activeNavbar = useNavbarStore((state) => state.activeNavbar);
-	// const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
+	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
+	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 	const popupBody = usePopupStore((state) => state.popupBody);
 	const isPopupActive = usePopupStore((state) => state.isPopupActive);
 	const popupTitle = usePopupStore((state) => state.popupTitle);
 	const popupType = usePopupStore((state) => state.popupType);
 	const popupBtnFunction = usePopupStore((state) => state.popupBtnFunction);
 
-	const { accounts } = useMsal();
+	
 	return (
 		<>
-			{/* <NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar}/> */}
+			<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar}/>
 			<Popup
 				isActive={isPopupActive}
 				title={popupTitle}
@@ -37,6 +37,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<MoveUseOutput />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/instrument-register"
+					element={
+						<ProtectedRoute>
+							<InstrumentRegister />
 						</ProtectedRoute>
 					}
 				></Route>
