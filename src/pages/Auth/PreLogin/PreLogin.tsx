@@ -1,5 +1,4 @@
 import "./PreLogin.css";
-import logoWhiteImage from "../../../assets/images/metrix-logo-white.png";
 import logoDarkImage from "../../../assets/images/metrix-logo-dark.png";
 import logoRex from "../../../assets/images/rexroth-logo-white-nobg.png";
 import Button from "../../../components/Buttons/Button";
