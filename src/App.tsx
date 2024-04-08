@@ -6,8 +6,9 @@ import { ProtectedRoute } from "./authSSO/protectedRoute";
 import NavBar from "./components/Navbar/Navbar";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import { MoveUseOutput } from "./pages/Movements/UseOutput/MovUseOutput";
-import InstrumentRegister from "./pages/Registers/InstrumentRegister";
+import InstrumentRegister from "./pages/Registers/Instrument/InstrumentRegister";
 import './App.css'
+
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -35,7 +36,7 @@ function App() {
 			<Routes>
 				<Route path="/login" element={<PreLogin />}></Route>
 				<Route
-					path="/"
+					path="/movement/use/output"
 					element={
 						<ProtectedRoute>
 							<MoveUseOutput />
@@ -43,7 +44,7 @@ function App() {
 					}
 				></Route>
 				<Route
-					path="/instrument-register"
+					path="/register/instrument"
 					element={
 						<ProtectedRoute>
 							<InstrumentRegister />

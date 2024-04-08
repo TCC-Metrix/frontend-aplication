@@ -22,8 +22,6 @@ const Modal: FC<ModalProps> = ({ isOpen, setModalOpen, children }) => {
 							</Button>
 							{children}
 				</div>
-
-				
 			</div>
 		);
 	}
