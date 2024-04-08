@@ -18,8 +18,6 @@ const Popup: React.FC<PopupProps> = ({
   title,
   btnFunction,
 }) => {
-  console.log("type: ", type);
-
   return (
     <div
       className={`popup-overlay-container ${

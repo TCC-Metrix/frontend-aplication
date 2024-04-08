@@ -16,7 +16,7 @@ import {
 } from "../../../services/useMutation";
 import { SubmitHandler } from "react-hook-form";
 import { useAllAreas, useAllEmployees } from "../../../services/useFetchData";
-import LoadingPage from "../../../components/LoadingPage/LoadingPage";
+import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import { useNavbarStore, usePopupStore } from "../../../store";
 import { RotatingLines } from "react-loader-spinner";
