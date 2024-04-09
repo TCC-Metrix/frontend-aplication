@@ -1,8 +1,12 @@
 import "./Supplier.css";
 import { BasicInput, Button } from "../../../components";
+import { msalInstance } from "../../../authSSO/msalInstance";
 
 const SupplierRegister = () => {
-	return (
+	
+  console.log(msalInstance.getActiveAccount())
+
+  return (
 		<>
 			<div className="main-container-supplier-register-page">
 				<div className="main-content-supplier-page">
