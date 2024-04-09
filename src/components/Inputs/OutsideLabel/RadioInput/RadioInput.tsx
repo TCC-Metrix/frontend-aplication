@@ -1,11 +1,11 @@
-interface RadioButtonProps{
+interface RadioInputProps{
   title: string
   name: string
   value: string
   id: string
 }
 
-const RadioButton = (props: RadioButtonProps) => {
+const RadioInput = (props: RadioInputProps) => {
 	return (
 		<div>
 			<input type="radio" name={props.name} value={props.value} id={props.id}/>
@@ -14,4 +14,4 @@ const RadioButton = (props: RadioButtonProps) => {
 	);
 };
 
-export default RadioButton;
+export default RadioInput;

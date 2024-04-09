@@ -10,6 +10,7 @@ import InstrumentRegister from "./pages/Registers/Instrument/InstrumentRegister"
 import "./App.css";
 import { useEffect } from "react";
 import LaboratoryRegister from "./pages/Registers/Laboratory/LaboratoryRegister";
+import SupplierRegister from "./pages/Registers/Supplier/SupplierRegister";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -72,6 +73,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<LaboratoryRegister />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/register/supplier"
+					element={
+						<ProtectedRoute>
+							<SupplierRegister />
 						</ProtectedRoute>
 					}
 				></Route>

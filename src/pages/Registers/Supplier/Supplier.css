@@ -1,0 +1,19 @@
+.main-container-supplier-register-page{
+    width: 80%;
+    height: 150vh;
+    margin: 0 auto;
+    padding-top: 7rem;
+    box-sizing: border-box;
+    max-width: 800px;
+}
+
+.title-supplier-register-page{
+    text-align: center;
+    margin-bottom: 28px;
+    font-family: 'Medium';
+}
+
+.btn-confirm-supplier-page{
+    display: flex;
+    align-self: flex-end;
+}
