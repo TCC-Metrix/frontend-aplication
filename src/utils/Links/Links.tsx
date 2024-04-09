@@ -3,7 +3,7 @@ import { List } from "../interfaces/Interfaces";
 export const movLinks: List[] = [
 	{
 		name: "Saída para uso",
-		link: "#",
+		link: "/movement/use/output",
 	},
 	{
 		name: "Saída para laboratorio",
@@ -22,7 +22,7 @@ export const movLinks: List[] = [
 export const cadLinks: List[] = [
 	{
 		name: "Instrumento",
-		link: "#",
+		link: "/register/instrument",
 	},
 	{
 		name: "Família",
