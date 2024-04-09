@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import { Button } from "../../..";
 import BasicInput from "../BasicInput/BasicInput";
 import { HiOutlinePlus, HiOutlineMinus } from "react-icons/hi";
@@ -7,38 +7,41 @@ import "./ExpandableInput.css";
 interface ExpandableInputProps {}
 
 function ExpandableInput(props: ExpandableInputProps) {
-    const [inputs, setInputs] = useState<number[]>([1]); // Estado para manter a lista de inputs adicionais
+    const [inputs, setInputs] = useState<number[]>([0]); // Estado para manter a lista de inputs adicionais
 
     const addInput = () => {
         if (inputs.length < 3) {
-            setInputs([...inputs, inputs.length + 1]); // Adiciona um novo input
+          const lastValue = inputs[inputs.length - 1]; // Último valor presente na lista
+          setInputs([...inputs, lastValue + 1]);
         }
     };
 
     const removeInput = (index: number) => {
-      console.log(index)
       if (inputs.length > 1) {
-        const newInputs = [...inputs.slice(0, index), ...inputs.slice(index + 1)]; // Remove o input com o índice especificado
+        const newInputs = [...inputs]
+        newInputs.splice(index, 1)
         setInputs(newInputs);
     }
     };
 
+
     return (
         <div className="expandable-input-wrapper">
             {/* Renderiza os inputs existentes */}
-            {inputs.map((index) => (
-                <div key={index} className="input-wrapper">
+            {inputs.map((item, index) => (
+                <div key={item} className="input-wrapper">
                     <BasicInput
                         inputPlaceholder="referência adicional"
                         inputStyle="large-input"
-                        key={index}
+                
+                        key={item}
                     />
                     {/* Botão para remover o input */}
                     {inputs.length > 1 && (
                         <Button
                             onClickFunction={(e: Event) => {
                               e.preventDefault()
-                              removeInput(index-1)}}
+                              removeInput(index)}}
                             className="btn btn-add"
                         >
                             <HiOutlineMinus color="#506e81" size={20} />
@@ -48,7 +51,7 @@ function ExpandableInput(props: ExpandableInputProps) {
             ))}
             <div className="expandable-input-container">
                 {/* Botão para adicionar mais inputs */}
-                {inputs.length < 3 && (
+                {inputs.length < 3 ? (
                     <Button
                         onClickFunction={(e: React.MouseEvent<HTMLButtonElement>) => {
                             e.preventDefault();
@@ -58,6 +61,9 @@ function ExpandableInput(props: ExpandableInputProps) {
                     >
                         <HiOutlinePlus color="#506e81" size={30} />
                     </Button>
+                ) : (
+                  <>
+                  </>
                 )}
             </div>
         </div>

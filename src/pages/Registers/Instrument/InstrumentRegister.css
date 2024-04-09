@@ -19,3 +19,14 @@
     gap: 25px;
 }
 
+.radio-title{
+    color: var(--color-grey-06);
+    margin: 0;
+    user-select: none;
+}
+
+.radio-group{
+    display: flex;
+    gap: 20px;
+}
+
