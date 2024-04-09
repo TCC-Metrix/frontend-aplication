@@ -6,6 +6,7 @@ import {
   DateInputInside,
   ExpandableInput,
   RadioInput,
+  BasicInputFilter,
 } from "../../../components";
 import "./InstrumentRegister.css";
 
@@ -23,7 +24,7 @@ const InstrumentRegister = () => {
     console.log(data);
   };
 
-  
+
 
   return (
     <>
@@ -174,6 +175,7 @@ const InstrumentRegister = () => {
             >
               <span className="text button-font">Enviar</span>
             </button>
+            <BasicInputFilter/>
           </form>
         </div>
       </div>
