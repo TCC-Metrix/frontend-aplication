@@ -16,6 +16,6 @@ export {
   export { default as InputSearchFilter } from "./Inputs/OutsideLabel/InputSearchFilter/InputSearchFilter";
   export { default as SelectInput } from "./Inputs/InsideLabel/SelectInput/SelectInput"
   export { default as DateInputInside } from "./Inputs/InsideLabel/DateInputInside/DateInputInside"
-  export { default as ExpandableInput } from "./Inputs/InsideLabel/ExpandableInput/ExpandableInput"
+  // export { default as ExpandableInput } from "./Inputs/InsideLabel/ExpandableInput/ExpandableInput"
   export { default as RadioInput } from "./Inputs/OutsideLabel/RadioInput/RadioInput"
   
