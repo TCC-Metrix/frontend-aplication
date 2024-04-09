@@ -7,9 +7,9 @@ const Button: React.FC<ButtonProps> = (props) => {
 		<div className="module-button m-auto">
 			<button
 				className={props.className}
-				onClick={() => {
+				onClick={(e) => {
 					if (props.onClickFunction) {
-						props.onClickFunction();
+						props.onClickFunction(e);
 					}
 				}}
 			>

@@ -1,4 +1,9 @@
-import { BasicInput, SelectInput, DateInputInside, ExpandableInput } from "../../../components";
+import {
+  BasicInput,
+  SelectInput,
+  DateInputInside,
+  ExpandableInput,
+} from "../../../components";
 import "./InstrumentRegister.css";
 
 const InstrumentRegister = () => {
@@ -32,7 +37,10 @@ const InstrumentRegister = () => {
             />
             <BasicInput inputPlaceholder="família" inputStyle="large-input" />
             <div className="flex-form-line">
-              <BasicInput inputPlaceholder="critério de aceitação" inputStyle="little-input" />
+              <BasicInput
+                inputPlaceholder="critério de aceitação"
+                inputStyle="little-input"
+              />
               <BasicInput
                 inputPlaceholder="unidade de medida"
                 inputStyle="little-input"
@@ -44,12 +52,17 @@ const InstrumentRegister = () => {
               />
             </div>
             <div className="flex-form-line">
-              <BasicInput inputPlaceholder="custo de aquisição" inputStyle="medium-input"/>
-              <BasicInput inputPlaceholder="centro de custo" inputStyle="medium-input"/>
+              <BasicInput
+                inputPlaceholder="custo de aquisição"
+                inputStyle="medium-input"
+              />
+              <BasicInput
+                inputPlaceholder="centro de custo"
+                inputStyle="medium-input"
+              />
             </div>
-            <ExpandableInput/>
+            <ExpandableInput />
           </form>
-
         </div>
       </div>
     </>
