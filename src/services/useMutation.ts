@@ -20,7 +20,6 @@ export function useGetInstrumentBy(){
 export function usePostOutputUse(){
     return useMutation({
         mutationFn: (data: OutputUsePost) => {
-            console.log(data)
             return postOutputUse({
                 instrumentIds: data.instrumentIds,
                 area: data.area,
