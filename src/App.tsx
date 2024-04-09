@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useNavbarStore, usePopupStore } from "./store";
 import Popup from "./components/Popup/Popup";
 import PreLogin from "./pages/Auth/PreLogin/PreLogin";
@@ -7,8 +7,8 @@ import NavBar from "./components/Navbar/Navbar";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import { MoveUseOutput } from "./pages/Movements/UseOutput/MovUseOutput";
 import InstrumentRegister from "./pages/Registers/Instrument/InstrumentRegister";
-import './App.css'
-
+import "./App.css";
+import { useEffect } from "react";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -19,6 +19,13 @@ function App() {
 	const popupType = usePopupStore((state) => state.popupType);
 	const popupBtnFunction = usePopupStore((state) => state.popupBtnFunction);
 
+	const location = useLocation();
+
+	useEffect(() => {
+		setActiveNavbar(false)
+		// Faça o que precisar com a nova rota...
+	}, [location]);
+
 	return (
 		<>
 			<Popup
@@ -28,7 +35,7 @@ function App() {
 				body={popupBody}
 				btnFunction={popupBtnFunction}
 			/>
-			
+
 			<ProtectedRoute>
 				<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
 			</ProtectedRoute>
