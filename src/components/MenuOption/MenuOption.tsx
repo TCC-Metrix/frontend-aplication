@@ -6,9 +6,8 @@ const MenuOption: React.FC<MenuOptionProps> = ({ text }) => {
 	const { instance } = useMsal();
 
 	const handleLogout = () => {
-		instance.logoutPopup({
+		instance.logoutRedirect({
 			postLogoutRedirectUri: "/login",
-			mainWindowRedirectUri: "/login",
 		});
 	};
 	return (
