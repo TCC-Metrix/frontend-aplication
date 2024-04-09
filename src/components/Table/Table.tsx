@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Table.css";
 import Pagination from "../Pagination/Pagination";
 import { InstrumentToModalTableUseOutput } from "../../utils/interfaces/Interfaces";
@@ -26,7 +26,6 @@ const Table: React.FC<TableProps> = ({
   useEffect(() => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    console.log()
     setCurrentItems(tableContent.slice(indexOfFirstItem, indexOfLastItem));
   }, [tableContent, currentPage, itemsPerPage]);
 

@@ -9,6 +9,7 @@ import { MoveUseOutput } from "./pages/Movements/UseOutput/MovUseOutput";
 import InstrumentRegister from "./pages/Registers/Instrument/InstrumentRegister";
 import "./App.css";
 import { useEffect } from "react";
+import LaboratoryRegister from "./pages/Registers/Laboratory/LaboratoryRegister";
 import FamilyRegister from "./pages/Registers/Family/FamilyRegister";
 
 function App() {
@@ -68,6 +69,15 @@ function App() {
 					}
 				></Route>
 				<Route
+					path="/register/laboratory"
+					element={
+						<ProtectedRoute>
+							<LaboratoryRegister />
+            </ProtectedRoute>
+            }
+            ></Route>
+          
+         <Route
 					path="/register/family"
 					element={
 						<ProtectedRoute>

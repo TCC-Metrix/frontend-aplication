@@ -14,7 +14,7 @@ function DateInputInside(props: DateInputInside) {
       <div className="label-select">{props.placeholder}</div>
       <input type="date" name="" id="" className="inside-date-input" />
       <div className="calendar-inside-icon">
-        <AiOutlineCalendar size={30} color="#506e81" />
+        <AiOutlineCalendar size={25} color="#506e81" />
       </div>
     </div>
   );
