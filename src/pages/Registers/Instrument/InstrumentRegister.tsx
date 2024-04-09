@@ -2,6 +2,8 @@ import { BasicInput, SelectInput, DateInputInside, ExpandableInput } from "../..
 import "./InstrumentRegister.css";
 
 const InstrumentRegister = () => {
+
+
   return (
     <>
       <div className="main-container-instrument-register-page">

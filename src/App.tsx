@@ -9,6 +9,7 @@ import { MoveUseOutput } from "./pages/Movements/UseOutput/MovUseOutput";
 import InstrumentRegister from "./pages/Registers/Instrument/InstrumentRegister";
 import "./App.css";
 import { useEffect } from "react";
+import LaboratoryRegister from "./pages/Registers/Laboratory/LaboratoryRegister";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -63,6 +64,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<ErrorPage />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/register/laboratory"
+					element={
+						<ProtectedRoute>
+							<LaboratoryRegister />
 						</ProtectedRoute>
 					}
 				></Route>

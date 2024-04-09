@@ -21,6 +21,7 @@ import ErrorPage from "../../ErrorPage/ErrorPage";
 import { useNavbarStore, usePopupStore } from "../../../store";
 import { RotatingLines } from "react-loader-spinner";
 
+
 export const MoveUseOutput = () => {
 	// Estados para controlar o estado dos componentes
 	const [activeShippingInput, setActiveShippingInput] =
@@ -184,6 +185,9 @@ export const MoveUseOutput = () => {
 			setInputFilterError("Nenhum instrumento selecionado");
 		}
 	};
+
+	
+	
 
 	//Adiciona os instrumentos do modal na lista principal
 	const handleButtonConfirmModal = () => {
@@ -410,6 +414,7 @@ export const MoveUseOutput = () => {
 	if (isLoading || isLoadingArea) {
 		return <LoadingPage />;
 	}
+
 
 	return (
 		<main>
