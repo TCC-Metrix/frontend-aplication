@@ -1,7 +1,12 @@
 import "./LaboratoryRegister.css";
 import { BasicInput, Button } from "../../../components";
+import { msalInstance } from "../../../authSSO/msalInstance";
 
 const LaboratoryRegister = () => {
+
+	console.log(msalInstance.getActiveAccount()?.idTokenClaims?.roles);
+	
+
 	return (
 		<>
 			<div className="main-container-laboratory-register-page">
