@@ -1,4 +1,13 @@
-.expandable-input-container{
+.expandable-input-wrapper {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
+    gap: 10px; /* Espaçamento entre os inputs e botões */
 }
+
+.input-wrapper {
+    display: flex;
+    gap: 16px;/* Alinha os elementos verticalmente */
+}
+
+
+

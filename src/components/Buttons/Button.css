@@ -57,8 +57,12 @@ button{
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 0 25px;
 	box-sizing: border-box;
+	background-color: var(--color-grey-02);
+}
+
+.btn-add:hover{
+	background-color: var(--color-grey-03);
 }
 
 .btn-lg span{
