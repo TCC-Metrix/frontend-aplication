@@ -106,6 +106,21 @@ export const MoveUseOutput = () => {
 		}
 	};
 
+	const authorizationHeader =
+		axiosInstance.defaults.headers.common["Authorization"];
+
+	useEffect(() => {
+		if (authorizationHeader === "Bearer undefined") {
+			console.log("to aqui ");
+			setIsLoadingToken(true);
+		} else if (authorizationHeader !== "Bearer undefined") {
+			console.log("to aqui tb fiote");
+			setIsLoadingToken(false);
+		}
+
+		console.log(authorizationHeader);
+	}, [authorizationHeader]);
+
 	//Abre o modal
 	const handleModal = () => {
 		// setIsPopupActive(true);
@@ -409,19 +424,6 @@ export const MoveUseOutput = () => {
 		resetInstrumentSelected();
 		setTableModalList([]);
 	};
-
-	useEffect(() => {
-		const authorizationHeader =
-			axiosInstance.defaults.headers.common["Authorization"];
-
-		if (authorizationHeader === undefined) {
-			setIsLoadingToken(true);
-		} else {
-			setIsLoadingToken(false);
-		}
-
-		console.log(authorizationHeader);
-	}, []);
 
 	if (isError || isErrorArea) {
 		return <ErrorPage />;
