@@ -19,7 +19,7 @@
 .label-select{
     position: absolute;
     top: 6px;
-    z-index: 998;
+    z-index: 10;
     left: 14px;
     font-size: 12px;
     text-transform: uppercase;

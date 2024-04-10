@@ -1,5 +1,6 @@
 import "./LaboratoryRegister.css";
 import { BasicInput, Button } from "../../../components";
+import RadioButton from "../../../components/Inputs/OutsideLabel/RadioInput/RadioInput";
 
 const LaboratoryRegister = () => {
 	return (
