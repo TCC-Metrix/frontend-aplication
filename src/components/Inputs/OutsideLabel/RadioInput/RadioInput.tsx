@@ -1,3 +1,5 @@
+import './RadioInput.css'
+
 interface RadioInputProps{
   title: string
   name: string
@@ -7,9 +9,9 @@ interface RadioInputProps{
 
 const RadioInput = (props: RadioInputProps) => {
 	return (
-		<div>
+		<div className="radio-container normal-text">
 			<input type="radio" name={props.name} value={props.value} id={props.id}/>
-			<label>{props.title}</label>
+			<label htmlFor={props.id}>{props.title}</label>
 		</div>
 	);
 };
