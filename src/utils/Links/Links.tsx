@@ -26,7 +26,7 @@ export const cadLinks: List[] = [
 	},
 	{
 		name: "Família",
-		link: "#",
+		link: "/register/family",
 	},
 	{
 		name: "Usuário",
@@ -38,11 +38,11 @@ export const cadLinks: List[] = [
 	},
 	{
 		name: "Laboratório",
-		link: "#",
+		link: "/register/laboratory",
 	},
 	{
 		name: "Fornecedor",
-		link: "#",
+		link: "/register/supplier",
 	},
 	{
 		name: "Área",
