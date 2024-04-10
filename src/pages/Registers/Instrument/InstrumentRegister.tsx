@@ -9,6 +9,12 @@ import {
   BasicInputFilter,
 } from "../../../components";
 import "./InstrumentRegister.css";
+import {
+  useAllFamilies,
+  useAllSuppliers,
+} from "../../../services/useFetchData";
+import LoadingPage from "../../LoadingPage/LoadingPage";
+import ErrorPage from "../../ErrorPage/ErrorPage";
 
 const InstrumentRegister = () => {
   const {
@@ -17,6 +23,7 @@ const InstrumentRegister = () => {
     formState: { errors, isSubmitting },
     reset,
     getValues,
+    setValue,
   } = useForm();
 
   const onSubmit = (data: FieldValues) => {
@@ -24,7 +31,24 @@ const InstrumentRegister = () => {
     console.log(data);
   };
 
+  const {
+    data: allFamilies,
+    isLoading: isLoadingFamilies,
+    isError: isErrorFamilies,
+  } = useAllFamilies(); //busca todos as familias
+  const {
+    data: allSuppliers,
+    isLoading: isLoadingSuppliers,
+    isError: isErrorSuppliers,
+  } = useAllSuppliers(); //busca todos as familias
 
+  if (isLoadingSuppliers || isLoadingFamilies) {
+    return <LoadingPage />;
+  }
+
+  if (isErrorFamilies || isErrorSuppliers) {
+    return <ErrorPage />;
+  }
 
   return (
     <>
@@ -79,6 +103,15 @@ const InstrumentRegister = () => {
                 isRequired={true}
                 errors={errors}
               />
+              <BasicInputFilter
+                inputStyle="classe-large"
+                inputId="supplier"
+                inputName="supplierDescription"
+                items={allSuppliers}
+                inputPlaceholder="fornecedor"
+                register={register}
+                setValue={setValue}
+              />
               <BasicInput
                 inputPlaceholder="forncedor"
                 inputStyle="medium-input"
@@ -98,14 +131,14 @@ const InstrumentRegister = () => {
               inputName="manufacturer"
               register={register}
             />
-            <BasicInput
+            <BasicInputFilter
+              inputStyle="classe-large"
+              inputId="familyID"
+              inputName="familyDescription"
+              items={allFamilies}
               inputPlaceholder="família"
-              inputStyle="large-input"
-              errors={errors}
-              isRequired={false}
-              inputType="text"
-              inputName="family"
               register={register}
+              setValue={setValue}
             />
             <div className="flex-form-line">
               <BasicInput
@@ -175,7 +208,6 @@ const InstrumentRegister = () => {
             >
               <span className="text button-font">Enviar</span>
             </button>
-            <BasicInputFilter/>
           </form>
         </div>
       </div>

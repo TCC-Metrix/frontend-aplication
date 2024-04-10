@@ -97,3 +97,10 @@ export interface InstrumentUseOutput {
   additionalReferences: []
   nextCalibrationHide: string
 }
+
+
+export interface GeneralSupplier {
+  id: string;
+  name: string;
+  cnpj: string;
+}

@@ -52,6 +52,7 @@ const InputSearch: React.FC<InputSearchProps> = ({
         ? option.name.toLowerCase().includes(searchTerm.toLowerCase())
         : option.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    
     setFilteredOptions(filteredOptions ?? []);
     if (filteredOptions?.length == 0 && isActive) {
       setInputGroupError(title, `${label} não encontrado(a)`);

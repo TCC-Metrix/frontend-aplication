@@ -1,3 +1,14 @@
 .no-absolut{
     position: relative !important;
+    float: left;
+   
+}
+
+
+.entryarea input:focus-within + .search-itens {
+    background-color: aqua !important;
+}
+
+.z-997{
+    z-index: 997;
 }

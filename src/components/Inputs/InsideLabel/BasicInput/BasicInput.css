@@ -49,16 +49,18 @@
     width: 100%;
 }
 
-.classe-medium{
-    width: 50%;
+.classe-large{
+    position: relative;
 }
 
 .classe-little{
     width: 32%;
+    position: relative;
 }
 
 .classe-medium{
     width: 49%;
+    position: relative;
 }
 
 
