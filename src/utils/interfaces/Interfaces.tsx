@@ -23,17 +23,17 @@ export interface GeneralInstrument {
   serieNumber: string
   inventory: string
   acquisitionDate: string
-  supplier: any
-  manufacturer: any
+  supplier: string
+  manufacturer: string
   familyId: Family
   additionalReferences: []
-  acceptanceCriteria: any
-  measurementUnit: any
+  acceptanceCriteria: string
+  measurementUnit: string
   situation: string
-  situationReason: any
-  situationJustification: any
-  acquisitionCost: any
-  costCenter: any
+  situationReason: string
+  situationJustification: string
+  acquisitionCost: string
+  costCenter: string
   calibrationFrequency: number
   status: string
   nextCalibration: string
@@ -104,3 +104,23 @@ export interface GeneralSupplier {
   name: string;
   cnpj: string;
 }
+
+
+export interface InstrumentToPost {
+  code: string
+  description: string
+  serieNumber: string
+  inventory: string
+  acquisitionDate: string
+  supplier: string
+  manufacturer: string
+  familyId: string
+  additionalReferences: []
+  acceptanceCriteria: string
+  measurementUnit: string
+  situation: string
+  acquisitionCost: string
+  costCenter: string
+  calibrationFrequency: number
+}
+

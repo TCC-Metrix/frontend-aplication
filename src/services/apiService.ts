@@ -1,4 +1,4 @@
-import { GeneralArea, GeneralEmployee, GeneralInstrument, SearchPattern, OutputUsePost, Family } from "../utils/interfaces/Interfaces";
+import { GeneralArea, GeneralEmployee, GeneralInstrument, SearchPattern, OutputUsePost, Family, InstrumentToPost } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
 
 
@@ -46,4 +46,8 @@ export const getInstrumentBySome = async (data: SearchPattern) => {
   
   export const postOutputUse = async (data: OutputUsePost) => {
 	return instance.post<OutputUsePost>("use_output", data);
+};
+
+export const postInstrument = async (data: InstrumentToPost) => {
+	return instance.post<OutputUsePost>("instrument", data);
 };

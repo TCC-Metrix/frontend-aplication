@@ -22,9 +22,9 @@ const InstrumentRegister = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    getValues,
     setValue,
-  } = useForm();
+    resetField
+      } = useForm();
 
   const onSubmit = (data: FieldValues) => {
     console.log("passei aq hjehe");
@@ -81,7 +81,7 @@ const InstrumentRegister = () => {
                 inputType="text"
                 errors={errors}
                 isRequired={false}
-                inputName="seriumber"
+                inputName="seriNumber"
                 register={register}
               />
               <BasicInput
@@ -104,7 +104,7 @@ const InstrumentRegister = () => {
                 errors={errors}
               />
               <BasicInputFilter
-                inputStyle="classe-large"
+                inputStyle="classe-medium"
                 inputId="supplier"
                 inputName="supplierDescription"
                 items={allSuppliers}
@@ -112,15 +112,7 @@ const InstrumentRegister = () => {
                 register={register}
                 setValue={setValue}
               />
-              <BasicInput
-                inputPlaceholder="forncedor"
-                inputStyle="medium-input"
-                errors={errors}
-                inputType="text"
-                isRequired={true}
-                inputName="supplier"
-                register={register}
-              />
+
             </div>
             <BasicInput
               inputPlaceholder="fabricante"
@@ -156,7 +148,7 @@ const InstrumentRegister = () => {
                 errors={errors}
                 isRequired={false}
                 inputType="text"
-                inputName="measureUnity"
+                inputName="measurementUnity"
                 register={register}
               />
               <SelectInput
@@ -186,7 +178,7 @@ const InstrumentRegister = () => {
                 register={register}
               />
             </div>
-            {/* <ExpandableInput /> */}
+            <ExpandableInput register={register} errors={errors} resetField={resetField}/>
             <p className="normal-text radio-title">Instrumento calibrado?</p>
             <div className="radio-group">
               <RadioInput

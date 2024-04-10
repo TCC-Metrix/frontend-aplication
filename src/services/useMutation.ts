@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { getInstrumentBySome, postOutputUse } from "./apiService";
-import { OutputUsePost, SearchPattern } from "../utils/interfaces/Interfaces";
+import { getInstrumentBySome, postInstrument, postOutputUse } from "./apiService";
+import { InstrumentToPost, OutputUsePost, SearchPattern } from "../utils/interfaces/Interfaces";
 
 
 
@@ -28,5 +28,13 @@ export function usePostOutputUse(){
                 outputDate: data.outputDate
             })},
 
+    })
+}
+
+
+export function usePostInstrument(){
+    return useMutation({
+        mutationFn: (data: InstrumentToPost) => {
+            return postInstrument(data)},
     })
 }

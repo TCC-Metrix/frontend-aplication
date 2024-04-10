@@ -1,11 +1,12 @@
 import CurrencyInput from "react-currency-input-field";
 import "./BasicInput.css";
+import { FieldValues, UseFormRegister } from "react-hook-form";
 
 interface BasicInputProps {
   inputStyle: string;
   inputType: string;
   inputPlaceholder: string;
-  register: any;
+  register: UseFormRegister<FieldValues>;
   inputName: string;
   isRequired: boolean;
   errors: any;
@@ -19,7 +20,7 @@ function BasicInput(props: BasicInputProps) {
           ? "classe-medium"
           : props.inputStyle === "little-input"
           ? "classe-little"
-          : ""
+          : "classe-large"
       }`}
     >
       <div className={`entryarea ${props.inputStyle} `}>
@@ -36,9 +37,9 @@ function BasicInput(props: BasicInputProps) {
             required
             {...props.register(
               props.inputName,
-              props.isRequired && {
+              props.isRequired ? {
                 required: "Campo obrigatório",
-              }
+              } : undefined
             )}
           />
         ) : (
@@ -50,9 +51,9 @@ function BasicInput(props: BasicInputProps) {
             required
             {...props.register(
               props.inputName,
-              props.isRequired && {
+              props.isRequired ? {
                 required: "Campo obrigatório",
-              }
+              } : undefined
             )}
           />
         )}

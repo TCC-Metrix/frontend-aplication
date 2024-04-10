@@ -1,10 +1,11 @@
+import { FieldValues, UseFormRegister } from "react-hook-form";
 import "./SelectInput.css";
 
 interface SelectInput {
   optionsList: string[],
   id: string,
   placeholder: string,
-  register: any
+  register: UseFormRegister<FieldValues>
 }
 
 function SelectInput(props: SelectInput) {

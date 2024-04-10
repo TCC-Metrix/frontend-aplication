@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../BasicInput/BasicInput.css";
 import "./BasicInputFilter.css";
 import {
   Family,
   GeneralSupplier,
 } from "../../../../utils/interfaces/Interfaces";
+import { FieldValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 interface BasicInputFilterProps {
   inputPlaceholder: string;
-  register: any;
-  setValue: any;
+  register: UseFormRegister<FieldValues>;
+  setValue: UseFormSetValue<FieldValues>;
   items: Family[] | GeneralSupplier[] | undefined;
   inputName: string;
   inputId: string;
@@ -19,12 +20,13 @@ interface BasicInputFilterProps {
 type Item = Family | GeneralSupplier;
 
 function BasicInputFilter(props: BasicInputFilterProps) {
+  
   const [filteredOptions, setFilteredOptions] = useState<Item[] | undefined>(
     props.items
   );
   const [isFocused, setIsFocused] = useState(false);
 
-  const setSelectedValue = (option: any) => {
+  const setSelectedValue = (option: Family | GeneralSupplier) => {
     console.log("Setting value");
     props.setValue(
       props.inputName,
@@ -46,9 +48,9 @@ function BasicInputFilter(props: BasicInputFilterProps) {
   };
 
   return (
-    <div>
+    <div className={props.inputStyle}>
       <input type="hidden" {...props.register(props.inputId)} />
-      <div className={props.inputStyle}>
+      <div>
         <div className="entryarea">
           <input
             className="text-input"
