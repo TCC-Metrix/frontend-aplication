@@ -15,7 +15,7 @@ const FamilyRegister = () => {
 					<div className="text-header">
 						<h1 className="header-three">Cadastro: Família</h1>
 					</div>
-					<form className="main-form">
+					<form className="main-form-family-register">
 						<BasicInput
 							errors={errors}
 							isRequired={true}
@@ -25,7 +25,7 @@ const FamilyRegister = () => {
 							inputType="text"
 							register={register}
 						/>
-						<div className="flex-form-line">
+						<div className="flex-form-line-inputs-family-register">
 							<BasicInput
 								errors={errors}
 								isRequired={true}
@@ -45,27 +45,29 @@ const FamilyRegister = () => {
 								register={register}
 							/>
 						</div>
+						<div>
+							<h3 className="text-major">Contagem do tempo de calibração</h3>
+							<div className="flex-row-direction-family-register">
+								<RadioInput
+									title="Inicia a partir do uso"
+									name="inicia a partir do uso"
+									value="uso"
+									id="uso"
+								/>
+								<RadioInput
+									title="Inicia a partir da data de calibração"
+									name="inicia a partir do uso"
+									value="uso"
+									id="uso"
+								/>
+							</div>
+						</div>
+						<div className="confirm-button-family-register">
+							<Button onClickFunction={() => {}} className="btn btn-secondary">
+								Confirmar
+							</Button>
+						</div>
 					</form>
-					<h3 className="text-major">Contagem do tempo de calibração</h3>
-					<div>
-						<RadioInput
-							title="Inicia a partir do uso"
-							name="inicia a partir do uso"
-							value="uso"
-							id="uso"
-						/>
-						<RadioInput
-							title="Inicia a partir da data de calibração"
-							name="inicia a partir do uso"
-							value="uso"
-							id="uso"
-						/>
-					</div>
-					<div>
-						<Button onClickFunction={() => {}} className="btn btn-secondary">
-							Confirmar
-						</Button>
-					</div>
 				</div>
 			</div>
 		</>
