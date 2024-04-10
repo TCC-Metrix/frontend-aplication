@@ -29,10 +29,6 @@ export const cadLinks: List[] = [
 		link: "/register/family",
 	},
 	{
-		name: "Usuário",
-		link: "#",
-	},
-	{
 		name: "Funcionário",
 		link: "#",
 	},
@@ -57,10 +53,6 @@ export const consultaLinks: List[] = [
 	},
 	{
 		name: "Família",
-		link: "#",
-	},
-	{
-		name: "Usuário",
 		link: "#",
 	},
 	{

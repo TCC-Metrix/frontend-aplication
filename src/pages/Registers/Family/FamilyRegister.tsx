@@ -1,16 +1,30 @@
 import { BasicInput, Button, RadioInput } from "../../../components";
+import { useNavbarStore } from "../../../store";
 import "./FamilyRegister.css";
 import { useForm } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 
 const FamilyRegister = () => {
+	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 	const {
 		register,
 		formState: { errors },
+		handleSubmit,
 	} = useForm();
+
+	const onSubmit = (data: FieldValues) => {
+		console.log("passei aq hjehe");
+		console.log(data);
+	};
 
 	return (
 		<>
-			<div className="main-container-instrument-register-page">
+			<div
+				className="main-container-instrument-register-page"
+				onClick={() => {
+					setActiveNavbar(false);
+				}}
+			>
 				<div className="main-content">
 					<div className="text-header">
 						<h1 className="header-three">Cadastro: Família</h1>
@@ -63,7 +77,10 @@ const FamilyRegister = () => {
 							</div>
 						</div>
 						<div className="confirm-button-family-register">
-							<Button onClickFunction={() => {}} className="btn btn-secondary">
+							<Button
+								onClickFunction={handleSubmit(onSubmit)}
+								className="btn btn-secondary"
+							>
 								Confirmar
 							</Button>
 						</div>
