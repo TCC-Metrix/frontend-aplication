@@ -1,8 +1,17 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { BasicInput, Button, RadioInput } from "../../../components";
 import { useNavbarStore } from "../../../store";
 import "./FamilyRegister.css";
 import { useForm } from "react-hook-form";
 import type { FieldValues } from "react-hook-form";
+import { z } from "zod";
+
+const schema = z.object({
+	isRequired: z.string().min(1),
+	intNumber: z.number().int(),
+});
+
+type FormFields = z.infer<typeof schema>;
 
 const FamilyRegister = () => {
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
@@ -10,11 +19,21 @@ const FamilyRegister = () => {
 		register,
 		formState: { errors },
 		handleSubmit,
-	} = useForm();
+		setValue,
+		setError,
+		clearErrors,
+	} = useForm<FormFields>({resolver: zodResolver(schema)});
 
-	const onSubmit = (data: FieldValues) => {
-		console.log("passei aq hjehe");
-		console.log(data);
+	const onSubmit = (data: FormFields) => {
+		// console.log(data.calibrationFrequency);
+		// const regex = /^[0-9]+$/; // Expressão regular que aceita apenas números inteiros
+		// if (!regex.test(data.calibrationFrequency)) {
+		// 	console.log("entrei no erro");
+		// 	setError("calibrationFrequency", {
+		// 		message:
+		// 			"A frequência de calibração deve conter apenas números inteiros.",
+		// 	});
+		// }
 	};
 
 	return (
@@ -43,7 +62,7 @@ const FamilyRegister = () => {
 							<BasicInput
 								errors={errors}
 								isRequired={true}
-								inputName="calibration-frequence"
+								inputName="calibrationFrequency"
 								inputPlaceholder="freq de calibração (meses)"
 								inputStyle="medium-input"
 								inputType="number"

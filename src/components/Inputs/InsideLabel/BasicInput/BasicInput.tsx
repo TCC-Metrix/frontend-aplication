@@ -35,7 +35,7 @@ function BasicInput(props: BasicInputProps) {
 						maxLength={8} // Define o máximo de caracteres permitidos
 						required
 						{...props.register(
-							props.inputName,
+							props.inputName, //problema ta aqui!
 							props.isRequired && {
 								required: "Campo obrigatório",
 							}
@@ -49,7 +49,7 @@ function BasicInput(props: BasicInputProps) {
 						}`}
 						required
 						{...props.register(
-							props.inputName,
+							props.inputName, // aqui eu acho
 							props.isRequired && {
 								required: "Campo obrigatório",
 							}
