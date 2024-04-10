@@ -1,7 +1,13 @@
 import "./MovUseOutput.css";
 import Table from "../../../components/Table/Table";
-import { useState } from "react";
-import {InputSearch, Modal, Button, DateInput, InputSearchFilter} from '../../../components'
+import { useEffect, useState } from "react";
+import {
+	InputSearch,
+	Modal,
+	Button,
+	DateInput,
+	InputSearchFilter,
+} from "../../../components";
 import { PiMagnifyingGlassBold } from "react-icons/pi";
 import {
 	GeneralInstrument,
@@ -20,7 +26,7 @@ import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import { useNavbarStore, usePopupStore } from "../../../store";
 import { RotatingLines } from "react-loader-spinner";
-
+import axiosInstance from "../../../services/axiosInstance";
 
 export const MoveUseOutput = () => {
 	// Estados para controlar o estado dos componentes
@@ -64,6 +70,7 @@ export const MoveUseOutput = () => {
 		useState<GeneralInstrument[]>();
 	const [dropdownSelected, setDropdownSelected] =
 		useState<string>("description");
+	const [isLoadingToken, setIsLoadingToken] = useState<boolean>(false);
 
 	//Variáveis controladas no contexto da aplicação
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
@@ -74,7 +81,7 @@ export const MoveUseOutput = () => {
 	const setPopupFunction = usePopupStore((state) => state.setPopupFunction);
 
 	const dropdownOptions = [{ value: "Descrição" }, { value: "Código" }];
-	const listExpiredInstruments: InstrumentUseOutput[] = []
+	const listExpiredInstruments: InstrumentUseOutput[] = [];
 	//Pegar o dia atual
 	const currentDate: Date = new Date();
 
@@ -98,8 +105,6 @@ export const MoveUseOutput = () => {
 			setActiveInputDropdown(name === "search-instrument");
 		}
 	};
-
-
 
 	//Abre o modal
 	const handleModal = () => {
@@ -185,9 +190,6 @@ export const MoveUseOutput = () => {
 			setInputFilterError("Nenhum instrumento selecionado");
 		}
 	};
-
-	
-	
 
 	//Adiciona os instrumentos do modal na lista principal
 	const handleButtonConfirmModal = () => {
@@ -315,17 +317,18 @@ export const MoveUseOutput = () => {
 
 				const monthNextCalibration: number = dateNextCalibration.getMonth() + 1;
 				const yearNextCalibration: number = dateNextCalibration.getFullYear();
-					if (currentYear > yearNextCalibration) {
-						listExpiredInstruments.push(item);
-					} else if (currentMonth >= monthNextCalibration) {
-						listExpiredInstruments.push(item);
-					}
+				if (currentYear > yearNextCalibration) {
+					listExpiredInstruments.push(item);
+				} else if (currentMonth >= monthNextCalibration) {
+					listExpiredInstruments.push(item);
 				}
-			);
+			});
 
 			if (listExpiredInstruments.length > 0) {
 				const messageInstruments: string = listExpiredInstruments
-					.map((instrument) => `${instrument.code} - ${instrument.description}/ `)
+					.map(
+						(instrument) => `${instrument.code} - ${instrument.description}/ `
+					)
 					.join("");
 				createPopup(
 					"error",
@@ -407,14 +410,26 @@ export const MoveUseOutput = () => {
 		setTableModalList([]);
 	};
 
+	useEffect(() => {
+		const authorizationHeader =
+			axiosInstance.defaults.headers.common["Authorization"];
+
+		if (authorizationHeader === undefined) {
+			setIsLoadingToken(true);
+		} else {
+			setIsLoadingToken(false);
+		}
+
+		console.log(authorizationHeader);
+	}, []);
+
 	if (isError || isErrorArea) {
 		return <ErrorPage />;
 	}
 
-	if (isLoading || isLoadingArea) {
+	if (isLoading || isLoadingArea || isLoadingToken) {
 		return <LoadingPage />;
 	}
-
 
 	return (
 		<main>
@@ -577,8 +592,7 @@ export const MoveUseOutput = () => {
 							</div>
 						</div>
 					</section>
-					<div>
-					</div>
+					<div></div>
 				</div>
 				<div className="m-auto btn-session-confirm">
 					<Button
