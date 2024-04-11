@@ -23,12 +23,24 @@ const InstrumentRegister = () => {
     formState: { errors, isSubmitting },
     reset,
     setValue,
-    resetField
-      } = useForm();
+    resetField,
+  } = useForm();
 
   const onSubmit = (data: FieldValues) => {
     console.log("passei aq hjehe");
     console.log(data);
+    const additionalReferences = [];
+    if (data.additionalReference1 !== undefined) {
+      additionalReferences.push(data.additionalReference1);
+    }
+
+    if (data.additionalReference2 !== undefined) {
+      additionalReferences.push(data.additionalReference2);
+    }
+
+    if (data.additionalReference2 !== undefined) {
+      additionalReferences.push(data.additionalReference2);
+    }
   };
 
   const {
@@ -112,7 +124,6 @@ const InstrumentRegister = () => {
                 register={register}
                 setValue={setValue}
               />
-
             </div>
             <BasicInput
               inputPlaceholder="fabricante"
@@ -178,7 +189,11 @@ const InstrumentRegister = () => {
                 register={register}
               />
             </div>
-            <ExpandableInput register={register} errors={errors} resetField={resetField}/>
+            <ExpandableInput
+              register={register}
+              errors={errors}
+              resetField={resetField}
+            />
             <p className="normal-text radio-title">Instrumento calibrado?</p>
             <div className="radio-group">
               <RadioInput
