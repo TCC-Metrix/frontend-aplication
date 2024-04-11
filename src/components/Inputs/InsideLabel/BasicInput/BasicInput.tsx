@@ -1,5 +1,6 @@
 import CurrencyInput from "react-currency-input-field";
 import "./BasicInput.css";
+import { useState } from "react";
 
 interface BasicInputProps {
 	inputStyle: string;
@@ -12,6 +13,23 @@ interface BasicInputProps {
 }
 
 function BasicInput(props: BasicInputProps) {
+	const [value, setValue] = useState("");
+
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const inputValue: string = event.target.value;
+		// Remove caracteres não numéricos utilizando uma expressão regular
+		const newValue: string = inputValue.replace(/\D/g, "");
+		setValue(newValue);
+	};
+
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+		// Permite apenas números, backspace e delete
+		const allowedKeys: string[] = ["Backspace", "Delete"];
+		const isNumber: boolean = !isNaN(Number(event.key));
+		if (!isNumber && !allowedKeys.includes(event.key)) {
+			event.preventDefault();
+		}
+	};
 	return (
 		<div
 			className={`${
@@ -32,7 +50,7 @@ function BasicInput(props: BasicInputProps) {
 						groupSeparator="."
 						decimalScale={2} // Define duas casas decimais
 						allowNegativeValue={false} // Impede valores negativos
-						maxLength={8} // Define o máximo de caracteres permitidos
+						maxLength={8} 
 						required
 						{...props.register(
 							props.inputName, //problema ta aqui!
@@ -49,11 +67,13 @@ function BasicInput(props: BasicInputProps) {
 						}`}
 						required
 						{...props.register(
-							props.inputName, // aqui eu acho
+							props.inputName,
 							props.isRequired && {
 								required: "Campo obrigatório",
 							}
 						)}
+						onKeyDown={props.inputType === "number" ? handleKeyDown : ""}
+						onChange={props.inputType === "number" ? handleChange : ""}
 					/>
 				)}
 				<div className="label-line text-major">{props.inputPlaceholder}</div>

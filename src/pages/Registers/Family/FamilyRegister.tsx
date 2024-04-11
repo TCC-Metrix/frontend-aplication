@@ -3,16 +3,25 @@ import { BasicInput, Button, RadioInput } from "../../../components";
 import { useNavbarStore } from "../../../store";
 import "./FamilyRegister.css";
 import { useForm } from "react-hook-form";
-import type { FieldValues } from "react-hook-form";
 import { z } from "zod";
 
 const schema = z.object({
-	isRequired: z.string().min(1),
-	intNumber: z.number().int(),
+	name: z
+		.string()
+		.min(1, "Campo obrigatorio")
+		.refine((value) => !/^\s+$/.test(value), {
+			message: "Nome não pode conter apenas espaços em branco",
+		}),
+	calibrationFrequency: z.string().regex(/^\d+$/, "Campo obrigatorio"),
+	familyCode: z
+		.string()
+		.min(1, "Campo obrigatorio")
+		.refine((value) => !/^\s+$/.test(value), {
+			message: "Nome não pode conter apenas espaços em branco",
+		}),
 });
 
 type FormFields = z.infer<typeof schema>;
-
 const FamilyRegister = () => {
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 	const {
@@ -22,7 +31,7 @@ const FamilyRegister = () => {
 		setValue,
 		setError,
 		clearErrors,
-	} = useForm<FormFields>({resolver: zodResolver(schema)});
+	} = useForm<FormFields>({ resolver: zodResolver(schema) });
 
 	const onSubmit = (data: FormFields) => {
 		// console.log(data.calibrationFrequency);
@@ -71,7 +80,7 @@ const FamilyRegister = () => {
 							<BasicInput
 								errors={errors}
 								isRequired={true}
-								inputName="family-code"
+								inputName="familyCode"
 								inputPlaceholder="código familia"
 								inputStyle="medium-input"
 								inputType="text"
@@ -83,15 +92,16 @@ const FamilyRegister = () => {
 							<div className="flex-row-direction-family-register">
 								<RadioInput
 									title="Inicia a partir do uso"
-									name="inicia a partir do uso"
+									name="calibrationFrequency"
 									value="uso"
 									id="uso"
+									defaultChecked
 								/>
 								<RadioInput
 									title="Inicia a partir da data de calibração"
-									name="inicia a partir do uso"
-									value="uso"
-									id="uso"
+									name="calibrationFrequency"
+									value="calibracao"
+									id="calibracao"
 								/>
 							</div>
 						</div>

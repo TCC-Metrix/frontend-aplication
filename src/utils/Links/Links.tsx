@@ -42,7 +42,7 @@ export const cadLinks: List[] = [
 	},
 	{
 		name: "Área",
-		link: "#",
+		link: "/register/area",
 	},
 ];
 
