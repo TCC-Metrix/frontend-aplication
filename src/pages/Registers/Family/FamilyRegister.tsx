@@ -4,8 +4,8 @@ import { useNavbarStore, usePopupStore } from "../../../store";
 import "./FamilyRegister.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { AreaRegisterPost } from "../../../utils/interfaces/Interfaces";
-import { usePostAreaRegister } from "../../../services/useMutation";
+import { FamilyRegisterPost } from "../../../utils/interfaces/Interfaces";
+import { usePostFamilyRegister } from "../../../services/useMutation";
 import { useState } from "react";
 
 const schema = z.object({
@@ -44,7 +44,7 @@ const FamilyRegister = () => {
 	const setIsPopupActive = usePopupStore((state) => state.setIsPopupActive);
 	const setPopupFunction = usePopupStore((state) => state.setPopupFunction);
 	const [calibrationTimeCounter, setCalibrationTimeCounter] = useState("use");
-	const [isLoadingPostAreaRegister, setIsLoadingPostAreaRegister] =
+	const [isLoadingPostFamilyRegister, setIsLoadingPostFamilyRegister] =
 		useState<boolean>(false);
 	const {
 		register,
@@ -70,15 +70,17 @@ const FamilyRegister = () => {
 		setIsPopupActive(true);
 	};
 
-	const postAreaMutation = usePostAreaRegister(); //posta a saida para uso
+	const postFamilyMutation = usePostFamilyRegister(); //posta a saida para uso
 
-	const handlePostAreaRegister: SubmitHandler<AreaRegisterPost> = (data) => {
-		setIsLoadingPostAreaRegister(true);
-		postAreaMutation.mutate(data, {
+	const handlePostFamilyRegister: SubmitHandler<FamilyRegisterPost> = (
+		data
+	) => {
+		setIsLoadingPostFamilyRegister(true);
+		postFamilyMutation.mutate(data, {
 			onSettled: (data, error) => {
 				if (error) {
 					setTimeout(() => {
-						setIsLoadingPostAreaRegister(false);
+						setIsLoadingPostFamilyRegister(false);
 						console.error("Ocorreu um erro:", error);
 						createPopup(
 							"error",
@@ -92,7 +94,7 @@ const FamilyRegister = () => {
 					return;
 				} else {
 					console.log(data);
-					setIsLoadingPostAreaRegister(false);
+					setIsLoadingPostFamilyRegister(false);
 					createPopup(
 						"feedback",
 						"Movimentação realizada com sucesso",
@@ -106,10 +108,10 @@ const FamilyRegister = () => {
 		});
 	};
 
-	const handleConfirmAreaRegister = (dataApi: z.infer<typeof schema>) => {
-		setIsLoadingPostAreaRegister(true);
+	const handleConfirmFamilyRegister = (dataApi: z.infer<typeof schema>) => {
+		setIsLoadingPostFamilyRegister(true);
 		setTimeout(() => {
-			setIsLoadingPostAreaRegister(false);
+			setIsLoadingPostFamilyRegister(false);
 
 			const data = {
 				code: dataApi.familyCode,
@@ -118,7 +120,7 @@ const FamilyRegister = () => {
 				calibrationTimeCounter: calibrationTimeCounter,
 			};
 
-			handlePostAreaRegister(data);
+			handlePostFamilyRegister(data);
 		}, 1000);
 	};
 
@@ -203,7 +205,7 @@ const FamilyRegister = () => {
 						</div>
 						<div className="confirm-button-family-register">
 							<Button
-								onClickFunction={handleConfirmAreaRegister}
+								onClickFunction={handleSubmit(handleConfirmFamilyRegister)}
 								className="btn btn-secondary"
 							>
 								Confirmar

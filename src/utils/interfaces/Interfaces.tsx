@@ -17,28 +17,27 @@ export interface MenuOptionProps {
 }
 
 export interface GeneralInstrument {
-  id: string
-  code: string
-  description: string
-  serieNumber: string
-  inventory: string
-  acquisitionDate: string
-  supplier: any
-  manufacturer: any
-  familyId: Family
-  additionalReferences: []
-  acceptanceCriteria: any
-  measurementUnit: any
-  situation: string
-  situationReason: any
-  situationJustification: any
-  acquisitionCost: any
-  costCenter: any
-  calibrationFrequency: number
-  status: string
-  nextCalibration: string
+	id: string;
+	code: string;
+	description: string;
+	serieNumber: string;
+	inventory: string;
+	acquisitionDate: string;
+	supplier: any;
+	manufacturer: any;
+	familyId: Family;
+	additionalReferences: [];
+	acceptanceCriteria: any;
+	measurementUnit: any;
+	situation: string;
+	situationReason: any;
+	situationJustification: any;
+	acquisitionCost: any;
+	costCenter: any;
+	calibrationFrequency: number;
+	status: string;
+	nextCalibration: string;
 }
-
 
 export interface SearchPattern {
 	column: string;
@@ -48,18 +47,18 @@ export interface SearchPattern {
 }
 
 export interface OutputUsePost {
-  instrumentIds: string[];
-  shippingResponsible: string;
-  receivingResponsible: string;
-  area: string;
-  outputDate: string;
+	instrumentIds: string[];
+	shippingResponsible: string;
+	receivingResponsible: string;
+	area: string;
+	outputDate: string;
 }
 
-export interface AreaRegisterPost {
-  code: string;
-  description: string;
-  calibrationFrequencyInMonths: number;
-  calibrationTimeCounter: string;
+export interface FamilyRegisterPost {
+	code: string;
+	description: string;
+	calibrationFrequencyInMonths: number;
+	calibrationTimeCounter: string;
 }
 
 export interface Option {
@@ -75,32 +74,32 @@ export interface Family {
 }
 
 export interface InstrumentToModalTableUseOutput {
-  id: string
-  code: string
-  description: string
-  family: string
-  calibrationFrequency: number
-  nextCalibration: string
-  additionalReferences: []
-  nextCalibrationHide: string
+	id: string;
+	code: string;
+	description: string;
+	family: string;
+	calibrationFrequency: number;
+	nextCalibration: string;
+	additionalReferences: [];
+	nextCalibrationHide: string;
 }
 
 export interface GeneralEmployee {
-  id: string;
+	id: string;
 	name: string;
 	email: string;
 	sector: string;
 }
 
 export interface GeneralArea {
-  id: string;
+	id: string;
 	description: string;
 }
 
 export interface InstrumentUseOutput {
-  id: string
-  code: string
-  description: string
-  additionalReferences: []
-  nextCalibrationHide: string
+	id: string;
+	code: string;
+	description: string;
+	additionalReferences: [];
+	nextCalibrationHide: string;
 }
