@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { getInstrumentBySome, postOutputUse } from "./apiService";
-import { OutputUsePost, SearchPattern } from "../utils/interfaces/Interfaces";
+import { getInstrumentBySome, postAreaRegister, postOutputUse } from "./apiService";
+import { AreaRegisterPost, OutputUsePost, SearchPattern } from "../utils/interfaces/Interfaces";
 
 
 
@@ -26,6 +26,18 @@ export function usePostOutputUse(){
                 shippingResponsible: data.shippingResponsible,
                 receivingResponsible: data.receivingResponsible,
                 outputDate: data.outputDate
+            })},
+
+    })
+}
+export function usePostAreaRegister(){
+    return useMutation({
+        mutationFn: (data: AreaRegisterPost) => {
+            return postAreaRegister({
+                code: data.code,
+                description: data.description,
+                calibrationFrequencyInMonths: data.calibrationFrequencyInMonths,
+                calibrationTimeCounter: data.calibrationTimeCounter,
             })},
 
     })

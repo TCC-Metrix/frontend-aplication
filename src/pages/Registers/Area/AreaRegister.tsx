@@ -19,13 +19,13 @@ const AreaRegister = () => {
 	return (
 		<>
 			<div
-				className="main-container-supplier-register-page"
+				className="main-container-area-register-page"
 				onClick={() => {
 					setActiveNavbar(false);
 				}}
 			>
-				<div className="main-content-supplier-page">
-					<div className="title-supplier-register-page">
+				<div className="main-content-area-page">
+					<div className="title-area-register-page">
 						<h1 className="header-three">Cadastro: Area</h1>
 					</div>
 					<form className="main-form">
@@ -38,7 +38,7 @@ const AreaRegister = () => {
 							inputType="text"
 							register={register}
 						/>
-						<div className="btn-confirm-supplier-page">
+						<div className="btn-confirm-area-page">
 							<Button
 								onClickFunction={handleSubmit(onSubmit)}
 								className="btn btn-secondary"

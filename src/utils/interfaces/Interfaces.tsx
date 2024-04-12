@@ -55,6 +55,13 @@ export interface OutputUsePost {
   outputDate: string;
 }
 
+export interface AreaRegisterPost {
+  code: string;
+  description: string;
+  calibrationFrequencyInMonths: number;
+  calibrationTimeCounter: string;
+}
+
 export interface Option {
 	value: string;
 }
