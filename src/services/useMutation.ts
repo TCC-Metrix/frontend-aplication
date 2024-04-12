@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { getInstrumentBySome, postInstrument, postOutputUse } from "./apiService";
 import { InstrumentToPost, OutputUsePost, SearchPattern } from "../utils/interfaces/Interfaces";
+import { FieldValues } from "react-hook-form";
 
 
 
@@ -34,7 +35,7 @@ export function usePostOutputUse(){
 
 export function usePostInstrument(){
     return useMutation({
-        mutationFn: (data: InstrumentToPost) => {
+        mutationFn: (data: FieldValues) => {
             return postInstrument(data)},
     })
 }

@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import type { FieldValues } from "react-hook-form";
+import type { FieldValues, SubmitHandler } from "react-hook-form";
 import {
   BasicInput,
   SelectInput,
@@ -15,6 +15,8 @@ import {
 } from "../../../services/useFetchData";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
+import { InstrumentToPost } from "../../../utils/interfaces/Interfaces";
+import { usePostInstrument } from "../../../services/useMutation";
 
 const InstrumentRegister = () => {
   const {
@@ -26,9 +28,11 @@ const InstrumentRegister = () => {
     resetField,
   } = useForm();
 
+  const postInstrument = usePostInstrument()
+
   const onSubmit = (data: FieldValues) => {
     console.log("passei aq hjehe");
-    console.log(data);
+    // console.log(data);
     const additionalReferences = [];
     if (data.additionalReference1 !== undefined) {
       additionalReferences.push(data.additionalReference1);
@@ -41,6 +45,12 @@ const InstrumentRegister = () => {
     if (data.additionalReference2 !== undefined) {
       additionalReferences.push(data.additionalReference2);
     }
+    console.log(additionalReferences)
+    setValue("additionalReferences", additionalReferences)
+
+    handlePostUseOutput(data);
+
+    
   };
 
   const {
@@ -61,6 +71,21 @@ const InstrumentRegister = () => {
   if (isErrorFamilies || isErrorSuppliers) {
     return <ErrorPage />;
   }
+
+
+
+  const handlePostUseOutput: SubmitHandler<FieldValues> = (data) => {
+		postInstrument.mutate(data, {
+			onSettled: (data, error) => {
+				if (error) {
+					console.error("Ocorreu um erro:", error);
+					return;
+				} else {
+					console.log(data);
+				}
+			},
+		});
+	};
 
   return (
     <>
@@ -93,7 +118,7 @@ const InstrumentRegister = () => {
                 inputType="text"
                 errors={errors}
                 isRequired={false}
-                inputName="seriNumber"
+                inputName="serieNumber"
                 register={register}
               />
               <BasicInput

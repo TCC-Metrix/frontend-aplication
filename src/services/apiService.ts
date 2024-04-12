@@ -1,3 +1,4 @@
+import { FieldValues } from "react-hook-form";
 import { GeneralArea, GeneralEmployee, GeneralInstrument, SearchPattern, OutputUsePost, Family, InstrumentToPost } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
 
@@ -48,6 +49,6 @@ export const getInstrumentBySome = async (data: SearchPattern) => {
 	return instance.post<OutputUsePost>("use_output", data);
 };
 
-export const postInstrument = async (data: InstrumentToPost) => {
+export const postInstrument = async (data: FieldValues) => {
 	return instance.post<OutputUsePost>("instrument", data);
 };
