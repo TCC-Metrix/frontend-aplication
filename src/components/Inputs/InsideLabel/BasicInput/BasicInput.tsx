@@ -14,6 +14,7 @@ interface BasicInputProps {
 
 function BasicInput(props: BasicInputProps) {
   return (
+    
     <div
       className={`${
         props.inputStyle === "medium-input"
@@ -37,9 +38,11 @@ function BasicInput(props: BasicInputProps) {
             required
             {...props.register(
               props.inputName,
-              props.isRequired ? {
-                required: "Campo obrigatório",
-              } : undefined
+              props.isRequired
+                ? {
+                    required: "Campo obrigatório",
+                  }
+                : undefined
             )}
           />
         ) : (
@@ -51,13 +54,16 @@ function BasicInput(props: BasicInputProps) {
             required
             {...props.register(
               props.inputName,
-              props.isRequired ? {
-                required: "Campo obrigatório",
-              } : undefined
+              props.isRequired
+                ? {
+                    required: "Campo obrigatório",
+                  }
+                : undefined
             )}
           />
         )}
-        <div className="label-line text-major">{props.inputPlaceholder}</div>
+          <div className="label-line text-major">{props.inputPlaceholder}</div>
+
       </div>
       {props.errors[props.inputName] && (
         <p className="error-text">{props.errors[props.inputName].message}</p>

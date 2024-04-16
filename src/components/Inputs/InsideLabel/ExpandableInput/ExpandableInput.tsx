@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Button } from "../../..";
 import BasicInput from "../BasicInput/BasicInput";
 import { HiOutlinePlus, HiOutlineMinus } from "react-icons/hi";
@@ -50,50 +50,48 @@ function ExpandableInput(props: ExpandableInputProps) {
           errors={props.errors}
           inputType="text"
         />
+        <input type="hidden" {...props.register("additionalReferences")} />
 
       </div>
 
       <div className="expandable-input-container">
         <div className="flex-expandable-buttons">
-
-        <Button
-          className="btn btn-add"
-          onClickFunction={(event: React.ChangeEvent<HTMLInputElement>) => {
-            
-            event.preventDefault();
-            if (!isVisibleFirst) {
-              setIsVisibleFirst(true);
-
-            } else if (!isVisibleSecond) {
-              setIsVisibleSecond(true);
-            } else if (!isVisibleThird) {
-              setIsVisibleThird(true);
-            } else {
-            }
-          }}
-        >
-          <HiOutlinePlus color="#506e81" size={30} />
-        </Button>
-
-        <Button
-          className="btn btn-add"
-          onClickFunction={(event: React.ChangeEvent<HTMLInputElement>) => {
-            event.preventDefault()
-            if (isVisibleThird) {
-                setIsVisibleThird(false);
-                props.resetField("additionalReference3")
-              } else if (isVisibleSecond) {
-                setIsVisibleSecond(false);
-                props.resetField("additionalReference2")
-              } else if (isVisibleFirst) {
-                setIsVisibleFirst(false);
-                props.resetField("additionalReference1")
+          <Button
+            className="btn btn-add"
+            onClickFunction={(event: React.ChangeEvent<HTMLInputElement>) => {
+              event.preventDefault();
+              if (!isVisibleFirst) {
+                setIsVisibleFirst(true);
+              } else if (!isVisibleSecond) {
+                setIsVisibleSecond(true);
+              } else if (!isVisibleThird) {
+                setIsVisibleThird(true);
               } else {
               }
-          }}
-        >
+            }}
+          >
+            <HiOutlinePlus color="#506e81" size={30} />
+          </Button>
+
+          <Button
+            className="btn btn-add"
+            onClickFunction={(event: React.ChangeEvent<HTMLInputElement>) => {
+              event.preventDefault();
+              if (isVisibleThird) {
+                setIsVisibleThird(false);
+                props.resetField("additionalReference3");
+              } else if (isVisibleSecond) {
+                setIsVisibleSecond(false);
+                props.resetField("additionalReference2");
+              } else if (isVisibleFirst) {
+                setIsVisibleFirst(false);
+                props.resetField("additionalReference1");
+              } else {
+              }
+            }}
+          >
             <HiOutlineMinus color="#506e81" size={30} />
-        </Button>
+          </Button>
         </div>
       </div>
     </div>

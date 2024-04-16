@@ -30,25 +30,27 @@ const InstrumentRegister = () => {
 
   const postInstrument = usePostInstrument()
 
-  const onSubmit = (data: FieldValues) => {
-    console.log("passei aq hjehe");
+  const onSubmit = async (data: FieldValues) => {
     // console.log(data);
     const additionalReferences = [];
-    if (data.additionalReference1 !== undefined) {
+    if (data.additionalReference1 !== "") {
       additionalReferences.push(data.additionalReference1);
     }
 
-    if (data.additionalReference2 !== undefined) {
+    if (data.additionalReference2 !== "") {
       additionalReferences.push(data.additionalReference2);
     }
 
-    if (data.additionalReference2 !== undefined) {
-      additionalReferences.push(data.additionalReference2);
+    if (data.additionalReference3 !== "") {
+      additionalReferences.push(data.additionalReference3);
     }
-    console.log(additionalReferences)
-    setValue("additionalReferences", additionalReferences)
+    
+    
+    additionalReferences.length === 0 ? data.additionalReferences = null : data.additionalReferences = additionalReferences
+
 
     handlePostUseOutput(data);
+
 
     
   };
