@@ -60,6 +60,9 @@ export interface FamilyRegisterPost {
 	calibrationFrequencyInMonths: number;
 	calibrationTimeCounter: string;
 }
+export interface AreaRegisterPost {
+	description: string;
+}
 
 export interface Option {
 	value: string;

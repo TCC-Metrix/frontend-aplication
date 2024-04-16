@@ -1,10 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import {
 	getInstrumentBySome,
+	postAreaRegister,
 	postFamilyRegister,
 	postOutputUse,
 } from "./apiService";
 import {
+	AreaRegisterPost,
 	FamilyRegisterPost,
 	OutputUsePost,
 	SearchPattern,
@@ -42,6 +44,13 @@ export function usePostFamilyRegister() {
 				calibrationFrequencyInMonths: data.calibrationFrequencyInMonths,
 				calibrationTimeCounter: data.calibrationTimeCounter,
 			});
+		},
+	});
+}
+export function usePostAreaRegister() {
+	return useMutation({
+		mutationFn: (data: AreaRegisterPost) => {
+			return postAreaRegister({ description: data.description });
 		},
 	});
 }
