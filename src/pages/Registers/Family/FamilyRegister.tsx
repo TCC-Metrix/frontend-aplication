@@ -7,6 +7,7 @@ import { z } from "zod";
 import { FamilyRegisterPost } from "../../../utils/interfaces/Interfaces";
 import { usePostFamilyRegister } from "../../../services/useMutation";
 import { useState } from "react";
+import { RotatingLines } from "react-loader-spinner";
 
 const schema = z.object({
 	name: z
@@ -43,7 +44,7 @@ const FamilyRegister = () => {
 	const setPopupTitle = usePopupStore((state) => state.setPopupTitle);
 	const setIsPopupActive = usePopupStore((state) => state.setIsPopupActive);
 	const setPopupFunction = usePopupStore((state) => state.setPopupFunction);
-	const [calibrationTimeCounter, setCalibrationTimeCounter] = useState("use");
+	const [calibrationTimeCounter, setCalibrationTimeCounter] = useState("uso");
 	const [isLoadingPostFamilyRegister, setIsLoadingPostFamilyRegister] =
 		useState<boolean>(false);
 	const {
@@ -124,21 +125,8 @@ const FamilyRegister = () => {
 		}, 1000);
 	};
 
-	const onSubmit = (data: z.infer<typeof schema>) => {
-		data;
-		// console.log(data.calibrationFrequency);
-		// const regex = /^[0-9]+$/; // Expressão regular que aceita apenas números inteiros
-		// if (!regex.test(data.calibrationFrequency)) {
-		// 	console.log("entrei no erro");
-		// 	setError("calibrationFrequency", {
-		// 		message:
-		// 			"A frequência de calibração deve conter apenas números inteiros.",
-		// 	});
-		// }
-	};
-
 	const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setCalibrationTimeCounter(event.target.value); // Atualiza o estado com o valor selecionado do radio input
+		setCalibrationTimeCounter(event.target.value);
 	};
 
 	return (
@@ -189,7 +177,7 @@ const FamilyRegister = () => {
 								<RadioInput
 									title="Inicia a partir do uso"
 									name="calibrationFrequency"
-									value="use"
+									value="uso" // use
 									id="uso"
 									onChange={handleRadioChange}
 									defaultChecked
@@ -197,7 +185,7 @@ const FamilyRegister = () => {
 								<RadioInput
 									title="Inicia a partir da data de calibração"
 									name="calibrationFrequency"
-									value="calibration"
+									value="calibration" //calibratio
 									id="calibracao"
 									onChange={handleRadioChange}
 								/>
@@ -208,7 +196,18 @@ const FamilyRegister = () => {
 								onClickFunction={handleSubmit(handleConfirmFamilyRegister)}
 								className="btn btn-secondary"
 							>
-								Confirmar
+								{isLoadingPostFamilyRegister ? (
+									<RotatingLines
+										visible={true}
+										strokeWidth="5"
+										animationDuration="0.75"
+										ariaLabel="rotating-lines-loading"
+										strokeColor="#fff"
+										width="20"
+									/>
+								) : (
+									<>Confirmar</>
+								)}
 							</Button>
 						</div>
 					</form>
