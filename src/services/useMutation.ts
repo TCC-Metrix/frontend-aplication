@@ -4,12 +4,14 @@ import {
 	postAreaRegister,
 	postFamilyRegister,
 	postOutputUse,
+	postLaboratoryRegister,
 } from "./apiService";
 import {
 	AreaRegisterPost,
 	FamilyRegisterPost,
 	OutputUsePost,
 	SearchPattern,
+	LaboratoryRegisterPost,
 } from "../utils/interfaces/Interfaces";
 
 //Função que faz um POST na API para retornar os instrumentos de acordo com o filtro
@@ -43,6 +45,16 @@ export function usePostFamilyRegister() {
 				description: data.description,
 				calibrationFrequencyInMonths: data.calibrationFrequencyInMonths,
 				calibrationTimeCounter: data.calibrationTimeCounter,
+			});
+		},
+	});
+}
+export function usePostLaboratoryRegister() {
+	return useMutation({
+		mutationFn: (data: LaboratoryRegisterPost) => {
+			return postLaboratoryRegister({
+				name: data.name,
+				calCode: data.calCode,
 			});
 		},
 	});

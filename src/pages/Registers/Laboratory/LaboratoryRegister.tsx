@@ -1,8 +1,13 @@
 import "./LaboratoryRegister.css";
 import { BasicInput, Button } from "../../../components";
-import { useForm } from "react-hook-form";
-import { useNavbarStore } from "../../../store";
+import { useNavbarStore, usePopupStore } from "../../../store";
 import type { FieldValues } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
+import { RotatingLines } from "react-loader-spinner";
+import { LaboratoryRegisterPost } from "../../../utils/interfaces/Interfaces";
+import { usePostLaboratoryRegister } from "../../../services/useMutation";
 
 const LaboratoryRegister = () => {
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
