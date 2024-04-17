@@ -17,6 +17,13 @@ const schema = z.object({
 		.refine((value) => !/^\s+$/.test(value), {
 			message: "Nome não pode conter apenas espaços em branco",
 		}),
+	calCode: z
+		.string()
+		.min(1, "Campo obrigatorio")
+		.refine((value) => !/^\s+$/.test(value), {
+			message: "Campo obrigatório"
+		})
+		.transform((value) => parseInt(value))
 })
 
 type FormFields = z.infer<typeof schema>
@@ -90,7 +97,20 @@ const LaboratoryRegister = () => {
 				}
 			},
 		});
-	};	
+	};
+
+	const handleConfirmLaboratoryRegister = (dataApi: z.infer<typeof schema>) => {
+		setIsLoadingPostLaboratoryRegister(true)
+		setTimeout(() => {
+			setIsLoadingPostLaboratoryRegister(false)
+
+			const data = {
+				name: dataApi.name,
+			};
+
+			handlePostLaboratoryRegister(data);
+		}, 1000)
+	};
 
 	const onSubmit = (data: FieldValues) => {
 		console.log(data);
