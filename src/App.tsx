@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import LaboratoryRegister from "./pages/Registers/Laboratory/LaboratoryRegister";
 import SupplierRegister from "./pages/Registers/Supplier/SupplierRegister";
 import FamilyRegister from "./pages/Registers/Family/FamilyRegister";
+import AreaRegister from "./pages/Registers/Area/AreaRegister";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -91,6 +92,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<SupplierRegister />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/register/area"
+					element={
+						<ProtectedRoute>
+							<AreaRegister />
 						</ProtectedRoute>
 					}
 				></Route>
