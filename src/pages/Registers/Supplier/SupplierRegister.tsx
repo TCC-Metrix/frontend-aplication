@@ -1,19 +1,117 @@
 import "./Supplier.css";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { BasicInput, Button } from "../../../components";
 import { useForm } from "react-hook-form";
-import type { FieldValues } from "react-hook-form";
-import { useNavbarStore } from "../../../store";
+import type { FieldValues, SubmitHandler } from "react-hook-form";
+import { useNavbarStore, usePopupStore } from "../../../store";
+import { usePostSupplierRegister } from "../../../services/useMutation";
+import { SupplierRegisterPost } from "../../../utils/interfaces/Interfaces";
+import { useState } from "react";
+import { RotatingLines } from "react-loader-spinner";
+import { z } from "zod";
+
+const schema = z.object({
+	name: z
+		.string()
+		.min(1, "Campo obrigatorio")
+		.refine((value) => !/^\s+$/.test(value), {
+			message: "Nome não pode conter apenas espaços em branco",
+		}),
+	cnpj: z
+		.string()
+		.min(1, "Campo obrigatorio")
+		.refine((value) => !/^\s+$/.test(value), {
+			message: "Nome não pode conter apenas espaços em branco",
+		}),
+});
+
+type FormFields = z.infer<typeof schema>;
 
 const SupplierRegister = () => {
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
+	const setPopupType = usePopupStore((state) => state.setPopupType);
+	const setPopupBody = usePopupStore((state) => state.setPopupBody);
+	const setPopupTitle = usePopupStore((state) => state.setPopupTitle);
+	const setIsPopupActive = usePopupStore((state) => state.setIsPopupActive);
+	const setPopupFunction = usePopupStore((state) => state.setPopupFunction);
+	const [isLoadingPostSupplierRegister, setIsLoadingPostSupplierRegister] =
+		useState<boolean>(false);
+
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
-	} = useForm();
+	} = useForm<FormFields>({ resolver: zodResolver(schema) });
 
-	const onSubmit = (data: FieldValues) => {
-		console.log(data);
+	const createPopup = (
+		type: string,
+		title: string,
+		body: string,
+		btnFunction: () => void
+	) => {
+		setPopupType(type);
+		setPopupTitle(title);
+		setPopupBody(body);
+		setPopupFunction(() => {
+			setPopupBody("");
+			setPopupTitle("");
+			setPopupType("none");
+			btnFunction();
+		});
+		setIsPopupActive(true);
+	};
+
+	const postSupplierMutation = usePostSupplierRegister();
+
+	const handlePostSupplierRegister: SubmitHandler<SupplierRegisterPost> = (
+		data
+	) => {
+		setIsLoadingPostSupplierRegister(true);
+		postSupplierMutation.mutate(data, {
+			onSettled: (data, error) => {
+				if (error) {
+					setTimeout(() => {
+						setIsLoadingPostSupplierRegister(false);
+						console.error("Ocorreu um erro:", error);
+						createPopup(
+							"error",
+							"Erro interno do servidor",
+							"Estamos com problemas em nosso servidor, tente novamente",
+							() => {
+								setIsPopupActive(false);
+							}
+						);
+					}, 1000);
+					return;
+				} else {
+					console.log(data);
+					setIsLoadingPostSupplierRegister(false);
+					createPopup(
+						"feedback",
+						"Movimentação realizada com sucesso",
+						"",
+						() => {
+							setIsPopupActive(false);
+						}
+					);
+				}
+			},
+		});
+	};
+
+	const handleConfirmSupplierRegister = (dataApi: z.infer<typeof schema>) => {
+		setIsLoadingPostSupplierRegister(true);
+		setTimeout(() => {
+			setIsLoadingPostSupplierRegister(false);
+
+			const data = {
+				name: dataApi.name,
+				cnpj: dataApi.cnpj,
+			};
+
+			handlePostSupplierRegister(data);
+		}, 1000);
+		console.log(typeof dataApi.cnpj);
 	};
 
 	return (
@@ -49,10 +147,21 @@ const SupplierRegister = () => {
 						/>
 						<div className="btn-confirm-supplier-page">
 							<Button
-								onClickFunction={handleSubmit(onSubmit)}
+								onClickFunction={handleSubmit(handleConfirmSupplierRegister)}
 								className="btn btn-secondary"
 							>
-								Confirmar
+								{isLoadingPostSupplierRegister ? (
+									<RotatingLines
+										visible={true}
+										strokeWidth="5"
+										animationDuration="0.75"
+										ariaLabel="rotating-lines-loading"
+										strokeColor="#fff"
+										width="20"
+									/>
+								) : (
+									<>Confirmar</>
+								)}
 							</Button>
 						</div>
 					</form>

@@ -4,12 +4,14 @@ import {
 	postAreaRegister,
 	postFamilyRegister,
 	postOutputUse,
+	postSupplierRegister,
 } from "./apiService";
 import {
 	AreaRegisterPost,
 	FamilyRegisterPost,
 	OutputUsePost,
 	SearchPattern,
+	SupplierRegisterPost,
 } from "../utils/interfaces/Interfaces";
 
 //Função que faz um POST na API para retornar os instrumentos de acordo com o filtro
@@ -51,6 +53,13 @@ export function usePostAreaRegister() {
 	return useMutation({
 		mutationFn: (data: AreaRegisterPost) => {
 			return postAreaRegister({ description: data.description });
+		},
+	});
+}
+export function usePostSupplierRegister() {
+	return useMutation({
+		mutationFn: (data: SupplierRegisterPost) => {
+			return postSupplierRegister({ name: data.name, cnpj: data.cnpj });
 		},
 	});
 }

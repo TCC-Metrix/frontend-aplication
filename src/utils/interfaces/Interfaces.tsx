@@ -63,6 +63,10 @@ export interface FamilyRegisterPost {
 export interface AreaRegisterPost {
 	description: string;
 }
+export interface SupplierRegisterPost {
+	name: string;
+	cnpj: string;
+}
 
 export interface Option {
 	value: string;
