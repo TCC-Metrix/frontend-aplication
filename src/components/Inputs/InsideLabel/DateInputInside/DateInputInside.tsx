@@ -12,6 +12,8 @@ interface DateInputInside {
 }
 
 function DateInputInside(props: DateInputInside) {
+
+
   return (
     <div
       className={`${
@@ -31,12 +33,13 @@ function DateInputInside(props: DateInputInside) {
           {...props.register(
             props.inputName,
             props.isRequired ? {
-              required: "Campo obrigatório",
+              required: "Data inválida",
             } : undefined
           )}
           className={`${
             props.errors[props.inputName] ? "error-formatted" : "inside-date-input"
           }`}
+          
         />
         <div className="calendar-inside-icon">
           <AiOutlineCalendar size={25} color="#506e81" />

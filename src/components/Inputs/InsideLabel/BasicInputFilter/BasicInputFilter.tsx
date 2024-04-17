@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../BasicInput/BasicInput.css";
 import "./BasicInputFilter.css";
 import {
   Family,
   GeneralSupplier,
 } from "../../../../utils/interfaces/Interfaces";
-import { FieldValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { FieldValues, UseFormGetValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 interface BasicInputFilterProps {
   inputPlaceholder: string;
@@ -15,6 +15,8 @@ interface BasicInputFilterProps {
   inputName: string;
   inputId: string;
   inputStyle: string;
+  getValues: UseFormGetValues<FieldValues>;
+  isRequired: boolean;
 }
 
 type Item = Family | GeneralSupplier;
@@ -47,6 +49,14 @@ function BasicInputFilter(props: BasicInputFilterProps) {
     setFilteredOptions(filteredOptions ?? []);
   };
 
+  useEffect(() => {
+    if(!isFocused){
+      console.log("false")
+      console.log(props.getValues(props.inputId))
+      console.log
+    }
+  }, [isFocused])
+
   return (
     <div className={props.inputStyle}>
       <input type="hidden" {...props.register(props.inputId)} />
@@ -55,7 +65,14 @@ function BasicInputFilter(props: BasicInputFilterProps) {
           <input
             className="text-input"
             required
-            {...props.register(props.inputName)}
+            {...props.register(
+              props.inputName,
+              props.isRequired
+                ? {
+                    required: "Campo obrigatório",
+                  }
+                : undefined
+            )}
             onChange={handleInputChange}
             onFocus={() => setIsFocused(true)}
             onBlur={() => {

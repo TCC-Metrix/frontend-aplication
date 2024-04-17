@@ -15,17 +15,18 @@ import {
 } from "../../../services/useFetchData";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
-import { InstrumentToPost } from "../../../utils/interfaces/Interfaces";
 import { usePostInstrument } from "../../../services/useMutation";
 
 const InstrumentRegister = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
+    formState: { errors },
     setValue,
     resetField,
+    clearErrors,
+    setError,
+    getValues
   } = useForm();
 
   const postInstrument = usePostInstrument()
@@ -48,8 +49,33 @@ const InstrumentRegister = () => {
     
     additionalReferences.length === 0 ? data.additionalReferences = null : data.additionalReferences = additionalReferences
 
-
-    handlePostUseOutput(data);
+    const regex = /^(\d{4})-(\d{2})-(\d{2})$/
+    const match = data.acquisitionDate.match(regex)
+    if (match) {
+      const ano = parseInt(match[1], 10);
+    
+      if (match[1].length > 4 || isNaN(ano)) {
+        setError('acquisitionDate', {
+          type: 'invalid',
+          message: 'Ano inválido',
+        });
+      } else if (ano < 2000 || ano > 2100) {
+        setError('acquisitionDate', {
+          type: 'invalid',
+          message: 'Ano está fora do intervalo válido (2000-2100)',
+        });
+      } else {
+        // Limpa qualquer erro existente
+        clearErrors('acquisitionDate');
+      }
+    } else {
+      setError('acquisitionDate', {
+        type: 'invalid',
+        message: 'Formato de data inválido',
+      });
+    }
+    // handlePostUseOutput(data);
+    console.log(data.acquisitionDate)
 
 
     
@@ -141,6 +167,7 @@ const InstrumentRegister = () => {
                 inputName="acquisitionDate"
                 isRequired={true}
                 errors={errors}
+                
               />
               <BasicInputFilter
                 inputStyle="classe-medium"
@@ -150,6 +177,8 @@ const InstrumentRegister = () => {
                 inputPlaceholder="fornecedor"
                 register={register}
                 setValue={setValue}
+                getValues={getValues}
+                isRequired={true}
               />
             </div>
             <BasicInput
@@ -169,6 +198,8 @@ const InstrumentRegister = () => {
               inputPlaceholder="família"
               register={register}
               setValue={setValue}
+              getValues={getValues}
+              isRequired={true}
             />
             <div className="flex-form-line">
               <BasicInput
