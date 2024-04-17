@@ -23,6 +23,7 @@ const AreaRegister = () => {
 		register,
 		formState: { errors },
 		handleSubmit,
+		resetField,
 	} = useForm();
 
 	const postAreaMutation = usePostAreaRegister();
@@ -90,6 +91,7 @@ const AreaRegister = () => {
 
 			handlePostAreaRegister(data);
 		}, 1000);
+		resetField("name")
 	};
 
 	return (
