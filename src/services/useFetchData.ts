@@ -1,5 +1,5 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { getArea, getEmployees, getInstrumentById, getInstruments } from "./apiService";
+import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers } from "./apiService";
 
 
 //Retorna todos os instrumentos da API
@@ -25,6 +25,24 @@ export function useAllAreas() {
     queryKey: ["areas"],
     queryFn: getArea,
     refetchOnWindowFocus: false,
+  })
+}
+
+//Retorna todas as famílias
+export function useAllFamilies() {
+  return useQuery({
+    queryKey: ["famiies"],
+    queryFn: getFamilies,
+    refetchOnWindowFocus: false
+  })
+}
+
+//Retorna todos os fornecedores
+export function useAllSuppliers() {
+  return useQuery({
+    queryKey: ["suppliers"],
+    queryFn: getSuppliers,
+    refetchOnWindowFocus: false
   })
 }
 

@@ -1,11 +1,14 @@
+import { FieldValues } from "react-hook-form";
 import {
 	GeneralArea,
 	GeneralEmployee,
 	GeneralInstrument,
 	SearchPattern,
 	OutputUsePost,
-	FamilyRegisterPost,
+	Family,
 	AreaRegisterPost,
+  InstrumentToPost,
+  FamilyRegisterPost
 	SupplierRegisterPost,
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
@@ -17,7 +20,18 @@ export const getInstruments = async () => {
 
 //GET - Retorna todos os funcionarios
 export const getEmployees = async () => {
-	return (await instance.get<GeneralEmployee[]>("employee/all")).data;
+	return (await instance.get<GeneralEmployee[]>("employee/all")).data
+};
+
+//GET - Retorna todos as famílias
+export const getFamilies = async () => {
+	return (await instance.get<Family[]>("family/all")).data
+};
+
+
+//GET - Retorna todos as famílias
+export const getSuppliers = async () => {
+	return (await instance.get<Family[]>("supplier/all")).data
 };
 
 //GET - Retorna todas as areas
@@ -29,6 +43,7 @@ export const getArea = async () => {
 export const getInstrumentById = async (id: string) => {
 	return (await instance.get<GeneralInstrument[]>(`instrument/${id}`)).data;
 };
+
 //POST - Função para retornar os instrumentos de acordo com os filtros selecionados
 export const getInstrumentBySome = async (data: SearchPattern) => {
 	return instance.post<GeneralInstrument[]>("instrument/filter", {
@@ -43,6 +58,11 @@ export const getInstrumentBySome = async (data: SearchPattern) => {
 
 export const postOutputUse = async (data: OutputUsePost) => {
 	return instance.post<OutputUsePost>("use_output", data);
+};
+
+
+export const postInstrument = async (data: FieldValues) => {
+	return instance.post<OutputUsePost>("instrument", data);
 };
 
 export const postFamilyRegister = async (data: FamilyRegisterPost) => {

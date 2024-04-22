@@ -9,5 +9,16 @@
     gap: 16px;/* Alinha os elementos verticalmente */
 }
 
+.input-hidden{
+    display: none;
+}
+
+
+.flex-expandable-buttons{
+    display: flex;
+    width: fit-content;
+    gap: 20px;
+
+}
 
 

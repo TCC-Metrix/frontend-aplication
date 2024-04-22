@@ -17,26 +17,26 @@ export interface MenuOptionProps {
 }
 
 export interface GeneralInstrument {
-	id: string;
-	code: string;
-	description: string;
-	serieNumber: string;
-	inventory: string;
-	acquisitionDate: string;
-	supplier: any;
-	manufacturer: any;
-	familyId: Family;
-	additionalReferences: [];
-	acceptanceCriteria: any;
-	measurementUnit: any;
-	situation: string;
-	situationReason: any;
-	situationJustification: any;
-	acquisitionCost: any;
-	costCenter: any;
-	calibrationFrequency: number;
-	status: string;
-	nextCalibration: string;
+  id: string
+  code: string
+  description: string
+  serieNumber: string
+  inventory: string
+  acquisitionDate: string
+  supplier: string
+  manufacturer: string
+  familyId: Family
+  additionalReferences: []
+  acceptanceCriteria: string
+  measurementUnit: string
+  situation: string
+  situationReason: string
+  situationJustification: string
+  acquisitionCost: string
+  costCenter: string
+  calibrationFrequency: number
+  status: string
+  nextCalibration: string
 }
 
 export interface SearchPattern {
@@ -110,3 +110,30 @@ export interface InstrumentUseOutput {
 	additionalReferences: [];
 	nextCalibrationHide: string;
 }
+
+
+export interface GeneralSupplier {
+  id: string;
+  name: string;
+  cnpj: string;
+}
+
+
+export interface InstrumentToPost {
+  code: string
+  description: string
+  serieNumber: string
+  inventory: string
+  acquisitionDate: string
+  supplier: string
+  manufacturer: string
+  familyId: string
+  additionalReferences: []
+  acceptanceCriteria: string
+  measurementUnit: string
+  situation: string
+  acquisitionCost: string
+  costCenter: string
+  calibrationFrequency: number
+}
+

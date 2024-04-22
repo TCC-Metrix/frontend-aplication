@@ -172,7 +172,7 @@ export const MoveUseOutput = () => {
 				column: dropdownSelected,
 				value: searchTerm,
 				secondColumn: "status",
-				secondValue: "disponivel",
+				secondValue: "available",
 			});
 		} else {
 			setInstrumentsFiltered([]);
