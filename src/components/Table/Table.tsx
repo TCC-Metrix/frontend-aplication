@@ -34,7 +34,6 @@ const removeItem = (index: number) => {
   const updatedCurrentItems = [...currentItems];
   updatedCurrentItems.splice(index, 1); // Remove 1 elemento a partir do índice index
   setCurrentItems(updatedCurrentItems);
-  console.log("current itens: ", currentItems)
 
   const indexOfItemInTableContent = (currentPage - 1) * itemsPerPage + index;
   const updatedTableContent = [...tableContent];

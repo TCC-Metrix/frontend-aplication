@@ -1,81 +1,101 @@
-// import React, {  useState } from 'react';
-// import { Button } from "../../..";
-// import BasicInput from "../BasicInput/BasicInput";
-// import { HiOutlinePlus, HiOutlineMinus } from "react-icons/hi";
-// import "./ExpandableInput.css";
+import React, { useState } from "react";
+import { Button } from "../../..";
+import BasicInput from "../BasicInput/BasicInput";
+import { HiOutlinePlus, HiOutlineMinus } from "react-icons/hi";
+import "./ExpandableInput.css";
+import { FieldValues, UseFormRegister } from "react-hook-form";
 
-// interface ExpandableInputProps {
-//   inputStyle: string;
-//   inputType: string;
-//   inputPlaceholder: string;
-//   register: any;
-//   inputName: string;
-//   isRequired: boolean;
-//   errors: any;
-// }
+interface ExpandableInputProps {
+  register: UseFormRegister<FieldValues>;
+  errors: any;
+  resetField: any;
+}
 
-// function ExpandableInput(props: ExpandableInputProps) {
-//     const [inputs, setInputs] = useState<number[]>([0]); // Estado para manter a lista de inputs adicionais
+function ExpandableInput(props: ExpandableInputProps) {
+  const [isVisibleFirst, setIsVisibleFirst] = useState<boolean>(true);
+  const [isVisibleSecond, setIsVisibleSecond] = useState<boolean>(false);
+  const [isVisibleThird, setIsVisibleThird] = useState<boolean>(false);
 
-//     const addInput = () => {
-//         if (inputs.length < 3) {
-//           const lastValue = inputs[inputs.length - 1]; // Último valor presente na lista
-//           setInputs([...inputs, lastValue + 1]);
-//         }
-//     };
+  return (
+    <div className="expandable-input-wrapper">
+      <div className={` ${isVisibleFirst ? "input-wrapper" : "input-hidden"}`}>
+        <BasicInput
+          inputPlaceholder={`referência adicional`}
+          inputStyle="large-input"
+          isRequired={false}
+          register={props.register}
+          inputName={`additionalReference1`}
+          errors={props.errors}
+          inputType="text"
+        />
+      </div>
+      <div className={` ${isVisibleSecond ? "input-wrapper" : "input-hidden"}`}>
+        <BasicInput
+          inputPlaceholder={`referência adicional`}
+          inputStyle="large-input"
+          isRequired={false}
+          register={props.register}
+          inputName={`additionalReference2`}
+          errors={props.errors}
+          inputType="text"
+        />
+      </div>
+      <div className={` ${isVisibleThird ? "input-wrapper" : "input-hidden"}`}>
+        <BasicInput
+          inputPlaceholder={`referência adicional`}
+          inputStyle="large-input"
+          isRequired={false}
+          register={props.register}
+          inputName={`additionalReference3`}
+          errors={props.errors}
+          inputType="text"
+        />
+        <input type="hidden" {...props.register("additionalReferences")} />
 
-//     const removeInput = (index: number) => {
-//       if (inputs.length > 1) {
-//         const newInputs = [...inputs]
-//         newInputs.splice(index, 1)
-//         setInputs(newInputs);
-//     }
-//     };
+      </div>
 
+      <div className="expandable-input-container">
+        <div className="flex-expandable-buttons">
+          <Button
+            className="btn btn-add"
+            onClickFunction={(event: React.ChangeEvent<HTMLInputElement>) => {
+              event.preventDefault();
+              if (!isVisibleFirst) {
+                setIsVisibleFirst(true);
+              } else if (!isVisibleSecond) {
+                setIsVisibleSecond(true);
+              } else if (!isVisibleThird) {
+                setIsVisibleThird(true);
+              } else {
+              }
+            }}
+          >
+            <HiOutlinePlus color="#506e81" size={30} />
+          </Button>
 
-//     return (
-//         <div className="expandable-input-wrapper">
-//             {/* Renderiza os inputs existentes */}
-//             {inputs.map((item, index) => (
-//                 <div key={item} className="input-wrapper">
-//                     <BasicInput
-//                         inputPlaceholder="referência adicional"
-//                         inputStyle="large-input"
-                        
-//                         key={item}
-//                     />
-//                     {/* Botão para remover o input */}
-//                     {inputs.length > 1 && (
-//                         <Button
-//                             onClickFunction={(e: Event) => {
-//                               e.preventDefault()
-//                               removeInput(index)}}
-//                             className="btn btn-add"
-//                         >
-//                             <HiOutlineMinus color="#506e81" size={20} />
-//                         </Button>
-//                     )}
-//                 </div>
-//             ))}
-//             <div className="expandable-input-container">
-//                 {/* Botão para adicionar mais inputs */}
-//                 {inputs.length < 3 ? (
-//                     <Button
-//                         onClickFunction={(e: React.MouseEvent<HTMLButtonElement>) => {
-//                             e.preventDefault();
-//                             addInput();
-//                         }}
-//                         className="btn btn-add"
-//                     >
-//                         <HiOutlinePlus color="#506e81" size={30} />
-//                     </Button>
-//                 ) : (
-//                   <>
-//                   </>
-//                 )}
-//             </div>
-//         </div>
-//     );
-// }
+          <Button
+            className="btn btn-add"
+            onClickFunction={(event: React.ChangeEvent<HTMLInputElement>) => {
+              event.preventDefault();
+              if (isVisibleThird) {
+                setIsVisibleThird(false);
+                props.resetField("additionalReference3");
+              } else if (isVisibleSecond) {
+                setIsVisibleSecond(false);
+                props.resetField("additionalReference2");
+              } else if (isVisibleFirst) {
+                setIsVisibleFirst(false);
+                props.resetField("additionalReference1");
+              } else {
+              }
+            }}
+          >
+            <HiOutlineMinus color="#506e81" size={30} />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-// export default ExpandableInput;
+export default ExpandableInput;

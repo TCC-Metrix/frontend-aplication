@@ -1,7 +1,6 @@
 .login-container{
     width: 100vw;
     height: 100vh;
-    background-color: aqua;
     overflow-y: none !important ;
     background-image: url('../../../assets/images/background01.jpg');
     background-repeat: no-repeat;
