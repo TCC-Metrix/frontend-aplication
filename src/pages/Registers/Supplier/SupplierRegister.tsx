@@ -1,10 +1,10 @@
-import "./LaboratoryRegister.css";
+import "./Supplier.css";
 import { BasicInput, Button } from "../../../components";
 import { useForm } from "react-hook-form";
-import { useNavbarStore } from "../../../store";
 import type { FieldValues } from "react-hook-form";
+import { useNavbarStore } from "../../../store";
 
-const LaboratoryRegister = () => {
+const SupplierRegister = () => {
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 	const {
 		register,
@@ -19,21 +19,21 @@ const LaboratoryRegister = () => {
 	return (
 		<>
 			<div
-				className="main-container-laboratory-register-page"
+				className="main-container-supplier-register-page"
 				onClick={() => {
 					setActiveNavbar(false);
 				}}
 			>
-				<div className="main-content-laboratory-page">
-					<div className="title-laboratory-register-page">
-						<h1 className="header-three">Cadastro: Laboratório</h1>
+				<div className="main-content-supplier-page">
+					<div className="title-supplier-register-page">
+						<h1 className="header-three">Cadastro: Fornecedor</h1>
 					</div>
 					<form className="main-form">
 						<BasicInput
 							errors={errors}
 							isRequired={true}
-							inputName="description"
-							inputPlaceholder="descrição"
+							inputName="name"
+							inputPlaceholder="nome"
 							inputStyle="large-input"
 							inputType="text"
 							register={register}
@@ -41,13 +41,13 @@ const LaboratoryRegister = () => {
 						<BasicInput
 							errors={errors}
 							isRequired={true}
-							inputName="calibration-code"
-							inputPlaceholder="codigo cal"
+							inputName="cnpj"
+							inputPlaceholder="cnpj"
 							inputStyle="large-input"
 							inputType="text"
 							register={register}
 						/>
-						<div className="btn-confirm-laboratory-page">
+						<div className="btn-confirm-supplier-page">
 							<Button
 								onClickFunction={handleSubmit(onSubmit)}
 								className="btn btn-secondary"
@@ -62,4 +62,4 @@ const LaboratoryRegister = () => {
 	);
 };
 
-export default LaboratoryRegister;
+export default SupplierRegister;

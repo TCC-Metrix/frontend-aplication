@@ -10,6 +10,9 @@ import InstrumentRegister from "./pages/Registers/Instrument/InstrumentRegister"
 import "./App.css";
 import { useEffect } from "react";
 import LaboratoryRegister from "./pages/Registers/Laboratory/LaboratoryRegister";
+import SupplierRegister from "./pages/Registers/Supplier/SupplierRegister";
+import FamilyRegister from "./pages/Registers/Family/FamilyRegister";
+import AreaRegister from "./pages/Registers/Area/AreaRegister";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -23,7 +26,7 @@ function App() {
 	const location = useLocation();
 
 	useEffect(() => {
-		setActiveNavbar(false)
+		setActiveNavbar(false);
 		// Faça o que precisar com a nova rota...
 	}, [location]);
 
@@ -72,6 +75,31 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<LaboratoryRegister />
+            </ProtectedRoute>
+            }
+            ></Route>
+          
+         <Route
+					path="/register/family"
+					element={
+						<ProtectedRoute>
+							<FamilyRegister />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/register/supplier"
+					element={
+						<ProtectedRoute>
+							<SupplierRegister />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/register/area"
+					element={
+						<ProtectedRoute>
+							<AreaRegister />
 						</ProtectedRoute>
 					}
 				></Route>

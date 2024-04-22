@@ -1,22 +1,31 @@
 import { useMutation } from "@tanstack/react-query";
-import { getInstrumentBySome, postInstrument, postOutputUse } from "./apiService";
-import { InstrumentToPost, OutputUsePost, SearchPattern } from "../utils/interfaces/Interfaces";
 import { FieldValues } from "react-hook-form";
-
+import {
+	getInstrumentBySome,
+	postAreaRegister,
+	postFamilyRegister,
+	postOutputUse,
+  postInstrument
+} from "./apiService";
+import {
+	AreaRegisterPost,
+	FamilyRegisterPost,
+	OutputUsePost,
+	SearchPattern,
+  InstrumentToPost
+} from "../utils/interfaces/Interfaces";
 
 
 //Função que faz um POST na API para retornar os instrumentos de acordo com o filtro
-export function useGetInstrumentBy(){
-    return useMutation({
-        mutationFn: (data: SearchPattern) => getInstrumentBySome(data),
-        onMutate: () => {
-        },
-        onError: () => {
-        },
-        onSettled() {
-        }
-    })
+export function useGetInstrumentBy() {
+	return useMutation({
+		mutationFn: (data: SearchPattern) => getInstrumentBySome(data),
+		onMutate: () => {},
+		onError: () => {},
+		onSettled() {},
+	});
 }
+
 
 export function usePostOutputUse(){
     return useMutation({
@@ -38,4 +47,25 @@ export function usePostInstrument(){
         mutationFn: (data: FieldValues) => {
             return postInstrument(data)},
     })
+}
+
+
+export function usePostFamilyRegister() {
+	return useMutation({
+		mutationFn: (data: FamilyRegisterPost) => {
+			return postFamilyRegister({
+				code: data.code,
+				description: data.description,
+				calibrationFrequencyInMonths: data.calibrationFrequencyInMonths,
+				calibrationTimeCounter: data.calibrationTimeCounter,
+			});
+		},
+	});
+}
+export function usePostAreaRegister() {
+	return useMutation({
+		mutationFn: (data: AreaRegisterPost) => {
+			return postAreaRegister({ description: data.description });
+		},
+	});
 }

@@ -1,23 +1,22 @@
 import { useState } from "react";
-import { Logo } from "../../index";
+import { Logo, LogoMetrix } from "../../index";
 import "./Navbar.css";
 import {
 	cadLinks,
 	consultaLinks,
 	movLinks,
 	relatorioLinks,
-} from "../../utils/links/Links"
+} from "../../utils/links/Links";
 import { DropdownState } from "../../utils/interfaces/Interfaces";
 import Menu from "../Menu/Menu";
 import NavDropdown from "../NavDropdown/NavDropdown";
 
-
 interface NavBarProps {
-  activeNavbar: boolean
-  setActiveNavbar: (isActive: boolean) => void;
+	activeNavbar: boolean;
+	setActiveNavbar: (isActive: boolean) => void;
 }
 
-export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
+export default function NavBar({ activeNavbar, setActiveNavbar }: NavBarProps) {
 	const [bar, setBar] = useState("bar unclicked");
 	const [menuClass, setMenuClass] = useState("menu-hidden");
 	const [isMenuClicked, setIsMenuClicked] = useState(false);
@@ -58,16 +57,14 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 		setIsMenuClicked(!isMenuClicked);
 		toggleDropdown();
 	};
-	
+
 	return (
 		<div className="container">
 			<nav className="navbar">
 				<img src={Logo} alt="logoRexroth" className="logoImg"></img>
 				<ul>
 					<li>
-						<p className="nav-header-option text">
-							Início
-						</p>
+						<p className="nav-header-option text">Início</p>
 					</li>
 					<NavDropdown
 						option={dropdownVisible.Mov}
@@ -77,7 +74,7 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 						links={movLinks}
 						activeNavbar={activeNavbar}
 						setActiveNavbar={setActiveNavbar}
-						/>
+					/>
 					<NavDropdown
 						option={dropdownVisible.Cad}
 						setDropdownVisible={setDropdownVisible}
@@ -86,7 +83,7 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 						links={cadLinks}
 						activeNavbar={activeNavbar}
 						setActiveNavbar={setActiveNavbar}
-						/>
+					/>
 					<NavDropdown
 						option={dropdownVisible.Cons}
 						setDropdownVisible={setDropdownVisible}
@@ -95,7 +92,7 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 						links={consultaLinks}
 						activeNavbar={activeNavbar}
 						setActiveNavbar={setActiveNavbar}
-						/>
+					/>
 					<NavDropdown
 						option={dropdownVisible.Rel}
 						setDropdownVisible={setDropdownVisible}
@@ -104,8 +101,13 @@ export default function NavBar({activeNavbar, setActiveNavbar} : NavBarProps) {
 						links={relatorioLinks}
 						activeNavbar={activeNavbar}
 						setActiveNavbar={setActiveNavbar}
-						/>
+					/>
 				</ul>
+			<img
+				src={LogoMetrix}
+				alt="logo-metrix"
+				className="logo-metrix-navbar"
+			></img>
 			</nav>
 			{isMenuClicked && <div className="overlay" onClick={updateMenu}></div>}
 			<div className="menu-toggle" onClick={updateMenu}>

@@ -1,0 +1,36 @@
+.main-container-family-register-page {
+	width: 80%;
+	height: 100%;
+	margin: 0 auto;
+	padding-top: 6rem;
+	box-sizing: border-box;
+	max-width: 800px;
+}
+
+.flex-form-line-inputs-family-register {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.main-form-family-register {
+	display: flex;
+	flex-direction: column;
+  gap: 25px;
+}
+
+.text-header {
+	text-align: center;
+  margin-top: 80px;
+	margin-bottom: 28px;
+}
+
+.flex-row-direction-family-register {
+	display: flex;
+	gap: 56px;
+}
+
+.confirm-button-family-register {
+	display: flex;
+	align-self: flex-end;
+}

@@ -16,17 +16,16 @@
 .logoImg {
 	left: 0;
 	width: 5.8rem;
-	padding-left:2rem;
-	position: absolute;
 }
 
 .navbar {
 	display: flex;
 	align-items: center;
 	flex-direction: row;
+	margin: 0 2rem;
 	height: 100%;
 	width: 100%;
-	justify-content: center;
+	justify-content: space-between;
 	background-color: #fff;
 }
 
@@ -35,7 +34,6 @@
     list-style: none;
     align-items: center;
     height: 100%;
-    margin-left: 8rem;
 }
 
 
@@ -147,4 +145,10 @@ a {
 
 .no-scroll {
 	overflow: hidden;
+}
+
+.logo-metrix-navbar{
+	width: 5.8rem;
+	height: auto;
+	
 }

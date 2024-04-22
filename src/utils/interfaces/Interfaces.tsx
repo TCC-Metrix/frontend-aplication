@@ -39,7 +39,6 @@ export interface GeneralInstrument {
   nextCalibration: string
 }
 
-
 export interface SearchPattern {
 	column: string;
 	value: string;
@@ -48,11 +47,21 @@ export interface SearchPattern {
 }
 
 export interface OutputUsePost {
-  instrumentIds: string[];
-  shippingResponsible: string;
-  receivingResponsible: string;
-  area: string;
-  outputDate: string;
+	instrumentIds: string[];
+	shippingResponsible: string;
+	receivingResponsible: string;
+	area: string;
+	outputDate: string;
+}
+
+export interface FamilyRegisterPost {
+	code: string;
+	description: string;
+	calibrationFrequencyInMonths: number;
+	calibrationTimeCounter: string;
+}
+export interface AreaRegisterPost {
+	description: string;
 }
 
 export interface Option {
@@ -68,34 +77,34 @@ export interface Family {
 }
 
 export interface InstrumentToModalTableUseOutput {
-  id: string
-  code: string
-  description: string
-  family: string
-  calibrationFrequency: number
-  nextCalibration: string
-  additionalReferences: []
-  nextCalibrationHide: string
+	id: string;
+	code: string;
+	description: string;
+	family: string;
+	calibrationFrequency: number;
+	nextCalibration: string;
+	additionalReferences: [];
+	nextCalibrationHide: string;
 }
 
 export interface GeneralEmployee {
-  id: string;
+	id: string;
 	name: string;
 	email: string;
 	sector: string;
 }
 
 export interface GeneralArea {
-  id: string;
+	id: string;
 	description: string;
 }
 
 export interface InstrumentUseOutput {
-  id: string
-  code: string
-  description: string
-  additionalReferences: []
-  nextCalibrationHide: string
+	id: string;
+	code: string;
+	description: string;
+	additionalReferences: [];
+	nextCalibrationHide: string;
 }
 
 
