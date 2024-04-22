@@ -58,9 +58,11 @@ function BasicInput(props: BasicInputProps) {
 				) : props.inputName === "cnpj" ? (
 					<InputMask
 						mask="99.999.999/9999-99"
-						className="text-input"
+						className={`${
+							props.errors[props.inputName] ? "error-formatted" : "text-input"
+						}`}
 						required
-						{...props.register(props.inputName, {
+						{...props.register("cnpj", {
 							required: props.isRequired && "Campo obrigatório",
 						})}
 					/>

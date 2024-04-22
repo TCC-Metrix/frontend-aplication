@@ -2,7 +2,7 @@ import "./Supplier.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BasicInput, Button } from "../../../components";
 import { useForm } from "react-hook-form";
-import type { FieldValues, SubmitHandler } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import { useNavbarStore, usePopupStore } from "../../../store";
 import { usePostSupplierRegister } from "../../../services/useMutation";
 import { SupplierRegisterPost } from "../../../utils/interfaces/Interfaces";
@@ -19,9 +19,9 @@ const schema = z.object({
 		}),
 	cnpj: z
 		.string()
-		.min(1, "Campo obrigatorio")
-		.refine((value) => !/^\s+$/.test(value), {
-			message: "Nome não pode conter apenas espaços em branco",
+		.transform((value) => value.replace(/[^\d]/g, "")) // Remove caracteres não numéricos
+		.refine((value) => value.length === 14, {
+			message: "CNPJ deve conter exatamente 14 dígitos",
 		}),
 });
 
@@ -98,8 +98,11 @@ const SupplierRegister = () => {
 			},
 		});
 	};
+	console.log();
 
 	const handleConfirmSupplierRegister = (dataApi: z.infer<typeof schema>) => {
+		console.log(dataApi.cnpj);
+
 		setIsLoadingPostSupplierRegister(true);
 		setTimeout(() => {
 			setIsLoadingPostSupplierRegister(false);
