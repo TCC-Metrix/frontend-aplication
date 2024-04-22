@@ -1,7 +1,6 @@
 import "./LaboratoryRegister.css";
 import { BasicInput, Button } from "../../../components";
 import { useNavbarStore, usePopupStore } from "../../../store";
-import type { FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -11,13 +10,13 @@ import { usePostLaboratoryRegister } from "../../../services/useMutation";
 import { useState } from "react";
 
 const schema = z.object({
-	name: z
+	description: z
 		.string()
 		.min(1, "Campo obrigatorio")
 		.refine((value) => !/^\s+$/.test(value), {
 			message: "Nome não pode conter apenas espaços em branco",
 		}),
-	calCode: z
+	calibrationCode: z
 		.string()
 		.min(1, "Campo obrigatorio")
 		.refine((value) => !/^\s+$/.test(value), {
@@ -105,15 +104,12 @@ const LaboratoryRegister = () => {
 			setIsLoadingPostLaboratoryRegister(false)
 
 			const data = {
-				name: dataApi.name,
+				name: dataApi.description,
+				calCode: dataApi.calibrationCode,
 			};
 
 			handlePostLaboratoryRegister(data);
 		}, 1000)
-	};
-
-	const onSubmit = (data: FieldValues) => {
-		console.log(data);
 	};
 
 	return (
@@ -141,7 +137,7 @@ const LaboratoryRegister = () => {
 						<BasicInput
 							errors={errors}
 							isRequired={true}
-							inputName="calibration-code"
+							inputName="calibrationCode"
 							inputPlaceholder="codigo cal"
 							inputStyle="large-input"
 							inputType="text"
@@ -149,7 +145,7 @@ const LaboratoryRegister = () => {
 						/>
 						<div className="btn-confirm-laboratory-page">
 							<Button
-								onClickFunction={handleSubmit(onSubmit)}
+								onClickFunction={handleSubmit(handleConfirmLaboratoryRegister)}
 								className="btn btn-secondary"
 							>
 								{isLoadingPostLaboratoryRegister ? (
