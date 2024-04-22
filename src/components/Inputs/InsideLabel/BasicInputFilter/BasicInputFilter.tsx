@@ -5,7 +5,12 @@ import {
   Family,
   GeneralSupplier,
 } from "../../../../utils/interfaces/Interfaces";
-import { FieldValues, UseFormGetValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import {
+  FieldValues,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetValue,
+} from "react-hook-form";
 
 interface BasicInputFilterProps {
   inputPlaceholder: string;
@@ -17,19 +22,18 @@ interface BasicInputFilterProps {
   inputStyle: string;
   getValues: UseFormGetValues<FieldValues>;
   isRequired: boolean;
+  errors: any;
 }
 
 type Item = Family | GeneralSupplier;
 
 function BasicInputFilter(props: BasicInputFilterProps) {
-  
   const [filteredOptions, setFilteredOptions] = useState<Item[] | undefined>(
     props.items
   );
   const [isFocused, setIsFocused] = useState(false);
 
   const setSelectedValue = (option: Family | GeneralSupplier) => {
-    console.log("Setting value");
     props.setValue(
       props.inputName,
       "name" in option ? option.name : option.description
@@ -49,13 +53,7 @@ function BasicInputFilter(props: BasicInputFilterProps) {
     setFilteredOptions(filteredOptions ?? []);
   };
 
-  useEffect(() => {
-    if(!isFocused){
-      console.log("false")
-      console.log(props.getValues(props.inputId))
-      console.log
-    }
-  }, [isFocused])
+  
 
   return (
     <div className={props.inputStyle}>
@@ -63,13 +61,15 @@ function BasicInputFilter(props: BasicInputFilterProps) {
       <div>
         <div className="entryarea">
           <input
-            className="text-input"
+            className={`${
+              props.errors[props.inputName] ? "error-formatted" : "text-input"
+            }`}
             required
             {...props.register(
               props.inputName,
               props.isRequired
                 ? {
-                    required: "Campo obrigatório",
+                    required: `Selecione ao menos um(a) ${props.inputPlaceholder}` ,
                   }
                 : undefined
             )}
@@ -94,6 +94,9 @@ function BasicInputFilter(props: BasicInputFilterProps) {
               ))}
             </ul>
           </div>
+        )}
+        {props.errors[props.inputName] && (
+          <p className="error-text">{props.errors[props.inputName].message}</p>
         )}
       </div>
     </div>

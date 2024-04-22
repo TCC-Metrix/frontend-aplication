@@ -76,7 +76,6 @@ const InputSearch: React.FC<InputSearchProps> = ({
       if(inputGroupError[title] == ""){
         return null
       }
-      console.log("erro: ", inputGroupError[title])
       return inputGroupError[title];
     } else {
       return null;

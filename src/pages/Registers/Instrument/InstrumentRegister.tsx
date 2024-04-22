@@ -16,6 +16,7 @@ import {
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import { usePostInstrument } from "../../../services/useMutation";
+import { useEffect } from "react";
 
 const InstrumentRegister = () => {
   const {
@@ -30,6 +31,20 @@ const InstrumentRegister = () => {
   } = useForm();
 
   const postInstrument = usePostInstrument()
+
+  useEffect(() => {
+    function handleKeyPress(event: any) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+      }
+    }
+
+    document.addEventListener('keypress', handleKeyPress);
+    
+    return () => {
+      document.removeEventListener('keypress', handleKeyPress);
+    };
+  }, []);
 
   const onSubmit = async (data: FieldValues) => {
     // console.log(data);
@@ -74,8 +89,8 @@ const InstrumentRegister = () => {
         message: 'Formato de data inválido',
       });
     }
-    // handlePostUseOutput(data);
-    console.log(data.acquisitionDate)
+    console.log(data)
+    handlePostUseOutput(data);
 
 
     
@@ -179,6 +194,7 @@ const InstrumentRegister = () => {
                 setValue={setValue}
                 getValues={getValues}
                 isRequired={true}
+                errors={errors}
               />
             </div>
             <BasicInput
@@ -200,6 +216,7 @@ const InstrumentRegister = () => {
               setValue={setValue}
               getValues={getValues}
               isRequired={true}
+              errors={errors}
             />
             <div className="flex-form-line">
               <BasicInput
