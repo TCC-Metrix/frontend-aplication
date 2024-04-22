@@ -6,6 +6,7 @@ import {
 	postFamilyRegister,
 	postOutputUse,
   postInstrument
+	postSupplierRegister,
 } from "./apiService";
 import {
 	AreaRegisterPost,
@@ -13,6 +14,7 @@ import {
 	OutputUsePost,
 	SearchPattern,
   InstrumentToPost
+	SupplierRegisterPost,
 } from "../utils/interfaces/Interfaces";
 
 
@@ -66,6 +68,13 @@ export function usePostAreaRegister() {
 	return useMutation({
 		mutationFn: (data: AreaRegisterPost) => {
 			return postAreaRegister({ description: data.description });
+		},
+	});
+}
+export function usePostSupplierRegister() {
+	return useMutation({
+		mutationFn: (data: SupplierRegisterPost) => {
+			return postSupplierRegister({ name: data.name, cnpj: data.cnpj });
 		},
 	});
 }
