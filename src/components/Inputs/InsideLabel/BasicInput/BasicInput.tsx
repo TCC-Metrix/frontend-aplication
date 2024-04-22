@@ -37,7 +37,7 @@ function BasicInput(props: BasicInputProps) {
 					? "classe-medium"
 					: props.inputStyle === "little-input"
 					? "classe-little"
-					: ""
+					: "large-input"
 			}`}
 		>
 			<div className={`entryarea ${props.inputStyle} `}>

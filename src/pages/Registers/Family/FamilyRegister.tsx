@@ -98,7 +98,7 @@ const FamilyRegister = () => {
 					setIsLoadingPostFamilyRegister(false);
 					createPopup(
 						"feedback",
-						"Movimentação realizada com sucesso",
+						"A família foi registrada com sucesso.",
 						"",
 						() => {
 							setIsPopupActive(false);
