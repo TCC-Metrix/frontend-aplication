@@ -2,7 +2,7 @@ import axios, { InternalAxiosRequestConfig } from "axios";
 import { msalInstance } from "../authSSO/msalInstance";
 
 //URL em que fazemos as requisições da API
-const API_URL = "http://10.234.89.143:8081/api/v1/";
+const API_URL = "http://10.234.90.186:8081/api/v1/";
 
 
 //Definindo a instância da URL para as requisições utilizando AXIOS
@@ -24,4 +24,4 @@ instance.interceptors.request.use(acquireToken)
 export default instance;
 
 //10.234.89.143 - prates api
-//10.234.86.139 - julia api
+//10.234.90.186 - julia api
