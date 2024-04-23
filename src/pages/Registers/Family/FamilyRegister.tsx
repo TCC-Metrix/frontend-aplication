@@ -44,9 +44,9 @@ const FamilyRegister = () => {
 	const setPopupTitle = usePopupStore((state) => state.setPopupTitle);
 	const setIsPopupActive = usePopupStore((state) => state.setIsPopupActive);
 	const setPopupFunction = usePopupStore((state) => state.setPopupFunction);
-	const [calibrationTimeCounter, setCalibrationTimeCounter] = useState("uso");
 	const [isLoadingPostFamilyRegister, setIsLoadingPostFamilyRegister] =
 		useState<boolean>(false);
+	const [calibrationTimeCounter, setCalibrationTimeCounter] = useState("uso");
 	const {
 		register,
 		formState: { errors },
@@ -123,6 +123,8 @@ const FamilyRegister = () => {
 
 			handlePostFamilyRegister(data);
 		}, 1000);
+		
+		
 	};
 
 	const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {

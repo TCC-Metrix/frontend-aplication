@@ -1,6 +1,6 @@
 import CurrencyInput from "react-currency-input-field";
 import "./BasicInput.css";
-import { useState } from "react";
+import InputMask from "react-input-mask";
 
 interface BasicInputProps {
 	inputStyle: string;
@@ -13,13 +13,11 @@ interface BasicInputProps {
 }
 
 function BasicInput(props: BasicInputProps) {
-	const [value, setValue] = useState("");
-
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValue: string = event.target.value;
 		// Remove caracteres não numéricos utilizando uma expressão regular
 		const newValue: string = inputValue.replace(/\D/g, "");
-		setValue(newValue);
+		props.register(props.inputName).onChange(newValue);
 	};
 
 	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -30,6 +28,7 @@ function BasicInput(props: BasicInputProps) {
 			event.preventDefault();
 		}
 	};
+
 	return (
 		<div
 			className={`${
@@ -48,16 +47,24 @@ function BasicInput(props: BasicInputProps) {
 						allowDecimals={true}
 						decimalSeparator=","
 						groupSeparator="."
-						decimalScale={2} // Define duas casas decimais
-						allowNegativeValue={false} // Impede valores negativos
-						maxLength={8} 
+						decimalScale={2}
+						allowNegativeValue={false}
+						maxLength={8}
 						required
-						{...props.register(
-							props.inputName, //problema ta aqui!
-							props.isRequired && {
-								required: "Campo obrigatório",
-							}
-						)}
+						{...props.register(props.inputName, {
+							required: props.isRequired && "Campo obrigatório",
+						})}
+					/>
+				) : props.inputName === "cnpj" ? (
+					<InputMask
+						mask="99.999.999/9999-99"
+						className={`${
+							props.errors[props.inputName] ? "error-formatted" : "text-input"
+						}`}
+						required
+						{...props.register("cnpj", {
+							required: props.isRequired && "Campo obrigatório",
+						})}
 					/>
 				) : (
 					<input
@@ -65,15 +72,12 @@ function BasicInput(props: BasicInputProps) {
 						className={`${
 							props.errors[props.inputName] ? "error-formatted" : "text-input"
 						}`}
-						required
-						{...props.register(
-							props.inputName,
-							props.isRequired && {
-								required: "Campo obrigatório",
-							}
-						)}
-						onKeyDown={props.inputType === "number" ? handleKeyDown : ""}
-						onChange={props.inputType === "number" ? handleChange : ""}
+						required={props.isRequired}
+						{...props.register(props.inputName, {
+							required: "Campo obrigatório",
+						})}
+						onKeyDown={props.inputType === "number" ? handleKeyDown : undefined}
+						onChange={props.inputType === "number" ? handleChange : undefined}
 					/>
 				)}
 				<div className="label-line text-major">{props.inputPlaceholder}</div>
