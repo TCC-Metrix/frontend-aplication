@@ -10,9 +10,10 @@ const MenuOption: React.FC<MenuOptionProps> = ({ text }) => {
 			postLogoutRedirectUri: "/login",
 		});
 	};
+
 	return (
 		<div className="menu-option-container">
-			<div className="menu-option-row" onClick={() => handleLogout()}>
+			<div className="menu-option-row" onClick={handleLogout}>
 				<div className="menu-option-icon">
 					<RxExit />
 				</div>

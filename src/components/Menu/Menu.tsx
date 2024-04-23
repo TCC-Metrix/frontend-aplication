@@ -4,7 +4,11 @@ import "./Menu.css";
 import { useEffect, useState } from "react";
 import { callMsGraph } from "../../authSSO/MsGraphApiCall";
 import { loginRequest } from "../../authSSO/authConfig";
-import { AccountInfo, InteractionRequiredAuthError, InteractionStatus } from "@azure/msal-browser";
+import {
+	AccountInfo,
+	InteractionRequiredAuthError,
+	InteractionStatus,
+} from "@azure/msal-browser";
 const Menu = () => {
 	const { instance, inProgress } = useMsal();
 	const [imageUrl, setImageUrl] = useState<string | undefined>("");
@@ -12,22 +16,20 @@ const Menu = () => {
 
 	useEffect(() => {
 		if (!imageUrl && inProgress === InteractionStatus.None) {
-				callMsGraph()
-						.then((response) => {
-								setImageUrl(response?.blobUrl);
-						})
-						.catch((e) => {
-								if (e instanceof InteractionRequiredAuthError) {
-										instance.acquireTokenRedirect({
-												...loginRequest,
-												account: instance.getActiveAccount() as AccountInfo,
-										});
-								}
+			callMsGraph()
+				.then((response) => {
+					setImageUrl(response?.blobUrl);
+				})
+				.catch((e) => {
+					if (e instanceof InteractionRequiredAuthError) {
+						instance.acquireTokenRedirect({
+							...loginRequest,
+							account: instance.getActiveAccount() as AccountInfo,
 						});
+					}
+				});
 		}
-}, [inProgress, instance, imageUrl, account?.name]);
-
-
+	}, [inProgress, instance, imageUrl, account?.name]);
 
 	return (
 		<>

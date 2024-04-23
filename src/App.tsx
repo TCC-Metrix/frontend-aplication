@@ -13,6 +13,7 @@ import LaboratoryRegister from "./pages/Registers/Laboratory/LaboratoryRegister"
 import SupplierRegister from "./pages/Registers/Supplier/SupplierRegister";
 import FamilyRegister from "./pages/Registers/Family/FamilyRegister";
 import AreaRegister from "./pages/Registers/Area/AreaRegister";
+import UseReturn from "./pages/Movements/UseReturn/UseReturn";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -51,6 +52,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<MoveUseOutput />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/movement/use/return"
+					element={
+						<ProtectedRoute>
+							<UseReturn />
 						</ProtectedRoute>
 					}
 				></Route>
