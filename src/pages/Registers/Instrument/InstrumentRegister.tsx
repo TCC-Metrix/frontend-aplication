@@ -18,12 +18,23 @@ import ErrorPage from "../../ErrorPage/ErrorPage";
 import { usePostInstrument } from "../../../services/useMutation";
 import { useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
+import { usePopupStore } from "../../../store";
+import { useNavigate } from 'react-router-dom'
 
 
 const InstrumentRegister = () => {
-
-  const [isLoadingInstrument, setIsLoadingInstrument] = useState<boolean>(false)
-
+  
+  const setPopupType = usePopupStore((state: any) => state.setPopupType);
+  const setPopupBody = usePopupStore((state: any) => state.setPopupBody);
+  const setPopupTitle = usePopupStore((state: any) => state.setPopupTitle);
+  const setIsPopupActive = usePopupStore(
+    (state: any) => state.setIsPopupActive
+  );
+  const setPopupFunction = usePopupStore(
+    (state: any) => state.setPopupFunction
+  );
+  const [isLoadingInstrument, setIsLoadingInstrument] =
+    useState<boolean>(false);
 
   const {
     register,
@@ -33,27 +44,49 @@ const InstrumentRegister = () => {
     resetField,
     clearErrors,
     setError,
-    getValues
+    getValues,
   } = useForm();
 
-  const postInstrument = usePostInstrument()
+  const navigate = useNavigate()
+
+  const postInstrument = usePostInstrument();
+
+
 
   useEffect(() => {
     function handleKeyPress(event: any) {
-      if (event.key === 'Enter') {
+      if (event.key === "Enter") {
         event.preventDefault();
       }
     }
 
-    document.addEventListener('keypress', handleKeyPress);
-    
+    document.addEventListener("keypress", handleKeyPress);
+
     return () => {
-      document.removeEventListener('keypress', handleKeyPress);
+      document.removeEventListener("keypress", handleKeyPress);
     };
   }, []);
 
 
-  const onSubmit = async (data: FieldValues) => {
+  const createPopup = (
+		type: string,
+		title: string,
+		body: string,
+		btnFunction: () => void
+	) => {
+		setPopupType(type);
+		setPopupTitle(title);
+		setPopupBody(body);
+		setPopupFunction(() => {
+			setPopupBody("");
+			setPopupTitle("");
+			setPopupType("none");
+			btnFunction();
+		});
+		setIsPopupActive(true);
+	};
+
+  const onSubmit = (data: FieldValues) => {
     // console.log(data);
     const additionalReferences = [];
     if (data.additionalReference1 !== "") {
@@ -67,40 +100,40 @@ const InstrumentRegister = () => {
     if (data.additionalReference3 !== "") {
       additionalReferences.push(data.additionalReference3);
     }
-    
-    
-    additionalReferences.length === 0 ? data.additionalReferences = null : data.additionalReferences = additionalReferences
 
-    const regex = /^(\d{4})-(\d{2})-(\d{2})$/
-    const match = data.acquisitionDate.match(regex)
+    additionalReferences.length === 0
+      ? (data.additionalReferences = null)
+      : (data.additionalReferences = additionalReferences);
+
+    const regex = /^(\d{4})-(\d{2})-(\d{2})$/;
+    const match = data.acquisitionDate.match(regex);
     if (match) {
       const ano = parseInt(match[1], 10);
-    
+
       if (match[1].length > 4 || isNaN(ano)) {
-        setError('acquisitionDate', {
-          type: 'invalid',
-          message: 'Ano inválido',
+        setError("acquisitionDate", {
+          type: "invalid",
+          message: "Ano inválido",
         });
       } else if (ano < 2000 || ano > 2100) {
-        setError('acquisitionDate', {
-          type: 'invalid',
-          message: 'Ano está fora do intervalo válido (2000-2100)',
+        setError("acquisitionDate", {
+          type: "invalid",
+          message: "Ano está fora do intervalo válido (2000-2100)",
         });
       } else {
         // Limpa qualquer erro existente
-        clearErrors('acquisitionDate');
+        clearErrors("acquisitionDate");
       }
     } else {
-      setError('acquisitionDate', {
-        type: 'invalid',
-        message: 'Formato de data inválido',
+      setError("acquisitionDate", {
+        type: "invalid",
+        message: "Formato de data inválido",
       });
     }
-    console.log(data)
-    handlePostUseOutput(data);
-
-
+    console.log(data);
+    handlePostInstrument(data);
     
+    console.log(createPopup)
   };
 
   const {
@@ -122,27 +155,38 @@ const InstrumentRegister = () => {
     return <ErrorPage />;
   }
 
-
-
-  const handlePostUseOutput: SubmitHandler<FieldValues> = (data) => {
-		postInstrument.mutate(data, {
-    
-			onSettled: (data, error) => {
-				if (error) {
-					console.error("Ocorreu um erro:", error);
-					return;
-				} else {
-					console.log(data);
-				}
-			},
-		});
-	};
+  const handlePostInstrument: SubmitHandler<FieldValues> = (data) => {
+    postInstrument.mutate(data, {
+      onSettled: (data, error) => {
+        if (error) {
+          createPopup("error", "Erro interno do servidor", "Desculpe, estamos com problemas, tente novamente mais tarde", () => {
+            setIsPopupActive(false)
+            window.location.reload()
+          });
+          return;
+        } else {
+          
+          createPopup("feedback", "Registrado com sucesso", "Instrumento adicionado com sucesso!", () => {
+            setIsPopupActive(false)
+            navigate("/")
+            window.location.reload()
+          });
+          console.log(data);
+        }
+      },
+    });
+  };
 
   return (
     <>
       <div className="main-container-instrument-register-page">
+        <div className="text-header">
+          <h1 className="header-three">
+            Cadastrar instrumento
+          </h1>
+        </div>
         <div className="main-content">
-          <p className="header-three">Cadastrar instrumento</p>
+       
           <form className="main-form">
             <BasicInput
               errors={errors}
@@ -190,7 +234,6 @@ const InstrumentRegister = () => {
                 inputName="acquisitionDate"
                 isRequired={true}
                 errors={errors}
-                
               />
               <BasicInputFilter
                 inputStyle="classe-medium"
@@ -242,12 +285,12 @@ const InstrumentRegister = () => {
                 errors={errors}
                 isRequired={false}
                 inputType="text"
-                inputName="measurementUnity"
+                inputName="measurementUnit"
                 register={register}
               />
               <SelectInput
                 placeholder="situação"
-                optionsList={["--selecione", "ativo", "inativo"]}
+                optionsList={["ativo", "inativo"]}
                 id="situation"
                 register={register}
               />
@@ -277,23 +320,23 @@ const InstrumentRegister = () => {
               errors={errors}
               resetField={resetField}
             />
-							<Button
-								onClickFunction={handleSubmit(onSubmit)}
-								className="btn btn-secondary"
-							>
-								{isLoadingInstrument ? (
-									<RotatingLines
-										visible={true}
-										strokeWidth="5"
-										animationDuration="0.75"
-										ariaLabel="rotating-lines-loading"
-										strokeColor="#fff"
-										width="20"
-									/>
-								) : (
-									<>Confirmar</>
-								)}
-							</Button>
+            <Button
+              onClickFunction={handleSubmit(onSubmit)}
+              className="btn btn-secondary btn-lg"
+            >
+              {isLoadingInstrument ? (
+                <RotatingLines
+                  visible={true}
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  ariaLabel="rotating-lines-loading"
+                  strokeColor="#fff"
+                  width="20"
+                />
+              ) : (
+                <>Confirmar</>
+              )}
+            </Button>
           </form>
         </div>
       </div>
