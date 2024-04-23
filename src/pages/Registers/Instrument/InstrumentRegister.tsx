@@ -5,8 +5,8 @@ import {
   SelectInput,
   DateInputInside,
   ExpandableInput,
-  RadioInput,
   BasicInputFilter,
+  Button,
 } from "../../../components";
 import "./InstrumentRegister.css";
 import {
@@ -16,9 +16,15 @@ import {
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import { usePostInstrument } from "../../../services/useMutation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { RotatingLines } from "react-loader-spinner";
+
 
 const InstrumentRegister = () => {
+
+  const [isLoadingInstrument, setIsLoadingInstrument] = useState<boolean>(false)
+
+
   const {
     register,
     handleSubmit,
@@ -45,6 +51,7 @@ const InstrumentRegister = () => {
       document.removeEventListener('keypress', handleKeyPress);
     };
   }, []);
+
 
   const onSubmit = async (data: FieldValues) => {
     // console.log(data);
@@ -119,6 +126,7 @@ const InstrumentRegister = () => {
 
   const handlePostUseOutput: SubmitHandler<FieldValues> = (data) => {
 		postInstrument.mutate(data, {
+    
 			onSettled: (data, error) => {
 				if (error) {
 					console.error("Ocorreu um erro:", error);
@@ -269,27 +277,23 @@ const InstrumentRegister = () => {
               errors={errors}
               resetField={resetField}
             />
-            <p className="normal-text radio-title">Instrumento calibrado?</p>
-            <div className="radio-group">
-              <RadioInput
-                id="yes"
-                name="is-instrument-calibrated"
-                title="Sim"
-                value="yes"
-              />
-              <RadioInput
-                id="no"
-                name="is-instrument-calibrated"
-                title="Não"
-                value="no"
-              />
-            </div>
-            <button
-              className="btn btn-secondary btn-lg m-auto"
-              onClick={handleSubmit(onSubmit)}
-            >
-              <span className="text button-font">Enviar</span>
-            </button>
+							<Button
+								onClickFunction={handleSubmit(onSubmit)}
+								className="btn btn-secondary"
+							>
+								{isLoadingInstrument ? (
+									<RotatingLines
+										visible={true}
+										strokeWidth="5"
+										animationDuration="0.75"
+										ariaLabel="rotating-lines-loading"
+										strokeColor="#fff"
+										width="20"
+									/>
+								) : (
+									<>Confirmar</>
+								)}
+							</Button>
           </form>
         </div>
       </div>

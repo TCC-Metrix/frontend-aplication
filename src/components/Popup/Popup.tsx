@@ -2,6 +2,7 @@ import "./Popup.css";
 import Button from "../Buttons/Button";
 import { IoAlertCircle } from "react-icons/io5";
 import { FaCheckCircle } from "react-icons/fa";
+import { IoCheckmarkCircle } from "react-icons/io5";
 
 interface PopupProps {
   isActive: boolean;
@@ -35,7 +36,7 @@ const Popup: React.FC<PopupProps> = ({
                 </>
               ) : (
                 <>
-                  <FaCheckCircle size={80} color="#00738f" />
+                  <IoCheckmarkCircle size={80} color="#61C78A" />
                   <p className="header-three feedback-title">{title}</p>
                 </>
               )}
