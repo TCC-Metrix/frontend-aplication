@@ -6,7 +6,8 @@ import {
 	OutputUsePost,
 	FamilyRegisterPost,
 	AreaRegisterPost,
-	LaboratoryRegisterPost
+	LaboratoryRegisterPost,
+	EmployeeRegisterPost,
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
 
@@ -54,3 +55,6 @@ export const postAreaRegister = async (data: AreaRegisterPost) => {
 export const postLaboratoryRegister = async (data: LaboratoryRegisterPost) => {
 	return instance.post<LaboratoryRegisterPost>("laboratory", data)
 };
+export const postEmployeeRegister = async (data: EmployeeRegisterPost) => {
+	return instance.post<EmployeeRegisterPost>("employee", data)
+}

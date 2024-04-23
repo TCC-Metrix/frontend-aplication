@@ -13,6 +13,7 @@ import LaboratoryRegister from "./pages/Registers/Laboratory/LaboratoryRegister"
 import SupplierRegister from "./pages/Registers/Supplier/SupplierRegister";
 import FamilyRegister from "./pages/Registers/Family/FamilyRegister";
 import AreaRegister from "./pages/Registers/Area/AreaRegister";
+import EmployeeRegister from "./pages/Registers/Employee/employeeRegister";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -100,6 +101,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<AreaRegister />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/register/employee"
+					element={
+						<ProtectedRoute>
+							<EmployeeRegister />
 						</ProtectedRoute>
 					}
 				></Route>

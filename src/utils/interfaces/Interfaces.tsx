@@ -66,6 +66,13 @@ export interface LaboratoryRegisterPost {
 	calCode: number;
 }
 
+export interface EmployeeRegisterPost {
+	name: string;
+	edv: number;
+	email: string;
+	sector: string;
+}
+
 export interface AreaRegisterPost {
 	description: string;
 }

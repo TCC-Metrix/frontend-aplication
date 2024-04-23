@@ -5,6 +5,7 @@ import {
 	postFamilyRegister,
 	postOutputUse,
 	postLaboratoryRegister,
+	postEmployeeRegister,
 } from "./apiService";
 import {
 	AreaRegisterPost,
@@ -12,6 +13,7 @@ import {
 	OutputUsePost,
 	SearchPattern,
 	LaboratoryRegisterPost,
+	EmployeeRegisterPost,
 } from "../utils/interfaces/Interfaces";
 
 //Função que faz um POST na API para retornar os instrumentos de acordo com o filtro
@@ -55,6 +57,18 @@ export function usePostLaboratoryRegister() {
 			return postLaboratoryRegister({
 				name: data.name,
 				calCode: data.calCode,
+			});
+		},
+	});
+}
+export function usePostEmployeeRegister() {
+	return useMutation({
+		mutationFn: (data: EmployeeRegisterPost) => {
+			return postEmployeeRegister({
+				name: data.name,
+				edv: data.edv,
+				email: data.email,
+				sector: data.sector
 			});
 		},
 	});
