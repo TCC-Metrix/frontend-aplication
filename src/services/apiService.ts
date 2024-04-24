@@ -7,8 +7,8 @@ import {
 	OutputUsePost,
 	Family,
 	AreaRegisterPost,
-  InstrumentToPost,
-  FamilyRegisterPost
+  	InstrumentToPost,
+  	FamilyRegisterPost,
 	SupplierRegisterPost,
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
@@ -62,7 +62,8 @@ export const postOutputUse = async (data: OutputUsePost) => {
 
 
 export const postInstrument = async (data: FieldValues) => {
-	return instance.post<OutputUsePost>("instrument", data);
+	console.log("postando")
+	return instance.post<InstrumentToPost>("instrument", data);
 };
 
 export const postFamilyRegister = async (data: FamilyRegisterPost) => {

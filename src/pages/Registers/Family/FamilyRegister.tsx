@@ -8,6 +8,7 @@ import { FamilyRegisterPost } from "../../../utils/interfaces/Interfaces";
 import { usePostFamilyRegister } from "../../../services/useMutation";
 import { useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
 	name: z
@@ -52,6 +53,8 @@ const FamilyRegister = () => {
 		formState: { errors },
 		handleSubmit,
 	} = useForm<FormFields>({ resolver: zodResolver(schema) });
+	const navigate = useNavigate()
+
 
 	const createPopup = (
 		type: string,
@@ -98,10 +101,13 @@ const FamilyRegister = () => {
 					setIsLoadingPostFamilyRegister(false);
 					createPopup(
 						"feedback",
-						"A família foi registrada com sucesso.",
-						"",
+						"Registrado com sucesso",
+						"Família criada com sucesso!",
 						() => {
 							setIsPopupActive(false);
+							navigate("/")
+							window.location.reload()
+							
 						}
 					);
 				}
