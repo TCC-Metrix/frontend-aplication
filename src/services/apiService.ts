@@ -7,8 +7,8 @@ import {
 	OutputUsePost,
 	Family,
 	AreaRegisterPost,
-  	InstrumentToPost,
-  	FamilyRegisterPost,
+  InstrumentToPost,
+  FamilyRegisterPost,
 	SupplierRegisterPost,
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
@@ -20,18 +20,17 @@ export const getInstruments = async () => {
 
 //GET - Retorna todos os funcionarios
 export const getEmployees = async () => {
-	return (await instance.get<GeneralEmployee[]>("employee/all")).data
+	return (await instance.get<GeneralEmployee[]>("employee/all")).data;
 };
 
 //GET - Retorna todos as famílias
 export const getFamilies = async () => {
-	return (await instance.get<Family[]>("family/all")).data
+	return (await instance.get<Family[]>("family/all")).data;
 };
-
 
 //GET - Retorna todos as famílias
 export const getSuppliers = async () => {
-	return (await instance.get<Family[]>("supplier/all")).data
+	return (await instance.get<Family[]>("supplier/all")).data;
 };
 
 //GET - Retorna todas as areas
@@ -59,7 +58,6 @@ export const getInstrumentBySome = async (data: SearchPattern) => {
 export const postOutputUse = async (data: OutputUsePost) => {
 	return instance.post<OutputUsePost>("use_output", data);
 };
-
 
 export const postInstrument = async (data: FieldValues) => {
 	console.log("postando")

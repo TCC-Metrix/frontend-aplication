@@ -10,8 +10,8 @@ import {
 } from "../../../components";
 import "./InstrumentRegister.css";
 import {
-  useAllFamilies,
-  useAllSuppliers,
+	useAllFamilies,
+	useAllSuppliers,
 } from "../../../services/useFetchData";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
@@ -93,10 +93,22 @@ const InstrumentRegister = () => {
       additionalReferences.push(data.additionalReference1);
     }
 
-    if (data.additionalReference2 !== "") {
-      additionalReferences.push(data.additionalReference2);
-    }
+		return () => {
+			document.removeEventListener("keypress", handleKeyPress);
+		};
+	}, []);
 
+	const onSubmit = async (data: FieldValues) => {
+		// console.log(data);
+		const additionalReferences = [];
+		if (data.additionalReference1 !== "") {
+			additionalReferences.push(data.additionalReference1);
+		}
+
+		if (data.additionalReference2 !== "") {
+			additionalReferences.push(data.additionalReference2);
+		}
+      
     if (data.additionalReference3 !== "") {
       additionalReferences.push(data.additionalReference3);
     }
@@ -131,8 +143,6 @@ const InstrumentRegister = () => {
       });
     }
     handlePostInstrument(data);
-
-
   };
 
 
@@ -148,13 +158,42 @@ const InstrumentRegister = () => {
     isError: isErrorSuppliers,
   } = useAllSuppliers(); //busca todos as familias
 
-  if (isLoadingSuppliers || isLoadingFamilies) {
-    return <LoadingPage />;
-  }
+			if (match[1].length > 4 || isNaN(ano)) {
+				setError("acquisitionDate", {
+					type: "invalid",
+					message: "Ano inválido",
+				});
+			} else if (ano < 2000 || ano > 2100) {
+				setError("acquisitionDate", {
+					type: "invalid",
+					message: "Ano está fora do intervalo válido (2000-2100)",
+				});
+			} else {
+				// Limpa qualquer erro existente
+				clearErrors("acquisitionDate");
+			}
+		} else {
+			setError("acquisitionDate", {
+				type: "invalid",
+				message: "Formato de data inválido",
+			});
+		}
+		console.log(data);
+		handlePostUseOutput(data);
+	};
 
-  if (isErrorFamilies || isErrorSuppliers) {
-    return <ErrorPage />;
-  }
+	const {
+		data: allFamilies,
+		isLoading: isLoadingFamilies,
+		isError: isErrorFamilies,
+	} = useAllFamilies(); //busca todos as familias
+	const {
+		data: allSuppliers,
+		isLoading: isLoadingSuppliers,
+		isError: isErrorSuppliers,
+	} = useAllSuppliers(); //busca todos as familias
+
+	
 
   const handlePostInstrument: SubmitHandler<FieldValues> = (data) => {
     setIsLoadingInstrument(true)
@@ -173,6 +212,14 @@ const InstrumentRegister = () => {
       },
     });
   };
+
+if (isLoadingSuppliers || isLoadingFamilies) {
+		return <LoadingPage />;
+	}
+
+	if (isErrorFamilies || isErrorSuppliers) {
+		return <ErrorPage />;
+	}
 
   return (
     <>

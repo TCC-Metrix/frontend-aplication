@@ -118,13 +118,13 @@ const SupplierRegister = () => {
 	};
 
 	return (
-		<>
-			<div
-				className="main-container-supplier-register-page"
-				onClick={() => {
-					setActiveNavbar(false);
-				}}
-			>
+		<div
+			className="background-container-main"
+			onClick={() => {
+				setActiveNavbar(false);
+			}}
+		>
+			<div className="main-container-supplier-register-page">
 				<div className="main-content-supplier-page">
 					<div className="title-supplier-register-page">
 						<h1 className="header-three">Cadastro: Fornecedor</h1>
@@ -170,7 +170,7 @@ const SupplierRegister = () => {
 					</form>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

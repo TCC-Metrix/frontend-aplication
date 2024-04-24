@@ -12,8 +12,12 @@ import LaboratoryRegister from "./pages/Registers/Laboratory/LaboratoryRegister"
 import SupplierRegister from "./pages/Registers/Supplier/SupplierRegister";
 import FamilyRegister from "./pages/Registers/Family/FamilyRegister";
 import AreaRegister from "./pages/Registers/Area/AreaRegister";
+
+import UseReturn from "./pages/Movements/UseReturn/UseReturn";
+
 import { useLocation } from 'react-router-dom';
 import { useEffect } from "react";
+
 
 function App() {
   const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -84,6 +88,25 @@ function App() {
             }
           ></Route>
 
+			<Routes>
+				<Route path="/login" element={<PreLogin />}></Route>
+				<Route
+					path="/movement/use/output"
+					element={
+						<ProtectedRoute>
+							<MoveUseOutput />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/movement/use/return"
+					element={
+						<ProtectedRoute>
+							<UseReturn />
+						</ProtectedRoute>
+					}
+				></Route>
+		
           <Route
             path="/register/family"
             element={

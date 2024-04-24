@@ -5,7 +5,7 @@ import {
 	postAreaRegister,
 	postFamilyRegister,
 	postOutputUse,
-  	postInstrument,
+  postInstrument,
 	postSupplierRegister,
 } from "./apiService";
 import {
@@ -13,6 +13,7 @@ import {
 	FamilyRegisterPost,
 	OutputUsePost,
 	SearchPattern,
+  InstrumentToPost,
 	SupplierRegisterPost,
 } from "../utils/interfaces/Interfaces";
 
