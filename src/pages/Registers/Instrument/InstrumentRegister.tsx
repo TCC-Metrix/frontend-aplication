@@ -18,23 +18,41 @@ import ErrorPage from "../../ErrorPage/ErrorPage";
 import { usePostInstrument } from "../../../services/useMutation";
 import { useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
-import { usePopupStore } from "../../../store";
-import { useNavigate } from 'react-router-dom'
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const InstrumentRegister = () => {
-  
-  const setPopupType = usePopupStore((state: any) => state.setPopupType);
-  const setPopupBody = usePopupStore((state: any) => state.setPopupBody);
-  const setPopupTitle = usePopupStore((state: any) => state.setPopupTitle);
-  const setIsPopupActive = usePopupStore(
-    (state: any) => state.setIsPopupActive
-  );
-  const setPopupFunction = usePopupStore(
-    (state: any) => state.setPopupFunction
-  );
   const [isLoadingInstrument, setIsLoadingInstrument] =
     useState<boolean>(false);
+
+  const notify = (type: string) => {
+    
+    type === "success" && (
+      toast.success('Instrumento registrado com sucesso', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        })
+    )
+
+    type === "error" && (
+      toast.error('Erro interno do servidor', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        })
+    )
+    };
 
   const {
     register,
@@ -45,13 +63,12 @@ const InstrumentRegister = () => {
     clearErrors,
     setError,
     getValues,
+    reset
   } = useForm();
 
-  const navigate = useNavigate()
+
 
   const postInstrument = usePostInstrument();
-
-
 
   useEffect(() => {
     function handleKeyPress(event: any) {
@@ -68,23 +85,6 @@ const InstrumentRegister = () => {
   }, []);
 
 
-  const createPopup = (
-		type: string,
-		title: string,
-		body: string,
-		btnFunction: () => void
-	) => {
-		setPopupType(type);
-		setPopupTitle(title);
-		setPopupBody(body);
-		setPopupFunction(() => {
-			setPopupBody("");
-			setPopupTitle("");
-			setPopupType("none");
-			btnFunction();
-		});
-		setIsPopupActive(true);
-	};
 
   const onSubmit = (data: FieldValues) => {
     // console.log(data);
@@ -130,11 +130,12 @@ const InstrumentRegister = () => {
         message: "Formato de data inválido",
       });
     }
-    console.log(data);
     handlePostInstrument(data);
-    
-    console.log(createPopup)
+
+
   };
+
+
 
   const {
     data: allFamilies,
@@ -156,21 +157,17 @@ const InstrumentRegister = () => {
   }
 
   const handlePostInstrument: SubmitHandler<FieldValues> = (data) => {
+    setIsLoadingInstrument(true)
     postInstrument.mutate(data, {
       onSettled: (data, error) => {
         if (error) {
-          createPopup("error", "Erro interno do servidor", "Desculpe, estamos com problemas, tente novamente mais tarde", () => {
-            setIsPopupActive(false)
-            window.location.reload()
-          });
+          setIsLoadingInstrument(false)
+          notify("error")
           return;
         } else {
-          
-          createPopup("feedback", "Registrado com sucesso", "Instrumento adicionado com sucesso!", () => {
-            setIsPopupActive(false)
-            navigate("/")
-            window.location.reload()
-          });
+          setIsLoadingInstrument(false)
+          notify("success");
+          reset()
           console.log(data);
         }
       },
@@ -181,12 +178,9 @@ const InstrumentRegister = () => {
     <>
       <div className="main-container-instrument-register-page">
         <div className="text-header">
-          <h1 className="header-three">
-            Cadastrar instrumento
-          </h1>
+          <h1 className="header-three">Cadastrar instrumento</h1>
         </div>
         <div className="main-content">
-       
           <form className="main-form">
             <BasicInput
               errors={errors}
@@ -337,6 +331,7 @@ const InstrumentRegister = () => {
                 <>Confirmar</>
               )}
             </Button>
+            <ToastContainer/>
           </form>
         </div>
       </div>
