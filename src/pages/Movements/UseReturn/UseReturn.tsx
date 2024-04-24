@@ -4,6 +4,8 @@ import { useNavbarStore } from "../../../store";
 import { InstrumentUseOutput } from "../../../utils/interfaces/Interfaces";
 import "./UseReturn.css";
 import { useAllEmployees, useAllAreas } from "../../../services/useFetchData";
+import ErrorPage from "../../ErrorPage/ErrorPage";
+import LoadingPage from "../../LoadingPage/LoadingPage";
 
 const UseReturn = () => {
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
@@ -13,8 +15,6 @@ const UseReturn = () => {
 	const [activeReceiverInput, setActiveReceiverInput] =
 		useState<boolean>(false);
 	const [activeAreaInput, setActiveAreaInput] = useState<boolean>(false);
-	const [activeInputDropdown, setActiveInputDropdown] =
-		useState<boolean>(false);
 	const [shippingResponsibleSelected, setShippingResponsibleSelected] =
 		useState<string>("");
 	const [receivingResponsibleSelected, setReceivingResponsibleSelected] =
@@ -22,6 +22,18 @@ const UseReturn = () => {
 	const [areaSelected, setAreaSelected] = useState<string>("");
 	const [dateSelected, setDateSelected] = useState<string>("");
 	const [inputErrors, setInputErrors] = useState({});
+
+	const validInputActive = (event: React.MouseEvent<HTMLDivElement>) => {
+		const target = event.target as HTMLElement;
+
+		const name = target.getAttribute("name");
+		setActiveAreaInput(name === "area");
+		setActiveShippingInput(name === "resp-entrega");
+		setActiveReceiverInput(name === "resp-receb");
+		setActiveNavbar(false);
+
+		//Se o usuário clicar no botão de search, então ele seta o dropdown do modal como true, para abrir ao pesquisar algo
+	};
 
 	const {
 		data: allEmployees,
@@ -53,12 +65,20 @@ const UseReturn = () => {
 		}
 	};
 
+	if (isErrorEmployees || isErrorArea) {
+		return <ErrorPage />;
+	}
+
+	if (isLoadingEmployees || isLoadingArea) {
+		return <LoadingPage />;
+	}
+
 	return (
-		<>
+		<main>
 			<div
 				className="container-main-use-return-page"
-				onClick={() => {
-					setActiveNavbar(false);
+				onClick={(e) => {
+					validInputActive(e);
 				}}
 			>
 				<div>
@@ -73,7 +93,7 @@ const UseReturn = () => {
 						+ Adicionar
 					</Button>
 				</div>
-				<div>
+				<div className="flex-center-table">
 					<Table
 						tableContent={tableMainPage}
 						tableHeaders={[
@@ -160,8 +180,27 @@ const UseReturn = () => {
 					</section>
 					<div></div>
 				</div>
+				{/* <div className="m-auto btn-session-confirm">
+					<Button
+						className="btn btn-secondary btn-lg"
+						onClickFunction={handleConfirmUseReturn}
+					>
+						{isLoadingPostUseOutput ? (
+							<RotatingLines
+								visible={true}
+								strokeWidth="5"
+								animationDuration="0.75"
+								ariaLabel="rotating-lines-loading"
+								strokeColor="#fff"
+								width="20"
+							/>
+						) : (
+							<>Confirmar</>
+						)}
+					</Button>
+				</div> */}
 			</div>
-		</>
+		</main>
 	);
 };
 
