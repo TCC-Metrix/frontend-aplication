@@ -2,79 +2,88 @@ import "./AreaRegister.css";
 import { BasicInput, Button } from "../../../components";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
-import { useNavbarStore, usePopupStore } from "../../../store";
+import { useNavbarStore } from "../../../store";
 import { AreaRegisterPost } from "../../../utils/interfaces/Interfaces";
 import { usePostAreaRegister } from "../../../services/useMutation";
 import { useState } from "react";
-import { schema } from "@hookform/resolvers/ajv/src/__tests__/__fixtures__/data.js";
 import { z } from "zod";
 import { RotatingLines } from "react-loader-spinner";
+import { ToastContainer, toast } from "react-toastify";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+
 
 const AreaRegister = () => {
 	const [isLoadingPostAreaRegister, setIsLoadingPostAreaRegister] =
 		useState<boolean>(false);
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
-	const setPopupType = usePopupStore((state) => state.setPopupType);
-	const setPopupBody = usePopupStore((state) => state.setPopupBody);
-	const setPopupTitle = usePopupStore((state) => state.setPopupTitle);
-	const setIsPopupActive = usePopupStore((state) => state.setIsPopupActive);
-	const setPopupFunction = usePopupStore((state) => state.setPopupFunction);
+
+
+
+	const schema = z.object({
+	name: z
+		.string()
+		.min(1, "Campo obrigatorio")
+		.refine((value) => !/^\s+$/.test(value), {
+			message: "Nome não pode conter apenas espaços em branco",
+		}),
+});
+
+type FormFields = z.infer<typeof schema>;
+
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
-		resetField,
-	} = useForm();
+		reset
+	} = useForm<FormFields>({ resolver: zodResolver(schema) });
 
 	const postAreaMutation = usePostAreaRegister();
 
-	const createPopup = (
-		type: string,
-		title: string,
-		body: string,
-		btnFunction: () => void
-	) => {
-		setPopupType(type);
-		setPopupTitle(title);
-		setPopupBody(body);
-		setPopupFunction(() => {
-			setPopupBody("");
-			setPopupTitle("");
-			setPopupType("none");
-			btnFunction();
-		});
-		setIsPopupActive(true);
-	};
+	const notify = (type: string) => {
+    
+		type === "success" && (
+		  toast.success('Área registrada com sucesso', {
+			position: "top-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+			})
+		)
+	
+		type === "error" && (
+		  toast.error('Erro interno do servidor', {
+			position: "top-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+			})
+		)
+		};
+	
 
 	const handlePostAreaRegister: SubmitHandler<AreaRegisterPost> = (data) => {
 		setIsLoadingPostAreaRegister(true);
 		postAreaMutation.mutate(data, {
 			onSettled: (data, error) => {
 				if (error) {
-					setTimeout(() => {
-						setIsLoadingPostAreaRegister(false);
-						console.error("Ocorreu um erro:", error);
-						createPopup(
-							"error",
-							"Erro interno do servidor",
-							"Estamos com problemas em nosso servidor, tente novamente",
-							() => {
-								setIsPopupActive(false);
-							}
-						);
-					}, 1000);
+					setIsLoadingPostAreaRegister(false);
+					console.error("Ocorreu um erro:", error);
+					notify("error")
 					return;
 				} else {
 					console.log(data);
 					setIsLoadingPostAreaRegister(false);
-					createPopup(
-						"feedback",
-						"Movimentação realizada com sucesso",
-						"",
-						() => {
-							setIsPopupActive(false);
-						}
-					);
+					notify("success")
+					reset()
 				}
 			},
 		});
@@ -91,7 +100,6 @@ const AreaRegister = () => {
 
 			handlePostAreaRegister(data);
 		}, 1000);
-		resetField("name");
 	};
 
 	return (
@@ -134,6 +142,7 @@ const AreaRegister = () => {
 									<>Confirmar</>
 								)}
 							</Button>
+							<ToastContainer/>
 						</div>
 					</form>
 				</div>

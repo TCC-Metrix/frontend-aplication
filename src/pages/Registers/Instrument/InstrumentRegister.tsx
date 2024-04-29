@@ -20,6 +20,8 @@ import { useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavbarStore } from "../../../store";
+
 
 const InstrumentRegister = () => {
   const [isLoadingInstrument, setIsLoadingInstrument] =
@@ -159,6 +161,7 @@ const InstrumentRegister = () => {
           setIsLoadingInstrument(false)
           notify("success");
           reset()
+          resetField("acquisitionCost")
           console.log(data);
         }
       },
