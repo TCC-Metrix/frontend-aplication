@@ -87,43 +87,30 @@ const InstrumentRegister = () => {
   }, []);
 
 
-
-  const onSubmit = (data: FieldValues) => {
+	const onSubmit = (data: FieldValues) => {
     // console.log(data);
     const additionalReferences = [];
     if (data.additionalReference1 !== "") {
       additionalReferences.push(data.additionalReference1);
     }
-
-		return () => {
-			document.removeEventListener("keypress", handleKeyPress);
-		};
-	}, []);
-
-	const onSubmit = async (data: FieldValues) => {
-		// console.log(data);
-		const additionalReferences = [];
-		if (data.additionalReference1 !== "") {
-			additionalReferences.push(data.additionalReference1);
-		}
-
-		if (data.additionalReference2 !== "") {
-			additionalReferences.push(data.additionalReference2);
-		}
-      
+ 
+    if (data.additionalReference2 !== "") {
+      additionalReferences.push(data.additionalReference2);
+    }
+ 
     if (data.additionalReference3 !== "") {
       additionalReferences.push(data.additionalReference3);
     }
-
+ 
     additionalReferences.length === 0
       ? (data.additionalReferences = null)
       : (data.additionalReferences = additionalReferences);
-
+ 
     const regex = /^(\d{4})-(\d{2})-(\d{2})$/;
     const match = data.acquisitionDate.match(regex);
     if (match) {
       const ano = parseInt(match[1], 10);
-
+ 
       if (match[1].length > 4 || isNaN(ano)) {
         setError("acquisitionDate", {
           type: "invalid",
@@ -145,8 +132,9 @@ const InstrumentRegister = () => {
       });
     }
     handlePostInstrument(data);
+ 
+ 
   };
-
 
 
   const {
@@ -159,42 +147,6 @@ const InstrumentRegister = () => {
     isLoading: isLoadingSuppliers,
     isError: isErrorSuppliers,
   } = useAllSuppliers(); //busca todos as familias
-
-			if (match[1].length > 4 || isNaN(ano)) {
-				setError("acquisitionDate", {
-					type: "invalid",
-					message: "Ano inválido",
-				});
-			} else if (ano < 2000 || ano > 2100) {
-				setError("acquisitionDate", {
-					type: "invalid",
-					message: "Ano está fora do intervalo válido (2000-2100)",
-				});
-			} else {
-				// Limpa qualquer erro existente
-				clearErrors("acquisitionDate");
-			}
-		} else {
-			setError("acquisitionDate", {
-				type: "invalid",
-				message: "Formato de data inválido",
-			});
-		}
-		console.log(data);
-		handlePostUseOutput(data);
-	};
-
-	const {
-		data: allFamilies,
-		isLoading: isLoadingFamilies,
-		isError: isErrorFamilies,
-	} = useAllFamilies(); //busca todos as familias
-	const {
-		data: allSuppliers,
-		isLoading: isLoadingSuppliers,
-		isError: isErrorSuppliers,
-	} = useAllSuppliers(); //busca todos as familias
-
 	
 
   const handlePostInstrument: SubmitHandler<FieldValues> = (data) => {
