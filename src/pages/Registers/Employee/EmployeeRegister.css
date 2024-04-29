@@ -1,0 +1,25 @@
+.flex-form-line-inputs-employee-register {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.main-container-employee-register-page {
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  padding-top: 7rem;
+  box-sizing: border-box;
+  max-width: 800px;
+}
+
+.title-employee-register-page {
+  text-align: center;
+  margin-bottom: 28px;
+  font-family: "Medium";
+}
+
+.btn-confirm-employee-page {
+  display: flex;
+  align-self: flex-end;
+}
