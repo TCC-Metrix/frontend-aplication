@@ -9,6 +9,9 @@ import { usePostFamilyRegister } from "../../../services/useMutation";
 import { useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
+import { AxiosError } from "axios";
+import request from "axios";
+
 const schema = z.object({
 	name: z
 		.string()
@@ -37,12 +40,7 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
-
-
 const FamilyRegister = () => {
-
-
-	
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 	const [isLoadingPostFamilyRegister, setIsLoadingPostFamilyRegister] =
 		useState<boolean>(false);
@@ -51,43 +49,34 @@ const FamilyRegister = () => {
 		register,
 		formState: { errors },
 		handleSubmit,
-		reset
+		reset,
 	} = useForm<FormFields>({ resolver: zodResolver(schema) });
-	
 
+	const notify = (type: string, message?: string) => {
+		type === "success" &&
+			toast.success("Área registrada com sucesso", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
 
-
-
-	const notify = (type: string) => {
-    
-		type === "success" && (
-		  toast.success('Família registrada com sucesso', {
-			position: "top-right",
-			autoClose: 5000,
-			hideProgressBar: false,
-			closeOnClick: true,
-			pauseOnHover: true,
-			draggable: true,
-			progress: undefined,
-			theme: "light",
-			})
-		)
-	
-		type === "error" && (
-		  toast.error('Erro interno do servidor', {
-			position: "top-right",
-			autoClose: 5000,
-			hideProgressBar: false,
-			closeOnClick: true,
-			pauseOnHover: true,
-			draggable: true,
-			progress: undefined,
-			theme: "light",
-			})
-		)
-		};
-	
-
+		type === "error" &&
+			toast.error(`${message ? message : "Erro interno no servidor"}`, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+	};
 	const postFamilyMutation = usePostFamilyRegister(); //posta a saida para uso
 
 	const handlePostFamilyRegister: SubmitHandler<FamilyRegisterPost> = (
@@ -96,16 +85,23 @@ const FamilyRegister = () => {
 		setIsLoadingPostFamilyRegister(true);
 		postFamilyMutation.mutate(data, {
 			onSettled: (data, error) => {
-				if (error) {
-						setIsLoadingPostFamilyRegister(false);
-						console.error("Ocorreu um erro:", error);
-						notify("error")
-					return
+				setIsLoadingPostFamilyRegister(false);
+				if (error && request.isAxiosError(error)) {
+					const errorAxios = error as AxiosError;
+					if (errorAxios.response?.data) {
+						if (error.response?.data === 409) {
+							notify("error", "Família com este código já está cadastrada.");
+							return;
+						}
+					}
+					console.error("Ocorreu um erro:", error);
+					notify("error");
+					return;
 				} else {
 					console.log(data);
 					setIsLoadingPostFamilyRegister(false);
-					reset()
-					notify("success")
+					reset();
+					notify("success");
 				}
 			},
 		});
@@ -179,7 +175,7 @@ const FamilyRegister = () => {
 								<RadioInput
 									title="Inicia a partir do uso"
 									name="calibrationFrequency"
-									value="uso" 
+									value="uso"
 									id="uso"
 									onChange={handleRadioChange}
 									defaultChecked
@@ -187,7 +183,7 @@ const FamilyRegister = () => {
 								<RadioInput
 									title="Inicia a partir da data de calibração"
 									name="calibrationFrequency"
-									value="calibration" 
+									value="calibration"
 									id="calibracao"
 									onChange={handleRadioChange}
 								/>
@@ -211,7 +207,7 @@ const FamilyRegister = () => {
 									<>Confirmar</>
 								)}
 							</Button>
-							<ToastContainer/>
+							<ToastContainer />
 						</div>
 					</form>
 				</div>

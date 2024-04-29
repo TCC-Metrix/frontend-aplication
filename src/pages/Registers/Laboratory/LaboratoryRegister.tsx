@@ -1,6 +1,6 @@
 import "./LaboratoryRegister.css";
 import { BasicInput, Button } from "../../../components";
-import { useNavbarStore, usePopupStore } from "../../../store";
+import { useNavbarStore } from "../../../store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -8,6 +8,9 @@ import { RotatingLines } from "react-loader-spinner";
 import { LaboratoryRegisterPost } from "../../../utils/interfaces/Interfaces";
 import { usePostLaboratoryRegister } from "../../../services/useMutation";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import { AxiosError } from "axios";
+import request from "axios";
 
 const schema = z.object({
 	description: z
@@ -20,44 +23,48 @@ const schema = z.object({
 		.string()
 		.min(1, "Campo obrigatorio")
 		.refine((value) => !/^\s+$/.test(value), {
-			message: "Campo obrigatório"
+			message: "Campo obrigatório",
 		})
-		.transform((value) => parseInt(value))
-})
+		.transform((value) => parseInt(value)),
+});
 
-type FormFields = z.infer<typeof schema>
+type FormFields = z.infer<typeof schema>;
 
 const LaboratoryRegister = () => {
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
-	const setPopupType = usePopupStore((state) => state.setPopupType);
-	const setPopupBody = usePopupStore((state) => state.setPopupBody);
-	const setPopupTitle = usePopupStore((state) => state.setPopupTitle);
-	const setIsPopupActive = usePopupStore((state) => state.setIsPopupActive);
-	const setPopupFunction = usePopupStore((state) => state.setPopupFunction);
 	const [isLoadingPostLaboratoryRegister, setIsLoadingPostLaboratoryRegister] =
 		useState<boolean>(false);
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
+		reset,
 	} = useForm<FormFields>({ resolver: zodResolver(schema) });
 
-	const createPopup = (
-		type: string,
-		title: string,
-		body: string,
-		btnFunction: () => void
-	) => {
-		setPopupType(type);
-		setPopupTitle(title);
-		setPopupBody(body);
-		setPopupFunction(() => {
-			setPopupBody("");
-			setPopupTitle("");
-			setPopupType("none");
-			btnFunction();
-		});
-		setIsPopupActive(true);
+	const notify = (type: string, message?: string) => {
+		type === "success" &&
+			toast.success("Área registrada com sucesso", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+
+		type === "error" &&
+			toast.error(`${message ? message : "Erro interno no servidor"}`, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
 	};
 
 	const postLaboratoryMutation = usePostLaboratoryRegister();
@@ -68,40 +75,32 @@ const LaboratoryRegister = () => {
 		setIsLoadingPostLaboratoryRegister(true);
 		postLaboratoryMutation.mutate(data, {
 			onSettled: (data, error) => {
-				if (error) {
-					setTimeout(() => {
-						setIsLoadingPostLaboratoryRegister(false);
-						console.error("Ocorreu um erro:", error);
-						createPopup(
-							"error",
-							"Erro interno do servidor",
-							"Estamos com problemas em nosso servidor, tente novamente",
-							() => {
-								setIsPopupActive(false);
-							}
-						);
-					}, 1000);
+				setIsLoadingPostLaboratoryRegister(false);
+				if (error && request.isAxiosError(error)) {
+					const errorAxios = error as AxiosError;
+					if (errorAxios.response?.data) {
+						if (error.response?.data === 409) {
+							notify("error", "Família com este código já está cadastrada.");
+							return;
+						}
+					}
+					console.error("Ocorreu um erro:", error);
+					notify("error");
 					return;
 				} else {
 					console.log(data);
 					setIsLoadingPostLaboratoryRegister(false);
-					createPopup(
-						"feedback",
-						"Movimentação realizada com sucesso",
-						"",
-						() => {
-							setIsPopupActive(false);
-						}
-					);
+					reset();
+					notify("success");
 				}
 			},
 		});
 	};
 
 	const handleConfirmLaboratoryRegister = (dataApi: z.infer<typeof schema>) => {
-		setIsLoadingPostLaboratoryRegister(true)
+		setIsLoadingPostLaboratoryRegister(true);
 		setTimeout(() => {
-			setIsLoadingPostLaboratoryRegister(false)
+			setIsLoadingPostLaboratoryRegister(false);
 
 			const data = {
 				name: dataApi.description,
@@ -109,7 +108,7 @@ const LaboratoryRegister = () => {
 			};
 
 			handlePostLaboratoryRegister(data);
-		}, 1000)
+		}, 1000);
 	};
 
 	return (
@@ -161,6 +160,7 @@ const LaboratoryRegister = () => {
 									<>Confirmar</>
 								)}
 							</Button>
+							<ToastContainer />
 						</div>
 					</form>
 				</div>
