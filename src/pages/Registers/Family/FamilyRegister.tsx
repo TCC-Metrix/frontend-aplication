@@ -125,8 +125,6 @@ const FamilyRegister = () => {
 
 			handlePostFamilyRegister(data);
 		}, 1000);
-		
-		
 	};
 
 	const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,13 +132,13 @@ const FamilyRegister = () => {
 	};
 
 	return (
-		<>
-			<div
-				className="main-container-instrument-register-page"
-				onClick={() => {
-					setActiveNavbar(false);
-				}}
-			>
+		<div
+			className="background-container-main"
+			onClick={() => {
+				setActiveNavbar(false);
+			}}
+		>
+			<div className="main-container-family-register-page">
 				<div className="main-content">
 					<div className="text-header">
 						<h1 className="header-three">Cadastro: Família</h1>
@@ -218,7 +216,7 @@ const FamilyRegister = () => {
 					</form>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

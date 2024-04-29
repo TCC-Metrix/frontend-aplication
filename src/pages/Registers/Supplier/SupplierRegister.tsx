@@ -115,6 +115,7 @@ const SupplierRegister = () => {
     console.log(typeof dataApi.cnpj);
   };
 
+
   return (
     <>
       <div
@@ -171,6 +172,8 @@ const SupplierRegister = () => {
       </div>
     </>
   );
+
+
 };
 
 export default SupplierRegister;

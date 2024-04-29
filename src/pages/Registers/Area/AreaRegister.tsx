@@ -103,13 +103,13 @@ type FormFields = z.infer<typeof schema>;
 	};
 
 	return (
-		<>
-			<div
-				className="main-container-area-register-page"
-				onClick={() => {
-					setActiveNavbar(false);
-				}}
-			>
+		<div
+			className="background-container-main"
+			onClick={() => {
+				setActiveNavbar(false);
+			}}
+		>
+			<div className="main-container-area-register-page">
 				<div className="main-content-area-page">
 					<div className="title-area-register-page">
 						<h1 className="header-three">Cadastro: Area</h1>
@@ -147,7 +147,7 @@ type FormFields = z.infer<typeof schema>;
 					</form>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 
