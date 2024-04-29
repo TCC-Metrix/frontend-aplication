@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BasicInput, Button, RadioInput } from "../../../components";
-import { useNavbarStore, usePopupStore } from "../../../store";
+import { useNavbarStore } from "../../../store";
 import "./FamilyRegister.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -8,7 +8,7 @@ import { FamilyRegisterPost } from "../../../utils/interfaces/Interfaces";
 import { usePostFamilyRegister } from "../../../services/useMutation";
 import { useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
-
+import { ToastContainer, toast } from "react-toastify";
 const schema = z.object({
 	name: z
 		.string()
@@ -37,39 +37,56 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
+
+
 const FamilyRegister = () => {
+
+
+	
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
-	const setPopupType = usePopupStore((state) => state.setPopupType);
-	const setPopupBody = usePopupStore((state) => state.setPopupBody);
-	const setPopupTitle = usePopupStore((state) => state.setPopupTitle);
-	const setIsPopupActive = usePopupStore((state) => state.setIsPopupActive);
-	const setPopupFunction = usePopupStore((state) => state.setPopupFunction);
-	const [calibrationTimeCounter, setCalibrationTimeCounter] = useState("uso");
 	const [isLoadingPostFamilyRegister, setIsLoadingPostFamilyRegister] =
 		useState<boolean>(false);
+	const [calibrationTimeCounter, setCalibrationTimeCounter] = useState("uso");
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
+		reset
 	} = useForm<FormFields>({ resolver: zodResolver(schema) });
+	
 
-	const createPopup = (
-		type: string,
-		title: string,
-		body: string,
-		btnFunction: () => void
-	) => {
-		setPopupType(type);
-		setPopupTitle(title);
-		setPopupBody(body);
-		setPopupFunction(() => {
-			setPopupBody("");
-			setPopupTitle("");
-			setPopupType("none");
-			btnFunction();
-		});
-		setIsPopupActive(true);
-	};
+
+
+
+	const notify = (type: string) => {
+    
+		type === "success" && (
+		  toast.success('Família registrada com sucesso', {
+			position: "top-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+			})
+		)
+	
+		type === "error" && (
+		  toast.error('Erro interno do servidor', {
+			position: "top-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+			})
+		)
+		};
+	
 
 	const postFamilyMutation = usePostFamilyRegister(); //posta a saida para uso
 
@@ -80,30 +97,15 @@ const FamilyRegister = () => {
 		postFamilyMutation.mutate(data, {
 			onSettled: (data, error) => {
 				if (error) {
-					setTimeout(() => {
 						setIsLoadingPostFamilyRegister(false);
 						console.error("Ocorreu um erro:", error);
-						createPopup(
-							"error",
-							"Erro interno do servidor",
-							"Estamos com problemas em nosso servidor, tente novamente",
-							() => {
-								setIsPopupActive(false);
-							}
-						);
-					}, 1000);
-					return;
+						notify("error")
+					return
 				} else {
 					console.log(data);
 					setIsLoadingPostFamilyRegister(false);
-					createPopup(
-						"feedback",
-						"Movimentação realizada com sucesso",
-						"",
-						() => {
-							setIsPopupActive(false);
-						}
-					);
+					reset()
+					notify("success")
 				}
 			},
 		});
@@ -130,13 +132,13 @@ const FamilyRegister = () => {
 	};
 
 	return (
-		<>
-			<div
-				className="main-container-instrument-register-page"
-				onClick={() => {
-					setActiveNavbar(false);
-				}}
-			>
+		<div
+			className="background-container-main"
+			onClick={() => {
+				setActiveNavbar(false);
+			}}
+		>
+			<div className="main-container-family-register-page">
 				<div className="main-content">
 					<div className="text-header">
 						<h1 className="header-three">Cadastro: Família</h1>
@@ -177,7 +179,7 @@ const FamilyRegister = () => {
 								<RadioInput
 									title="Inicia a partir do uso"
 									name="calibrationFrequency"
-									value="uso" // use
+									value="uso" 
 									id="uso"
 									onChange={handleRadioChange}
 									defaultChecked
@@ -185,7 +187,7 @@ const FamilyRegister = () => {
 								<RadioInput
 									title="Inicia a partir da data de calibração"
 									name="calibrationFrequency"
-									value="calibration" //calibratio
+									value="calibration" 
 									id="calibracao"
 									onChange={handleRadioChange}
 								/>
@@ -209,11 +211,12 @@ const FamilyRegister = () => {
 									<>Confirmar</>
 								)}
 							</Button>
+							<ToastContainer/>
 						</div>
 					</form>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

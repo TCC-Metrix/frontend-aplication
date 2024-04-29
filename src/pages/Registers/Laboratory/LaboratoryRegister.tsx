@@ -113,13 +113,13 @@ const LaboratoryRegister = () => {
 	};
 
 	return (
-		<>
-			<div
-				className="main-container-laboratory-register-page"
-				onClick={() => {
-					setActiveNavbar(false);
-				}}
-			>
+		<div
+			className="background-container-main"
+			onClick={() => {
+				setActiveNavbar(false);
+			}}
+		>
+			<div className="main-container-laboratory-register-page">
 				<div className="main-content-laboratory-page">
 					<div className="title-laboratory-register-page">
 						<h1 className="header-three">Cadastro: Laboratório</h1>
@@ -165,7 +165,7 @@ const LaboratoryRegister = () => {
 					</form>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

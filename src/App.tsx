@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useNavbarStore, usePopupStore } from "./store";
 import Popup from "./components/Popup/Popup";
 import PreLogin from "./pages/Auth/PreLogin/PreLogin";
@@ -8,12 +8,16 @@ import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import { MoveUseOutput } from "./pages/Movements/UseOutput/MovUseOutput";
 import InstrumentRegister from "./pages/Registers/Instrument/InstrumentRegister";
 import "./App.css";
-import { useEffect } from "react";
 import LaboratoryRegister from "./pages/Registers/Laboratory/LaboratoryRegister";
 import SupplierRegister from "./pages/Registers/Supplier/SupplierRegister";
 import FamilyRegister from "./pages/Registers/Family/FamilyRegister";
 import AreaRegister from "./pages/Registers/Area/AreaRegister";
 import EmployeeRegister from "./pages/Registers/Employee/employeeRegister";
+
+import UseReturn from "./pages/Movements/UseReturn/UseReturn";
+
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -28,7 +32,6 @@ function App() {
 
 	useEffect(() => {
 		setActiveNavbar(false);
-		// Faça o que precisar com a nova rota...
 	}, [location]);
 
 	return (
@@ -76,11 +79,27 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<LaboratoryRegister />
-            </ProtectedRoute>
-            }
-            ></Route>
-          
-         <Route
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route path="/login" element={<PreLogin />}></Route>
+				<Route
+					path="/movement/use/output"
+					element={
+						<ProtectedRoute>
+							<MoveUseOutput />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/movement/use/return"
+					element={
+						<ProtectedRoute>
+							<UseReturn />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
 					path="/register/family"
 					element={
 						<ProtectedRoute>

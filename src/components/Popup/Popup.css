@@ -75,6 +75,6 @@
   }
 
   .feedback-title{
-    color: var(--color-turquoise-04);
+    color: var(--black) !important;
     font-family: 'Bold';
   }

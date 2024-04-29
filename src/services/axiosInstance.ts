@@ -4,24 +4,27 @@ import { msalInstance } from "../authSSO/msalInstance";
 //URL em que fazemos as requisições da API
 const API_URL = "http://10.234.90.186:8081/api/v1/";
 
-
 //Definindo a instância da URL para as requisições utilizando AXIOS
 const instance = axios.create({
 	baseURL: API_URL,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function acquireToken(config: InternalAxiosRequestConfig<any>): Promise<InternalAxiosRequestConfig<any>>  {
+async function acquireToken(
+	config: InternalAxiosRequestConfig<any>
+): Promise<InternalAxiosRequestConfig<any>> {
 	const token = msalInstance.getActiveAccount()?.idToken;
 
 	config.headers.Authorization = `Bearer ${token}`;
 
-	return config
+	return config;
 }
 
-instance.interceptors.request.use(acquireToken)
+instance.interceptors.request.use(acquireToken);
 
 export default instance;
 
 //10.234.89.143 - prates api
 //10.234.90.186 - julia api
+//10.234.90.186 - julia api
+

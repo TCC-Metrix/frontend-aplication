@@ -1,13 +1,18 @@
+import { FieldValues } from "react-hook-form";
 import {
 	GeneralArea,
 	GeneralEmployee,
 	GeneralInstrument,
 	SearchPattern,
 	OutputUsePost,
-	FamilyRegisterPost,
+	Family,
 	AreaRegisterPost,
 	LaboratoryRegisterPost,
 	EmployeeRegisterPost,
+  InstrumentToPost,
+  FamilyRegisterPost,
+	SupplierRegisterPost,
+
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
 
@@ -21,6 +26,16 @@ export const getEmployees = async () => {
 	return (await instance.get<GeneralEmployee[]>("employee/all")).data;
 };
 
+//GET - Retorna todos as famílias
+export const getFamilies = async () => {
+	return (await instance.get<Family[]>("family/all")).data;
+};
+
+//GET - Retorna todos as famílias
+export const getSuppliers = async () => {
+	return (await instance.get<Family[]>("supplier/all")).data;
+};
+
 //GET - Retorna todas as areas
 export const getArea = async () => {
 	return (await instance.get<GeneralArea[]>("area/all")).data;
@@ -30,6 +45,7 @@ export const getArea = async () => {
 export const getInstrumentById = async (id: string) => {
 	return (await instance.get<GeneralInstrument[]>(`instrument/${id}`)).data;
 };
+
 //POST - Função para retornar os instrumentos de acordo com os filtros selecionados
 export const getInstrumentBySome = async (data: SearchPattern) => {
 	return instance.post<GeneralInstrument[]>("instrument/filter", {
@@ -46,15 +62,26 @@ export const postOutputUse = async (data: OutputUsePost) => {
 	return instance.post<OutputUsePost>("use_output", data);
 };
 
+export const postInstrument = async (data: FieldValues) => {
+	console.log("postando")
+	return instance.post<InstrumentToPost>("instrument", data);
+};
+
 export const postFamilyRegister = async (data: FamilyRegisterPost) => {
 	return instance.post<FamilyRegisterPost>("family", data);
 };
+
 export const postAreaRegister = async (data: AreaRegisterPost) => {
 	return instance.post<AreaRegisterPost>("area", data);
 };
+
 export const postLaboratoryRegister = async (data: LaboratoryRegisterPost) => {
 	return instance.post<LaboratoryRegisterPost>("laboratory", data)
 };
 export const postEmployeeRegister = async (data: EmployeeRegisterPost) => {
 	return instance.post<EmployeeRegisterPost>("employee", data)
 }
+export const postSupplierRegister = async (data: SupplierRegisterPost) => {
+	return instance.post<SupplierRegisterPost>("supplier", data);
+};
+
