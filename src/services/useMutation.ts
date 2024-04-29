@@ -5,6 +5,8 @@ import {
 	postAreaRegister,
 	postFamilyRegister,
 	postOutputUse,
+	postLaboratoryRegister,
+	postEmployeeRegister,
   postInstrument,
 	postSupplierRegister,
 } from "./apiService";
@@ -13,6 +15,8 @@ import {
 	FamilyRegisterPost,
 	OutputUsePost,
 	SearchPattern,
+	LaboratoryRegisterPost,
+	EmployeeRegisterPost,
   InstrumentToPost,
 	SupplierRegisterPost,
 } from "../utils/interfaces/Interfaces";
@@ -60,6 +64,28 @@ export function usePostFamilyRegister() {
 				description: data.description,
 				calibrationFrequencyInMonths: data.calibrationFrequencyInMonths,
 				calibrationTimeCounter: data.calibrationTimeCounter,
+			});
+		},
+	});
+}
+export function usePostLaboratoryRegister() {
+	return useMutation({
+		mutationFn: (data: LaboratoryRegisterPost) => {
+			return postLaboratoryRegister({
+				name: data.name,
+				calCode: data.calCode,
+			});
+		},
+	});
+}
+export function usePostEmployeeRegister() {
+	return useMutation({
+		mutationFn: (data: EmployeeRegisterPost) => {
+			return postEmployeeRegister({
+				name: data.name,
+				edv: data.edv,
+				email: data.email,
+				sector: data.sector
 			});
 		},
 	});

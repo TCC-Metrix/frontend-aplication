@@ -60,6 +60,19 @@ export interface FamilyRegisterPost {
 	calibrationFrequencyInMonths: number;
 	calibrationTimeCounter: string;
 }
+
+export interface LaboratoryRegisterPost {
+	name: string;
+	calCode: number;
+}
+
+export interface EmployeeRegisterPost {
+	name: string;
+	edv: number;
+	email: string;
+	sector: string;
+}
+
 export interface AreaRegisterPost {
 	description: string;
 }
