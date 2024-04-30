@@ -43,7 +43,7 @@ const LaboratoryRegister = () => {
 
 	const notify = (type: string, message?: string) => {
 		type === "success" &&
-			toast.success("Área registrada com sucesso", {
+			toast.success("Laboratório registrado com sucesso", {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -80,7 +80,7 @@ const LaboratoryRegister = () => {
 					const errorAxios = error as AxiosError;
 					if (errorAxios.response?.data) {
 						if (error.response?.data === 409) {
-							notify("error", "Família com este código já está cadastrada.");
+							notify("error", "Laboratório com este código já está cadastrado.");
 							return;
 						}
 					}

@@ -27,6 +27,7 @@ import ErrorPage from "../../ErrorPage/ErrorPage";
 import { useNavbarStore, usePopupStore } from "../../../store";
 import { RotatingLines } from "react-loader-spinner";
 import axiosInstance from "../../../services/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 export const MoveUseOutput = () => {
 	// Estados para controlar o estado dos componentes
@@ -245,6 +246,8 @@ export const MoveUseOutput = () => {
 		}
 	};
 
+	const navigate = useNavigate()
+
 	//faz a mutação pra api
 	const handlePostUseOutput: SubmitHandler<OutputUsePost> = (data) => {
 		setIsLoadingPostUseOutput(true);
@@ -273,6 +276,7 @@ export const MoveUseOutput = () => {
 						"",
 						() => {
 							setIsPopupActive(false);
+							navigate("/consult/instrument");
 						}
 					);
 				}

@@ -27,6 +27,8 @@ const InstrumentRegister = () => {
 	const [isLoadingInstrument, setIsLoadingInstrument] =
 		useState<boolean>(false);
 
+	useEffect(() => {}, []);
+
 	const notify = (type: string, message?: string) => {
 		type === "success" &&
 			toast.success("Instrumeto registrado com sucesso", {
@@ -147,7 +149,10 @@ const InstrumentRegister = () => {
 					const errorAxios = error as AxiosError;
 					if (errorAxios.response?.data) {
 						if (error.response?.data === 409) {
-							notify("error", "Instrumento com este código já está cadastrado.");
+							notify(
+								"error",
+								"Instrumento com este código já está cadastrado."
+							);
 							return;
 						}
 					}

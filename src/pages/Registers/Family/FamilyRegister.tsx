@@ -54,7 +54,7 @@ const FamilyRegister = () => {
 
 	const notify = (type: string, message?: string) => {
 		type === "success" &&
-			toast.success("Área registrada com sucesso", {
+			toast.success("Família registrada com sucesso", {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,

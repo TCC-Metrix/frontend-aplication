@@ -64,27 +64,6 @@ const AreaRegister = () => {
 			});
 	};
 
-	// setIsLoadingPostSupplierRegister(true);
-	// postSupplierMutation.mutate(data, {
-	// 	onSettled: (data, error) => {
-	// 		setIsLoadingPostSupplierRegister(false);
-	// 		if (error && request.isAxiosError(error)) {
-	// 			const errorAxios = error as AxiosError;
-	// 			if (errorAxios.response?.data) {
-	// 				const responseData = errorAxios.response.data.toString();
-	// 				if (responseData.includes("exists")) {
-	// 					notify("error", "Fornecedor com este CNPJ já está cadastrado.");
-	// 					return;
-	// 				}
-	// 			}
-	// 			notify("error", "Erro ao processar a solicitação.");
-	// 		} else {
-	// 			// Se não houver erro, assumimos que a solicitação foi bem-sucedida
-	// 			console.log("Dados do fornecedor:", data);
-	// 			notify("success");
-	// 			reset();
-	// 		}
-
 	const handlePostAreaRegister: SubmitHandler<AreaRegisterPost> = (data) => {
 		setIsLoadingPostAreaRegister(true);
 		postAreaMutation.mutate(data, {
