@@ -16,7 +16,7 @@ function SelectInput(props: SelectInput) {
       <div className="label-select">{props.placeholder}</div>
       <select id={props.id} {...props.register(props.id)} className="inside-select">
         {props.optionsList.map((item) => (
-          <option key={item} value={item === "ativo" ? "active" : item === "inativo" ? "inative" : ""}>{item}</option>
+          <option key={item} value={item === "ativo" ? "active" : item === "inativo" ? "inative" : item}>{item}</option>
         ))}
       </select>
     </div>

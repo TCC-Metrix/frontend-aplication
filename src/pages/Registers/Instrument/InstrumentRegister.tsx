@@ -127,6 +127,7 @@ const InstrumentRegister = () => {
 				message: "Formato de data inválido",
 			});
 		}
+    console.log(data)
 		handlePostInstrument(data);
 	};
 

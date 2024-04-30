@@ -16,9 +16,15 @@ import {
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
 
+
+interface InstrumentsFiltered {
+	content: GeneralInstrument[]
+  }
+  
+
 //GET - Retorna todos os instrumentos
 export const getInstruments = async () => {
-	return (await instance.get<GeneralInstrument[]>("instrument/all")).data;
+	return (await instance.get<InstrumentsFiltered>("instrument/all?page=1&size=5")).data;
 };
 
 //GET - Retorna todos os funcionarios
