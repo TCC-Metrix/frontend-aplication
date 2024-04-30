@@ -16,6 +16,7 @@ const schema = z.object({
 	name: z
 		.string()
 		.min(1, "Campo obrigatorio")
+		.max(10, "Máximo de 10 digitos.")
 		.refine((value) => !/^\s+$/.test(value), {
 			message: "Nome não pode conter apenas espaços em branco",
 		}),
@@ -25,10 +26,14 @@ const schema = z.object({
 		.refine((value) => !/^\s+$/.test(value), {
 			message: "EDV não pode conter apenas espaços em branco",
 		})
-		.transform((value) => parseInt(value)),
+		.transform((value) => parseInt(value))
+		.refine((value) => String(value).length <= 10, {
+			message: "Máximo de 10 dígitos."
+		}),
 	email: z
 		.string()
 		.min(1, "Campo obrigatorio")
+		.email("Digite um E-mail válido")
 		.refine((value) => !/^\s+$/.test(value), {
 			message: "Email não pode conter apenas espaços em branco",
 		}),
