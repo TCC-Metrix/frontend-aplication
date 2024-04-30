@@ -3,6 +3,7 @@ import "../BasicInput/BasicInput.css";
 import "./BasicInputFilter.css";
 import {
 	Family,
+	GeneralEmployee,
 	GeneralSupplier,
 } from "../../../../utils/interfaces/Interfaces";
 import {
@@ -16,16 +17,17 @@ interface BasicInputFilterProps {
 	inputPlaceholder: string;
 	register: UseFormRegister<FieldValues>;
 	setValue: UseFormSetValue<FieldValues>;
-	items: Family[] | GeneralSupplier[] | undefined;
+	items: Family[] | GeneralSupplier[] | GeneralEmployee[] |undefined;
 	inputName: string;
 	inputId: string;
 	inputStyle: string;
 	getValues: UseFormGetValues<FieldValues>;
 	isRequired: boolean;
 	errors: any;
+  isActive?: boolean;
 }
 
-type Item = Family | GeneralSupplier;
+type Item = Family | GeneralSupplier | GeneralEmployee;
 
 function BasicInputFilter(props: BasicInputFilterProps) {
 	const [filteredOptions, setFilteredOptions] = useState<Item[] | undefined>(
@@ -59,6 +61,7 @@ function BasicInputFilter(props: BasicInputFilterProps) {
 			<div>
 				<div className="entryarea">
 					<input
+            disabled={props.isActive === true ? false : true}
 						className={`${
 							props.errors[props.inputName] ? "error-formatted" : "text-input"
 						}`}

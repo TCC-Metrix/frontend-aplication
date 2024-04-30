@@ -7,6 +7,8 @@ import {
 	Button,
 	DateInput,
 	InputSearchFilter,
+	BasicInputFilter,
+	DateInputInside,
 } from "../../../components";
 import { PiMagnifyingGlassBold } from "react-icons/pi";
 import {
@@ -20,7 +22,7 @@ import {
 	useGetInstrumentBy,
 	usePostOutputUse,
 } from "../../../services/useMutation";
-import { SubmitHandler } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useAllAreas, useAllEmployees } from "../../../services/useFetchData";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
@@ -28,6 +30,11 @@ import { useNavbarStore, usePopupStore } from "../../../store";
 import { RotatingLines } from "react-loader-spinner";
 import axiosInstance from "../../../services/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AxiosError } from "axios";
+import request from "axios";
+import { msalInstance } from "../../../authSSO/msalInstance";
 
 export const MoveUseOutput = () => {
 	// Estados para controlar o estado dos componentes
@@ -128,6 +135,18 @@ export const MoveUseOutput = () => {
 		setOpenModal(true);
 	};
 
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		setValue,
+		resetField,
+		clearErrors,
+		setError,
+		getValues,
+		reset,
+	} = useForm();
+
 	//Hooks de api
 	const getInstrumentBy = useGetInstrumentBy(); //busca instrumento por algum parametro
 	const postOutputMutation = usePostOutputUse(); //posta a saida para uso
@@ -137,6 +156,32 @@ export const MoveUseOutput = () => {
 		isLoading: isLoadingArea,
 		isError: isErrorArea,
 	} = useAllAreas(); //busca todas as áreas
+
+	const notify = (type: string, message?: string) => {
+		type === "success" &&
+			toast.success("Instrumeto registrado com sucesso", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+
+		type === "error" &&
+			toast.error(`${message ? message : "Erro interno no servidor"}`, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+	};
 
 	//Função que de fato chama a api, e seta o resultado nos instrumentos filtrados
 	const handleSearch: SubmitHandler<SearchPattern> = (data) => {
@@ -246,39 +291,27 @@ export const MoveUseOutput = () => {
 		}
 	};
 
-	const navigate = useNavigate()
-
 	//faz a mutação pra api
 	const handlePostUseOutput: SubmitHandler<OutputUsePost> = (data) => {
 		setIsLoadingPostUseOutput(true);
 		postOutputMutation.mutate(data, {
 			onSettled: (data, error) => {
-				if (error) {
-					setTimeout(() => {
-						setIsLoadingPostUseOutput(false);
-						console.error("Ocorreu um erro:", error);
-						createPopup(
-							"error",
-							"Erro interno do servidor",
-							"Estamos com problemas em nosso servidor, tente novamente",
-							() => {
-								setIsPopupActive(false);
-							}
-						);
-					}, 1000);
-					return;
-				} else {
-					console.log(data);
-					setIsLoadingPostUseOutput(false);
-					createPopup(
-						"feedback",
-						"Movimentação realizada com sucesso",
-						"",
-						() => {
-							setIsPopupActive(false);
-							navigate("/consult/instrument");
+				if (error && request.isAxiosError(error)) {
+					const errorAxios = error as AxiosError;
+					if (errorAxios.response?.data) {
+						if (error.response?.data === 409) {
+							notify(
+								"error",
+								"Instrumento com este código já está cadastrado."
+							);
+							return;
 						}
-					);
+					}
+				} else {
+					setIsLoadingPostUseOutput(false);
+					notify("success");
+					reset();
+					console.log(data);
 				}
 			},
 		});
@@ -421,6 +454,7 @@ export const MoveUseOutput = () => {
 		});
 	};
 
+	console.log(msalInstance.getActiveAccount())
 	const resetAllModalData = () => {
 		setInputFilterError("");
 		setInstrumentsFiltered([]);
@@ -531,19 +565,20 @@ export const MoveUseOutput = () => {
 				<div className="form-section-container">
 					<section className="mov-info">
 						<div className="form-column">
-							<div>
+							<div className="inputs-responsible">
 								<p className="text-major">Responsável entrega</p>
-								<InputSearch
-									options={allEmployees}
-									placeholder="Busque por código ou nome"
-									isActive={activeShippingInput}
-									title="resp-entrega"
-									setValueSelected={setShippingResponsibleSelected}
-									setInputGroupError={handleInputError}
-									inputGroupError={inputErrors}
-									clearInputError={clearInputError}
-									isInputActive={true}
-									valueSelected={shippingResponsibleSelected}
+								<BasicInputFilter
+									inputStyle="classe-large"
+									inputId="supplier"
+									inputName="supplierDescription"
+									items={allEmployees}
+									inputPlaceholder="fornecedor"
+									register={register}
+									setValue={setValue}
+									getValues={getValues}
+									isRequired={true}
+									errors={errors}
+									isActive={true}
 								/>
 							</div>
 							<div>
@@ -554,17 +589,18 @@ export const MoveUseOutput = () => {
 								>
 									Responsavel Recebimento
 								</p>
-								<InputSearch
-									options={allEmployees}
-									placeholder="Busque por código ou nome"
-									isActive={activeReceiverInput}
-									title="resp-receb"
-									setValueSelected={setReceivingResponsibleSelected}
-									setInputGroupError={handleInputError}
-									inputGroupError={inputErrors}
-									clearInputError={clearInputError}
-									isInputActive={areaSelected !== "" ? false : true}
-									valueSelected={receivingResponsibleSelected}
+								<BasicInputFilter
+									inputStyle="classe-large"
+									inputId="supplier"
+									inputName="supplierDescription"
+									items={allEmployees}
+									inputPlaceholder="fornecedor"
+									register={register}
+									setValue={setValue}
+									getValues={getValues}
+									isRequired={true}
+									errors={errors}
+									isActive={true}
 								/>
 							</div>
 						</div>
@@ -577,24 +613,30 @@ export const MoveUseOutput = () => {
 								>
 									Área
 								</p>
-								<InputSearch
-									options={allAreas}
-									placeholder="Busque por descrição"
-									isActive={activeAreaInput}
-									title="area"
-									setValueSelected={setAreaSelected}
-									setInputGroupError={handleInputError}
-									inputGroupError={inputErrors}
-									clearInputError={clearInputError}
-									isInputActive={
-										receivingResponsibleSelected !== "" ? false : true
-									}
-									valueSelected={areaSelected}
+								<BasicInputFilter
+									inputStyle="classe-large"
+									inputId="supplier"
+									inputName="supplierDescription"
+									items={allEmployees}
+									inputPlaceholder="fornecedor"
+									register={register}
+									setValue={setValue}
+									getValues={getValues}
+									isRequired={true}
+									errors={errors}
+									isActive={true}
 								/>
 							</div>
 							<div>
 								<p className="text-major">Data de Saída</p>
-								<DateInput setValueSelected={setDateSelected} />
+								<DateInputInside
+									placeholder="data de aquisição"
+									inputStyle="large-input"
+									register={register}
+									inputName="acquisitionDate"
+									isRequired={true}
+									errors={errors}
+								/>
 							</div>
 						</div>
 					</section>
