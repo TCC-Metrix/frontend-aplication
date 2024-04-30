@@ -4,11 +4,6 @@
    
 }
 
-
-.entryarea input:focus-within + .search-itens {
-    background-color: aqua !important;
-}
-
-.z-997{
-    z-index: 997;
+.z-999{
+    z-index: 999;
 }

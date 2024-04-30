@@ -27,4 +27,3 @@ export default instance;
 //10.234.89.143 - prates api
 //10.234.90.186 - julia api
 //10.234.90.186 - julia api
-
