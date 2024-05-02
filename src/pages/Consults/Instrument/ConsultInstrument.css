@@ -3,6 +3,7 @@
 	max-width: 100vw;
 	/* height: 200vh; */
 	margin: 0 auto;
+
 }
 
 .box-shadow-container-inputs-area {
@@ -46,4 +47,9 @@
 	display: flex;
 	justify-content: space-between;
 	gap: 20px;
+}
+
+.load-more-area{
+	text-align: center;
+	margin-top: 20px;
 }
