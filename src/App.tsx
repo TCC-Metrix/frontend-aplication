@@ -18,6 +18,7 @@ import UseReturn from "./pages/Movements/UseReturn/UseReturn";
 
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import ConsultInsturment from "./pages/Consults/Instrument/ConsultInsturment";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -128,6 +129,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<EmployeeRegister />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/consult/instrument"
+					element={
+						<ProtectedRoute>
+							<ConsultInsturment />
 						</ProtectedRoute>
 					}
 				></Route>

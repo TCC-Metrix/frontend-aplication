@@ -30,7 +30,7 @@ export const cadLinks: List[] = [
 	},
 	{
 		name: "Funcionário",
-		link: "#",
+		link: "/register/employee",
 	},
 	{
 		name: "Laboratório",
@@ -49,7 +49,7 @@ export const cadLinks: List[] = [
 export const consultaLinks: List[] = [
 	{
 		name: "Instrumento",
-		link: "#",
+		link: "/consult/instrument",
 	},
 	{
 		name: "Família",

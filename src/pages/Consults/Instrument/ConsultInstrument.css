@@ -1,0 +1,29 @@
+.consult-page {
+	/* background-color: aqua; */
+	max-width: 100vw;
+	height: 200vh;
+	margin: 0 auto;
+}
+
+.box-shadow-container-inputs-area {
+	/* background-color: blueviolet; */
+	display: flex;
+	gap: 20px;
+}
+
+.tr-hover {
+	cursor: pointer;
+}
+
+.tr-hover:hover {
+	background-color: var(--color-grey-01);
+}
+
+.box-shadow-container {
+	display: flex;
+	flex-direction: column;
+	gap: 3rem;
+	padding: 4rem;
+	max-width: 1440px;
+	margin: 3rem auto;
+}

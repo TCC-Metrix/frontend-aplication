@@ -10,80 +10,81 @@ import { z } from "zod";
 import { RotatingLines } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-
+import { AxiosError } from "axios";
+import request from "axios";
 
 const AreaRegister = () => {
 	const [isLoadingPostAreaRegister, setIsLoadingPostAreaRegister] =
 		useState<boolean>(false);
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 
-
-
 	const schema = z.object({
-	name: z
-		.string()
-		.min(1, "Campo obrigatorio")
-		.refine((value) => !/^\s+$/.test(value), {
-			message: "Nome não pode conter apenas espaços em branco",
-		}),
-});
+		name: z
+			.string()
+			.min(1, "Campo obrigatorio")
+			.refine((value) => !/^\s+$/.test(value), {
+				message: "Nome não pode conter apenas espaços em branco",
+			}),
+	});
 
-type FormFields = z.infer<typeof schema>;
+	type FormFields = z.infer<typeof schema>;
 
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
-		reset
+		reset,
 	} = useForm<FormFields>({ resolver: zodResolver(schema) });
 
 	const postAreaMutation = usePostAreaRegister();
 
-	const notify = (type: string) => {
-    
-		type === "success" && (
-		  toast.success('Área registrada com sucesso', {
-			position: "top-right",
-			autoClose: 5000,
-			hideProgressBar: false,
-			closeOnClick: true,
-			pauseOnHover: true,
-			draggable: true,
-			progress: undefined,
-			theme: "light",
-			})
-		)
-	
-		type === "error" && (
-		  toast.error('Erro interno do servidor', {
-			position: "top-right",
-			autoClose: 5000,
-			hideProgressBar: false,
-			closeOnClick: true,
-			pauseOnHover: true,
-			draggable: true,
-			progress: undefined,
-			theme: "light",
-			})
-		)
-		};
-	
+	const notify = (type: string, message?: string) => {
+		type === "success" &&
+			toast.success("Área registrada com sucesso", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+
+		type === "error" &&
+			toast.error(`${message ? message : "Erro interno no servidor"}`, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+	};
 
 	const handlePostAreaRegister: SubmitHandler<AreaRegisterPost> = (data) => {
 		setIsLoadingPostAreaRegister(true);
 		postAreaMutation.mutate(data, {
 			onSettled: (data, error) => {
-				if (error) {
-					setIsLoadingPostAreaRegister(false);
+				setIsLoadingPostAreaRegister(false);
+				if (error && request.isAxiosError(error)) {
+					const errorAxios = error as AxiosError;
+					if (errorAxios.response?.data) {
+						if (error.response?.data === 409) {
+							notify("error", "Área com este NOME já está cadastrada.");
+							return;
+						}
+					}
 					console.error("Ocorreu um erro:", error);
-					notify("error")
+					notify("error", "Erro ao processar a solicitação.");
 					return;
 				} else {
 					console.log(data);
 					setIsLoadingPostAreaRegister(false);
-					notify("success")
-					reset()
+					notify("success");
+					reset();
 				}
 			},
 		});
@@ -142,7 +143,7 @@ type FormFields = z.infer<typeof schema>;
 									<>Confirmar</>
 								)}
 							</Button>
-							<ToastContainer/>
+							<ToastContainer />
 						</div>
 					</form>
 				</div>
