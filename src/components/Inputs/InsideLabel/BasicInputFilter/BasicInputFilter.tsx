@@ -3,6 +3,7 @@ import "../BasicInput/BasicInput.css";
 import "./BasicInputFilter.css";
 import {
 	Family,
+	GeneralArea,
 	GeneralEmployee,
 	GeneralSupplier,
 } from "../../../../utils/interfaces/Interfaces";
@@ -17,17 +18,17 @@ interface BasicInputFilterProps {
 	inputPlaceholder: string;
 	register: UseFormRegister<FieldValues>;
 	setValue: UseFormSetValue<FieldValues>;
-	items: Family[] | GeneralSupplier[] | GeneralEmployee[] |undefined;
+	items: Family[] | GeneralSupplier[] | GeneralEmployee[] | GeneralArea[] | undefined;
 	inputName: string;
 	inputId: string;
 	inputStyle: string;
 	getValues: UseFormGetValues<FieldValues>;
 	isRequired: boolean;
 	errors: any;
-  isActive?: boolean;
+	isActive?: boolean;
 }
 
-type Item = Family | GeneralSupplier | GeneralEmployee;
+type Item = Family | GeneralSupplier | GeneralEmployee | GeneralArea;
 
 function BasicInputFilter(props: BasicInputFilterProps) {
 	const [filteredOptions, setFilteredOptions] = useState<Item[] | undefined>(
@@ -35,15 +36,16 @@ function BasicInputFilter(props: BasicInputFilterProps) {
 	);
 	const [isFocused, setIsFocused] = useState(false);
 
-	const setSelectedValue = (option: Family | GeneralSupplier) => {
+	const setSelectedValue = (option: Family | GeneralSupplier | GeneralEmployee | GeneralArea) => {
 		const valueToSet = "name" in option ? option.name : option.description;
-
+		
 		props.setValue(props.inputName, valueToSet);
 		props.setValue(props.inputId, option.id);
 
 	};
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		props.setValue(props.inputId, "")
 		const searchTerm = event.target.value;
 
 		const filteredOptions = props.items?.filter((option) =>
@@ -61,25 +63,30 @@ function BasicInputFilter(props: BasicInputFilterProps) {
 			<div>
 				<div className="entryarea">
 					<input
-            disabled={props.isActive === true ? false : true}
-						className={`${
-							props.errors[props.inputName] ? "error-formatted" : "text-input"
-						}`}
+						disabled={props.isActive === undefined ? false :  props.isActive === true ? false : true}
+						className={`${props.errors[props.inputName] ? "error-formatted" : "text-input"
+							}`}
 						required
 						{...props.register(
 							props.inputName,
 							props.isRequired
 								? {
-										required: `Selecione ao menos um(a) ${props.inputPlaceholder}`,
+									required: `Selecione ao menos um(a) ${props.inputPlaceholder}`,
 								}
 								: undefined
 						)}
 						onChange={handleInputChange}
-						onFocus={() => setIsFocused(true)}
+						onFocus={() => {
+							setIsFocused(true)}}
 						onBlur={() => {
 							// Adicionando um pequeno atraso antes de definir isFocused como false
+							
 							setTimeout(() => {
 								setIsFocused(false);
+								if (props.getValues(props.inputId) === ""){
+									props.setValue(props.inputName, "")
+								}
+
 							}, 250);
 						}}
 					/>

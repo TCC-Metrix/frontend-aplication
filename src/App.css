@@ -148,6 +148,10 @@ ul {
     height: 100vh;
 }
 
+input:-internal-autofill-selected{
+	background-color: transparent !important;
+}
+
 @media (min-width: 1500px) {
 	.container-main {
 		max-width: 1400px;
