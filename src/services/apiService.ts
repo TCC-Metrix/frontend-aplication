@@ -12,13 +12,20 @@ import {
   InstrumentToPost,
   FamilyRegisterPost,
 	SupplierRegisterPost,
+	RootFilter,
 
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
 
+
+interface InstrumentsFiltered {
+	content: GeneralInstrument[]
+  }
+  
+
 //GET - Retorna todos os instrumentos
 export const getInstruments = async () => {
-	return (await instance.get<GeneralInstrument[]>("instrument/all")).data;
+	return (await instance.get<InstrumentsFiltered>("instrument/all?page=1&size=5")).data;
 };
 
 //GET - Retorna todos os funcionarios
@@ -39,6 +46,11 @@ export const getSuppliers = async () => {
 //GET - Retorna todas as areas
 export const getArea = async () => {
 	return (await instance.get<GeneralArea[]>("area/all")).data;
+};
+
+//GET - Retorna os instrumentos filtrados
+export const getInstrumentsFiltered = async (pageParam = 0, status: string, situation: string, column: string, value: string, sortedBy: string) => {
+	return (await instance.get<RootFilter>(`/instrument/deepfilter?status=${status === "todos" ? "" : status}&situation=${situation === "todos" ? "" : situation}&column=${column}&value=${value}&sortedBy=${sortedBy}&page=${pageParam}&size=20`)).data;
 };
 
 //GET - Retorna o instrumento pelo ID
@@ -63,7 +75,6 @@ export const postOutputUse = async (data: OutputUsePost) => {
 };
 
 export const postInstrument = async (data: FieldValues) => {
-	console.log("postando")
 	return instance.post<InstrumentToPost>("instrument", data);
 };
 

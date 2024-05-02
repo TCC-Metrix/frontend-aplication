@@ -17,7 +17,7 @@ import {
 	SearchPattern,
 	LaboratoryRegisterPost,
 	EmployeeRegisterPost,
-  InstrumentToPost,
+  	InstrumentToPost,
 	SupplierRegisterPost,
 } from "../utils/interfaces/Interfaces";
 
