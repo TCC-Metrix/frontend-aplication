@@ -1,5 +1,5 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers } from "./apiService";
+import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered } from "./apiService";
 
 
 //Retorna todos os instrumentos da API
@@ -63,6 +63,15 @@ export function useInstrumentById(id: string | undefined) {
   return useQuery({
     queryKey: ["instrument", id],
     queryFn: () => getInstrumentById(id!),
+    refetchOnWindowFocus: false,
+  })
+}
+
+
+export function useInstrumentDeepFiltered(pageParam = 0, status: string, situation: string, column: string, value: string, sortedBy: string){
+  return useQuery({
+    queryKey: ["instrumentFiltered"],
+    queryFn: () => getInstrumentsFiltered(pageParam , status, situation, column, value, sortedBy),
     refetchOnWindowFocus: false,
   })
 }
