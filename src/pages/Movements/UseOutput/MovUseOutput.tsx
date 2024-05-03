@@ -28,6 +28,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
+import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
 
 export const MoveUseOutput = () => {
 	// Estados para controlar o estado dos componentes
@@ -571,6 +572,7 @@ export const MoveUseOutput = () => {
 						)}
 					</Button>
 				</div>
+				<ModalSearchInstrument/>
 				<ToastContainer/>
 			</div>
 		</main>

@@ -6,7 +6,6 @@ interface SelectInput {
   id: string,
   placeholder: string,
   register: UseFormRegister<FieldValues>,
-  size?: string
 }
 
 function SelectInput(props: SelectInput) {
