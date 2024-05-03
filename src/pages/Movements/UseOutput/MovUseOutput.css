@@ -15,7 +15,6 @@ main {
 
 .mov-info {
     width: 52%;
-	max-width: 540px;
     display: flex;
     gap: 7%;
 }

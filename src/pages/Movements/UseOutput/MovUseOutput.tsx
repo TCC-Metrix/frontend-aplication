@@ -299,7 +299,7 @@ export const MoveUseOutput = () => {
 									inputId="shippingResponsible"
 									inputName="shippingResponsibleDescription"
 									items={allEmployees}
-									inputPlaceholder="Resp entrega"
+									inputPlaceholder="responsável entrega"
 									register={register}
 									setValue={setValue}
 									getValues={getValues}
@@ -315,7 +315,7 @@ export const MoveUseOutput = () => {
 									inputId="receivingResponsible"
 									inputName="receivingResponsibleDescription"
 									items={allEmployees}
-									inputPlaceholder="resp receb"
+									inputPlaceholder="responsável recebimento"
 									register={register}
 									setValue={setValue}
 									getValues={getValues}

@@ -263,8 +263,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
                     <td>{item.description}</td>
                     <td>{item.familyId.description}</td>
                     <td>
-                      {item.status === "in use" && "Em uso"}
-                      {item.status === "available" && "Disponível"}
+                      {item.nextCalibration}
                     </td>
                     <td className="text">
                       <input
