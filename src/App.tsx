@@ -17,34 +17,29 @@ import EmployeeRegister from "./pages/Registers/Employee/employeeRegister";
 import UseReturn from "./pages/Movements/UseReturn/UseReturn";
 
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import ConsultInsturment from "./pages/Consults/Instrument/ConsultInsturment";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
-	const popupBody = usePopupStore((state) => state.popupBody);
-	const isPopupActive = usePopupStore((state) => state.isPopupActive);
-	const popupTitle = usePopupStore((state) => state.popupTitle);
-	const popupType = usePopupStore((state) => state.popupType);
-	const popupBtnFunction = usePopupStore((state) => state.popupBtnFunction);
 
 	const location = useLocation();
+	const previousLocation = useRef(location);
 
 	useEffect(() => {
-		setActiveNavbar(false);
-	}, [location]);
+		setActiveNavbar(false)
+		// Verifica se a localização atual é diferente da localização anterior
+		if (location.pathname !== previousLocation.current.pathname) {
+		  window.location.reload();
+		}
+	
+		// Atualiza a localização anterior com a localização atual
+		previousLocation.current = location;
+	  }, [location]);
 
 	return (
 		<>
-			<Popup
-				isActive={isPopupActive}
-				title={popupTitle}
-				type={popupType}
-				body={popupBody}
-				btnFunction={popupBtnFunction}
-			/>
-
 			<ProtectedRoute>
 				<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
 			</ProtectedRoute>

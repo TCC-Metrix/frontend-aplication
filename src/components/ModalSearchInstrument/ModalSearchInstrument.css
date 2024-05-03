@@ -6,3 +6,13 @@
     position: fixed;
     width: 100%;
 }
+
+.underline-p{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.underline-p:hover{
+    color: var(--color-turquoise-02);
+}
+

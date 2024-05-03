@@ -1,7 +1,7 @@
 import { PiMagnifyingGlassBold } from "react-icons/pi";
 import "./ModalSearchInstrument.css";
 import { BasicInput, Button, Modal, SelectInput } from "..";
-import { useCallback, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import {
   GeneralInstrument,
   RootFilter,
@@ -11,13 +11,24 @@ import instance from "../../services/axiosInstance";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { RotatingLines } from "react-loader-spinner";
 
-function ModalSearchInstrument() {
-  const [openModal, setOpenModal] = useState(true);
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState<{
-    [key: string]: boolean;
-  }>({});
 
-  let instruments;
+interface ModalSearchInstrumentProps {
+	openModal: boolean,
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
+  setFinalInstruments: React.Dispatch<React.SetStateAction<GeneralInstrument[]>>,
+  isReloaded:boolean,
+  setIsReloaded: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+
+
+const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOpenModal, setFinalInstruments, isReloaded, setIsReloaded}) => {
+  const [selectedInstruments, setSelectedInstruments] = useState<GeneralInstrument[]>([]);
+  const [isScroll, setIsScroll] = useState(false)
+  const [isShowingInstrumentsFiltered, setIsShowingInstrumentsFiltered] = useState(false)
+  const [instruments, setInstruments] = useState<GeneralInstrument[] | undefined>([])
+
+  // let instruments;
 
   const headersList = ["código", "descrição", "família", "próx. calibração"];
 
@@ -25,8 +36,11 @@ function ModalSearchInstrument() {
     formState: { errors },
     register,
     handleSubmit,
+    reset,
     watch,
   } = useForm();
+
+
 
   let filterData = {
     column: watch("column"),
@@ -34,27 +48,29 @@ function ModalSearchInstrument() {
     enabled: false,
   };
 
+  
   const fetchInstrumentsFiltered = async (
     pageParam = 0
   ): Promise<RootFilter> => {
     const response = await instance.get(
-      `/instrument/deepfilter?&column=${filterData.column}&value=${filterData.value}&page=${pageParam}&size=7`
+      `/instrument/deepfilter?&column=${filterData.column}&value=${filterData.value}&status=available&page=${pageParam}&size=7`
     );
     return response.data;
   };
-
+  
   function calculateNextPage(pageable: RootFilter): number | null {
     if (pageable.pageable.pageNumber < pageable.totalPages) {
       return pageable.pageable.pageNumber + 1;
     }
-
+    
     return null;
   }
-
+  
   const {
     data: dataFilter,
     refetch,
     fetchNextPage: fetchNextFilteredPage,
+    isLoading,
     isFetching,
   } = useInfiniteQuery({
     queryKey: ["instrumentsFilteredModalSearch"],
@@ -65,47 +81,74 @@ function ModalSearchInstrument() {
     },
     enabled: filterData.enabled,
   });
-
+  
   const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
     const element = e.target as HTMLDivElement;
-
+    
     if (element.scrollHeight - element.scrollTop <= element.clientHeight + 1) {
       console.log("Chegou ao fim do scroll!");
       fetchNextFilteredPage();
     }
   }, []);
 
-  instruments = dataFilter?.pages.flatMap((item) => item.content);
 
+
+  useEffect(() => {
+    setInstruments(dataFilter?.pages.flatMap((item) => item.content))
+   
+  }, [dataFilter])
+
+  
+  useEffect(() => {
+    if(isReloaded){
+      reset()
+      setSelectedInstruments([])
+      setInstruments([])
+      setIsReloaded(false)
+    }
+  }, [isReloaded])
+  
+  useEffect(() => {
+    instruments !== undefined && instruments?.length > 5 ? setIsScroll(true) : setIsScroll(false)
+  }, [instruments])
+  
   const handleSearchButton = () => {
+    setIsShowingInstrumentsFiltered(false)
     filterData.enabled = true;
     refetch();
   };
 
-  const handleButtonConfirmModal = () => {
-    return;
+
+
+  const handleRowClick = (item: GeneralInstrument) => {
+    handleCheckboxChange({ target: { checked: !selectedInstruments.some(selectedItem => selectedItem.id === item.id) } } as React.ChangeEvent<HTMLInputElement>, item);
   };
 
-  const handleCheckboxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    itemId: string
-  ) => {
-    const { checked } = event.target;
-    setSelectedCheckboxes({ ...selectedCheckboxes, [itemId]: checked });
-    console.log(
-      `Checkbox com id ${itemId} ${checked ? "selecionado" : "desmarcado"}`
-    );
-    // Execute ações desejadas quando o checkbox for alterado
+
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, item: GeneralInstrument) => {
+    const isChecked = event.target.checked;
+
+    // Se o checkbox estiver marcado, adiciona o item à lista selectedInstruments
+    if (isChecked) {
+      setSelectedInstruments([...selectedInstruments, item]);
+    } else {
+      // Se o checkbox estiver desmarcado, remove o item da lista selectedInstruments
+      const filteredInstruments = selectedInstruments.filter(selectedItem => selectedItem.id !== item.id);
+      setSelectedInstruments(filteredInstruments);
+    }
   };
 
-  const handleRowClick = (itemId: string) => {
-    setSelectedCheckboxes({ ...selectedCheckboxes, [itemId]: !selectedCheckboxes[itemId] });
-  };
+  const handleConfirmButton = () => {
+    setFinalInstruments(selectedInstruments)
+    setOpenModal(false)
+  }
 
   return (
     <Modal
       isOpen={openModal}
       setModalOpen={() => {
+
         setOpenModal(!openModal);
       }}
     >
@@ -127,13 +170,12 @@ function ModalSearchInstrument() {
               errors={errors}
               register={register}
               inputName="value"
-              inputPlaceholder={`Busque por ${
-                filterData.column === undefined
-                  ? "descrição"
-                  : filterData.column === "description"
+              inputPlaceholder={`Busque por ${filterData.column === undefined
+                ? "descrição"
+                : filterData.column === "description"
                   ? "descrição"
                   : "código"
-              }`}
+                }`}
               inputStyle="classe-large"
               isRequired={true}
             />
@@ -150,7 +192,20 @@ function ModalSearchInstrument() {
           </Button>
         </div>
       </div>
-      <div className="modal-content scroll" onScroll={handleScroll}>
+      {isLoading && (
+        <div style={{display: "flex", justifyContent: "center", height: "100%"    }}>
+          <RotatingLines
+          visible={true}
+          strokeWidth="5"
+          animationDuration="0.75"
+          ariaLabel="rotating-lines-loading"
+          strokeColor="#99aebb"
+          width="40"
+        />
+        </div>
+            )}
+      { !isLoading && <div className={`modal-content ${isScroll ? "scroll" : ""}`} onScroll={handleScroll}>
+
         <table className="table-container ">
           <thead>
             <tr className="first-line ">
@@ -161,10 +216,11 @@ function ModalSearchInstrument() {
             </tr>
           </thead>
           <tbody>
-            {instruments !== undefined && instruments?.length > 0 ? (
-              instruments?.map((item: GeneralInstrument, index) => {
+
+            {isShowingInstrumentsFiltered && selectedInstruments.length > 0 ? (
+              selectedInstruments?.map((item: GeneralInstrument, index) => {
                 return (
-                  <tr key={index} className="tr-hover" onClick={() => handleRowClick(item.id)}>
+                  <tr key={index} className="tr-hover" onClick={() => handleRowClick(item)}>
                     <td className="text">
                       <p className="td-text">{item.code}</p>
                     </td>
@@ -177,26 +233,63 @@ function ModalSearchInstrument() {
                     <td className="text">
                       <input
                         type="checkbox"
-                        id={item.id}
-                        checked={selectedCheckboxes[item.id] || false}
+                        id={item.id.toString()}
+                        checked={selectedInstruments.some(selectedItem => selectedItem.id === item.id)}
                         onChange={(event) =>
-                          handleCheckboxChange(event, item.id)
+                          handleCheckboxChange(event, item)
                         }
                       />
                     </td>
                   </tr>
                 );
               })
-            ) : (
+            ) : isShowingInstrumentsFiltered && isLoading && (
+              <tr>
+              <td colSpan={headersList.length + 1} className="text">
+                Nenhum instrumento selecionado
+              </td>
+            </tr>
+            ) }
+
+
+
+            {!isShowingInstrumentsFiltered && instruments !== undefined && instruments?.length > 0 ? (
+              instruments?.map((item: GeneralInstrument, index) => {
+                return (
+                  <tr key={index} className="tr-hover" onClick={() => handleRowClick(item)}>
+                    <td className="text">
+                      <p className="td-text">{item.code}</p>
+                    </td>
+                    <td>{item.description}</td>
+                    <td>{item.familyId.description}</td>
+                    <td>
+                      {item.status === "in use" && "Em uso"}
+                      {item.status === "available" && "Disponível"}
+                    </td>
+                    <td className="text">
+                      <input
+                        type="checkbox"
+                        id={item.id.toString()}
+                        checked={selectedInstruments.some(selectedItem => selectedItem.id === item.id)}
+                        onChange={(event) =>
+                          handleCheckboxChange(event, item)
+                        }
+                      />
+                    </td>
+                  </tr>
+                );
+              })
+            ) : !isShowingInstrumentsFiltered && (
               <tr>
                 <td colSpan={headersList.length + 1} className="text">
                   Nenhum instrumento encontrado
                 </td>
               </tr>
             )}
+
           </tbody>
         </table>
-      </div>
+      </div >}
       {isFetching && (
         <div className="loading-area">
           <RotatingLines
@@ -206,18 +299,26 @@ function ModalSearchInstrument() {
             ariaLabel="rotating-lines-loading"
             strokeColor="#99aebb"
             width="20"
+
           />
+
         </div>
-      )}
+      )
+      }
+
       <div className="last-modal-section">
-        <Button
-          onClickFunction={handleButtonConfirmModal}
-          className="btn btn-secondary"
-        >
+        
+      <p className="underline-p" onClick={() => setIsShowingInstrumentsFiltered(!isShowingInstrumentsFiltered)}>{isShowingInstrumentsFiltered ? "Ver todos" : "Ver instrumentos selecionados"}</p>
+        <button className="btn btn-secondary" onClick={handleConfirmButton}>
+          <span className="text button-font">
+
           Confirmar
-        </Button>
+          </span>
+        </button>
+
+
       </div>
-    </Modal>
+    </Modal >
   );
 }
 

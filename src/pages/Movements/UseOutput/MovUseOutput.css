@@ -10,7 +10,7 @@ main {
     max-width: 1440px;
     margin-top: 7%;
     display: flex;
-    gap: 5rem;
+    gap: 3rem;
 }
 
 .mov-info {
@@ -66,6 +66,7 @@ main {
     position: absolute;
     bottom: 3rem;
     width: 88%;
+	gap: 20px;
 
 }
 

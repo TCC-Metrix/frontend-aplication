@@ -148,6 +148,10 @@ ul {
     height: 100vh;
 }
 
+table{
+	position: relative;
+}
+
 input:-internal-autofill-selected{
 	background-color: transparent !important;
 }

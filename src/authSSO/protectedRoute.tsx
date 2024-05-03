@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 export const ProtectedRoute = ({ children } : ProtectedRouteProps) => {
 	const { accounts } = useMsal();
 
-	if (!accounts[0]) {
+	if (accounts[0]) {
 		return <Navigate to="/login" />;
 	}
 
