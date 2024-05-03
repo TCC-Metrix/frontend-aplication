@@ -8,9 +8,9 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import instance from "../../../services/axiosInstance";
 import { RootFilter } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
+import { useEffect } from "react";
 
 function ConsultInsturment() {
-
   const {
     register,
     formState: { errors },
@@ -18,12 +18,13 @@ function ConsultInsturment() {
     handleSubmit,
   } = useForm();
 
-  const filterData = {
-	status: watch("status"),
-	situation: watch("situation"),
-	column: watch("column"),
-	value: watch("value"),
-	sortedBy: watch("sortedBy")
+  let filterData = {
+    status: watch("status"),
+    situation: watch("situation"),
+    column: watch("column"),
+    value: watch("value"),
+    sortedBy: watch("sortedBy"),
+    enabled: false,
   };
 
   //fetchs function
@@ -35,19 +36,19 @@ function ConsultInsturment() {
   };
 
   const fetchInstrumentsFiltered = async (
-    pageParam = 0,
+    pageParam = 0
   ): Promise<RootFilter> => {
-
     const response = await instance.get(
       `/instrument/deepfilter?status=${
         filterData.status === "todos" ? "" : filterData.status
       }&situation=${
         filterData.situation === "todos" ? "" : filterData.situation
-      }&column=${filterData.column}&value=${filterData.value}&sortedBy=${filterData.sortedBy}&page=${pageParam}&size=4`
+      }&column=${filterData.column}&value=${filterData.value}&sortedBy=${
+        filterData.sortedBy
+      }&page=${pageParam}&size=4`
     );
     return response.data;
   };
-
 
   function calculateNextPage(pageable: RootFilter): number | null {
     if (pageable.pageable.pageNumber < pageable.totalPages) {
@@ -57,23 +58,22 @@ function ConsultInsturment() {
     return null;
   }
 
+  //queryFunctions
 
-
-//queryFunctions
-
-  const { data: dataFilter, refetch, fetchNextPage: fetchNextFilteredPage, hasNextPage: hasNextFilteredPage } = useInfiniteQuery({
+  const {
+    data: dataFilter,
+    refetch,
+    fetchNextPage: fetchNextFilteredPage,
+    hasNextPage: hasNextFilteredPage,
+  } = useInfiniteQuery({
     queryKey: ["instrumentsFiltered"],
-    queryFn: ({ pageParam }) =>
-      fetchInstrumentsFiltered(
-        pageParam
-      ),
+    queryFn: ({ pageParam }) => fetchInstrumentsFiltered(pageParam),
     initialPageParam: 0,
     getNextPageParam: (firstPage) => {
       return calculateNextPage(firstPage);
     },
-	enabled: filterData.status !== undefined
+    enabled: filterData.enabled,
   });
-
 
   const {
     fetchNextPage,
@@ -92,11 +92,12 @@ function ConsultInsturment() {
       return calculateNextPage(firstPage);
     },
   });
- 
 
   const instruments = data?.pages.flatMap((item) => item.content);
   let instrumentsFiltered = dataFilter?.pages.flatMap((item) => item.content);
-
+  useEffect(() => {
+    console.log("instrumentsFiltered: ", instrumentsFiltered);
+  }, [instrumentsFiltered]);
 
   const headersList = [
     "Código",
@@ -114,8 +115,6 @@ function ConsultInsturment() {
     return <ErrorPage />;
   }
 
-  
-
   const handleSubmitSearch = async (data: FieldValues) => {
     if (
       data.status === "todos" &&
@@ -123,22 +122,18 @@ function ConsultInsturment() {
       data.sortedBy === "desc" &&
       data.value.length === 0
     ) {
-
       instrumentsFiltered = instruments;
     }
+    filterData.enabled = true;
+    refetch();
+  };
 
-	refetch()
-
-};
-
-const formatDate = (date: string) => {
+  const formatDate = (date: string) => {
     // Separe o ano, mês e dia
-    const [ano, mes, dia] = date.split('-');
+    const [ano, mes, dia] = date.split("-");
     // Retorne a data no formato DD/MM/YYYY
     return `${dia}/${mes}/${ano}`;
-}
-
-
+  };
 
   return (
     <div className="consult-page">
@@ -257,15 +252,21 @@ const formatDate = (date: string) => {
             </div>
           )}
           <div className="load-more-area">
-            {(hasNextPage === true && instrumentsFiltered === undefined) || (hasNextFilteredPage === true)  ? (
+            {(hasNextPage === true && instrumentsFiltered === undefined) ||
+            hasNextFilteredPage === true ? (
               <Button
                 className="btn btn-md btn-secondary"
-                onClickFunction={() => instrumentsFiltered !== undefined ? fetchNextFilteredPage() :  fetchNextPage()}
+                onClickFunction={() =>
+                  instrumentsFiltered !== undefined
+                    ? fetchNextFilteredPage()
+                    : fetchNextPage()
+                }
               >
                 ver mais
               </Button>
-
-            ):  <></>}
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
