@@ -30,7 +30,7 @@ function ConsultInsturment() {
   //fetchs function
   const fetchInstruments = async (pageParam = 0): Promise<RootFilter> => {
     const response = await instance.get(
-      `/instrument/all?page=${pageParam}&size=4&sortBy=acquisitionDate&sortDirection=desc`
+      `/instrument/all?page=${pageParam}&size=15&sortBy=acquisitionDate&sortDirection=desc`
     );
     return response.data;
   };
@@ -45,7 +45,7 @@ function ConsultInsturment() {
         filterData.situation === "todos" ? "" : filterData.situation
       }&column=${filterData.column}&value=${filterData.value}&sortedBy=${
         filterData.sortedBy
-      }&page=${pageParam}&size=4`
+      }&page=${pageParam}&size=15`
     );
     return response.data;
   };
