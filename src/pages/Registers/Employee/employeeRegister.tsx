@@ -16,7 +16,7 @@ const schema = z.object({
 	name: z
 		.string()
 		.min(1, "Campo obrigatorio")
-		.max(10, "Máximo de 10 digitos.")
+		.max(40, "Máximo de 40 digitos.")
 		.refine((value) => !/^\s+$/.test(value), {
 			message: "Nome não pode conter apenas espaços em branco",
 		}),
