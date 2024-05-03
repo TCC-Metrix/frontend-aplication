@@ -38,7 +38,7 @@ function ModalSearchInstrument() {
     pageParam = 0
   ): Promise<RootFilter> => {
     const response = await instance.get(
-      `/instrument/deepfilter?&column=${filterData.column}&value=${filterData.value}&page=${pageParam}&size=5`
+      `/instrument/deepfilter?&column=${filterData.column}&value=${filterData.value}&page=${pageParam}&size=7`
     );
     return response.data;
   };
