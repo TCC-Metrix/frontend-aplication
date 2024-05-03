@@ -59,8 +59,8 @@ export const getInstrumentById = async (id: string) => {
 };
 
 //POST - Função para retornar os instrumentos de acordo com os filtros selecionados
-export const getInstrumentBySome = async (data: SearchPattern) => {
-	return instance.post<GeneralInstrument[]>("instrument/filter", {
+export const getInstrumentBySome = async (data: SearchPattern, pageParam = 0) => {
+	return instance.post<GeneralInstrument[]>(`instrument/filter?page=${pageParam}&size=3`, {
 		searchRequestDto: {
 			column: data.column,
 			value: data.value,
