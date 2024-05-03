@@ -57,7 +57,7 @@ function ModalSearchInstrument() {
     fetchNextPage: fetchNextFilteredPage,
     isFetching,
   } = useInfiniteQuery({
-    queryKey: ["instrumentsFiltered"],
+    queryKey: ["instrumentsFilteredModalSearch"],
     queryFn: ({ pageParam }) => fetchInstrumentsFiltered(pageParam),
     initialPageParam: 0,
     getNextPageParam: (firstPage) => {
@@ -96,6 +96,10 @@ function ModalSearchInstrument() {
       `Checkbox com id ${itemId} ${checked ? "selecionado" : "desmarcado"}`
     );
     // Execute ações desejadas quando o checkbox for alterado
+  };
+
+  const handleRowClick = (itemId: string) => {
+    setSelectedCheckboxes({ ...selectedCheckboxes, [itemId]: !selectedCheckboxes[itemId] });
   };
 
   return (
@@ -160,7 +164,7 @@ function ModalSearchInstrument() {
             {instruments !== undefined && instruments?.length > 0 ? (
               instruments?.map((item: GeneralInstrument, index) => {
                 return (
-                  <tr key={index} className="tr-hover">
+                  <tr key={index} className="tr-hover" onClick={() => handleRowClick(item.id)}>
                     <td className="text">
                       <p className="td-text">{item.code}</p>
                     </td>
