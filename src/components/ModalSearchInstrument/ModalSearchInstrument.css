@@ -1,0 +1,8 @@
+.scroll{
+    overflow-y: scroll;
+}
+
+.fixed{
+    position: fixed;
+    width: 100%;
+}

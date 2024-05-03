@@ -56,17 +56,16 @@ main {
 }
 
 .modal-content{
-	height: 100%;
-	display: flex;
-	justify-content: center;
 	margin-top: 2rem;
-
 }
 
 .last-modal-section{
 	display: flex;
-	justify-content: center;
-	margin-top: 35px;
+    justify-content: center;
+    position: absolute;
+    bottom: 3rem;
+    width: 88%;
+
 }
 
 .label-inative{

@@ -126,19 +126,6 @@ export const MoveUseOutput = () => {
 	const valueInArea = watch("areaDescription")
 	const valueInReceivingResponsible = watch("receivingResponsibleDescription")
 
-	useEffect(() => {
-		console.log("valueReceivonh:", valueInReceivingResponsible)
-		console.log("value:", valueInReceivingResponsible)
-		if(valueInArea !== undefined && valueInArea !== ""){
-			console.log("limpando erro")
-			clearErrors("receivingResponsibleDescription")
-			console.log(errors)
-		}
-		if(valueInReceivingResponsible !== undefined && valueInReceivingResponsible !== ""){
-			clearErrors("area")
-		}
-	}, [valueInReceivingResponsible, valueInArea])
-
 	//Hooks de api
 	const getInstrumentBy = useGetInstrumentBy(); //busca instrumento por algum parametro
 	const postOutputMutation = usePostOutputUse(); //posta a saida para uso
@@ -235,7 +222,6 @@ export const MoveUseOutput = () => {
 					setValue("receivingResponsible", "")
 					setValue("area", "")
 					setValue("areaDescription", "")
-					console.log("getvalues", getValues() )
 					setTableMainPage([])
 				}
 			},
@@ -551,7 +537,9 @@ export const MoveUseOutput = () => {
 							</div>
 						</div>
 					</section>
-					<div></div>
+					<div>
+						
+					</div>
 				</div>
 				<div className="m-auto btn-session-confirm">
 					<Button
@@ -574,6 +562,7 @@ export const MoveUseOutput = () => {
 				</div>
 				<ModalSearchInstrument/>
 				<ToastContainer/>
+				
 			</div>
 		</main>
 	);
