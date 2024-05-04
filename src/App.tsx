@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { useNavbarStore, usePopupStore } from "./store";
-import Popup from "./components/Popup/Popup";
+import { useNavbarStore } from "./store";
 import PreLogin from "./pages/Auth/PreLogin/PreLogin";
 import { ProtectedRoute } from "./authSSO/protectedRoute";
 import NavBar from "./components/Navbar/Navbar";
@@ -18,7 +17,8 @@ import UseReturn from "./pages/Movements/UseReturn/UseReturn";
 
 import { useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import ConsultInsturment from "./pages/Consults/Instrument/ConsultInsturment";
+import ConsultInstrument from "./pages/Consults/Instrument/ConsultInstrument";
+import InstrumentDetails from "./pages/Consults/Instrument/InstrumentDetails";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -31,7 +31,7 @@ function App() {
 		setActiveNavbar(false)
 		// Verifica se a localização atual é diferente da localização anterior
 		if (location.pathname !== previousLocation.current.pathname) {
-		  window.location.reload();
+		//   window.location.reload();
 		}
 	
 		// Atualiza a localização anterior com a localização atual
@@ -131,10 +131,19 @@ function App() {
 					path="/consult/instrument"
 					element={
 						<ProtectedRoute>
-							<ConsultInsturment />
+							<ConsultInstrument />
 						</ProtectedRoute>
 					}
 				></Route>
+				<Route
+					path="/consult/instrument/:id"
+					element={
+						<ProtectedRoute>
+							<InstrumentDetails />
+						</ProtectedRoute>
+					}
+				></Route>
+				
 			</Routes>
 		</>
 	);

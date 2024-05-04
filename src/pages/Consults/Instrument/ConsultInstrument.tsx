@@ -4,19 +4,21 @@ import "./ConsultInstrument.css";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import { GeneralInstrument } from "../../../utils/interfaces/Interfaces";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import instance from "../../../services/axiosInstance";
 import { RootFilter } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-function ConsultInsturment() {
+function ConsultInstrument() {
   const {
     register,
     formState: { errors },
     watch,
     handleSubmit,
   } = useForm();
+  const navigate = useNavigate()
 
   let filterData = {
     status: watch("status"),
@@ -115,6 +117,12 @@ function ConsultInsturment() {
     return <ErrorPage />;
   }
 
+  const queryClient = useQueryClient();
+  function setObjectInCache(key, data) {
+    queryClient.setQueryData(key, data);
+  }
+  
+
   const handleSubmitSearch = async (data: FieldValues) => {
     if (
       data.status === "todos" &&
@@ -206,7 +214,10 @@ function ConsultInsturment() {
                 {instrumentsFiltered === undefined && isSuccess
                   ? instruments?.map((item: GeneralInstrument, index) => {
                       return (
-                        <tr key={index} className="tr-hover">
+                        <tr key={index} className="tr-hover" onClick={() => {
+                          setObjectInCache('instrument', item);
+                          navigate(`/consult/instrument/${item.id}`)
+                          }}>
                           <td className="text">
                             <p className="td-text">{item.code}</p>
                           </td>
@@ -222,7 +233,7 @@ function ConsultInsturment() {
                     })
                   : instrumentsFiltered?.map((item, index) => {
                       return (
-                        <tr key={index} className="tr-hover">
+                        <tr key={index} className="tr-hover" onClick={() => navigate(`/consult/instrument/${item.id}`)}>
                           <td className="text">
                             <p className="td-text">{item.code}</p>
                           </td>
@@ -274,4 +285,4 @@ function ConsultInsturment() {
   );
 }
 
-export default ConsultInsturment;
+export default ConsultInstrument;

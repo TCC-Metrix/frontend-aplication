@@ -4,7 +4,6 @@ main {
 }
 
 .container-main {
-    height: 100vh;
     flex-direction: column;
     width: 80%;
     max-width: 1440px;

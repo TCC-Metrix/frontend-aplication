@@ -46,17 +46,6 @@ export function useAllSuppliers() {
   })
 }
 
-//Retorna todos os intrumentos através do ID
-export function useInstrument(ids: (string | undefined)[] | undefined){
-   return useQueries({
-    queries: (ids ?? []).map((id) => {
-      return {
-        queryKey: ["instruments", id],
-        queryFn: () => getInstrumentById(id!)
-      }
-    })
-   })
-}
 
 //Retorna somente um instrumento através do ID
 export function useInstrumentById(id: string | undefined) {

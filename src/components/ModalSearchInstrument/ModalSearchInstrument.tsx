@@ -72,6 +72,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
     fetchNextPage: fetchNextFilteredPage,
     isLoading,
     isFetching,
+    hasNextPage
   } = useInfiniteQuery({
     queryKey: ["instrumentsFilteredModalSearch"],
     queryFn: ({ pageParam }) => fetchInstrumentsFiltered(pageParam),
@@ -82,14 +83,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
     enabled: filterData.enabled,
   });
   
-  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
-    const element = e.target as HTMLDivElement;
-    
-    if (element.scrollHeight - element.scrollTop <= element.clientHeight + 1) {
-      console.log("Chegou ao fim do scroll!");
-      fetchNextFilteredPage();
-    }
-  }, []);
+
 
 
 
@@ -204,7 +198,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
         />
         </div>
             )}
-      { !isLoading && <div className={`modal-content ${isScroll ? "scroll" : ""}`} onScroll={handleScroll}>
+      { !isLoading && <div className={`modal-content ${isScroll ? "scroll" : ""}`}>
 
         <table className="table-container ">
           <thead>
@@ -289,6 +283,9 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
           </tbody>
         </table>
       </div >}
+      {(instruments !== undefined && instruments.length > 0 && hasNextPage && !isShowingInstrumentsFiltered) && (
+      <p className="underline-p" onClick={() => fetchNextFilteredPage()}>carregar mais</p>
+      )}
       {isFetching && (
         <div className="loading-area">
           <RotatingLines

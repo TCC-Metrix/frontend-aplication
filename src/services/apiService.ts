@@ -55,7 +55,7 @@ export const getInstrumentsFiltered = async (pageParam = 0, status: string, situ
 
 //GET - Retorna o instrumento pelo ID
 export const getInstrumentById = async (id: string) => {
-	return (await instance.get<GeneralInstrument[]>(`instrument/${id}`)).data;
+	return (await instance.get<GeneralInstrument>(`instrument/filter/${id}`)).data;
 };
 
 //POST - Função para retornar os instrumentos de acordo com os filtros selecionados
