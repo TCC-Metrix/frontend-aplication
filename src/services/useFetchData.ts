@@ -1,5 +1,5 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered } from "./apiService";
+import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement } from "./apiService";
 
 
 //Retorna todos os instrumentos da API
@@ -52,6 +52,14 @@ export function useInstrumentById(id: string | undefined) {
   return useQuery({
     queryKey: ["instrument", id],
     queryFn: () => getInstrumentById(id!),
+    refetchOnWindowFocus: false,
+  })
+}
+
+export function useLastMovementByInstrument(id: string | undefined) {
+  return useQuery({
+    queryKey: ["last-movement", id],
+    queryFn: () => getLastMovement(id!),
     refetchOnWindowFocus: false,
   })
 }

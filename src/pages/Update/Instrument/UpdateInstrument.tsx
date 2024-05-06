@@ -6,7 +6,7 @@ import {
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import "./InstrumentDetails.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useGeneralDataStore } from "../../../store";
 
 interface DetailItemProps {
@@ -39,9 +39,8 @@ const AdditionalReferences: React.FC<AdditionalReferencesProps> = ({
   </>
 );
 
-const InstrumentDetails: React.FC = () => {
+const UpdateInstrument: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-
 
   const { data, isLoading, error } = useInstrumentById(id);
   const {
@@ -50,8 +49,8 @@ const InstrumentDetails: React.FC = () => {
     error: lastMovementError,
   } = useLastMovementByInstrument(id);
 
-  const setStoreInstrument = useGeneralDataStore((state) => state.setInstrument)
-  const navigate = useNavigate()
+  const instrument = useGeneralDataStore((state) => state.instrument)
+  console.log(instrument)
 
   const formatDate = (date: string) => {
     // Separe o ano, mês e dia
@@ -81,10 +80,7 @@ const InstrumentDetails: React.FC = () => {
         <div className="top-infos-area">
         <div className="flex-infos-area">
             <Button className="btn btn-md btn-tertiary" onClickFunction={() => {}}>histórico</Button>
-            <Button className="btn btn-md btn-tertiary" onClickFunction={() => {
-              setStoreInstrument(data)
-              navigate(`/edit/instrument/${id}`)
-            }}>editar</Button>
+            <Button className="btn btn-md btn-tertiary" onClickFunction={() => {}}>editar</Button>
           </div>
           <div className="flex-infos-area">
             <div>
@@ -272,4 +268,4 @@ const InstrumentDetails: React.FC = () => {
   );
 };
 
-export default InstrumentDetails;
+export default UpdateInstrument;

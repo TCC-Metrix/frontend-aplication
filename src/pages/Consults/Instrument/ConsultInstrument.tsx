@@ -4,12 +4,14 @@ import "./ConsultInstrument.css";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import { GeneralInstrument } from "../../../utils/interfaces/Interfaces";
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import instance from "../../../services/axiosInstance";
 import { RootFilter } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGeneralDataStore } from "../../../store";
+
 
 function ConsultInstrument() {
   const {
@@ -28,6 +30,8 @@ function ConsultInstrument() {
     sortedBy: watch("sortedBy"),
     enabled: false,
   };
+
+  const setGeneralDataInstrument = useGeneralDataStore((state) => state.setInstrument);
 
   //fetchs function
   const fetchInstruments = async (pageParam = 0): Promise<RootFilter> => {
@@ -117,10 +121,7 @@ function ConsultInstrument() {
     return <ErrorPage />;
   }
 
-  const queryClient = useQueryClient();
-  function setObjectInCache(key, data) {
-    queryClient.setQueryData(key, data);
-  }
+ 
   
 
   const handleSubmitSearch = async (data: FieldValues) => {
@@ -142,6 +143,11 @@ function ConsultInstrument() {
     // Retorne a data no formato DD/MM/YYYY
     return `${dia}/${mes}/${ano}`;
   };
+
+
+
+
+
 
   return (
     <div className="consult-page">
@@ -215,7 +221,7 @@ function ConsultInstrument() {
                   ? instruments?.map((item: GeneralInstrument, index) => {
                       return (
                         <tr key={index} className="tr-hover" onClick={() => {
-                          setObjectInCache('instrument', item);
+                          setGeneralDataInstrument(item)
                           navigate(`/consult/instrument/${item.id}`)
                           }}>
                           <td className="text">
@@ -263,8 +269,8 @@ function ConsultInstrument() {
             </div>
           )}
           <div className="load-more-area">
-            {(hasNextPage === true && instrumentsFiltered === undefined) ||
-            hasNextFilteredPage === true ? (
+            {(hasNextPage === true && instrumentsFiltered === undefined && instruments !== undefined && instruments.length >= 15) ||
+            (hasNextFilteredPage === true && instrumentsFiltered !== undefined && instrumentsFiltered.length >= 15) ? (
               <Button
                 className="btn btn-md btn-secondary"
                 onClickFunction={() =>

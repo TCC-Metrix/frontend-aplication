@@ -188,3 +188,32 @@ export interface RootFilter {
 	empty: boolean
   }
 
+  export interface RootMovement {
+	movement: Movement
+	useOutput: UseOutput
+  }
+
+  export interface Movement {
+	id: string
+	type: string
+	instrument: string
+	laboratoryOutput: any
+	useOutput: string
+	useReturn: any
+	createdAt: string
+  }
+
+  export interface UseOutput {
+	id: string
+	movement: string[]
+	receivingArea: any
+	shippingResponsible: GeneralEmployee
+	receivingResponsible: GeneralEmployee
+	outputDate: string
+  }
+
+
+
+
+
+

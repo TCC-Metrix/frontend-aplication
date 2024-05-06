@@ -283,7 +283,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
           </tbody>
         </table>
       </div >}
-      {(instruments !== undefined && instruments.length > 0 && hasNextPage && !isShowingInstrumentsFiltered) && (
+      {(instruments !== undefined && instruments.length >= 7 && hasNextPage && !isShowingInstrumentsFiltered) && (
       <p className="underline-p" onClick={() => fetchNextFilteredPage()}>carregar mais</p>
       )}
       {isFetching && (

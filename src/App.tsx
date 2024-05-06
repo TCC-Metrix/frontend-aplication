@@ -12,141 +12,148 @@ import SupplierRegister from "./pages/Registers/Supplier/SupplierRegister";
 import FamilyRegister from "./pages/Registers/Family/FamilyRegister";
 import AreaRegister from "./pages/Registers/Area/AreaRegister";
 import EmployeeRegister from "./pages/Registers/Employee/employeeRegister";
-
 import UseReturn from "./pages/Movements/UseReturn/UseReturn";
-
 import { useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import ConsultInstrument from "./pages/Consults/Instrument/ConsultInstrument";
 import InstrumentDetails from "./pages/Consults/Instrument/InstrumentDetails";
+import UpdateInstrument from "./pages/Update/Instrument/UpdateInstrument";
 
 function App() {
-	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
-	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
+  const activeNavbar = useNavbarStore((state) => state.activeNavbar);
+  const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 
-	const location = useLocation();
-	const previousLocation = useRef(location);
+  const location = useLocation();
+  const previousLocation = useRef(location);
 
-	useEffect(() => {
-		setActiveNavbar(false)
-		// Verifica se a localização atual é diferente da localização anterior
-		if (location.pathname !== previousLocation.current.pathname) {
-		//   window.location.reload();
-		}
-	
-		// Atualiza a localização anterior com a localização atual
-		previousLocation.current = location;
-	  }, [location]);
+  useEffect(() => {
+    setActiveNavbar(false);
+    // Verifica se a localização atual é diferente da localização anterior
+    if (location.pathname !== previousLocation.current.pathname) {
+      //   window.location.reload();
+    }
 
-	return (
-		<>
-			<ProtectedRoute>
-				<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
-			</ProtectedRoute>
+    // Atualiza a localização anterior com a localização atual
+    previousLocation.current = location;
+  }, [location]);
 
-			<Routes>
-				<Route path="/login" element={<PreLogin />}></Route>
-				<Route
-					path="/movement/use/output"
-					element={
-						<ProtectedRoute>
-							<MoveUseOutput />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/register/instrument"
-					element={
-						<ProtectedRoute>
-							<InstrumentRegister />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/error"
-					element={
-						<ProtectedRoute>
-							<ErrorPage />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/register/laboratory"
-					element={
-						<ProtectedRoute>
-							<LaboratoryRegister />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route path="/login" element={<PreLogin />}></Route>
-				<Route
-					path="/movement/use/output"
-					element={
-						<ProtectedRoute>
-							<MoveUseOutput />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/movement/use/return"
-					element={
-						<ProtectedRoute>
-							<UseReturn />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/register/family"
-					element={
-						<ProtectedRoute>
-							<FamilyRegister />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/register/supplier"
-					element={
-						<ProtectedRoute>
-							<SupplierRegister />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/register/area"
-					element={
-						<ProtectedRoute>
-							<AreaRegister />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/register/employee"
-					element={
-						<ProtectedRoute>
-							<EmployeeRegister />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/consult/instrument"
-					element={
-						<ProtectedRoute>
-							<ConsultInstrument />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/consult/instrument/:id"
-					element={
-						<ProtectedRoute>
-							<InstrumentDetails />
-						</ProtectedRoute>
-					}
-				></Route>
-				
-			</Routes>
-		</>
-	);
+  return (
+    <>
+      <ProtectedRoute>
+        <NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
+      </ProtectedRoute>
+
+      <Routes>
+        <Route path="/login" element={<PreLogin />}></Route>
+        <Route
+          path="/movement/use/output"
+          element={
+            <ProtectedRoute>
+              <MoveUseOutput />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/register/instrument"
+          element={
+            <ProtectedRoute>
+              <InstrumentRegister />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/error"
+          element={
+            <ProtectedRoute>
+              <ErrorPage />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/register/laboratory"
+          element={
+            <ProtectedRoute>
+              <LaboratoryRegister />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route path="/login" element={<PreLogin />}></Route>
+        <Route
+          path="/movement/use/output"
+          element={
+            <ProtectedRoute>
+              <MoveUseOutput />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/movement/use/return"
+          element={
+            <ProtectedRoute>
+              <UseReturn />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/register/family"
+          element={
+            <ProtectedRoute>
+              <FamilyRegister />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/register/supplier"
+          element={
+            <ProtectedRoute>
+              <SupplierRegister />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/register/area"
+          element={
+            <ProtectedRoute>
+              <AreaRegister />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/register/employee"
+          element={
+            <ProtectedRoute>
+              <EmployeeRegister />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/consult/instrument"
+          element={
+            <ProtectedRoute>
+              <ConsultInstrument />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/consult/instrument/:id"
+          element={
+            <ProtectedRoute>
+              <InstrumentDetails />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        <Route
+          path="/edit/instrument/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateInstrument />
+            </ProtectedRoute>
+          }
+        ></Route>
+      </Routes>
+    </>
+  );
 }
 
 export default App;
