@@ -90,7 +90,7 @@ const EmployeeRegister = () => {
 	) => {
 		setIsLoadingPostEmployeeRegister(true);
 		postEmployeeMutation.mutate(data, {
-			onSettled: (data, error) => {
+			onSettled: (error) => {
 				setIsLoadingPostEmployeeRegister(false);
 				if (error && request.isAxiosError(error)) {
 					const errorAxios = error as AxiosError;
@@ -104,7 +104,6 @@ const EmployeeRegister = () => {
 					notify("error");
 					return;
 				} else {
-					console.log(data);
 					setIsLoadingPostEmployeeRegister(false);
 					reset();
 					notify("success");

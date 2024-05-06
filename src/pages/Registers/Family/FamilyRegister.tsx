@@ -87,7 +87,7 @@ const FamilyRegister = () => {
   ) => {
     setIsLoadingPostFamilyRegister(true);
     postFamilyMutation.mutate(data, {
-      onSettled: (data, error) => {
+      onSettled: (error) => {
         setIsLoadingPostFamilyRegister(false);
         if (error && request.isAxiosError(error)) {
           const errorAxios = error as AxiosError;
@@ -97,11 +97,9 @@ const FamilyRegister = () => {
               return;
             }
           }
-          console.error("Ocorreu um erro:", error);
           notify("error");
           return;
         } else {
-          console.log(data);
           setIsLoadingPostFamilyRegister(false);
           reset();
           notify("success");
@@ -112,7 +110,6 @@ const FamilyRegister = () => {
 
   const handleConfirmFamilyRegister = (dataApi: z.infer<typeof schema>) => {
     setIsLoadingPostFamilyRegister(true);
-    console.log(calibrationTimeCounter)
 
     setIsLoadingPostFamilyRegister(false);
 

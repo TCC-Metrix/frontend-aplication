@@ -14,6 +14,7 @@ import {
 	SupplierRegisterPost,
 	RootFilter,
 	RootMovement,
+	GeneralSupplier,
 
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
@@ -41,7 +42,7 @@ export const getFamilies = async () => {
 
 //GET - Retorna todos as famílias
 export const getSuppliers = async () => {
-	return (await instance.get<Family[]>("supplier/all")).data;
+	return (await instance.get<GeneralSupplier[]>("supplier/all")).data;
 };
 
 //GET - Retorna todas as areas

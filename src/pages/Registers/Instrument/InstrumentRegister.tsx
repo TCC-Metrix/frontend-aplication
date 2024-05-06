@@ -84,7 +84,6 @@ const InstrumentRegister = () => {
 	}, []);
 
 	const onSubmit = (data: FieldValues) => {
-		// console.log(data);
 		const additionalReferences = [];
 		if (data.additionalReference1 !== "") {
 			additionalReferences.push(data.additionalReference1);
@@ -127,7 +126,6 @@ const InstrumentRegister = () => {
 				message: "Formato de data inválido",
 			});
 		}
-    console.log(data)
 		handlePostInstrument(data);
 	};
 
@@ -135,12 +133,12 @@ const InstrumentRegister = () => {
 		data: allFamilies,
 		isLoading: isLoadingFamilies,
 		isError: isErrorFamilies,
-	} = useAllFamilies(); //busca todos as familias
+	} = useAllFamilies(); //busca todas as familias
 	const {
 		data: allSuppliers,
 		isLoading: isLoadingSuppliers,
 		isError: isErrorSuppliers,
-	} = useAllSuppliers(); //busca todos as familias
+	} = useAllSuppliers(); //busca todos os fornecedores
 
 	const handlePostInstrument: SubmitHandler<FieldValues> = (data) => {
 		setIsLoadingInstrument(true);
@@ -148,6 +146,7 @@ const InstrumentRegister = () => {
 			onSettled: (data, error) => {
 				if (error && request.isAxiosError(error)) {
 					const errorAxios = error as AxiosError;
+					setIsLoadingInstrument(false)
 					if (errorAxios.response?.data) {
 						if (error.response?.data === 409) {
 							notify(
@@ -155,9 +154,16 @@ const InstrumentRegister = () => {
 								"Instrumento com este código já está cadastrado."
 							);
 							return;
+						}else{
+							notify(
+								"error",
+								"Erro ao processar sua solicitação"
+							);
+							return
 						}
 					}
-				} else {
+				}
+				else{
 					setIsLoadingInstrument(false);
 					notify("success");
 					reset();

@@ -8,9 +8,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import instance from "../../../services/axiosInstance";
 import { RootFilter } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGeneralDataStore } from "../../../store";
 
 
 function ConsultInstrument() {
@@ -31,7 +29,6 @@ function ConsultInstrument() {
     enabled: false,
   };
 
-  const setGeneralDataInstrument = useGeneralDataStore((state) => state.setInstrument);
 
   //fetchs function
   const fetchInstruments = async (pageParam = 0): Promise<RootFilter> => {
@@ -101,9 +98,7 @@ function ConsultInstrument() {
 
   const instruments = data?.pages.flatMap((item) => item.content);
   let instrumentsFiltered = dataFilter?.pages.flatMap((item) => item.content);
-  useEffect(() => {
-    console.log("instrumentsFiltered: ", instrumentsFiltered);
-  }, [instrumentsFiltered]);
+
 
   const headersList = [
     "Código",
@@ -221,7 +216,6 @@ function ConsultInstrument() {
                   ? instruments?.map((item: GeneralInstrument, index) => {
                       return (
                         <tr key={index} className="tr-hover" onClick={() => {
-                          setGeneralDataInstrument(item)
                           navigate(`/consult/instrument/${item.id}`)
                           }}>
                           <td className="text">

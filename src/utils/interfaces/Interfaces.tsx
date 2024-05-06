@@ -23,10 +23,10 @@ export interface GeneralInstrument {
   serieNumber: string
   inventory: string
   acquisitionDate: string
-  supplier: string
+  supplier: GeneralSupplier
   manufacturer: string
   familyId: Family
-  additionalReferences: []
+  additionalReferences: ["", "", ""]
   acceptanceCriteria: string
   measurementUnit: string
   situation: string
@@ -80,6 +80,14 @@ export interface SupplierRegisterPost {
 	name: string;
 	cnpj: string;
 }
+
+
+export interface GeneralSupplier {
+	id: string;
+	name: string;
+	cnpj: string;
+}
+
 
 export interface Option {
 	value: string;

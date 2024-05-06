@@ -5,7 +5,7 @@ import { AiOutlineCalendar } from "react-icons/ai";
 interface DateInputInside {
   placeholder: string;
   inputStyle: string;
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<FieldValues> | UseFormRegister<any>;
   inputName: string;
   isRequired: boolean;
   errors: any;

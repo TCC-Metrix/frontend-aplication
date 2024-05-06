@@ -14,142 +14,139 @@ import { AxiosError } from "axios";
 import request from "axios";
 
 const AreaRegister = () => {
-	const [isLoadingPostAreaRegister, setIsLoadingPostAreaRegister] =
-		useState<boolean>(false);
-	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
+  const [isLoadingPostAreaRegister, setIsLoadingPostAreaRegister] =
+    useState<boolean>(false);
+  const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 
-	const schema = z.object({
-		name: z
-			.string()
-			.min(1, "Campo obrigatorio")
-			.refine((value) => !/^\s+$/.test(value), {
-				message: "Nome não pode conter apenas espaços em branco",
-			}),
-	});
+  const schema = z.object({
+    name: z
+      .string()
+      .min(1, "Campo obrigatorio")
+      .refine((value) => !/^\s+$/.test(value), {
+        message: "Nome não pode conter apenas espaços em branco",
+      }),
+  });
 
-	type FormFields = z.infer<typeof schema>;
+  type FormFields = z.infer<typeof schema>;
 
-	const {
-		register,
-		formState: { errors },
-		handleSubmit,
-		reset,
-	} = useForm<FormFields>({ resolver: zodResolver(schema) });
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<FormFields>({ resolver: zodResolver(schema) });
 
-	const postAreaMutation = usePostAreaRegister();
+  const postAreaMutation = usePostAreaRegister();
 
-	const notify = (type: string, message?: string) => {
-		type === "success" &&
-			toast.success("Área registrada com sucesso", {
-				position: "top-right",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "light",
-			});
+  const notify = (type: string, message?: string) => {
+    type === "success" &&
+      toast.success("Área registrada com sucesso", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
 
-		type === "error" &&
-			toast.error(`${message ? message : "Erro interno no servidor"}`, {
-				position: "top-right",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "light",
-			});
-	};
+    type === "error" &&
+      toast.error(`${message ? message : "Erro interno no servidor"}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+  };
 
-	const handlePostAreaRegister: SubmitHandler<AreaRegisterPost> = (data) => {
-		setIsLoadingPostAreaRegister(true);
-		postAreaMutation.mutate(data, {
-			onSettled: (data, error) => {
-				setIsLoadingPostAreaRegister(false);
-				if (error && request.isAxiosError(error)) {
-					const errorAxios = error as AxiosError;
-					if (errorAxios.response?.data) {
-						if (error.response?.data === 409) {
-							notify("error", "Área com este NOME já está cadastrada.");
-							return;
-						}
-					}
-					console.error("Ocorreu um erro:", error);
-					notify("error", "Erro ao processar a solicitação.");
-					return;
-				} else {
-					console.log(data);
-					setIsLoadingPostAreaRegister(false);
-					notify("success");
-					reset();
-				}
-			},
-		});
-	};
+  const handlePostAreaRegister: SubmitHandler<AreaRegisterPost> = (data) => {
+    setIsLoadingPostAreaRegister(true);
+    postAreaMutation.mutate(data, {
+      onSettled: (error) => {
+        setIsLoadingPostAreaRegister(false);
+        if (error && request.isAxiosError(error)) {
+          const errorAxios = error as AxiosError;
+          if (errorAxios.response?.data) {
+            if (error.response?.data === 409) {
+              notify("error", "Área com este NOME já está cadastrada.");
+              return;
+            }
+          }
+          notify("error", "Erro ao processar a solicitação.");
+          return;
+        } else {
+          setIsLoadingPostAreaRegister(false);
+          notify("success");
+          reset();
+        }
+      },
+    });
+  };
 
-	const handleConfirmAreaRegister = (dataApi: z.infer<typeof schema>) => {
-		setIsLoadingPostAreaRegister(true);
-		setTimeout(() => {
-			setIsLoadingPostAreaRegister(false);
+  const handleConfirmAreaRegister = (dataApi: z.infer<typeof schema>) => {
+    setIsLoadingPostAreaRegister(true);
 
-			const data = {
-				description: dataApi.name,
-			};
+    setIsLoadingPostAreaRegister(false);
 
-			handlePostAreaRegister(data);
-		}, 1000);
-	};
+    const data = {
+      description: dataApi.name,
+    };
 
-	return (
-		<div
-			className="background-container-main"
-			onClick={() => {
-				setActiveNavbar(false);
-			}}
-		>
-			<div className="main-container-area-register-page">
-				<div className="main-content-area-page">
-					<div className="title-area-register-page">
-						<h1 className="header-three">Cadastro: Area</h1>
-					</div>
-					<form className="main-form">
-						<BasicInput
-							errors={errors}
-							isRequired={true}
-							inputName="name"
-							inputPlaceholder="nome"
-							inputStyle="large-input"
-							inputType="text"
-							register={register}
-						/>
-						<div className="btn-confirm-area-page">
-							<Button
-								onClickFunction={handleSubmit(handleConfirmAreaRegister)}
-								className="btn btn-secondary"
-							>
-								{isLoadingPostAreaRegister ? (
-									<RotatingLines
-										visible={true}
-										strokeWidth="5"
-										animationDuration="0.75"
-										ariaLabel="rotating-lines-loading"
-										strokeColor="#fff"
-										width="20"
-									/>
-								) : (
-									<>Confirmar</>
-								)}
-							</Button>
-							<ToastContainer />
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	);
+    handlePostAreaRegister(data);
+  };
+
+  return (
+    <div
+      className="background-container-main"
+      onClick={() => {
+        setActiveNavbar(false);
+      }}
+    >
+      <div className="main-container-area-register-page">
+        <div className="main-content-area-page">
+          <div className="title-area-register-page">
+            <h1 className="header-three">Cadastro: Area</h1>
+          </div>
+          <form className="main-form">
+            <BasicInput
+              errors={errors}
+              isRequired={true}
+              inputName="name"
+              inputPlaceholder="nome"
+              inputStyle="large-input"
+              inputType="text"
+              register={register}
+            />
+            <div className="btn-confirm-area-page">
+              <Button
+                onClickFunction={handleSubmit(handleConfirmAreaRegister)}
+                className="btn btn-secondary"
+              >
+                {isLoadingPostAreaRegister ? (
+                  <RotatingLines
+                    visible={true}
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    ariaLabel="rotating-lines-loading"
+                    strokeColor="#fff"
+                    width="20"
+                  />
+                ) : (
+                  <>Confirmar</>
+                )}
+              </Button>
+              <ToastContainer />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default AreaRegister;

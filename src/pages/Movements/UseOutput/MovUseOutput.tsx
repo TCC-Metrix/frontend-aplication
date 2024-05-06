@@ -121,8 +121,8 @@ export const MoveUseOutput = () => {
 					setValue("receivingResponsible", "")
 					setValue("area", "")
 					setValue("areaDescription", "")
-					console.log(data)
 					setTableMainPage([])
+					console.log(data)
 					setIsReloaded(true)
 				}
 			},
@@ -150,7 +150,6 @@ export const MoveUseOutput = () => {
 		//valueInReceivingResponsible = "abcd"
 		//valueInArea = ""
 
-		console.log("area: ", valueInArea, "respreceb", valueInReceivingResponsible)
 
 		if ((valueInArea === "" || valueInArea === undefined) && (valueInReceivingResponsible === "" || valueInReceivingResponsible === undefined)) {
 			notify("error", "Informe ao menos uma área ou responsável de recebimento")

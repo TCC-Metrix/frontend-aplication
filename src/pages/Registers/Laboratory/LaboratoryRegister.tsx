@@ -74,7 +74,7 @@ const LaboratoryRegister = () => {
   ) => {
     setIsLoadingPostLaboratoryRegister(true);
     postLaboratoryMutation.mutate(data, {
-      onSettled: (data, error) => {
+      onSettled: (error) => {
         setIsLoadingPostLaboratoryRegister(false);
         if (error && request.isAxiosError(error)) {
           const errorAxios = error as AxiosError;
@@ -91,7 +91,6 @@ const LaboratoryRegister = () => {
           notify("error");
           return;
         } else {
-          console.log(data);
           setIsLoadingPostLaboratoryRegister(false);
           reset();
           notify("success");

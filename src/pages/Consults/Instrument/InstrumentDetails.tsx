@@ -7,7 +7,6 @@ import ErrorPage from "../../ErrorPage/ErrorPage";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import "./InstrumentDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGeneralDataStore } from "../../../store";
 
 interface DetailItemProps {
   subtitle: string;
@@ -50,7 +49,6 @@ const InstrumentDetails: React.FC = () => {
     error: lastMovementError,
   } = useLastMovementByInstrument(id);
 
-  const setStoreInstrument = useGeneralDataStore((state) => state.setInstrument)
   const navigate = useNavigate()
 
   const formatDate = (date: string) => {
@@ -66,11 +64,6 @@ const InstrumentDetails: React.FC = () => {
     return mes;
   };
 
-  console.log(lastMovementData);
-
-  if (lastMovementError) {
-    console.error(lastMovementError);
-  }
 
   if (isLoading || isLastMovementLoading) return <LoadingPage />;
   if (error || lastMovementError) return <ErrorPage />;
@@ -82,7 +75,8 @@ const InstrumentDetails: React.FC = () => {
         <div className="flex-infos-area">
             <Button className="btn btn-md btn-tertiary" onClickFunction={() => {}}>histórico</Button>
             <Button className="btn btn-md btn-tertiary" onClickFunction={() => {
-              setStoreInstrument(data)
+              sessionStorage.setItem("instrument", JSON.stringify(data))
+              sessionStorage.setItem("movement", JSON.stringify(lastMovementData))
               navigate(`/edit/instrument/${id}`)
             }}>editar</Button>
           </div>
@@ -121,10 +115,10 @@ const InstrumentDetails: React.FC = () => {
             />
             <DetailItem subtitle="fabricante" content={data.manufacturer} />
 
-            {data.additionalReferences.length === 0 ? (
-              <AdditionalReferences references={["-", "-", "-"]} />
-            ) : (
+            {data.additionalReferences.length > 0 ? (
               <AdditionalReferences references={data.additionalReferences} />
+              ) : (
+              <AdditionalReferences references={["-", "-", "-"]} />
             )}
           </div>
           <div className="other-details-area">
@@ -138,7 +132,7 @@ const InstrumentDetails: React.FC = () => {
                 <DetailItem subtitle="inventário" content={data.inventory} />
                 <DetailItem
                   subtitle="fornecedor"
-                  content={data.acquisitionDate}
+                  content={data.supplier !== null ? data.supplier.name : "-"}
                 />
                 <DetailItem
                   subtitle="custo de aquisição"
@@ -236,7 +230,7 @@ const InstrumentDetails: React.FC = () => {
                 <DetailItem subtitle="inventário" content={data.inventory} />
                 <DetailItem
                   subtitle="fornecedor"
-                  content={data.acquisitionDate}
+                  content={data.supplier !== null ? data.supplier.name : "-"}
                 />
                 <DetailItem
                   subtitle="custo de aquisição"
