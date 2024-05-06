@@ -9,14 +9,18 @@ import instance from "../../../services/axiosInstance";
 import { RootFilter } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useGeneralDataStore } from "../../../store";
 
-function ConsultInsturment() {
+
+function ConsultInstrument() {
   const {
     register,
     formState: { errors },
     watch,
     handleSubmit,
   } = useForm();
+  const navigate = useNavigate()
 
   let filterData = {
     status: watch("status"),
@@ -27,10 +31,12 @@ function ConsultInsturment() {
     enabled: false,
   };
 
+  const setGeneralDataInstrument = useGeneralDataStore((state) => state.setInstrument);
+
   //fetchs function
   const fetchInstruments = async (pageParam = 0): Promise<RootFilter> => {
     const response = await instance.get(
-      `/instrument/all?page=${pageParam}&size=4&sortBy=acquisitionDate&sortDirection=desc`
+      `/instrument/all?page=${pageParam}&size=15&sortBy=acquisitionDate&sortDirection=desc`
     );
     return response.data;
   };
@@ -45,7 +51,7 @@ function ConsultInsturment() {
         filterData.situation === "todos" ? "" : filterData.situation
       }&column=${filterData.column}&value=${filterData.value}&sortedBy=${
         filterData.sortedBy
-      }&page=${pageParam}&size=4`
+      }&page=${pageParam}&size=15`
     );
     return response.data;
   };
@@ -115,6 +121,9 @@ function ConsultInsturment() {
     return <ErrorPage />;
   }
 
+ 
+  
+
   const handleSubmitSearch = async (data: FieldValues) => {
     if (
       data.status === "todos" &&
@@ -134,6 +143,11 @@ function ConsultInsturment() {
     // Retorne a data no formato DD/MM/YYYY
     return `${dia}/${mes}/${ano}`;
   };
+
+
+
+
+
 
   return (
     <div className="consult-page">
@@ -206,7 +220,10 @@ function ConsultInsturment() {
                 {instrumentsFiltered === undefined && isSuccess
                   ? instruments?.map((item: GeneralInstrument, index) => {
                       return (
-                        <tr key={index} className="tr-hover">
+                        <tr key={index} className="tr-hover" onClick={() => {
+                          setGeneralDataInstrument(item)
+                          navigate(`/consult/instrument/${item.id}`)
+                          }}>
                           <td className="text">
                             <p className="td-text">{item.code}</p>
                           </td>
@@ -222,7 +239,7 @@ function ConsultInsturment() {
                     })
                   : instrumentsFiltered?.map((item, index) => {
                       return (
-                        <tr key={index} className="tr-hover">
+                        <tr key={index} className="tr-hover" onClick={() => navigate(`/consult/instrument/${item.id}`)}>
                           <td className="text">
                             <p className="td-text">{item.code}</p>
                           </td>
@@ -252,8 +269,8 @@ function ConsultInsturment() {
             </div>
           )}
           <div className="load-more-area">
-            {(hasNextPage === true && instrumentsFiltered === undefined) ||
-            hasNextFilteredPage === true ? (
+            {(hasNextPage === true && instrumentsFiltered === undefined && instruments !== undefined && instruments.length >= 15) ||
+            (hasNextFilteredPage === true && instrumentsFiltered !== undefined && instrumentsFiltered.length >= 15) ? (
               <Button
                 className="btn btn-md btn-secondary"
                 onClickFunction={() =>
@@ -274,4 +291,4 @@ function ConsultInsturment() {
   );
 }
 
-export default ConsultInsturment;
+export default ConsultInstrument;

@@ -13,6 +13,7 @@ import {
   FamilyRegisterPost,
 	SupplierRegisterPost,
 	RootFilter,
+	RootMovement,
 
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
@@ -53,9 +54,15 @@ export const getInstrumentsFiltered = async (pageParam = 0, status: string, situ
 	return (await instance.get<RootFilter>(`/instrument/deepfilter?status=${status === "todos" ? "" : status}&situation=${situation === "todos" ? "" : situation}&column=${column}&value=${value}&sortedBy=${sortedBy}&page=${pageParam}&size=20`)).data;
 };
 
+
+export const getLastMovement = async (id: string) => {
+	return (await instance.get<RootMovement>(`movement/last?id=${id}`)).data
+}
+
+
 //GET - Retorna o instrumento pelo ID
 export const getInstrumentById = async (id: string) => {
-	return (await instance.get<GeneralInstrument[]>(`instrument/${id}`)).data;
+	return (await instance.get<GeneralInstrument>(`instrument/filter/${id}`)).data;
 };
 
 //POST - Função para retornar os instrumentos de acordo com os filtros selecionados

@@ -148,6 +148,10 @@ ul {
     height: 100vh;
 }
 
+table{
+	position: relative;
+}
+
 input:-internal-autofill-selected{
 	background-color: transparent !important;
 }
@@ -157,8 +161,8 @@ input:-internal-autofill-selected{
 		max-width: 1400px;
 	}
 	.modal {
-		width: 50%;
-		height: 76%;
+		width: 60%;
+		height: 90%;
 	}
 
 	.menu-visible {

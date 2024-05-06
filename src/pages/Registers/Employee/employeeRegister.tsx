@@ -115,7 +115,7 @@ const EmployeeRegister = () => {
 
 	const handleConfirmEmployeeRegister = (dataApi: z.infer<typeof schema>) => {
 		setIsLoadingPostEmployeeRegister(true);
-		setTimeout(() => {
+
 			setIsLoadingPostEmployeeRegister(false);
 
 			const data = {
@@ -126,7 +126,7 @@ const EmployeeRegister = () => {
 			};
 
 			handlePostEmployeeRegister(data);
-		}, 1000);
+
 	};
 
 	return (

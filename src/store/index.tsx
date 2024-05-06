@@ -1,7 +1,7 @@
 import useNavbarStore from "./navbarStore";
-import usePopupStore from "./popupStore";
+import useGeneralDataStore from "./generalDataStore";
 
 export {
     useNavbarStore,
-    usePopupStore
+    useGeneralDataStore
 }

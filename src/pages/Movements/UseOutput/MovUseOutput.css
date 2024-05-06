@@ -4,18 +4,17 @@ main {
 }
 
 .container-main {
-    height: 100vh;
     flex-direction: column;
     width: 80%;
     max-width: 1440px;
     margin-top: 7%;
     display: flex;
-    gap: 5rem;
+    gap: 3rem;
 }
 
 .mov-info {
     width: 52%;
-	max-width: 640px;
+	  max-width: 640px;
     display: flex;
     gap: 7%;
 }
@@ -56,17 +55,18 @@ main {
 }
 
 .modal-content{
-	height: 100%;
-	display: flex;
-	justify-content: center;
 	margin-top: 2rem;
-
+	height: 42%;
 }
 
 .last-modal-section{
 	display: flex;
-	justify-content: center;
-	margin-top: 35px;
+    justify-content: center;
+    position: absolute;
+    bottom: 3rem;
+    width: 88%;
+	gap: 20px;
+
 }
 
 .label-inative{

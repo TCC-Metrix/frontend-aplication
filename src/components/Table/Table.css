@@ -1,7 +1,7 @@
 
 .table-container {
 	width: 100%;
-	border-collapse: collapse;
+	border-spacing: 0;
 	align-items: center;
 }
 
@@ -21,8 +21,13 @@
 
 
 .table-container th {
-	min-width: 155px;
-	padding: 10px 0; 
+    min-width: 155px;
+    padding: 10px 0;
+    position: sticky;
+    background:var(--color-white);
+    top: 0;
+	border-bottom: 1px solid #000;
+    border-top: 1px solid #000;
 }
 
 .table-container tr th:last-child {
