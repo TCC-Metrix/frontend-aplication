@@ -73,7 +73,7 @@ const InstrumentDetails: React.FC = () => {
       <div className="details-container">
         <div className="top-infos-area">
         <div className="flex-infos-area">
-            <Button className="btn btn-md btn-tertiary" onClickFunction={() => {}}>histórico</Button>
+            <Button className="btn btn-md btn-tertiary" onClickFunction={() => { navigate(`/history/instrument/${data.id}`)}}>histórico</Button>
             <Button className="btn btn-md btn-tertiary" onClickFunction={() => {
               sessionStorage.setItem("instrument", JSON.stringify(data))
               sessionStorage.setItem("movement", JSON.stringify(lastMovementData))
@@ -182,15 +182,13 @@ const InstrumentDetails: React.FC = () => {
                     subtitle="motivo"
                     content={
                       lastMovementData.movement.type === "USE_OUTPUT"
-                        ? "uso"
+                        ? "uso interno"
                         : ""
                     }
                   />
                   <DetailItem
                     subtitle="colaborador"
-                    content={
-                      lastMovementData.useOutput.receivingResponsible.name
-                    }
+                    content={lastMovementData.useOutput.receivingResponsible ? lastMovementData.useOutput.receivingResponsible.name : "-"}
                   />
                   <DetailItem
                     subtitle="laboratório"
@@ -202,7 +200,7 @@ const InstrumentDetails: React.FC = () => {
                   />
                   <DetailItem
                     subtitle="área"
-                    content={lastMovementData.useOutput.receivingArea}
+                    content={lastMovementData.useOutput.receivingArea ? lastMovementData.useOutput.receivingArea.description : "-"}
                   />
                 </div>
               </section>

@@ -19,6 +19,7 @@ import ConsultInstrument from "./pages/Consults/Instrument/ConsultInstrument";
 import InstrumentDetails from "./pages/Consults/Instrument/InstrumentDetails";
 import UpdateInstrument from "./pages/Update/Instrument/UpdateInstrument";
 import { ToastContainer } from "react-toastify";
+import InstrumentHistory from "./pages/History/InstrumentHistory";
 
 function App() {
   const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -149,6 +150,15 @@ function App() {
           element={
             <ProtectedRoute>
               <UpdateInstrument />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        <Route
+          path="/history/instrument/:id"
+          element={
+            <ProtectedRoute>
+              <InstrumentHistory />
             </ProtectedRoute>
           }
         ></Route>

@@ -1,5 +1,5 @@
 import { FieldValues, useForm } from "react-hook-form";
-import { SelectInput, BasicInput, Button } from "../../../components";
+import { SelectInput, BasicInput, Button, BasicInputFilter } from "../../../components";
 import "./ConsultInstrument.css";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
@@ -9,16 +9,20 @@ import instance from "../../../services/axiosInstance";
 import { RootFilter } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import { useAllFamilies } from "../../../services/useFetchData";
 
 function ConsultInstrument() {
+  const [isFamilyInput, setIsFamilyInput] = useState(false);
   const {
     register,
     formState: { errors },
     watch,
     handleSubmit,
+    getValues,
+    setValue
   } = useForm();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   let filterData = {
     status: watch("status"),
@@ -29,6 +33,16 @@ function ConsultInstrument() {
     enabled: false,
   };
 
+  const searchTerm = watch("column");
+
+  useEffect(() => {
+    if (searchTerm === "familyID") {
+      console.log("familia");
+      setIsFamilyInput(true);
+    } else {
+      setIsFamilyInput(false);
+    }
+  }, [searchTerm]);
 
   //fetchs function
   const fetchInstruments = async (pageParam = 0): Promise<RootFilter> => {
@@ -61,6 +75,8 @@ function ConsultInstrument() {
     return null;
   }
 
+
+  const {data: allFamilies , isLoading: isLoadingFamilies, isError: isErrorFamilies} = useAllFamilies()
   //queryFunctions
 
   const {
@@ -68,6 +84,8 @@ function ConsultInstrument() {
     refetch,
     fetchNextPage: fetchNextFilteredPage,
     hasNextPage: hasNextFilteredPage,
+    isLoading: isLoadingFiltered,
+    isError: isErrorFiltered,
   } = useInfiniteQuery({
     queryKey: ["instrumentsFiltered"],
     queryFn: ({ pageParam }) => fetchInstrumentsFiltered(pageParam),
@@ -85,7 +103,8 @@ function ConsultInstrument() {
     hasNextPage,
     isError,
     data,
-    isSuccess,
+    isSuccess
+
   } = useInfiniteQuery({
     queryKey: ["instruments"],
     queryFn: ({ pageParam }) => fetchInstruments(pageParam),
@@ -99,7 +118,6 @@ function ConsultInstrument() {
   const instruments = data?.pages.flatMap((item) => item.content);
   let instrumentsFiltered = dataFilter?.pages.flatMap((item) => item.content);
 
-
   const headersList = [
     "Código",
     "Descrição",
@@ -108,16 +126,13 @@ function ConsultInstrument() {
     "Data de aquisição",
   ];
 
-  if (isLoading) {
+  if (isLoading || isLoadingFiltered || isLoadingFamilies) {
     return <LoadingPage />;
   }
 
-  if (isError) {
+  if (isError || isErrorFiltered || isErrorFamilies) {
     return <ErrorPage />;
   }
-
- 
-  
 
   const handleSubmitSearch = async (data: FieldValues) => {
     if (
@@ -128,7 +143,15 @@ function ConsultInstrument() {
     ) {
       instrumentsFiltered = instruments;
     }
+
+    
     filterData.enabled = true;
+
+    if(data.column === "familyID"){
+      if(data.value === ""){
+        return
+      }
+    }
     refetch();
   };
 
@@ -138,11 +161,6 @@ function ConsultInstrument() {
     // Retorne a data no formato DD/MM/YYYY
     return `${dia}/${mes}/${ano}`;
   };
-
-
-
-
-
 
   return (
     <div className="consult-page">
@@ -157,15 +175,30 @@ function ConsultInstrument() {
               id="column"
               register={register}
             />
-            <BasicInput
-              register={register}
-              inputName="value"
-              inputPlaceholder="Busque por isso "
-              inputStyle="large-input"
-              isRequired={false}
-              inputType="text"
-              errors={errors}
-            />
+            {isFamilyInput ? (
+              <BasicInputFilter
+                register={register}
+                inputName="valueDescription"
+                inputPlaceholder="Busque por familia"
+                inputStyle="classe-large"
+                isRequired={false}
+                inputId="value"
+                items={allFamilies}
+                getValues={getValues}
+                setValue={setValue} 
+                errors={errors}
+              />
+            ) : (
+              <BasicInput
+                register={register}
+                inputName="value"
+                inputPlaceholder="Busque por isso "
+                inputStyle="large-input"
+                isRequired={false}
+                inputType="text"
+                errors={errors}
+              />
+            )}
 
             <SelectInput
               id="situation"
@@ -215,9 +248,13 @@ function ConsultInstrument() {
                 {instrumentsFiltered === undefined && isSuccess
                   ? instruments?.map((item: GeneralInstrument, index) => {
                       return (
-                        <tr key={index} className="tr-hover" onClick={() => {
-                          navigate(`/consult/instrument/${item.id}`)
-                          }}>
+                        <tr
+                          key={index}
+                          className="tr-hover"
+                          onClick={() => {
+                            navigate(`/consult/instrument/${item.id}`);
+                          }}
+                        >
                           <td className="text">
                             <p className="td-text">{item.code}</p>
                           </td>
@@ -233,7 +270,13 @@ function ConsultInstrument() {
                     })
                   : instrumentsFiltered?.map((item, index) => {
                       return (
-                        <tr key={index} className="tr-hover" onClick={() => navigate(`/consult/instrument/${item.id}`)}>
+                        <tr
+                          key={index}
+                          className="tr-hover"
+                          onClick={() =>
+                            navigate(`/consult/instrument/${item.id}`)
+                          }
+                        >
                           <td className="text">
                             <p className="td-text">{item.code}</p>
                           </td>
@@ -263,8 +306,13 @@ function ConsultInstrument() {
             </div>
           )}
           <div className="load-more-area">
-            {(hasNextPage === true && instrumentsFiltered === undefined && instruments !== undefined && instruments.length >= 15) ||
-            (hasNextFilteredPage === true && instrumentsFiltered !== undefined && instrumentsFiltered.length >= 15) ? (
+            {(hasNextPage === true &&
+              instrumentsFiltered === undefined &&
+              instruments !== undefined &&
+              instruments.length >= 15) ||
+            (hasNextFilteredPage === true &&
+              instrumentsFiltered !== undefined &&
+              instrumentsFiltered.length >= 15) ? (
               <Button
                 className="btn btn-md btn-secondary"
                 onClickFunction={() =>

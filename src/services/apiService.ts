@@ -1,4 +1,4 @@
-import { Field, FieldValues } from "react-hook-form";
+import {  FieldValues } from "react-hook-form";
 import {
 	GeneralArea,
 	GeneralEmployee,
@@ -64,6 +64,12 @@ export const getLastMovement = async (id: string) => {
 //GET - Retorna o instrumento pelo ID
 export const getInstrumentById = async (id: string) => {
 	return (await instance.get<GeneralInstrument>(`instrument/filter/${id}`)).data;
+};
+
+
+//GET - Retorna as movimentações pelo ID do instrumento
+export const getAllMovements = async (id: string) => {
+	return (await instance.get<RootMovement[]>(`movement/filter/instrument/${id}`)).data;
 };
 
 //POST - Função para retornar os instrumentos de acordo com os filtros selecionados

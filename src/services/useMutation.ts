@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { Field, FieldValues } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import {
 	postAreaRegister,
 	postFamilyRegister,
