@@ -21,6 +21,7 @@ import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
+import { msalInstance } from "../../../authSSO/msalInstance";
 
 export const MoveUseOutput = () => {
 	// Estados para controlar o estado dos componentes
@@ -68,7 +69,7 @@ export const MoveUseOutput = () => {
 			});
 	};
 
-
+console.log(msalInstance.getActiveAccount())
 
 	//Abre o modal
 	const handleModal = () => {
@@ -98,11 +99,6 @@ export const MoveUseOutput = () => {
 		isLoading: isLoadingArea,
 		isError: isErrorArea,
 	} = useAllAreas(); //busca todas as áreas
-
-
-
-
-
 
 	const handlePostUseOutput: SubmitHandler<OutputUsePost> = (data) => {
 		setIsLoadingPostUseOutput(true);

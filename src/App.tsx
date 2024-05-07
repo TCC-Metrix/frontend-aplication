@@ -12,7 +12,7 @@ import SupplierRegister from "./pages/Registers/Supplier/SupplierRegister";
 import FamilyRegister from "./pages/Registers/Family/FamilyRegister";
 import AreaRegister from "./pages/Registers/Area/AreaRegister";
 import EmployeeRegister from "./pages/Registers/Employee/employeeRegister";
-import UseReturn from "./pages/Movements/UseReturn/UseReturn";
+import { UseReturn } from "./pages/Movements/UseReturn/UseReturn";
 import { useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import ConsultInstrument from "./pages/Consults/Instrument/ConsultInstrument";
