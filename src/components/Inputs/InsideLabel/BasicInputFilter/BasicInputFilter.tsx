@@ -16,13 +16,13 @@ import {
 
 interface BasicInputFilterProps {
 	inputPlaceholder: string;
-	register: UseFormRegister<FieldValues>;
-	setValue: UseFormSetValue<FieldValues>;
+	register: UseFormRegister<FieldValues> | UseFormRegister<any>;
+	setValue: UseFormSetValue<FieldValues> | UseFormSetValue<any>;
 	items: Family[] | GeneralSupplier[] | GeneralEmployee[] | GeneralArea[] | undefined;
 	inputName: string;
 	inputId: string;
 	inputStyle: string;
-	getValues: UseFormGetValues<FieldValues>;
+	getValues: UseFormGetValues<FieldValues> | any;
 	isRequired: boolean;
 	errors: any;
 	isActive?: boolean;
@@ -80,12 +80,13 @@ function BasicInputFilter(props: BasicInputFilterProps) {
 							setIsFocused(true)}}
 						onBlur={() => {
 							// Adicionando um pequeno atraso antes de definir isFocused como false
+							if (props.getValues(props.inputId) === ""){
+								props.setValue(props.inputName, "")
+							}
 							
 							setTimeout(() => {
+								setFilteredOptions(props.items)
 								setIsFocused(false);
-								if (props.getValues(props.inputId) === ""){
-									props.setValue(props.inputName, "")
-								}
 
 							}, 250);
 						}}

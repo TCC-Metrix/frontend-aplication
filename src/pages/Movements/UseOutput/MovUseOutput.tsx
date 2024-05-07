@@ -17,7 +17,7 @@ import { useAllAreas, useAllEmployees } from "../../../services/useFetchData";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import { RotatingLines } from "react-loader-spinner";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
@@ -121,8 +121,8 @@ export const MoveUseOutput = () => {
 					setValue("receivingResponsible", "")
 					setValue("area", "")
 					setValue("areaDescription", "")
-					console.log(data)
 					setTableMainPage([])
+					console.log(data)
 					setIsReloaded(true)
 				}
 			},
@@ -150,7 +150,6 @@ export const MoveUseOutput = () => {
 		//valueInReceivingResponsible = "abcd"
 		//valueInArea = ""
 
-		console.log("area: ", valueInArea, "respreceb", valueInReceivingResponsible)
 
 		if ((valueInArea === "" || valueInArea === undefined) && (valueInReceivingResponsible === "" || valueInReceivingResponsible === undefined)) {
 			notify("error", "Informe ao menos uma área ou responsável de recebimento")
@@ -378,7 +377,6 @@ export const MoveUseOutput = () => {
 					</Button>
 				</div>
 				<ModalSearchInstrument openModal={openModal} setFinalInstruments={setTableMainPage} setOpenModal={setOpenModal} isReloaded={isReloaded} setIsReloaded={setIsReloaded} />
-				<ToastContainer />
 
 			</div>
 		</main>

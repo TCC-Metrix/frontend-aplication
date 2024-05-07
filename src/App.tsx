@@ -18,6 +18,7 @@ import { useEffect, useRef } from "react";
 import ConsultInstrument from "./pages/Consults/Instrument/ConsultInstrument";
 import InstrumentDetails from "./pages/Consults/Instrument/InstrumentDetails";
 import UpdateInstrument from "./pages/Update/Instrument/UpdateInstrument";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -152,6 +153,7 @@ function App() {
           }
         ></Route>
       </Routes>
+      <ToastContainer />
     </>
   );
 }

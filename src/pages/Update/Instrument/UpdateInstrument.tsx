@@ -1,21 +1,31 @@
-import { Button } from "../../../components";
+import {  FieldValues, useForm } from "react-hook-form";
 import {
-  useInstrumentById,
-  useLastMovementByInstrument,
+  BasicInput,
+  BasicInputFilter,
+  Button,
+  DateInputInside,
+  SelectInput,
+} from "../../../components";
+import "./UpdateInstrument.css";
+import {
+  Family,
+  GeneralInstrument,
+} from "../../../utils/interfaces/Interfaces";
+import {
+  useAllFamilies,
+  useAllSuppliers,
 } from "../../../services/useFetchData";
-import ErrorPage from "../../ErrorPage/ErrorPage";
 import LoadingPage from "../../LoadingPage/LoadingPage";
-import "./InstrumentDetails.css";
-import { useParams } from "react-router-dom";
-import { useGeneralDataStore } from "../../../store";
+import ErrorPage from "../../ErrorPage/ErrorPage";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUpdateInstrument } from "../../../services/useMutation";
+import { toast } from "react-toastify";
+import { FormValues } from "../../../utils/types/instrument";
 
 interface DetailItemProps {
   subtitle: string;
   content: string | number;
-}
-
-interface AdditionalReferencesProps {
-  references: string[];
 }
 
 const DetailItem: React.FC<DetailItemProps> = ({ subtitle, content }) => (
@@ -25,62 +35,197 @@ const DetailItem: React.FC<DetailItemProps> = ({ subtitle, content }) => (
   </div>
 );
 
-const AdditionalReferences: React.FC<AdditionalReferencesProps> = ({
-  references,
-}) => (
-  <>
-    {references.map((item, index) => (
-      <DetailItem
-        key={index}
-        subtitle={`referência adicional ${index + 1}`}
-        content={item}
-      />
-    ))}
-  </>
-);
+
 
 const UpdateInstrument: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const [familyObject, setFamilyObject] = useState<Family | undefined>();
+  const instrument = sessionStorage.getItem("instrument");
+  const lastMovement = sessionStorage.getItem("movement");
+  const [isPopupActive, setIsPopupActive] = useState(false)
+  let data: GeneralInstrument | null = null;
+  let lastMovementData = null;
+  if (lastMovement) {
+    lastMovementData = JSON.parse(lastMovement);
+  }
+  if (instrument) {
+    data = JSON.parse(instrument);
+  } else {
+    console.log("Não há dados armazenados no Session Storage");
+  }
 
-  const { data, isLoading, error } = useInstrumentById(id);
   const {
-    data: lastMovementData,
-    isLoading: isLastMovementLoading,
-    error: lastMovementError,
-  } = useLastMovementByInstrument(id);
+    data: allFamilies,
+    isLoading: isLoadingFamilies,
+    isError: isErrorFamilies,
+  } = useAllFamilies(); //busca todas as familias
+  const {
+    data: allSuppliers,
+    isLoading: isLoadingSuppliers,
+    isError: isErrorSuppliers,
+  } = useAllSuppliers(); //busca todos os fornecedores
 
-  const instrument = useGeneralDataStore((state) => state.instrument)
-  console.log(instrument)
+  const initialValues: FormValues = {
+    description: data?.description,
+    code: data?.code,
+    acquisitionDate: data?.acquisitionDate,
+    additionalReference1: data?.additionalReferences?.[0] ?? "",
+    additionalReference2: data?.additionalReferences?.[1] ?? "",
+    additionalReference3: data?.additionalReferences?.[2] ?? "",
+    calibrationFrequency: data?.calibrationFrequency,
+    familyID: data?.familyId.id,
+    family: data?.familyId.description,
+    supplier: data?.supplier?.id,
+    supplierDescription: data?.supplier?.name,
+    manufacturer: data?.manufacturer,
+    inventory: data?.inventory,
+    serieNumber: data?.serieNumber,
+    situation: data?.situation,
+    status: data?.status,
+    situationJustification: data?.situationJustification,
+    situationReason: data?.situationReason
+  };
+
+  const navigate = useNavigate();
+
+  const {
+    register,
+    formState: { errors,  },
+    setValue,
+    handleSubmit,
+    watch,
+    getValues,
+    setError,
+    clearErrors
+  } = useForm<FormValues>({ defaultValues: initialValues });
+
+  const familyID = watch("familyID");
+  const situationReason = watch("situationReason")
+  const situationJustification = watch("situationJustification")
+  const situation = watch("situation")
+
+  useEffect(() => {
+    setFamilyObject(allFamilies?.find((family) => family.id === familyID));
+  }, [familyID]);
+
+  useEffect(() => {
+    if (situation !== "inactive"){
+      setValue("situationReason", "")
+      setValue("situationJustification", "")
+    }
+  }, [situation])
+
+  useEffect(() => {
+    
+        if(situationReason !== null && situationReason !== ""){
+          clearErrors("situationReason")
+        }
+    
+        if(situationJustification !== null && situationJustification !== ""){
+          clearErrors("situationJustification")
+        }
+    
+  }, [situation, situationReason])
+
+  window.addEventListener('beforeunload', function (event) {
+  event.preventDefault();
+  event.returnValue = 'Tem certeza que deseja sair desta página? Se sair, suas alterações não serão salvas.';
+});
+
+const notify = (type: string, message?: string) => {
+  type === "success" &&
+    toast.success("Instrumeto atualizado com sucesso", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  type === "error" &&
+    toast.error(`${message ? message : "Erro ao processar sua solicitação!"}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+};
+
 
   const formatDate = (date: string) => {
-    // Separe o ano, mês e dia
     const [ano, mes, dia] = date.split("-");
-    // Retorne a data no formato DD/MM/YYYY
     return `${dia}/${mes}/${ano}`;
   };
 
   const getMonth = (date: string) => {
-    // Separe o ano, mês e dia
     const mes = date.split("-")[1];
     return mes;
   };
 
-  console.log(lastMovementData);
+  const updateInstrument = useUpdateInstrument()
 
-  if (lastMovementError) {
-    console.error(lastMovementError);
-  }
 
-  if (isLoading || isLastMovementLoading) return <LoadingPage />;
-  if (error || lastMovementError) return <ErrorPage />;
+  const handleConfirm = (dataForm: FieldValues) => {
+    const additionalReferences = [];
+    if (dataForm.additionalReference1 !== "") {
+      additionalReferences.push(dataForm.additionalReference1);
+    }
+
+    if (dataForm.additionalReference2 !== "") {
+      additionalReferences.push(dataForm.additionalReference2);
+    }
+
+    if (dataForm.additionalReference3 !== "") {
+      additionalReferences.push(dataForm.additionalReference3);
+    }
+
+    additionalReferences.length === 0
+      ? (dataForm.additionalReferences = null)
+      : (dataForm.additionalReferences = additionalReferences);
+      
+    dataForm.id = data?.id
+
+    if(situation === "inactive"){
+      if (!situationJustification || !situationReason) {
+        setIsPopupActive(true)
+        return
+      }
+    }
+
+    
+
+      updateInstrument.mutate(dataForm, {
+        onSettled(dataSetted, error){
+          if (error){
+            console.log(error)
+            notify("error")
+          }else{
+            notify("success")
+            navigate(`/consult/instrument/${data?.id}`)
+            console.log(dataSetted)
+          }
+        }
+      })
+
+}
+
+  if (isLoadingSuppliers || isLoadingFamilies) return <LoadingPage />;
+  if (isErrorFamilies || isErrorSuppliers) return <ErrorPage />;
+
+
 
   return (
     data && (
       <div className="details-container">
         <div className="top-infos-area">
-        <div className="flex-infos-area">
-            <Button className="btn btn-md btn-tertiary" onClickFunction={() => {}}>histórico</Button>
-            <Button className="btn btn-md btn-tertiary" onClickFunction={() => {}}>editar</Button>
+          <div className="flex-infos-area">
+            <h1 className="detail-title">Editar instrumento</h1>
           </div>
           <div className="flex-infos-area">
             <div>
@@ -94,76 +239,201 @@ const UpdateInstrument: React.FC = () => {
                     "calibração externa"}
               </p>
             </div>
-            <div>
-              <p className="detail-subtitle">situação</p>
-              <p className="detail-content">
-                {data.situation === "active" ? "ativo" : "inativo"}
-              </p>
+            <div className="select-area">
+              <SelectInput
+                id="situation"
+                placeholder="situação"
+                register={register}
+                optionsList={["ativo", "inativo", "ativo não calibrável"]}
+              />
             </div>
           </div>
-
         </div>
-
 
         <div className="details-section-container">
           <div className="instrument-detail-area">
             <h1 className="detail-title">INSTRUMENTO</h1>
-
-            <DetailItem subtitle="descrição" content={data.description} />
-            <DetailItem subtitle="código" content={data.code} />
-            <DetailItem
-              subtitle="freq. calibração(instrumento)"
-              content={data.calibrationFrequency}
+            <BasicInput
+              isRequired={true}
+              register={register}
+              inputType="text"
+              inputPlaceholder="descrição"
+              inputStyle="classe-large"
+              errors={errors}
+              inputName="description"
             />
-            <DetailItem subtitle="fabricante" content={data.manufacturer} />
 
-            {data.additionalReferences.length === 0 ? (
-              <AdditionalReferences references={["-", "-", "-"]} />
-            ) : (
-              <AdditionalReferences references={data.additionalReferences} />
-            )}
+            <BasicInput
+              isRequired={true}
+              register={register}
+              inputType="text"
+              inputPlaceholder="código"
+              inputStyle="classe-large"
+              errors={errors}
+              inputName="code"
+            />
+            <BasicInput
+              isRequired={true}
+              register={register}
+              inputType="text"
+              inputPlaceholder="freq. calibração"
+              inputStyle="classe-large"
+              errors={errors}
+              inputName="calibrationFrequency"
+            />
+            <BasicInput
+              isRequired={false}
+              register={register}
+              inputType="text"
+              inputPlaceholder="fabricante"
+              inputStyle="classe-large"
+              errors={errors}
+              inputName="manufacturer"
+            />
+            <BasicInput
+              isRequired={false}
+              register={register}
+              inputType="text"
+              inputPlaceholder="ref. adicional 1"
+              inputStyle="classe-large"
+              errors={errors}
+              inputName="additionalReference1"
+            />
+            <BasicInput
+              isRequired={false}
+              register={register}
+              inputType="text"
+              inputPlaceholder="ref. adicional 2"
+              inputStyle="classe-large"
+              errors={errors}
+              inputName="additionalReference2"
+            />
+            <BasicInput
+              isRequired={false}
+              register={register}
+              inputType="text"
+              inputPlaceholder="ref. adicional 3"
+              inputStyle="classe-large"
+              errors={errors}
+              inputName="additionalReference3"
+            />
           </div>
-          <div className="other-details-area">
+          <div className="other-details-area edit-page">
             <section className="other-details-section">
               <h1 className="detail-title">AQUISIÇÃO</h1>
               <div className="details-section">
-                <DetailItem
-                  subtitle="data de aquisição"
-                  content={formatDate(data.acquisitionDate)}
+                <div style={{ width: "48%" }}>
+                  <DateInputInside
+                    inputName="acquisitionDate"
+                    register={register}
+                    inputStyle="classe-little"
+                    errors={errors}
+                    isRequired={true}
+                    placeholder="data aquisição "
+                  />
+                </div>
+                <div style={{ width: "48%" }}>
+                  <BasicInput
+                    isRequired={true}
+                    register={register}
+                    inputType="text"
+                    inputPlaceholder="inventário"
+                    inputStyle="classe-large"
+                    errors={errors}
+                    inputName="inventory"
+                  />
+                </div>
+                <BasicInputFilter
+                  items={allSuppliers}
+                  errors={errors}
+                  inputName="supplierDescription"
+                  inputId="supplier"
+                  getValues={getValues}
+                  inputPlaceholder="Fornecedor"
+                  inputStyle="classe-medium"
+                  isRequired={true}
+                  register={register}
+                  setValue={setValue}
+                  isActive={true}
                 />
-                <DetailItem subtitle="inventário" content={data.inventory} />
-                <DetailItem
-                  subtitle="fornecedor"
-                  content={data.acquisitionDate}
+
+                <div style={{ width: "48%" }}>
+                  <BasicInput
+                    isRequired={false}
+                    register={register}
+                    inputType="money"
+                    inputPlaceholder="custo de aquisição"
+                    inputStyle="classe-large"
+                    errors={errors}
+                    inputName="acquisitionCost"
+                  />
+                </div>
+
+                <BasicInput
+                  isRequired={false}
+                  register={register}
+                  inputType="text"
+                  inputPlaceholder="número de serie"
+                  inputStyle="classe-large"
+                  errors={errors}
+                  inputName="serieNumber"
                 />
-                <DetailItem
-                  subtitle="custo de aquisição"
-                  content={data.acquisitionCost}
-                />
-                <DetailItem subtitle="num. série" content={data.serieNumber} />
               </div>
             </section>
 
             <section className="other-details-section">
               <h1 className="detail-title">FAMÍLIA</h1>
               <div className="details-section">
-                <DetailItem
-                  subtitle="descrição"
-                  content={data.familyId.description}
+                <BasicInputFilter
+                  items={allFamilies}
+                  errors={errors}
+                  inputName="family"
+                  inputId="familyID"
+                  getValues={getValues}
+                  inputPlaceholder="descrição"
+                  inputStyle="classe-medium"
+                  isRequired={true}
+                  register={register}
+                  setValue={setValue}
+                  isActive={true}
                 />
-                <DetailItem subtitle="código" content={data.familyId.code} />
-                <DetailItem
-                  subtitle="freq. calibração(família)"
-                  content={`${data.familyId.calibrationFrequencyInMonths} meses`}
-                />
-                <DetailItem
-                  subtitle="contagem calibração"
-                  content={
-                    data.familyId.calibrationTimeCounter === "uso"
-                      ? "inicia a partir do uso"
-                      : "inicia a partir da calibração"
-                  }
-                />
+
+                {familyObject === undefined ? (
+                  <>
+                    <DetailItem
+                      subtitle="código"
+                      content={data.familyId.code}
+                    />
+                    <DetailItem
+                      subtitle="freq. calibração(família)"
+                      content={`${data.familyId.calibrationFrequencyInMonths} meses`}
+                    />
+                    <DetailItem
+                      subtitle="contagem calibração"
+                      content={
+                        data.familyId.calibrationTimeCounter === "uso"
+                          ? "inicia a partir do uso"
+                          : "inicia a partir da calibração"
+                      }
+                    />
+                  </>
+                ) : (
+                  <>
+                    <DetailItem subtitle="código" content={familyObject.code} />
+                    <DetailItem
+                      subtitle="freq. calibração(família)"
+                      content={`${familyObject.calibrationFrequencyInMonths} meses`}
+                    />
+                    <DetailItem
+                      subtitle="contagem calibração"
+                      content={
+                        familyObject.calibrationTimeCounter === "uso"
+                          ? "inicia a partir do uso"
+                          : "inicia a partir da calibração"
+                      }
+                    />
+                  </>
+                )}
               </div>
             </section>
             {lastMovementData ? (
@@ -244,7 +514,7 @@ const UpdateInstrument: React.FC = () => {
 
             <section className="other-details-section">
               <h1 className="detail-title">CALIBRAÇÃO</h1>
-              <div className="details-section">
+              <div className="details-section no-between">
                 <DetailItem
                   subtitle="próxima calibração"
                   content={
@@ -260,9 +530,74 @@ const UpdateInstrument: React.FC = () => {
                   }
                 />
               </div>
+              <div style={{marginTop: "80px"}}>
+
+              <p>{getValues("situationReason") === "loss" ? "Instrumento inativo por:  perda" : getValues("situationReason") === "nonconformity" ? "Instrumento inativo por: inconformidade" : ""}</p>
+              <p>{situationReason === "loss" ? "N° WorkOn: " : situationReason === "nonconformity" ? "Nº Análise de risco: " : ""}{situationJustification}</p>
+              </div>
+
             </section>
+            <div className="btns-last-section">
+              <Button
+                className="btn btn-md btn-primary-red"
+                onClickFunction={() => {
+                  const confirmed = window.confirm(
+                    "Tem certeza que deseja sair desta página? Se sair, suas alterações não serão salvas."
+                  );
+                  if (confirmed) {
+                    navigate(`/consult/instrument/${data?.id}`);
+                  } else {
+                   
+                  }
+                }}
+              >
+                Cancelar
+              </Button>
+              <Button className="btn btn-md btn-tertiary" onClickFunction={handleSubmit(handleConfirm)}>Confirmar</Button>
+            </div>
           </div>
         </div>
+          {isPopupActive &&(
+            
+        <div className="popup-overlay">
+          <div className="popup-container">
+                <h1 className="detail-title">INATIVAR INSTRUMENTO</h1>
+                <SelectInput id="situationReason" errors={errors} optionsList={["perda", "inconformidade"]} placeholder="motivo" register={register} />
+                {situationReason !== null && (<BasicInput
+                  isRequired={true}
+                  register={register}
+                  inputType="text"
+                  inputPlaceholder={situationReason === "loss" ? "Nº WorkOn" :  "N° análise de risco"}
+                  inputStyle="classe-large"
+                  errors={errors}
+                  inputName="situationJustification"
+                />)}
+                <div style={{display: "flex",gap: "20px",textAlign: "center", position: "absolute", bottom: "40px", right: "40px"}}>
+                <Button className="btn btn-md btn-primary-red" onClickFunction={() => {
+                  setValue("situationReason", "")
+                  setValue("situationJustification", "")
+                  setValue("situation", "active")
+                  setIsPopupActive(false)
+                  }}> Cancelar</Button>
+                <Button className="btn btn-md btn-secondary" onClickFunction={() => {
+                  console.log(situationJustification, situationReason)
+                  if (!situationJustification || !situationReason) {
+                    // Verifica se algum dos campos está vazio ou nulo e define os erros
+                    if (!situationJustification) {
+                      setError("situationJustification", { type: "custom", message: "Campo obrigatório" });
+                    }
+                    if (!situationReason) {
+                      setError("situationReason", { type: "custom", message: "Campo obrigatório" });
+                    }
+                  } else {
+                    // Se ambos os campos estiverem preenchidos, fecha o popup
+                    setIsPopupActive(false);
+                  }
+                }}>  Confirmar</Button>
+                </div>
+          </div>
+        </div>
+          )}
       </div>
     )
   );

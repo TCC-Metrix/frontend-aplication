@@ -1,15 +1,22 @@
+import React from "react";
 import { FieldValues, UseFormRegister } from "react-hook-form";
 import "./SelectInput.css";
 
-interface SelectInput {
-  optionsList: string[],
-  id: string,
-  placeholder: string,
-  register: UseFormRegister<FieldValues>,
+interface SelectInputProps {
+  optionsList: string[];
+  id: string;
+  placeholder: string;
+  register: UseFormRegister<FieldValues> | any;
+  errors?: any;
 }
 
-function SelectInput(props: SelectInput) {
-
+const SelectInput: React.FC<SelectInputProps> = ({
+  optionsList,
+  id,
+  placeholder,
+  register,
+  errors,
+}) => {
   const translateValue = (value: string): string => {
     const translations: { [key: string]: string } = {
       "ativo": "active",
@@ -21,23 +28,34 @@ function SelectInput(props: SelectInput) {
       "mais recente": "desc",
       "mais antigo": "asc",
       "todos": "",
-      "código": "code"
-    };
+      "código": "code",
+      "ativo não calibrável": "active non-calibratable",
+      "inconformidade": "nonconformity",
+      "perda": "loss"
+    }
 
     return translations[value] || value;
   };
 
- 
   return (
-    <div className="inside-select-container">
-      <div className="label-select">{props.placeholder}</div>
-      <select id={props.id} {...props.register(props.id)} className="inside-select">
-        {props.optionsList.map((item) => (
-          <option key={item} value={translateValue(item)}>{item}</option>
+    <div className={`inside-select-container ${errors && errors[id] ? "error-formatted" : ""}`}>
+      <div className="label-select">{placeholder}</div>
+      <select
+        id={id}
+        {...register(id)}
+        className="inside-select"
+      >
+        {optionsList.map((item) => (
+          <option key={item} value={translateValue(item)}>
+            {item}
+          </option>
         ))}
       </select>
+      {errors && errors[id] && (
+        <p className="error-text">{errors[id].message}</p>
+      )}
     </div>
   );
-}
+};
 
 export default SelectInput;

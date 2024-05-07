@@ -87,7 +87,6 @@ const UseReturn = () => {
 					<Button
 						className="btn btn-tertiary "
 						onClickFunction={() => {
-							console.log("oi");
 						}}
 					>
 						+ Adicionar

@@ -50,7 +50,6 @@ const removeItem = (index: number) => {
     // Se sim, ajusta a página atual para a última  página disponível
     setCurrentPage(maxPagesAfterRemoval);
   }
-  console.log("removendo itens... ", updatedTableContent)
   setTableContent(updatedTableContent);
 };
 

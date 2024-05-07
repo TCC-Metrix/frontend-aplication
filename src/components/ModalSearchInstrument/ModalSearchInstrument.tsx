@@ -1,7 +1,7 @@
 import { PiMagnifyingGlassBold } from "react-icons/pi";
 import "./ModalSearchInstrument.css";
 import { BasicInput, Button, Modal, SelectInput } from "..";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   GeneralInstrument,
   RootFilter,
@@ -142,7 +142,6 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
     <Modal
       isOpen={openModal}
       setModalOpen={() => {
-
         setOpenModal(!openModal);
       }}
     >

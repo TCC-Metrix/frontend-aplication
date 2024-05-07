@@ -8,7 +8,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { LaboratoryRegisterPost } from "../../../utils/interfaces/Interfaces";
 import { usePostLaboratoryRegister } from "../../../services/useMutation";
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import request from "axios";
 
@@ -74,7 +74,7 @@ const LaboratoryRegister = () => {
   ) => {
     setIsLoadingPostLaboratoryRegister(true);
     postLaboratoryMutation.mutate(data, {
-      onSettled: (data, error) => {
+      onSettled: (error) => {
         setIsLoadingPostLaboratoryRegister(false);
         if (error && request.isAxiosError(error)) {
           const errorAxios = error as AxiosError;
@@ -91,7 +91,6 @@ const LaboratoryRegister = () => {
           notify("error");
           return;
         } else {
-          console.log(data);
           setIsLoadingPostLaboratoryRegister(false);
           reset();
           notify("success");
@@ -162,7 +161,6 @@ const LaboratoryRegister = () => {
                   <>Confirmar</>
                 )}
               </Button>
-              <ToastContainer />
             </div>
           </form>
         </div>

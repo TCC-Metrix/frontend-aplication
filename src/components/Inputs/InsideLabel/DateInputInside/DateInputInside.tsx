@@ -5,7 +5,7 @@ import { AiOutlineCalendar } from "react-icons/ai";
 interface DateInputInside {
   placeholder: string;
   inputStyle: string;
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<FieldValues> | UseFormRegister<any>;
   inputName: string;
   isRequired: boolean;
   errors: any;
@@ -33,8 +33,8 @@ function DateInputInside(props: DateInputInside) {
           {...props.register(
             props.inputName,
             props.isRequired ? {
-              required: "Data inválida",
-            } : undefined
+              required: "Data inválida"
+            } : {required: false}
           )}
           className={`${
             props.errors[props.inputName] ? "error-formatted" : "inside-date-input"
