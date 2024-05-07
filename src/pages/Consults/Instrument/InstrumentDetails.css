@@ -98,8 +98,13 @@
 
 .flex-infos-area{
     display: flex;
-    align-items: baseline;
+    align-items: flex-end;
     gap: 1rem;
+}
+
+.no-between{
+    justify-content: flex-start!important;
+    gap: 40px;
 }
 
 @media(max-width: 1900px){

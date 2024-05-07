@@ -1,10 +1,10 @@
-import { useForm } from "react-hook-form";
+import {  FieldValues, useForm } from "react-hook-form";
 import {
   BasicInput,
   BasicInputFilter,
   Button,
-  DateInput,
   DateInputInside,
+  SelectInput,
 } from "../../../components";
 import "./UpdateInstrument.css";
 import {
@@ -19,14 +19,13 @@ import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUpdateInstrument } from "../../../services/useMutation";
+import { toast } from "react-toastify";
+import { FormValues } from "../../../utils/types/instrument";
 
 interface DetailItemProps {
   subtitle: string;
   content: string | number;
-}
-
-interface AdditionalReferencesProps {
-  references: string[];
 }
 
 const DetailItem: React.FC<DetailItemProps> = ({ subtitle, content }) => (
@@ -36,27 +35,13 @@ const DetailItem: React.FC<DetailItemProps> = ({ subtitle, content }) => (
   </div>
 );
 
-type FormValues = {
-  description: string | undefined;
-  code: string | undefined;
-  calibrationFrequency: number | undefined;
-  manufacturer: string | undefined;
-  additionalReference1: string | undefined;
-  additionalReference2: string | undefined;
-  additionalReference3: string | undefined;
-  acquisitionDate: string | undefined;
-  inventory: string | undefined;
-  supplier: string | undefined;
-  serieNumber: string | undefined;
-  familyID: string | undefined;
-  family: string | undefined;
-  supplierDescription: string | undefined;
-};
+
 
 const UpdateInstrument: React.FC = () => {
-    const [familyObject, setFamilyObject] = useState<Family | undefined>()
+  const [familyObject, setFamilyObject] = useState<Family | undefined>();
   const instrument = sessionStorage.getItem("instrument");
   const lastMovement = sessionStorage.getItem("movement");
+  const [isPopupActive, setIsPopupActive] = useState(false)
   let data: GeneralInstrument | null = null;
   let lastMovementData = null;
   if (lastMovement) {
@@ -77,7 +62,6 @@ const UpdateInstrument: React.FC = () => {
     data: allSuppliers,
     isLoading: isLoadingSuppliers,
     isError: isErrorSuppliers,
-    isSuccess,
   } = useAllSuppliers(); //busca todos os fornecedores
 
   const initialValues: FormValues = {
@@ -95,28 +79,84 @@ const UpdateInstrument: React.FC = () => {
     manufacturer: data?.manufacturer,
     inventory: data?.inventory,
     serieNumber: data?.serieNumber,
+    situation: data?.situation,
+    status: data?.status,
+    situationJustification: data?.situationJustification,
+    situationReason: data?.situationReason
   };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const {
     register,
-    formState: { errors },
+    formState: { errors,  },
     setValue,
     handleSubmit,
     watch,
     getValues,
+    setError,
+    clearErrors
   } = useForm<FormValues>({ defaultValues: initialValues });
 
   const familyID = watch("familyID");
- 
+  const situationReason = watch("situationReason")
+  const situationJustification = watch("situationJustification")
+  const situation = watch("situation")
 
   useEffect(() => {
-    console.log("mudou");
-    console.log(familyID);
-    setFamilyObject(allFamilies?.find((family) => family.id === familyID))
-   
+    setFamilyObject(allFamilies?.find((family) => family.id === familyID));
   }, [familyID]);
+
+  useEffect(() => {
+    if (situation !== "inactive"){
+      setValue("situationReason", "")
+      setValue("situationJustification", "")
+    }
+  }, [situation])
+
+  useEffect(() => {
+    
+        if(situationReason !== null && situationReason !== ""){
+          clearErrors("situationReason")
+        }
+    
+        if(situationJustification !== null && situationJustification !== ""){
+          clearErrors("situationJustification")
+        }
+    
+  }, [situation, situationReason])
+
+  window.addEventListener('beforeunload', function (event) {
+  event.preventDefault();
+  event.returnValue = 'Tem certeza que deseja sair desta página? Se sair, suas alterações não serão salvas.';
+});
+
+const notify = (type: string, message?: string) => {
+  type === "success" &&
+    toast.success("Instrumeto atualizado com sucesso", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  type === "error" &&
+    toast.error(`${message ? message : "Erro ao processar sua solicitação!"}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+};
+
 
   const formatDate = (date: string) => {
     const [ano, mes, dia] = date.split("-");
@@ -128,8 +168,57 @@ const UpdateInstrument: React.FC = () => {
     return mes;
   };
 
+  const updateInstrument = useUpdateInstrument()
+
+
+  const handleConfirm = (dataForm: FieldValues) => {
+    const additionalReferences = [];
+    if (dataForm.additionalReference1 !== "") {
+      additionalReferences.push(dataForm.additionalReference1);
+    }
+
+    if (dataForm.additionalReference2 !== "") {
+      additionalReferences.push(dataForm.additionalReference2);
+    }
+
+    if (dataForm.additionalReference3 !== "") {
+      additionalReferences.push(dataForm.additionalReference3);
+    }
+
+    additionalReferences.length === 0
+      ? (dataForm.additionalReferences = null)
+      : (dataForm.additionalReferences = additionalReferences);
+      
+    dataForm.id = data?.id
+
+    if(situation === "inactive"){
+      if (!situationJustification || !situationReason) {
+        setIsPopupActive(true)
+        return
+      }
+    }
+
+    
+
+      updateInstrument.mutate(dataForm, {
+        onSettled(dataSetted, error){
+          if (error){
+            console.log(error)
+            notify("error")
+          }else{
+            notify("success")
+            navigate(`/consult/instrument/${data?.id}`)
+            console.log(dataSetted)
+          }
+        }
+      })
+
+}
+
   if (isLoadingSuppliers || isLoadingFamilies) return <LoadingPage />;
   if (isErrorFamilies || isErrorSuppliers) return <ErrorPage />;
+
+
 
   return (
     data && (
@@ -150,11 +239,13 @@ const UpdateInstrument: React.FC = () => {
                     "calibração externa"}
               </p>
             </div>
-            <div>
-              <p className="detail-subtitle">situação</p>
-              <p className="detail-content">
-                {data.situation === "active" ? "ativo" : "inativo"}
-              </p>
+            <div className="select-area">
+              <SelectInput
+                id="situation"
+                placeholder="situação"
+                register={register}
+                optionsList={["ativo", "inativo", "ativo não calibrável"]}
+              />
             </div>
           </div>
         </div>
@@ -171,7 +262,7 @@ const UpdateInstrument: React.FC = () => {
               errors={errors}
               inputName="description"
             />
-            
+
             <BasicInput
               isRequired={true}
               register={register}
@@ -191,7 +282,7 @@ const UpdateInstrument: React.FC = () => {
               inputName="calibrationFrequency"
             />
             <BasicInput
-              isRequired={true}
+              isRequired={false}
               register={register}
               inputType="text"
               inputPlaceholder="fabricante"
@@ -200,7 +291,7 @@ const UpdateInstrument: React.FC = () => {
               inputName="manufacturer"
             />
             <BasicInput
-              isRequired={true}
+              isRequired={false}
               register={register}
               inputType="text"
               inputPlaceholder="ref. adicional 1"
@@ -209,7 +300,7 @@ const UpdateInstrument: React.FC = () => {
               inputName="additionalReference1"
             />
             <BasicInput
-              isRequired={true}
+              isRequired={false}
               register={register}
               inputType="text"
               inputPlaceholder="ref. adicional 2"
@@ -218,7 +309,7 @@ const UpdateInstrument: React.FC = () => {
               inputName="additionalReference2"
             />
             <BasicInput
-              isRequired={true}
+              isRequired={false}
               register={register}
               inputType="text"
               inputPlaceholder="ref. adicional 3"
@@ -249,7 +340,7 @@ const UpdateInstrument: React.FC = () => {
                     inputPlaceholder="inventário"
                     inputStyle="classe-large"
                     errors={errors}
-                    inputName="additionalReference3"
+                    inputName="inventory"
                   />
                 </div>
                 <BasicInputFilter
@@ -268,7 +359,7 @@ const UpdateInstrument: React.FC = () => {
 
                 <div style={{ width: "48%" }}>
                   <BasicInput
-                    isRequired={true}
+                    isRequired={false}
                     register={register}
                     inputType="money"
                     inputPlaceholder="custo de aquisição"
@@ -279,7 +370,7 @@ const UpdateInstrument: React.FC = () => {
                 </div>
 
                 <BasicInput
-                  isRequired={true}
+                  isRequired={false}
                   register={register}
                   inputType="text"
                   inputPlaceholder="número de serie"
@@ -328,10 +419,7 @@ const UpdateInstrument: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <DetailItem
-                      subtitle="código"
-                      content={familyObject.code}
-                    />
+                    <DetailItem subtitle="código" content={familyObject.code} />
                     <DetailItem
                       subtitle="freq. calibração(família)"
                       content={`${familyObject.calibrationFrequencyInMonths} meses`}
@@ -426,7 +514,7 @@ const UpdateInstrument: React.FC = () => {
 
             <section className="other-details-section">
               <h1 className="detail-title">CALIBRAÇÃO</h1>
-              <div className="details-section">
+              <div className="details-section no-between">
                 <DetailItem
                   subtitle="próxima calibração"
                   content={
@@ -442,22 +530,74 @@ const UpdateInstrument: React.FC = () => {
                   }
                 />
               </div>
+              <div style={{marginTop: "80px"}}>
+
+              <p>{getValues("situationReason") === "loss" ? "Instrumento inativo por:  perda" : getValues("situationReason") === "nonconformity" ? "Instrumento inativo por: inconformidade" : ""}</p>
+              <p>{situationReason === "loss" ? "N° WorkOn: " : situationReason === "nonconformity" ? "Nº Análise de risco: " : ""}{situationJustification}</p>
+              </div>
+
             </section>
             <div className="btns-last-section">
-
-            <Button className="btn btn-md btn-primary-red" onClickFunction={(e) => {
-               
-                const confirmed = window.confirm("Se sair desta tela suas alterações serão perdidas");
-                if (confirmed) {
-                    navigate(`/consult/instrument/${data?.id}`)
-                } else {
-                    // Permaneça na tela atual ou realize outras ações
-                }
-            }} >Cancelar</Button>
-            <Button className="btn btn-md btn-tertiary" >Confirmar</Button>
+              <Button
+                className="btn btn-md btn-primary-red"
+                onClickFunction={() => {
+                  const confirmed = window.confirm(
+                    "Tem certeza que deseja sair desta página? Se sair, suas alterações não serão salvas."
+                  );
+                  if (confirmed) {
+                    navigate(`/consult/instrument/${data?.id}`);
+                  } else {
+                   
+                  }
+                }}
+              >
+                Cancelar
+              </Button>
+              <Button className="btn btn-md btn-tertiary" onClickFunction={handleSubmit(handleConfirm)}>Confirmar</Button>
             </div>
           </div>
         </div>
+          {isPopupActive &&(
+            
+        <div className="popup-overlay">
+          <div className="popup-container">
+                <h1 className="detail-title">INATIVAR INSTRUMENTO</h1>
+                <SelectInput id="situationReason" errors={errors} optionsList={["perda", "inconformidade"]} placeholder="motivo" register={register} />
+                {situationReason !== null && (<BasicInput
+                  isRequired={true}
+                  register={register}
+                  inputType="text"
+                  inputPlaceholder={situationReason === "loss" ? "Nº WorkOn" :  "N° análise de risco"}
+                  inputStyle="classe-large"
+                  errors={errors}
+                  inputName="situationJustification"
+                />)}
+                <div style={{display: "flex",gap: "20px",textAlign: "center", position: "absolute", bottom: "40px", right: "40px"}}>
+                <Button className="btn btn-md btn-primary-red" onClickFunction={() => {
+                  setValue("situationReason", "")
+                  setValue("situationJustification", "")
+                  setValue("situation", "active")
+                  setIsPopupActive(false)
+                  }}> Cancelar</Button>
+                <Button className="btn btn-md btn-secondary" onClickFunction={() => {
+                  console.log(situationJustification, situationReason)
+                  if (!situationJustification || !situationReason) {
+                    // Verifica se algum dos campos está vazio ou nulo e define os erros
+                    if (!situationJustification) {
+                      setError("situationJustification", { type: "custom", message: "Campo obrigatório" });
+                    }
+                    if (!situationReason) {
+                      setError("situationReason", { type: "custom", message: "Campo obrigatório" });
+                    }
+                  } else {
+                    // Se ambos os campos estiverem preenchidos, fecha o popup
+                    setIsPopupActive(false);
+                  }
+                }}>  Confirmar</Button>
+                </div>
+          </div>
+        </div>
+          )}
       </div>
     )
   );

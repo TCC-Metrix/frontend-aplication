@@ -8,7 +8,7 @@ import { FamilyRegisterPost } from "../../../utils/interfaces/Interfaces";
 import { usePostFamilyRegister } from "../../../services/useMutation";
 import { useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import { AxiosError } from "axios";
 import request from "axios";
 
@@ -207,7 +207,6 @@ const FamilyRegister = () => {
                   <>Confirmar</>
                 )}
               </Button>
-              <ToastContainer />
             </div>
           </form>
         </div>

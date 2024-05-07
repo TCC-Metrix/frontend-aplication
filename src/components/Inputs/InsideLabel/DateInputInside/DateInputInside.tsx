@@ -33,8 +33,8 @@ function DateInputInside(props: DateInputInside) {
           {...props.register(
             props.inputName,
             props.isRequired ? {
-              required: "Data inválida",
-            } : undefined
+              required: "Data inválida"
+            } : {required: false}
           )}
           className={`${
             props.errors[props.inputName] ? "error-formatted" : "inside-date-input"

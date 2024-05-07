@@ -8,7 +8,7 @@ import { usePostAreaRegister } from "../../../services/useMutation";
 import { useState } from "react";
 import { z } from "zod";
 import { RotatingLines } from "react-loader-spinner";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import request from "axios";
@@ -140,7 +140,6 @@ const AreaRegister = () => {
                   <>Confirmar</>
                 )}
               </Button>
-              <ToastContainer />
             </div>
           </form>
         </div>

@@ -54,6 +54,7 @@ function BasicInput(props: BasicInputProps) {
 						{...props.register(props.inputName, {
 							required: props.isRequired && "Campo obrigatório",
 						})}
+						
 					/>
 				) : props.inputName === "cnpj" ? (
 					<InputMask
@@ -73,17 +74,15 @@ function BasicInput(props: BasicInputProps) {
 							props.errors[props.inputName] ? "error-formatted" : "text-input"
 						}`}
 						required
-						{...props.register(
-							props.inputName,
-							props.isRequired ? {
-							  required: "Campo obrigatório",
-							} : undefined
-						  )}
+						{...props.register(props.inputName, props.isRequired ? {required: "Campo obrigatório"} : {required: false})}
 						onKeyDown={props.inputType === "number" ? handleKeyDown : undefined}
 						{...(props.inputType === "number" ? { onChange: handleChange } : {})}
+						maxLength={100}
 			
 					/>
+
 				)}
+				
 				<div className="label-line text-major">{props.inputPlaceholder}</div>
 			</div>
 			{props.errors[props.inputName] && (

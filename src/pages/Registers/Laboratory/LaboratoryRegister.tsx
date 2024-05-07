@@ -8,7 +8,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { LaboratoryRegisterPost } from "../../../utils/interfaces/Interfaces";
 import { usePostLaboratoryRegister } from "../../../services/useMutation";
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import request from "axios";
 
@@ -161,7 +161,6 @@ const LaboratoryRegister = () => {
                   <>Confirmar</>
                 )}
               </Button>
-              <ToastContainer />
             </div>
           </form>
         </div>

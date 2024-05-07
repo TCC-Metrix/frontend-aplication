@@ -93,9 +93,9 @@ const InstrumentDetails: React.FC = () => {
               </p>
             </div>
             <div>
-              <p className="detail-subtitle">situação</p>
+              <p className="detail-subtitle">situação:</p>
               <p className="detail-content">
-                {data.situation === "active" ? "ativo" : "inativo"}
+                {data.situation === "active" ? "ativo" : data.situation === "active non-calibratable" ? "ativo não calibrável" : "inativo"}
               </p>
             </div>
           </div>
@@ -242,7 +242,7 @@ const InstrumentDetails: React.FC = () => {
 
             <section className="other-details-section">
               <h1 className="detail-title">CALIBRAÇÃO</h1>
-              <div className="details-section">
+              <div className="details-section no-between">
                 <DetailItem
                   subtitle="próxima calibração"
                   content={
@@ -259,6 +259,13 @@ const InstrumentDetails: React.FC = () => {
                 />
               </div>
             </section>
+            {(data.situationReason !== null && data.situationReason !== undefined && data.situationReason !== "") && (
+              <div>
+                <h1 className="detail-title">SITUAÇÃO</h1>
+                <p>Motivo: {data.situationReason === "loss" ? "Perda" : "Inconformidade"}</p>
+                <p>{data.situationReason === "loss" ? "N° WorkOn: " : "Nº Análise de risco: "}{data.situationJustification}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

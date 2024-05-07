@@ -9,7 +9,7 @@ import { SupplierRegisterPost } from "../../../utils/interfaces/Interfaces";
 import { useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import { z } from "zod";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import { AxiosError } from "axios";
 import request from "axios";
 
@@ -163,7 +163,6 @@ const SupplierRegister = () => {
                   <>Confirmar</>
                 )}
               </Button>
-              <ToastContainer />
             </div>
           </form>
         </div>

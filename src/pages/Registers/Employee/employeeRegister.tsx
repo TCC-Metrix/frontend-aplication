@@ -8,7 +8,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { EmployeeRegisterPost } from "../../../utils/interfaces/Interfaces";
 import { usePostEmployeeRegister } from "../../../services/useMutation";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import request from "axios";
 
@@ -197,7 +197,6 @@ const EmployeeRegister = () => {
 									<>Confirmar</>
 								)}
 							</Button>
-              <ToastContainer />
 						</div>
 					</form>
 				</div>

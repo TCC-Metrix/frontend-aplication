@@ -18,3 +18,32 @@
     bottom: 44px;
 }
 
+ div.select-area > div{
+    width: auto;
+}
+
+.popup-overlay{
+    width: 100vw;
+    position: fixed;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.393);
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-container{
+    background-color: white;
+    height: 50%;
+    width: 50%;
+    padding: 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+}
+

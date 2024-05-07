@@ -17,7 +17,7 @@ import { useAllAreas, useAllEmployees } from "../../../services/useFetchData";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import { RotatingLines } from "react-loader-spinner";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
@@ -377,7 +377,6 @@ export const MoveUseOutput = () => {
 					</Button>
 				</div>
 				<ModalSearchInstrument openModal={openModal} setFinalInstruments={setTableMainPage} setOpenModal={setOpenModal} isReloaded={isReloaded} setIsReloaded={setIsReloaded} />
-				<ToastContainer />
 
 			</div>
 		</main>

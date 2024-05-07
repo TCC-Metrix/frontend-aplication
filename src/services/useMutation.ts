@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { FieldValues } from "react-hook-form";
+import { Field, FieldValues } from "react-hook-form";
 import {
-	getInstrumentBySome,
 	postAreaRegister,
 	postFamilyRegister,
 	postOutputUse,
@@ -9,15 +8,14 @@ import {
 	postEmployeeRegister,
   postInstrument,
 	postSupplierRegister,
+	postUpdateInstrument,
 } from "./apiService";
 import {
 	AreaRegisterPost,
 	FamilyRegisterPost,
 	OutputUsePost,
-	SearchPattern,
 	LaboratoryRegisterPost,
 	EmployeeRegisterPost,
-  	InstrumentToPost,
 	SupplierRegisterPost,
 } from "../utils/interfaces/Interfaces";
 
@@ -90,6 +88,16 @@ export function usePostEmployeeRegister() {
 		},
 	});
 }
+
+export function useUpdateInstrument() {
+	return useMutation({
+		mutationFn: (data: FieldValues) => {
+			return postUpdateInstrument(data, data.id);
+		},
+	});
+}
+
+
 export function usePostAreaRegister() {
 	return useMutation({
 		mutationFn: (data: AreaRegisterPost) => {

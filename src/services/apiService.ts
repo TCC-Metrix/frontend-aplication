@@ -1,4 +1,4 @@
-import { FieldValues } from "react-hook-form";
+import { Field, FieldValues } from "react-hook-form";
 import {
 	GeneralArea,
 	GeneralEmployee,
@@ -89,6 +89,10 @@ export const postInstrument = async (data: FieldValues) => {
 export const postFamilyRegister = async (data: FamilyRegisterPost) => {
 	return instance.post<FamilyRegisterPost>("family", data);
 };
+
+export const postUpdateInstrument = async (data: FieldValues, id: string) => {
+	return instance.put<FieldValues>(`instrument/${id}`, data)
+}
 
 export const postAreaRegister = async (data: AreaRegisterPost) => {
 	return instance.post<AreaRegisterPost>("area", data);
