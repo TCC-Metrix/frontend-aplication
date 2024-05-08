@@ -53,7 +53,7 @@ export const consultaLinks: List[] = [
 	},
 	{
 		name: "Família",
-		link: "#",
+		link: "/consult/family",
 	},
 	{
 		name: "Funcionário",

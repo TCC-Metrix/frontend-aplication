@@ -211,10 +211,15 @@ export interface RootFilter {
 	createdAt: string
   }
 
+  export interface Area {
+	id: string;
+	description: string
+  }
+
   export interface UseOutput {
 	id: string
 	movement: string[]
-	receivingArea: any
+	receivingArea: Area
 	shippingResponsible: GeneralEmployee
 	receivingResponsible: GeneralEmployee
 	outputDate: string

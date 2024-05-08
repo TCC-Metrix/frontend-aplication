@@ -1,4 +1,4 @@
-import {  FieldValues, useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import {
   BasicInput,
   BasicInputFilter,
@@ -35,13 +35,11 @@ const DetailItem: React.FC<DetailItemProps> = ({ subtitle, content }) => (
   </div>
 );
 
-
-
 const UpdateInstrument: React.FC = () => {
   const [familyObject, setFamilyObject] = useState<Family | undefined>();
   const instrument = sessionStorage.getItem("instrument");
   const lastMovement = sessionStorage.getItem("movement");
-  const [isPopupActive, setIsPopupActive] = useState(false)
+  const [isPopupActive, setIsPopupActive] = useState(false);
   let data: GeneralInstrument | null = null;
   let lastMovementData = null;
   if (lastMovement) {
@@ -82,81 +80,82 @@ const UpdateInstrument: React.FC = () => {
     situation: data?.situation,
     status: data?.status,
     situationJustification: data?.situationJustification,
-    situationReason: data?.situationReason
+    situationReason: data?.situationReason,
   };
 
   const navigate = useNavigate();
 
   const {
     register,
-    formState: { errors,  },
+    formState: { errors },
     setValue,
     handleSubmit,
     watch,
     getValues,
     setError,
-    clearErrors
+    clearErrors,
   } = useForm<FormValues>({ defaultValues: initialValues });
 
   const familyID = watch("familyID");
-  const situationReason = watch("situationReason")
-  const situationJustification = watch("situationJustification")
-  const situation = watch("situation")
+  const situationReason = watch("situationReason");
+  const situationJustification = watch("situationJustification");
+  const situation = watch("situation");
 
   useEffect(() => {
     setFamilyObject(allFamilies?.find((family) => family.id === familyID));
   }, [familyID]);
 
   useEffect(() => {
-    if (situation !== "inactive"){
-      setValue("situationReason", "")
-      setValue("situationJustification", "")
+    if (situation !== "inactive") {
+      setValue("situationReason", "");
+      setValue("situationJustification", "");
     }
-  }, [situation])
+  }, [situation]);
 
   useEffect(() => {
-    
-        if(situationReason !== null && situationReason !== ""){
-          clearErrors("situationReason")
+    if (situationReason !== null && situationReason !== "") {
+      clearErrors("situationReason");
+    }
+
+    if (situationJustification !== null && situationJustification !== "") {
+      clearErrors("situationJustification");
+    }
+  }, [situation, situationReason]);
+
+  window.addEventListener("beforeunload", function (event) {
+    event.preventDefault();
+    event.returnValue =
+      "Tem certeza que deseja sair desta página? Se sair, suas alterações não serão salvas.";
+  });
+
+  const notify = (type: string, message?: string) => {
+    type === "success" &&
+      toast.success("Instrumeto atualizado com sucesso", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+    type === "error" &&
+      toast.error(
+        `${message ? message : "Erro ao processar sua solicitação!"}`,
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
         }
-    
-        if(situationJustification !== null && situationJustification !== ""){
-          clearErrors("situationJustification")
-        }
-    
-  }, [situation, situationReason])
-
-  window.addEventListener('beforeunload', function (event) {
-  event.preventDefault();
-  event.returnValue = 'Tem certeza que deseja sair desta página? Se sair, suas alterações não serão salvas.';
-});
-
-const notify = (type: string, message?: string) => {
-  type === "success" &&
-    toast.success("Instrumeto atualizado com sucesso", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-
-  type === "error" &&
-    toast.error(`${message ? message : "Erro ao processar sua solicitação!"}`, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-};
-
+      );
+  };
 
   const formatDate = (date: string) => {
     const [ano, mes, dia] = date.split("-");
@@ -168,8 +167,7 @@ const notify = (type: string, message?: string) => {
     return mes;
   };
 
-  const updateInstrument = useUpdateInstrument()
-
+  const updateInstrument = useUpdateInstrument();
 
   const handleConfirm = (dataForm: FieldValues) => {
     const additionalReferences = [];
@@ -188,37 +186,32 @@ const notify = (type: string, message?: string) => {
     additionalReferences.length === 0
       ? (dataForm.additionalReferences = null)
       : (dataForm.additionalReferences = additionalReferences);
-      
-    dataForm.id = data?.id
 
-    if(situation === "inactive"){
+    dataForm.id = data?.id;
+
+    if (situation === "inactive") {
       if (!situationJustification || !situationReason) {
-        setIsPopupActive(true)
-        return
+        setIsPopupActive(true);
+        return;
       }
     }
 
-    
-
-      updateInstrument.mutate(dataForm, {
-        onSettled(dataSetted, error){
-          if (error){
-            console.log(error)
-            notify("error")
-          }else{
-            notify("success")
-            navigate(`/consult/instrument/${data?.id}`)
-            console.log(dataSetted)
-          }
+    updateInstrument.mutate(dataForm, {
+      onSettled(dataSetted, error) {
+        if (error) {
+          console.log(error);
+          notify("error");
+        } else {
+          notify("success");
+          navigate(`/consult/instrument/${data?.id}`);
+          console.log(dataSetted);
         }
-      })
-
-}
+      },
+    });
+  };
 
   if (isLoadingSuppliers || isLoadingFamilies) return <LoadingPage />;
   if (isErrorFamilies || isErrorSuppliers) return <ErrorPage />;
-
-
 
   return (
     data && (
@@ -461,7 +454,9 @@ const notify = (type: string, message?: string) => {
                   <DetailItem
                     subtitle="colaborador"
                     content={
-                      lastMovementData.useOutput.receivingResponsible.name
+                      lastMovementData.useOutput.receivingResponsible
+                        ? lastMovementData.useOutput.receivingResponsible.name
+                        : "-"
                     }
                   />
                   <DetailItem
@@ -474,7 +469,11 @@ const notify = (type: string, message?: string) => {
                   />
                   <DetailItem
                     subtitle="área"
-                    content={lastMovementData.useOutput.receivingArea}
+                    content={
+                      lastMovementData.useOutput.receivingArea
+                        ? lastMovementData.useOutput.receivingArea.description
+                        : "-"
+                    }
                   />
                 </div>
               </section>
@@ -530,74 +529,140 @@ const notify = (type: string, message?: string) => {
                   }
                 />
               </div>
-              <div style={{marginTop: "80px"}}>
-
-              <p>{getValues("situationReason") === "loss" ? "Instrumento inativo por:  perda" : getValues("situationReason") === "nonconformity" ? "Instrumento inativo por: inconformidade" : ""}</p>
-              <p>{situationReason === "loss" ? "N° WorkOn: " : situationReason === "nonconformity" ? "Nº Análise de risco: " : ""}{situationJustification}</p>
+              <div style={{ marginTop: "80px" }}>
+                <p>
+                  {getValues("situationReason") === "loss"
+                    ? "Instrumento inativo por:  perda"
+                    : getValues("situationReason") === "nonconformity"
+                    ? "Instrumento inativo por: inconformidade"
+                    : ""}
+                </p>
+                <p>
+                  {situationReason === "loss"
+                    ? "N° WorkOn: "
+                    : situationReason === "nonconformity"
+                    ? "Nº Análise de risco: "
+                    : ""}
+                  {situationJustification}
+                </p>
               </div>
-
             </section>
-            <div className="btns-last-section">
-              <Button
-                className="btn btn-md btn-primary-red"
-                onClickFunction={() => {
-                  const confirmed = window.confirm(
-                    "Tem certeza que deseja sair desta página? Se sair, suas alterações não serão salvas."
-                  );
-                  if (confirmed) {
-                    navigate(`/consult/instrument/${data?.id}`);
-                  } else {
-                   
-                  }
-                }}
-              >
-                Cancelar
-              </Button>
-              <Button className="btn btn-md btn-tertiary" onClickFunction={handleSubmit(handleConfirm)}>Confirmar</Button>
+            <div
+              style={{
+                width: "100%",
+                justifyContent: "flex-end",
+                display: "flex",
+                gap: "10px",
+              }}
+            >
+              <div>
+                <Button
+                  className="btn btn-md btn-primary-red"
+                  onClickFunction={() => {
+                    const confirmed = window.confirm(
+                      "Tem certeza que deseja sair desta página? Se sair, suas alterações não serão salvas."
+                    );
+                    if (confirmed) {
+                      navigate(`/consult/instrument/${data?.id}`);
+                    } else {
+                    }
+                  }}
+                >
+                  Cancelar
+                </Button>
+              </div>
+              <div>
+                <Button
+                  className="btn btn-md btn-tertiary"
+                  onClickFunction={handleSubmit(handleConfirm)}
+                >
+                  Confirmar
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-          {isPopupActive &&(
-            
-        <div className="popup-overlay">
-          <div className="popup-container">
-                <h1 className="detail-title">INATIVAR INSTRUMENTO</h1>
-                <SelectInput id="situationReason" errors={errors} optionsList={["perda", "inconformidade"]} placeholder="motivo" register={register} />
-                {situationReason !== null && (<BasicInput
+        {isPopupActive && (
+          <div className="popup-overlay">
+            <div className="popup-container">
+              <h1 className="detail-title">INATIVAR INSTRUMENTO</h1>
+              <SelectInput
+                id="situationReason"
+                errors={errors}
+                optionsList={["perda", "inconformidade"]}
+                placeholder="motivo"
+                register={register}
+              />
+              {situationReason !== null && (
+                <BasicInput
                   isRequired={true}
                   register={register}
                   inputType="text"
-                  inputPlaceholder={situationReason === "loss" ? "Nº WorkOn" :  "N° análise de risco"}
+                  inputPlaceholder={
+                    situationReason === "loss"
+                      ? "Nº WorkOn"
+                      : "N° análise de risco"
+                  }
                   inputStyle="classe-large"
                   errors={errors}
                   inputName="situationJustification"
-                />)}
-                <div style={{display: "flex",gap: "20px",textAlign: "center", position: "absolute", bottom: "40px", right: "40px"}}>
-                <Button className="btn btn-md btn-primary-red" onClickFunction={() => {
-                  setValue("situationReason", "")
-                  setValue("situationJustification", "")
-                  setValue("situation", "active")
-                  setIsPopupActive(false)
-                  }}> Cancelar</Button>
-                <Button className="btn btn-md btn-secondary" onClickFunction={() => {
-                  console.log(situationJustification, situationReason)
-                  if (!situationJustification || !situationReason) {
-                    // Verifica se algum dos campos está vazio ou nulo e define os erros
-                    if (!situationJustification) {
-                      setError("situationJustification", { type: "custom", message: "Campo obrigatório" });
-                    }
-                    if (!situationReason) {
-                      setError("situationReason", { type: "custom", message: "Campo obrigatório" });
-                    }
-                  } else {
-                    // Se ambos os campos estiverem preenchidos, fecha o popup
-                    setIsPopupActive(false);
-                  }
-                }}>  Confirmar</Button>
+                />
+              )}
+              <div
+                style={{
+                  width: "100%",
+                  justifyContent: "flex-end",
+                  display: "flex",
+                  gap: "10px",
+                }}
+              >
+                <div>
+                  <Button
+                    className="btn btn-md btn-primary-red"
+                    onClickFunction={() => {
+                      setValue("situationReason", "");
+                      setValue("situationJustification", "");
+                      setValue("situation", "active");
+                      setIsPopupActive(false);
+                    }}
+                  >
+                    {" "}
+                    Cancelar
+                  </Button>
                 </div>
+                <div>
+                  <Button
+                    className="btn btn-md btn-secondary"
+                    onClickFunction={() => {
+                      console.log(situationJustification, situationReason);
+                      if (!situationJustification || !situationReason) {
+                        // Verifica se algum dos campos está vazio ou nulo e define os erros
+                        if (!situationJustification) {
+                          setError("situationJustification", {
+                            type: "custom",
+                            message: "Campo obrigatório",
+                          });
+                        }
+                        if (!situationReason) {
+                          setError("situationReason", {
+                            type: "custom",
+                            message: "Campo obrigatório",
+                          });
+                        }
+                      } else {
+                        // Se ambos os campos estiverem preenchidos, fecha o popup
+                        setIsPopupActive(false);
+                      }
+                    }}
+                  >
+                    {" "}
+                    Confirmar
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-          )}
+        )}
       </div>
     )
   );

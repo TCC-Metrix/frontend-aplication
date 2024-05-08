@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { Field, FieldValues } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import {
 	postAreaRegister,
 	postFamilyRegister,
@@ -9,6 +9,7 @@ import {
   postInstrument,
 	postSupplierRegister,
 	postUpdateInstrument,
+	postUpdateFamily,
 } from "./apiService";
 import {
 	AreaRegisterPost,
@@ -93,6 +94,14 @@ export function useUpdateInstrument() {
 	return useMutation({
 		mutationFn: (data: FieldValues) => {
 			return postUpdateInstrument(data, data.id);
+		},
+	});
+}
+
+export function useUpdateFamily(id: string | undefined) {
+	return useMutation({
+		mutationFn: (data: FieldValues) => {
+			return postUpdateFamily(data, id);
 		},
 	});
 }

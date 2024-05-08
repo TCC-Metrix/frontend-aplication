@@ -1,4 +1,4 @@
-import { Field, FieldValues } from "react-hook-form";
+import {  FieldValues } from "react-hook-form";
 import {
 	GeneralArea,
 	GeneralEmployee,
@@ -66,6 +66,24 @@ export const getInstrumentById = async (id: string) => {
 	return (await instance.get<GeneralInstrument>(`instrument/filter/${id}`)).data;
 };
 
+
+//GET - Retorna a família filtrada
+export const getFamilyFiltered = async (data: FieldValues) => {
+	return (await instance.get<Family[]>(`family/filter?column=${data.column}&value=${data.value}`)).data;
+};
+
+//GET - Retorna a família pelo id
+export const getFamilyById = async (id: string | undefined) => {
+	return (await instance.get<Family>(`family/${id === undefined ? "" : id}`)).data;
+};
+
+
+
+//GET - Retorna as movimentações pelo ID do instrumento
+export const getAllMovements = async (id: string) => {
+	return (await instance.get<RootMovement[]>(`movement/filter/instrument/${id}`)).data;
+};
+
 //POST - Função para retornar os instrumentos de acordo com os filtros selecionados
 export const getInstrumentBySome = async (data: SearchPattern, pageParam = 0) => {
 	return instance.post<GeneralInstrument[]>(`instrument/filter?page=${pageParam}&size=3`, {
@@ -92,6 +110,9 @@ export const postFamilyRegister = async (data: FamilyRegisterPost) => {
 
 export const postUpdateInstrument = async (data: FieldValues, id: string) => {
 	return instance.put<FieldValues>(`instrument/${id}`, data)
+}
+export const postUpdateFamily = async (data: FieldValues, id: string | undefined) => {
+	return instance.put<FieldValues>(`family/${id}`, data)
 }
 
 export const postAreaRegister = async (data: AreaRegisterPost) => {

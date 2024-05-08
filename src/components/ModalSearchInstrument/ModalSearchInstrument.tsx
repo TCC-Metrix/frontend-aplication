@@ -220,8 +220,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
                     <td>{item.description}</td>
                     <td>{item.familyId.description}</td>
                     <td>
-                      {item.status === "in use" && "Em uso"}
-                      {item.status === "available" && "Disponível"}
+                      {item.nextCalibration ? item.nextCalibration : "-"}
                     </td>
                     <td className="text">
                       <input
@@ -256,7 +255,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
                     <td>{item.description}</td>
                     <td>{item.familyId.description}</td>
                     <td>
-                      {item.nextCalibration}
+                    {item.nextCalibration ? item.nextCalibration : "-"}
                     </td>
                     <td className="text">
                       <input
