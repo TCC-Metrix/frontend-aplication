@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements } from "./apiService";
+import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById } from "./apiService";
+import { FieldValues } from "react-hook-form";
 
 
 //Retorna todos os instrumentos da API
@@ -43,6 +44,24 @@ export function useAllSuppliers() {
     queryKey: ["suppliers"],
     queryFn: getSuppliers,
     refetchOnWindowFocus: false
+  })
+}
+
+
+export function useFamilyFiltered(data: FieldValues, isEnabled: boolean) {
+  return useQuery({
+    queryKey: ["family-filtered"],
+    queryFn: () => getFamilyFiltered(data),
+    refetchOnWindowFocus: false,
+    enabled: isEnabled
+  })
+}
+
+export function useFamilyById(id: string | undefined) {
+  return useQuery({
+    queryKey: ["family", id],
+    queryFn: () => getFamilyById(id),
+    refetchOnWindowFocus: false,
   })
 }
 

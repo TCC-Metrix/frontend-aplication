@@ -1,5 +1,10 @@
 import { FieldValues, useForm } from "react-hook-form";
-import { SelectInput, BasicInput, Button, BasicInputFilter } from "../../../components";
+import {
+  SelectInput,
+  BasicInput,
+  Button,
+  BasicInputFilter,
+} from "../../../components";
 import "./ConsultInstrument.css";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
@@ -20,7 +25,7 @@ function ConsultInstrument() {
     watch,
     handleSubmit,
     getValues,
-    setValue
+    setValue,
   } = useForm();
   const navigate = useNavigate();
 
@@ -75,8 +80,11 @@ function ConsultInstrument() {
     return null;
   }
 
-
-  const {data: allFamilies , isLoading: isLoadingFamilies, isError: isErrorFamilies} = useAllFamilies()
+  const {
+    data: allFamilies,
+    isLoading: isLoadingFamilies,
+    isError: isErrorFamilies,
+  } = useAllFamilies();
   //queryFunctions
 
   const {
@@ -103,8 +111,7 @@ function ConsultInstrument() {
     hasNextPage,
     isError,
     data,
-    isSuccess
-
+    isSuccess,
   } = useInfiniteQuery({
     queryKey: ["instruments"],
     queryFn: ({ pageParam }) => fetchInstruments(pageParam),
@@ -144,12 +151,11 @@ function ConsultInstrument() {
       instrumentsFiltered = instruments;
     }
 
-    
     filterData.enabled = true;
 
-    if(data.column === "familyID"){
-      if(data.value === ""){
-        return
+    if (data.column === "familyID") {
+      if (data.value === "") {
+        return;
       }
     }
     refetch();
@@ -185,7 +191,7 @@ function ConsultInstrument() {
                 inputId="value"
                 items={allFamilies}
                 getValues={getValues}
-                setValue={setValue} 
+                setValue={setValue}
                 errors={errors}
               />
             ) : (

@@ -20,6 +20,9 @@ import InstrumentDetails from "./pages/Consults/Instrument/InstrumentDetails";
 import UpdateInstrument from "./pages/Update/Instrument/UpdateInstrument";
 import { ToastContainer } from "react-toastify";
 import InstrumentHistory from "./pages/History/InstrumentHistory";
+import ConsultFamily from "./pages/Consults/Family/ConsultFamily";
+import FamilyDetails from "./pages/Consults/Family/FamilyDetails";
+import UpdateFamily from "./pages/Update/Family/UpdateFamily";
 
 function App() {
   const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -150,6 +153,33 @@ function App() {
           element={
             <ProtectedRoute>
               <UpdateInstrument />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        <Route
+          path="/consult/family"
+          element={
+            <ProtectedRoute>
+              <ConsultFamily />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        <Route
+          path="/consult/family/:id"
+          element={
+            <ProtectedRoute>
+              <FamilyDetails />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        <Route
+          path="/edit/family/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateFamily />
             </ProtectedRoute>
           }
         ></Route>

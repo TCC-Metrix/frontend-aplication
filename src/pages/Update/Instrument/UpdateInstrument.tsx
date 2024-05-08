@@ -454,7 +454,9 @@ const UpdateInstrument: React.FC = () => {
                   <DetailItem
                     subtitle="colaborador"
                     content={
-                      lastMovementData.useOutput.receivingResponsible ? lastMovementData.useOutput.receivingResponsible.name : "-"
+                      lastMovementData.useOutput.receivingResponsible
+                        ? lastMovementData.useOutput.receivingResponsible.name
+                        : "-"
                     }
                   />
                   <DetailItem
@@ -467,7 +469,11 @@ const UpdateInstrument: React.FC = () => {
                   />
                   <DetailItem
                     subtitle="área"
-                    content={lastMovementData.useOutput.receivingArea ? lastMovementData.useOutput.receivingArea.description : "-"}
+                    content={
+                      lastMovementData.useOutput.receivingArea
+                        ? lastMovementData.useOutput.receivingArea.description
+                        : "-"
+                    }
                   />
                 </div>
               </section>
@@ -541,27 +547,38 @@ const UpdateInstrument: React.FC = () => {
                 </p>
               </div>
             </section>
-            <div className="btns-last-section">
-              <Button
-                className="btn btn-md btn-primary-red"
-                onClickFunction={() => {
-                  const confirmed = window.confirm(
-                    "Tem certeza que deseja sair desta página? Se sair, suas alterações não serão salvas."
-                  );
-                  if (confirmed) {
-                    navigate(`/consult/instrument/${data?.id}`);
-                  } else {
-                  }
-                }}
-              >
-                Cancelar
-              </Button>
-              <Button
-                className="btn btn-md btn-tertiary"
-                onClickFunction={handleSubmit(handleConfirm)}
-              >
-                Confirmar
-              </Button>
+            <div
+              style={{
+                width: "100%",
+                justifyContent: "flex-end",
+                display: "flex",
+                gap: "10px",
+              }}
+            >
+              <div>
+                <Button
+                  className="btn btn-md btn-primary-red"
+                  onClickFunction={() => {
+                    const confirmed = window.confirm(
+                      "Tem certeza que deseja sair desta página? Se sair, suas alterações não serão salvas."
+                    );
+                    if (confirmed) {
+                      navigate(`/consult/instrument/${data?.id}`);
+                    } else {
+                    }
+                  }}
+                >
+                  Cancelar
+                </Button>
+              </div>
+              <div>
+                <Button
+                  className="btn btn-md btn-tertiary"
+                  onClickFunction={handleSubmit(handleConfirm)}
+                >
+                  Confirmar
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -593,53 +610,55 @@ const UpdateInstrument: React.FC = () => {
               )}
               <div
                 style={{
+                  width: "100%",
+                  justifyContent: "flex-end",
                   display: "flex",
-                  gap: "20px",
-                  textAlign: "center",
-                  position: "absolute",
-                  bottom: "40px",
-                  right: "40px",
+                  gap: "10px",
                 }}
               >
-                <Button
-                  className="btn btn-md btn-primary-red"
-                  onClickFunction={() => {
-                    setValue("situationReason", "");
-                    setValue("situationJustification", "");
-                    setValue("situation", "active");
-                    setIsPopupActive(false);
-                  }}
-                >
-                  {" "}
-                  Cancelar
-                </Button>
-                <Button
-                  className="btn btn-md btn-secondary"
-                  onClickFunction={() => {
-                    console.log(situationJustification, situationReason);
-                    if (!situationJustification || !situationReason) {
-                      // Verifica se algum dos campos está vazio ou nulo e define os erros
-                      if (!situationJustification) {
-                        setError("situationJustification", {
-                          type: "custom",
-                          message: "Campo obrigatório",
-                        });
-                      }
-                      if (!situationReason) {
-                        setError("situationReason", {
-                          type: "custom",
-                          message: "Campo obrigatório",
-                        });
-                      }
-                    } else {
-                      // Se ambos os campos estiverem preenchidos, fecha o popup
+                <div>
+                  <Button
+                    className="btn btn-md btn-primary-red"
+                    onClickFunction={() => {
+                      setValue("situationReason", "");
+                      setValue("situationJustification", "");
+                      setValue("situation", "active");
                       setIsPopupActive(false);
-                    }
-                  }}
-                >
-                  {" "}
-                  Confirmar
-                </Button>
+                    }}
+                  >
+                    {" "}
+                    Cancelar
+                  </Button>
+                </div>
+                <div>
+                  <Button
+                    className="btn btn-md btn-secondary"
+                    onClickFunction={() => {
+                      console.log(situationJustification, situationReason);
+                      if (!situationJustification || !situationReason) {
+                        // Verifica se algum dos campos está vazio ou nulo e define os erros
+                        if (!situationJustification) {
+                          setError("situationJustification", {
+                            type: "custom",
+                            message: "Campo obrigatório",
+                          });
+                        }
+                        if (!situationReason) {
+                          setError("situationReason", {
+                            type: "custom",
+                            message: "Campo obrigatório",
+                          });
+                        }
+                      } else {
+                        // Se ambos os campos estiverem preenchidos, fecha o popup
+                        setIsPopupActive(false);
+                      }
+                    }}
+                  >
+                    {" "}
+                    Confirmar
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
