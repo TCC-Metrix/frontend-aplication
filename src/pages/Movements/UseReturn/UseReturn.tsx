@@ -3,9 +3,9 @@ import { useState } from "react";
 import { Button, BasicInputFilter, DateInputInside } from "../../../components";
 import {
 	GeneralInstrument,
-	OutputUsePost,
+	UseReturnPost,
 } from "../../../utils/interfaces/Interfaces";
-import { usePostOutputUse } from "../../../services/useMutation";
+import { usePostReturnUse } from "../../../services/useMutation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useAllAreas, useAllEmployees } from "../../../services/useFetchData";
 import LoadingPage from "../../LoadingPage/LoadingPage";
@@ -32,7 +32,7 @@ export const UseReturn = () => {
 	const currentMonth: number = currentDate.getMonth() + 1;
 	const currentYear: number = currentDate.getFullYear();
 
-	const headersList = ["Código", "Descrição", "Referência adicional"];
+	const headersList = ["Código", "Nome", "Data de Saída", "Motivo", "Colaborador", "Área"];
 
 	const notify = (type: string, message?: string) => {
 		type === "success" &&
@@ -63,7 +63,7 @@ export const UseReturn = () => {
 			);
 	};
 
-	console.log(msalInstance.getActiveAccount());
+	
 
 	//Abre o modal
 	const handleModal = () => {
@@ -83,10 +83,10 @@ export const UseReturn = () => {
 	} = useForm();
 
 	const valueInArea = watch("area");
-	const valueInReceivingResponsible = watch("receivingResponsible");
+	const valueInShippingResponsible = watch("shippingResponsible");
 
 	//Hooks de api
-	const postOutputMutation = usePostOutputUse(); //posta a saida para uso
+	const postReturnUseMutation = usePostReturnUse(); //posta a saida para uso
 	const { data: allEmployees, isLoading, isError } = useAllEmployees(); //busca todos os funcionarios
 	const {
 		data: allAreas,
@@ -94,9 +94,9 @@ export const UseReturn = () => {
 		isError: isErrorArea,
 	} = useAllAreas(); //busca todas as áreas
 
-	const handlePostUseOutput: SubmitHandler<OutputUsePost> = (data) => {
+	const handlePostUseOutput: SubmitHandler<UseReturnPost> = (data) => {
 		setIsLoadingPostUseOutput(true);
-		postOutputMutation.mutate(data, {
+		postReturnUseMutation.mutate(data, {
 			onSettled: (data, error) => {
 				if (error && request.isAxiosError(error)) {
 					setIsLoadingPostUseOutput(false);
@@ -130,17 +130,17 @@ export const UseReturn = () => {
 			notify("error", "Nenhum instrumento selecionado");
 			return;
 		}
-		//valueInReceivingResponsible = "abcd"
+		//valueInShippingResponsible = "abcd"
 		//valueInArea = ""
 
 		if (
 			(valueInArea === "" || valueInArea === undefined) &&
-			(valueInReceivingResponsible === "" ||
-				valueInReceivingResponsible === undefined)
+			(valueInShippingResponsible === "" ||
+				valueInShippingResponsible === undefined)
 		) {
 			notify(
 				"error",
-				"Informe ao menos uma área ou responsável de recebimento"
+				"Informe ao menos uma área ou responsável de entrega"
 			);
 			return;
 		}
@@ -205,7 +205,7 @@ export const UseReturn = () => {
 			shippingResponsible: data.shippingResponsible,
 			receivingResponsible: data.receivingResponsible,
 			area: data.area,
-			outputDate: data.outputDate,
+			returnDate: data.returnDate,
 		});
 	};
 
@@ -221,7 +221,7 @@ export const UseReturn = () => {
 		<main>
 			<div className="container-main">
 				<div>
-					<h1 className="header-three">Saída para uso</h1>
+					<h1 className="header-three">Retorno de uso</h1>
 					<p className="text">Instrumento</p>
 					<Button className="btn btn-tertiary " onClickFunction={handleModal}>
 						Adicionar / Editar
@@ -283,7 +283,9 @@ export const UseReturn = () => {
 									getValues={getValues}
 									isRequired={true}
 									errors={errors}
-									isActive={true}
+									isActive={valueInArea !== "" && valueInArea !== undefined
+									? false
+									: true}
 								/>
 							</div>
 							<div>
@@ -298,11 +300,7 @@ export const UseReturn = () => {
 									getValues={getValues}
 									isRequired={false} //undefined
 									errors={errors}
-									isActive={
-										valueInArea !== "" && valueInArea !== undefined
-											? false
-											: true
-									}
+									isActive={true}
 								/>
 							</div>
 						</div>
@@ -320,8 +318,8 @@ export const UseReturn = () => {
 									isRequired={false} // ""
 									errors={errors}
 									isActive={
-										valueInReceivingResponsible !== "" &&
-										valueInReceivingResponsible !== undefined
+										valueInShippingResponsible !== "" &&
+										valueInShippingResponsible !== undefined
 											? false
 											: true
 									}
@@ -366,6 +364,7 @@ export const UseReturn = () => {
 					setOpenModal={setOpenModal}
 					isReloaded={isReloaded}
 					setIsReloaded={setIsReloaded}
+					status="in%20use"
 				/>
 			</div>
 		</main>

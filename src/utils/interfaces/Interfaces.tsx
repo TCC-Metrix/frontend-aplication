@@ -46,12 +46,20 @@ export interface SearchPattern {
 	secondValue: string;
 }
 
-export interface OutputUsePost {
+export interface UsePost {
 	instrumentIds: string[];
 	shippingResponsible: string;
 	receivingResponsible: string;
 	area: string;
 	outputDate: string;
+}
+
+export interface UseReturnPost {
+	instrumentIds: string[];
+	shippingResponsible: string;
+	receivingResponsible: string;
+	area: string;
+	returnDate: string;
 }
 
 export interface FamilyRegisterPost {

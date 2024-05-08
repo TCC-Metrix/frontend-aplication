@@ -7,7 +7,7 @@ import {
 } from "../../../components";
 import {
 	GeneralInstrument,
-	OutputUsePost,
+	UsePost,
 } from "../../../utils/interfaces/Interfaces";
 import {
 	usePostOutputUse,
@@ -100,7 +100,7 @@ console.log(msalInstance.getActiveAccount())
 		isError: isErrorArea,
 	} = useAllAreas(); //busca todas as áreas
 
-	const handlePostUseOutput: SubmitHandler<OutputUsePost> = (data) => {
+	const handlePostUseOutput: SubmitHandler<UsePost> = (data) => {
 		setIsLoadingPostUseOutput(true);
 		postOutputMutation.mutate(data, {
 			onSettled: (data, error) => {

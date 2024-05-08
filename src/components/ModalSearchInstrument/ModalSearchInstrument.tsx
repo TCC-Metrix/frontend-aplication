@@ -17,12 +17,13 @@ interface ModalSearchInstrumentProps {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
   setFinalInstruments: React.Dispatch<React.SetStateAction<GeneralInstrument[]>>,
   isReloaded:boolean,
-  setIsReloaded: React.Dispatch<React.SetStateAction<boolean>>
+  setIsReloaded: React.Dispatch<React.SetStateAction<boolean>>,
+  status?: string
 }
 
 
 
-const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOpenModal, setFinalInstruments, isReloaded, setIsReloaded}) => {
+const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOpenModal, status, setFinalInstruments, isReloaded, setIsReloaded}) => {
   const [selectedInstruments, setSelectedInstruments] = useState<GeneralInstrument[]>([]);
   const [isScroll, setIsScroll] = useState(false)
   const [isShowingInstrumentsFiltered, setIsShowingInstrumentsFiltered] = useState(false)
@@ -53,7 +54,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
     pageParam = 0
   ): Promise<RootFilter> => {
     const response = await instance.get(
-      `/instrument/deepfilter?&column=${filterData.column}&value=${filterData.value}&status=available&page=${pageParam}&size=7`
+      `/instrument/deepfilter?&column=${filterData.column}&value=${filterData.value}&status=${status ? status : "available"}&page=${pageParam}&size=7`
     );
     return response.data;
   };
