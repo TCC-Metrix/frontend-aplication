@@ -10,6 +10,7 @@ import {
 	postSupplierRegister,
 	postUpdateInstrument,
 	postUpdateFamily,
+	postUpdateEmployee,
 } from "./apiService";
 import {
 	AreaRegisterPost,
@@ -106,6 +107,13 @@ export function useUpdateFamily(id: string | undefined) {
 	});
 }
 
+export function useUpdateEmployee(id: string | undefined) {
+	return useMutation({
+		mutationFn: (data: FieldValues) => {
+			return postUpdateEmployee(data, id);
+		}
+	})
+}
 
 export function usePostAreaRegister() {
 	return useMutation({
