@@ -23,6 +23,8 @@ import InstrumentHistory from "./pages/History/InstrumentHistory";
 import ConsultFamily from "./pages/Consults/Family/ConsultFamily";
 import FamilyDetails from "./pages/Consults/Family/FamilyDetails";
 import UpdateFamily from "./pages/Update/Family/UpdateFamily";
+import ConsultLaboratory from "./pages/Consults/Area/ConsultArea";
+import ConsultArea from "./pages/Consults/Area/ConsultArea";
 
 function App() {
   const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -189,6 +191,15 @@ function App() {
           element={
             <ProtectedRoute>
               <InstrumentHistory />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        <Route
+          path="/consult/area"
+          element={
+            <ProtectedRoute>
+              <ConsultArea />
             </ProtectedRoute>
           }
         ></Route>

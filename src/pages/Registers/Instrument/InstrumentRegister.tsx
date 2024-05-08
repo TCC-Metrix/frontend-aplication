@@ -31,7 +31,7 @@ const InstrumentRegister = () => {
 
   const notify = (type: string, message?: string) => {
     type === "success" &&
-      toast.success("Instrumeto registrado com sucesso", {
+      toast.success("Instrumento registrado com sucesso", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -218,7 +218,7 @@ const InstrumentRegister = () => {
                 inputPlaceholder="inventário"
                 inputStyle="little-input"
                 errors={errors}
-                isRequired={true}
+                isRequired={false}
                 inputName="inventory"
                 register={register}
                 inputType="text"

@@ -163,8 +163,10 @@ const UpdateInstrument: React.FC = () => {
   };
 
   const getMonth = (date: string) => {
+    // Separe o ano, mês e dia
     const mes = date.split("-")[1];
-    return mes;
+    const ano = date.split("-")[0];
+    return `${mes}/${ano}`;
   };
 
   const updateInstrument = useUpdateInstrument();
@@ -208,6 +210,32 @@ const UpdateInstrument: React.FC = () => {
         }
       },
     });
+  };
+
+  const getLastyearNumber = (date: string) => {
+    const lastDigit = date.split("-")[0].slice(-1);
+
+    if (lastDigit === "1" || lastDigit === "6") {
+      return "#A45729"; //marrom ral 8023
+    }
+
+    if (lastDigit === "2" || lastDigit === "7") {
+      return "#007CB0"; //Azul ral 5015
+    }
+
+    if (lastDigit === "3" || lastDigit === "8") {
+      return "#B0B0A9"; //Cinza (RAL 7038)
+    }
+
+    if (lastDigit === "4" || lastDigit === "9") {
+      return "#61993B"; //Verde (RAL 6018)
+    }
+
+    if (lastDigit === "5" || lastDigit === "10") {
+      return "#F7B500"; //Amarelo (RAL 1023)
+    }
+
+    return "";
   };
 
   if (isLoadingSuppliers || isLoadingFamilies) return <LoadingPage />;
@@ -512,7 +540,26 @@ const UpdateInstrument: React.FC = () => {
             </section>
 
             <section className="other-details-section">
-              <h1 className="detail-title">CALIBRAÇÃO</h1>
+            <div
+                style={{
+                  display: "flex",
+                  gap: "20px",
+                  alignItems: "center"
+                }}
+              >
+                <h1 className="detail-title">CALIBRAÇÃO</h1>
+                {data.nextCalibration && (
+                  <span
+                    className="bolinha"
+                    style={{
+                      backgroundColor: `${getLastyearNumber(
+                        data.nextCalibration
+                      )}`,
+                      display: "block",
+                    }}
+                  ></span>
+                )}
+              </div>
               <div className="details-section no-between">
                 <DetailItem
                   subtitle="próxima calibração"

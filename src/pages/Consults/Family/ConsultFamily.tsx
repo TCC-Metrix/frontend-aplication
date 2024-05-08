@@ -5,7 +5,7 @@ import {
   useFamilyFiltered,
 } from "../../../services/useFetchData";
 import { Family } from "../../../utils/interfaces/Interfaces";
-import { RotatingLines, Watch } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -39,8 +39,7 @@ function ConsultFamily() {
   const headersList = [
     "Nome",
     "Freq. Calibração",
-    "Código",
-    "",
+    "Código"
   ];
 
   return (
@@ -103,7 +102,6 @@ function ConsultFamily() {
                         </td>
                         <td>{item.calibrationFrequencyInMonths}</td>
                         <td style={{textTransform: "uppercase"}}> {item.code}</td>
-                        <td style={{ textDecoration: "underline" }}>Editar</td>
                       </tr>
                     );
                   })}
@@ -123,7 +121,7 @@ function ConsultFamily() {
                         </td>
                         <td>{item.calibrationFrequencyInMonths}</td>
                         <td style={{textTransform: "uppercase"}}>{item.code}</td>
-                        <td style={{ textDecoration: "underline" }}>Editar</td>
+                        
                       </tr>
                     );
                   })}

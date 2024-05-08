@@ -67,12 +67,12 @@ const AreaRegister = () => {
   const handlePostAreaRegister: SubmitHandler<AreaRegisterPost> = (data) => {
     setIsLoadingPostAreaRegister(true);
     postAreaMutation.mutate(data, {
-      onSettled: (error) => {
+      onSettled: (data, error) => {
         setIsLoadingPostAreaRegister(false);
         if (error && request.isAxiosError(error)) {
           const errorAxios = error as AxiosError;
           if (errorAxios.response?.data) {
-            if (error.response?.data === 409) {
+            if (error.response?.status === 409) {
               notify("error", "Área com este NOME já está cadastrada.");
               return;
             }
