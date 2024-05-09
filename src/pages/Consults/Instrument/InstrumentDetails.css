@@ -74,6 +74,7 @@
     column-gap: 55px;
     flex-wrap: wrap;
     margin-top: 28px;
+    position: relative;
 }
 
 .other-details-area{
@@ -106,6 +107,14 @@
     justify-content: flex-start!important;
     gap: 40px;
 }
+
+.bolinha{
+    height: 25px;
+    width: 25px;
+    border-radius: 999px;
+}
+
+
 
 @media(max-width: 1900px){
     .detail-area{

@@ -119,6 +119,9 @@ export const postFamilyRegister = async (data: FamilyRegisterPost) => {
 export const postUpdateInstrument = async (data: FieldValues, id: string) => {
 	return instance.put<FieldValues>(`instrument/${id}`, data)
 }
+export const postUpdateArea = async (data: FieldValues, id: string) => {
+	return instance.put<FieldValues>(`area/${id}`, data)
+}
 export const postUpdateFamily = async (data: FieldValues, id: string | undefined) => {
 	return instance.put<FieldValues>(`family/${id}`, data)
 }

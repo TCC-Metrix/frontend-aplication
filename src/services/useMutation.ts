@@ -10,7 +10,9 @@ import {
 	postSupplierRegister,
 	postUpdateInstrument,
 	postUpdateFamily,
+	postUpdateArea,
 	postUpdateEmployee,
+
 } from "./apiService";
 import {
 	AreaRegisterPost,
@@ -95,6 +97,13 @@ export function useUpdateInstrument() {
 	return useMutation({
 		mutationFn: (data: FieldValues) => {
 			return postUpdateInstrument(data, data.id);
+		},
+	});
+}
+export function useUpdateArea() {
+	return useMutation({
+		mutationFn: (data: FieldValues) => {
+			return postUpdateArea(data, data.id);
 		},
 	});
 }
