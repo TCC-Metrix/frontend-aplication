@@ -148,7 +148,7 @@ const InstrumentRegister = () => {
           const errorAxios = error as AxiosError;
           setIsLoadingInstrument(false);
           if (errorAxios.response?.data) {
-            if (error.response?.data === 409) {
+            if (error.response?.status === 409) {
               notify(
                 "error",
                 "Instrumento com este código já está cadastrado."
