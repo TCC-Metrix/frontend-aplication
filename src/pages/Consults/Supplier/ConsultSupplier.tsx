@@ -34,8 +34,7 @@ function ConsultSupplier() {
 
   const headersList = [
     "Nome",
-    "Setor",
-    "Email",
+    "CNPJ",
     "",
   ];
 
@@ -48,7 +47,7 @@ function ConsultSupplier() {
           <div className="search-area">
             <SelectInput
               placeholder="Buscar por"
-              optionsList={["nome", "edv"]}
+              optionsList={["nome", "cnpj"]}
               id="column"
               register={register}
             />
@@ -56,7 +55,7 @@ function ConsultSupplier() {
               register={register}
               inputName="value"
               inputPlaceholder={`Busque por ${
-                watch("column") === "code" ? "nome" : "edv"
+                watch("column") === "nome" ? "nome" : "cnpj"
               }`}
               inputStyle="classe-large"
               isRequired={false}
@@ -98,8 +97,7 @@ function ConsultSupplier() {
                         <td className="text">
                           <p className="td-text" style={{textTransform: "capitalize"}}>{item.name}</p>
                         </td>
-                        <td>{item.sector}</td>
-                        <td>{item.email}</td>
+                        <td>{item.cnpj}</td>
                         <td style={{ textDecoration: "underline" }}>Editar</td>
                       </tr>
                     );
@@ -118,8 +116,7 @@ function ConsultSupplier() {
                           <td>
                             <p className="td-text">{item.name}</p>
                           </td>
-                          <td>{item.sector}</td>
-                          <td style={{ textTransform: "uppercase" }}>{item.email}</td>
+                          <td>{item.cnpj}</td>
                           <td style={{ textDecoration: "underline" }}>Editar</td>
                         </tr>
                       )
