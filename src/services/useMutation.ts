@@ -4,9 +4,10 @@ import {
 	postAreaRegister,
 	postFamilyRegister,
 	postOutputUse,
+	postReturnUse,
 	postLaboratoryRegister,
 	postEmployeeRegister,
-  postInstrument,
+	postInstrument,
 	postSupplierRegister,
 	postUpdateInstrument,
 	postUpdateFamily,
@@ -17,12 +18,12 @@ import {
 import {
 	AreaRegisterPost,
 	FamilyRegisterPost,
-	OutputUsePost,
+	UsePost,
+	UseReturnPost,
 	LaboratoryRegisterPost,
 	EmployeeRegisterPost,
 	SupplierRegisterPost,
 } from "../utils/interfaces/Interfaces";
-
 
 // //Função que faz um POST na API para retornar os instrumentos de acordo com o filtro
 // export function useGetInstrumentBy() {
@@ -34,29 +35,41 @@ import {
 // 	});
 // }
 
-
-export function usePostOutputUse(){
-    return useMutation({
-        mutationFn: (data: OutputUsePost) => {
-            return postOutputUse({
-                instrumentIds: data.instrumentIds,
-                area: data.area,
-                shippingResponsible: data.shippingResponsible,
-                receivingResponsible: data.receivingResponsible,
-                outputDate: data.outputDate
-            })},
-
-    })
+export function usePostOutputUse() {
+	return useMutation({
+		mutationFn: (data: UsePost) => {
+			return postOutputUse({
+				instrumentIds: data.instrumentIds,
+				area: data.area,
+				shippingResponsible: data.shippingResponsible,
+				receivingResponsible: data.receivingResponsible,
+				outputDate: data.outputDate,
+			});
+		},
+	});
 }
 
-
-export function usePostInstrument(){
-    return useMutation({
-        mutationFn: (data: FieldValues) => {
-            return postInstrument(data)},
-    })
+export function usePostReturnUse() {
+	return useMutation({
+		mutationFn: (data: UseReturnPost) => {
+			return postReturnUse({
+				instrumentIds: data.instrumentIds,
+				area: data.area,
+				shippingResponsible: data.shippingResponsible,
+				receivingResponsible: data.receivingResponsible,
+				returnDate: data.returnDate,
+			});
+		},
+	});
 }
 
+export function usePostInstrument() {
+	return useMutation({
+		mutationFn: (data: FieldValues) => {
+			return postInstrument(data);
+		},
+	});
+}
 
 export function usePostFamilyRegister() {
 	return useMutation({
@@ -87,7 +100,7 @@ export function usePostEmployeeRegister() {
 				name: data.name,
 				edv: data.edv,
 				email: data.email,
-				sector: data.sector
+				sector: data.sector,
 			});
 		},
 	});
@@ -123,6 +136,7 @@ export function useUpdateEmployee(id: string | undefined) {
 		}
 	})
 }
+
 
 export function usePostAreaRegister() {
 	return useMutation({
