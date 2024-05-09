@@ -288,7 +288,7 @@ const InstrumentRegister = () => {
               />
               <SelectInput
                 placeholder="situação"
-                optionsList={["ativo", "inativo"]}
+                optionsList={["ativo", "inativo", "ativo não calibrável"]}
                 id="situation"
                 register={register}
               />
