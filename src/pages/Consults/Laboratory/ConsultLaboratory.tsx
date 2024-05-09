@@ -4,13 +4,13 @@ import {
 	useAllSuppliers,
 	useSupplierFiltered,
 } from "../../../services/useFetchData";
-import { GeneralSupplier } from "../../../utils/interfaces/Interfaces";
+import { GeneralLaboratory } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useNavbarStore } from "../../../store";
 
-function ConsultSupplier() {
+function ConsultLaboratory() {
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 	const [enable, setEnable] = useState(false);
 	const {
@@ -20,11 +20,11 @@ function ConsultSupplier() {
 		watch,
 	} = useForm();
 
-	const { data: allSuppliers, isFetching } = useAllSuppliers();
+	const { data: allSuppliers, isFetching } = useAllSuppliers(); // arrumar qnd pronto
 	const navigate = useNavigate();
 
 	const { data, refetch } = useSupplierFiltered(
-		{ column: watch("column"), value: watch("value") },
+		{ column: watch("column"), value: watch("value") },   // arrumar quando pronto
 		enable
 	);
 
@@ -37,7 +37,7 @@ function ConsultSupplier() {
 		refetch();
 	};
 
-	const headersList = ["Nome", "CNPJ", ""];
+	const headersList = ["Código CAL", "Nome", ""];
 
 	return (
 		<div
@@ -49,12 +49,12 @@ function ConsultSupplier() {
 			<div className="consult-page">
 				<div className="box-shadow-container">
 					<div className="box-shadow-container-header">
-						<h1 className="header-three">Fornecedores</h1>
+						<h1 className="header-three">Laboratórios</h1>
 						<p className="normal-text">Filtrar por</p>
 						<div className="search-area">
 							<SelectInput
 								placeholder="Buscar por"
-								optionsList={["nome", "cnpj"]}
+								optionsList={["código cal", "nome"]}
 								id="column"
 								register={register}
 							/>
@@ -62,7 +62,7 @@ function ConsultSupplier() {
 								register={register}
 								inputName="value"
 								inputPlaceholder={`Busque por ${
-									watch("column") === "nome" ? "nome" : "cnpj"
+									watch("column") === "nome" ? "nome" : "código cal"
 								}`}
 								inputStyle="classe-large"
 								isRequired={false}
@@ -92,13 +92,13 @@ function ConsultSupplier() {
 
 								<tbody>
 									{!enable &&
-										allSuppliers?.map((item: GeneralSupplier, index) => {
+										allSuppliers?.map((item: GeneralLaboratory, index) => {
 											return (
 												<tr
 													key={index}
 													className="tr-hover"
 													onClick={() => {
-														navigate(`/consult/supplier/${item.id}`);
+														navigate(`/consult/laboratory/${item.id}`);
 													}}
 												>
 													<td className="text">
@@ -118,13 +118,13 @@ function ConsultSupplier() {
 										})}
 
 									{enable &&
-										data?.map((item: GeneralSupplier, index) => {
+										data?.map((item: GeneralLaboratory, index) => {
 											return (
 												<tr
 													key={index}
 													className="tr-hover"
 													onClick={() => {
-														navigate(`/consult/supplier/${item.id}`);
+														navigate(`/consult/laboratory/${item.id}`);
 													}}
 												>
 													<td>
@@ -159,4 +159,4 @@ function ConsultSupplier() {
 		</div>
 	);
 }
-export default ConsultSupplier;
+export default ConsultLaboratory;

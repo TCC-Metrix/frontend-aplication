@@ -149,6 +149,9 @@ export interface GeneralSupplier {
   cnpj: string;
 }
 
+export interface GeneralLaboratory {
+	
+}
 
 export interface InstrumentToPost {
   code: string
