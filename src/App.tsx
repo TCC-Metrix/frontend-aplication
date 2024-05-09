@@ -12,9 +12,9 @@ import SupplierRegister from "./pages/Registers/Supplier/SupplierRegister";
 import FamilyRegister from "./pages/Registers/Family/FamilyRegister";
 import AreaRegister from "./pages/Registers/Area/AreaRegister";
 import EmployeeRegister from "./pages/Registers/Employee/employeeRegister";
-import UseReturn from "./pages/Movements/UseReturn/UseReturn";
+import { UseReturn } from "./pages/Movements/UseReturn/UseReturn";
 import { useLocation } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import ConsultInstrument from "./pages/Consults/Instrument/ConsultInstrument";
 import InstrumentDetails from "./pages/Consults/Instrument/InstrumentDetails";
 import UpdateInstrument from "./pages/Update/Instrument/UpdateInstrument";
@@ -23,27 +23,34 @@ import InstrumentHistory from "./pages/History/InstrumentHistory";
 import ConsultFamily from "./pages/Consults/Family/ConsultFamily";
 import FamilyDetails from "./pages/Consults/Family/FamilyDetails";
 import UpdateFamily from "./pages/Update/Family/UpdateFamily";
+import ConsultArea from "./pages/Consults/Area/ConsultArea";
 import ConsultEmployee from "./pages/Consults/Employee/ConsultEmployee";
 import EmployeeDetails from "./pages/Consults/Employee/EmployeeDetails";
 import UpdateEmployee from "./pages/Update/Employee/UpdateEmployee";
+
 
 function App() {
   const activeNavbar = useNavbarStore((state) => state.activeNavbar);
   const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 
+
+
   const location = useLocation();
-  const previousLocation = useRef(location);
+	const previousLocation = useRef(location);
 
-  useEffect(() => {
-    setActiveNavbar(false);
-    // Verifica se a localização atual é diferente da localização anterior
-    if (location.pathname !== previousLocation.current.pathname) {
-      //   window.location.reload();
+	useEffect(() => {
+		setActiveNavbar(false)
+		// Verifica se a localização atual é diferente da localização anterior
+		if (location.pathname === previousLocation.current.pathname) {
+		//   window.location.reload();
+		}else if(location.pathname === "/movement/use/output"){
+      window.location.reload()
     }
+	
+		// Atualiza a localização anterior com a localização atual
+		previousLocation.current = location;
+	  }, [location]);
 
-    // Atualiza a localização anterior com a localização atual
-    previousLocation.current = location;
-  }, [location]);
 
   return (
     <>
@@ -219,6 +226,15 @@ function App() {
           element={
             <ProtectedRoute>
               <InstrumentHistory />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        <Route
+          path="/consult/area"
+          element={
+            <ProtectedRoute>
+              <ConsultArea />
             </ProtectedRoute>
           }
         ></Route>

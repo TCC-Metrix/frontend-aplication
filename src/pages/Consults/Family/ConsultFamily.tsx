@@ -5,8 +5,8 @@ import {
   useFamilyFiltered,
 } from "../../../services/useFetchData";
 import { Family } from "../../../utils/interfaces/Interfaces";
-import { RotatingLines, Watch } from "react-loader-spinner";
-import { useState } from "react";
+import { RotatingLines } from "react-loader-spinner";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ConsultFamily() {
@@ -16,7 +16,14 @@ function ConsultFamily() {
     formState: { errors },
     handleSubmit,
     watch,
+    setValue
   } = useForm();
+
+  const column = watch("column")
+
+  useEffect(() => {
+    setValue("value", "")
+  }, [column])
 
   const { data: allFamilies, isFetching } = useAllFamilies();
   const navigate = useNavigate()
@@ -39,8 +46,7 @@ function ConsultFamily() {
   const headersList = [
     "Nome",
     "Freq. Calibração",
-    "Código",
-    "",
+    "Código"
   ];
 
   return (
@@ -103,7 +109,6 @@ function ConsultFamily() {
                         </td>
                         <td>{item.calibrationFrequencyInMonths}</td>
                         <td style={{textTransform: "uppercase"}}> {item.code}</td>
-                        <td style={{ textDecoration: "underline" }}>Editar</td>
                       </tr>
                     );
                   })}
@@ -123,7 +128,7 @@ function ConsultFamily() {
                         </td>
                         <td>{item.calibrationFrequencyInMonths}</td>
                         <td style={{textTransform: "uppercase"}}>{item.code}</td>
-                        <td style={{ textDecoration: "underline" }}>Editar</td>
+                        
                       </tr>
                     );
                   })}

@@ -4,7 +4,7 @@ import {
 	GeneralEmployee,
 	GeneralInstrument,
 	SearchPattern,
-	OutputUsePost,
+	UsePost,
 	Family,
 	AreaRegisterPost,
 	LaboratoryRegisterPost,
@@ -15,6 +15,7 @@ import {
 	RootFilter,
 	RootMovement,
 	GeneralSupplier,
+	UseReturnPost,
 
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
@@ -104,8 +105,12 @@ export const getInstrumentBySome = async (data: SearchPattern, pageParam = 0) =>
 	});
 };
 
-export const postOutputUse = async (data: OutputUsePost) => {
-	return instance.post<OutputUsePost>("use_output", data);
+export const postOutputUse = async (data: UsePost) => {
+	return instance.post<UsePost>("use_output", data);
+};
+
+export const postReturnUse = async (data: UseReturnPost) => {
+	return instance.post<UseReturnPost>("use_return", data);
 };
 
 export const postInstrument = async (data: FieldValues) => {
@@ -118,6 +123,9 @@ export const postFamilyRegister = async (data: FamilyRegisterPost) => {
 
 export const postUpdateInstrument = async (data: FieldValues, id: string) => {
 	return instance.put<FieldValues>(`instrument/${id}`, data)
+}
+export const postUpdateArea = async (data: FieldValues, id: string) => {
+	return instance.put<FieldValues>(`area/${id}`, data)
 }
 export const postUpdateFamily = async (data: FieldValues, id: string | undefined) => {
 	return instance.put<FieldValues>(`family/${id}`, data)

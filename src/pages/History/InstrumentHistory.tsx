@@ -28,7 +28,7 @@ function InstrumentHistory() {
     "Motivo",
   ];
 
-  const formatDate = (date: string) => {
+  const formatDate = (date: string | "") => {
     // Separe o ano, mês e dia
     const [ano, mes, dia] = date.split("-");
     // Retorne a data no formato DD/MM/YYYY
@@ -83,11 +83,11 @@ function InstrumentHistory() {
                   return (
                     <tr className="tr-hover" onClick={() => {}}>
                       <td className="text">
-                        <p className="td-text">{formatDate(item.useOutput.outputDate)}</p>
+                        <p className="td-text">{formatDate(item.useOutput ? item.useOutput.outputDate : "")}</p>
                       </td>
-                      <td>b</td>
-                      <td>{item.useOutput.receivingResponsible ? item.useOutput.receivingResponsible.name : item.useOutput.receivingArea.description}</td>
-                      <td>{item.useOutput.shippingResponsible.name}</td>
+                      <td>{item.movement.type === "USE_RETURN" ? item.useReturn?.returnDate : "-"}</td>
+                      <td>{item.useOutput?.receivingResponsible ? item.useOutput.receivingResponsible.name : item.useOutput?.receivingArea.description}</td>
+                      <td>{item.useOutput?.shippingResponsible.name}</td>
                       <td>{item.movement.type === "USE_OUTPUT" || item.movement.type === "USE_RETURN" ? "Uso interno" : ""}</td>
                     </tr>
                   );

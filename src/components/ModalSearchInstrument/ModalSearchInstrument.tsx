@@ -17,18 +17,19 @@ interface ModalSearchInstrumentProps {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
   setFinalInstruments: React.Dispatch<React.SetStateAction<GeneralInstrument[]>>,
   isReloaded:boolean,
-  setIsReloaded: React.Dispatch<React.SetStateAction<boolean>>
+  setIsReloaded: React.Dispatch<React.SetStateAction<boolean>>,
+  status?: string
 }
 
 
 
-const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOpenModal, setFinalInstruments, isReloaded, setIsReloaded}) => {
+const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOpenModal, status, setFinalInstruments, isReloaded, setIsReloaded}) => {
   const [selectedInstruments, setSelectedInstruments] = useState<GeneralInstrument[]>([]);
   const [isScroll, setIsScroll] = useState(false)
   const [isShowingInstrumentsFiltered, setIsShowingInstrumentsFiltered] = useState(false)
   const [instruments, setInstruments] = useState<GeneralInstrument[] | undefined>([])
 
-  // let instruments;
+
 
   const headersList = ["código", "descrição", "família", "próx. calibração"];
 
@@ -48,12 +49,13 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
     enabled: false,
   };
 
+
   
   const fetchInstrumentsFiltered = async (
     pageParam = 0
   ): Promise<RootFilter> => {
     const response = await instance.get(
-      `/instrument/deepfilter?&column=${filterData.column}&value=${filterData.value}&status=available&page=${pageParam}&size=7`
+      `/instrument/deepfilter?&column=${filterData.column}&value=${filterData.value}&status=${status ? status : "available"}&page=${pageParam}&size=7`
     );
     return response.data;
   };
@@ -65,7 +67,9 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
     
     return null;
   }
-  
+
+
+
   const {
     data: dataFilter,
     refetch,
@@ -89,7 +93,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
 
   useEffect(() => {
     setInstruments(dataFilter?.pages.flatMap((item) => item.content))
-   
+    // console.log(instruments)
   }, [dataFilter])
 
   
@@ -238,7 +242,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
             ) : isShowingInstrumentsFiltered && isLoading && (
               <tr>
               <td colSpan={headersList.length + 1} className="text">
-                Nenhum instrumento selecionado
+                Nenhum instrumento selecionado 
               </td>
             </tr>
             ) }

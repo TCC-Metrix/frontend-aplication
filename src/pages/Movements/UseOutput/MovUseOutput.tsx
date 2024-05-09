@@ -1,5 +1,5 @@
 import "./MovUseOutput.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	Button,
 	BasicInputFilter,
@@ -7,7 +7,7 @@ import {
 } from "../../../components";
 import {
 	GeneralInstrument,
-	OutputUsePost,
+	UsePost,
 } from "../../../utils/interfaces/Interfaces";
 import {
 	usePostOutputUse,
@@ -21,6 +21,7 @@ import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
+import { msalInstance } from "../../../authSSO/msalInstance";
 
 export const MoveUseOutput = () => {
 	// Estados para controlar o estado dos componentes
@@ -29,8 +30,7 @@ export const MoveUseOutput = () => {
 	const [tableMainPage, setTableMainPage] = useState<GeneralInstrument[]>([]);
 	const [openModal, setOpenModal] = useState<boolean>(false);
 	const [isReloaded, setIsReloaded] = useState<boolean>(false)
-
-
+	
 
 	//Variáveis controladas no contexto da aplicação
 	const listExpiredInstruments: GeneralInstrument[] = [];
@@ -68,7 +68,7 @@ export const MoveUseOutput = () => {
 			});
 	};
 
-
+console.log(msalInstance.getActiveAccount())
 
 	//Abre o modal
 	const handleModal = () => {
@@ -99,12 +99,7 @@ export const MoveUseOutput = () => {
 		isError: isErrorArea,
 	} = useAllAreas(); //busca todas as áreas
 
-
-
-
-
-
-	const handlePostUseOutput: SubmitHandler<OutputUsePost> = (data) => {
+	const handlePostUseOutput: SubmitHandler<UsePost> = (data) => {
 		setIsLoadingPostUseOutput(true);
 		postOutputMutation.mutate(data, {
 			onSettled: (data, error) => {
@@ -171,16 +166,16 @@ export const MoveUseOutput = () => {
 			}
 		});
 
-		if (listExpiredInstruments.length > 0) {
-			const messageInstruments: string = listExpiredInstruments
-				.map(
-					(instrument) => `${instrument.code} - ${instrument.description}/ `
-				)
-				.join("");
-			notify("error", `Instrumentos com calibração vencida ${messageInstruments}`)
+		// if (listExpiredInstruments.length > 0) {
+		// 	const messageInstruments: string = listExpiredInstruments
+		// 		.map(
+		// 			(instrument) => `${instrument.code} - ${instrument.description}/ `
+		// 		)
+		// 		.join("");
+		// 	notify("error", `Instrumentos com calibração vencida ${messageInstruments}`)
 
-			return;
-		}
+		// 	return;
+		// }
 
 		const regex = /^(\d{4})-(\d{2})-(\d{2})$/;
 		const match = data.outputDate.match(regex);
@@ -253,8 +248,8 @@ export const MoveUseOutput = () => {
 						</thead>
 						<tbody>
 							{tableMainPage.length > 0 ? (
-								tableMainPage.map((item) => (
-									<tr>
+								tableMainPage.map((item, index) => (
+									<tr key={index}>
 										<td className="text">
 											<p className="td-text">{item.code}</p>
 										</td>
@@ -264,8 +259,8 @@ export const MoveUseOutput = () => {
 											<td>
 
 												<select className="dropdown-select-ref">
-													{item.additionalReferences.map((itemr) => (
-														<option value="">{itemr}</option>
+													{item.additionalReferences.map((itemr, indexr) => (
+														<option value="" key={indexr}>{itemr}</option>
 													))}
 												</select>
 											</td>

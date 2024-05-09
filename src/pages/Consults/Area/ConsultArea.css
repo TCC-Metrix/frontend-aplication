@@ -1,0 +1,12 @@
+tr > td.text > div.classe-little{
+    display: inline-block;
+}
+
+.confirm-button {
+    height: 100%;
+    padding: 18px;
+    font-family: medium; /* Certifique-se de que "medium" seja uma fonte válida */
+    color: #fff;
+    text-transform: uppercase;
+    background: #00c8f7;
+  }
