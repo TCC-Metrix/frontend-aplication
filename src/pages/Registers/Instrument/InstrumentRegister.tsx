@@ -29,7 +29,7 @@ const InstrumentRegister = () => {
 
   const notify = (type: string, message?: string) => {
     type === "success" &&
-      toast.success("Instrumeto registrado com sucesso", {
+      toast.success("Instrumento registrado com sucesso", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -145,7 +145,7 @@ const InstrumentRegister = () => {
         if (error && request.isAxiosError(error)) {
           const errorAxios = error as AxiosError;
           setIsLoadingInstrument(false);
-          if (errorAxios.response?.data) {
+          if (errorAxios.response?.status) {
             if (error.response?.status === 409) {
               notify(
                 "error",
@@ -158,6 +158,7 @@ const InstrumentRegister = () => {
             }
           }
         } else {
+        
           setIsLoadingInstrument(false);
           notify("success");
           reset();
@@ -216,7 +217,7 @@ const InstrumentRegister = () => {
                 inputPlaceholder="inventário"
                 inputStyle="little-input"
                 errors={errors}
-                isRequired={true}
+                isRequired={false}
                 inputName="inventory"
                 register={register}
                 inputType="text"

@@ -156,6 +156,10 @@ input:-internal-autofill-selected{
 	background-color: transparent !important;
 }
 
+td{
+	text-transform: capitalize;
+}
+
 @media (min-width: 1500px) {
 	.container-main {
 		max-width: 1400px;

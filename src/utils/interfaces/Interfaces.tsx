@@ -109,6 +109,7 @@ export interface Family {
 	calibrationTimeCounter: string;
 }
 
+
 export interface InstrumentToModalTableUseOutput {
 	id: string;
 	code: string;
@@ -124,6 +125,7 @@ export interface GeneralEmployee {
 	id: string;
 	name: string;
 	email: string;
+	edv: number;
 	sector: string;
 }
 
@@ -219,10 +221,15 @@ export interface RootFilter {
 	createdAt: string
   }
 
+  export interface Area {
+	id: string;
+	description: string
+  }
+
   export interface UseOutput {
 	id: string
 	movement: string[]
-	receivingArea: any
+	receivingArea: Area
 	shippingResponsible: GeneralEmployee
 	receivingResponsible: GeneralEmployee
 	outputDate: string

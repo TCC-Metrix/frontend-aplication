@@ -22,7 +22,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
       "ativo": "active",
       "inativo": "inactive",
       "descrição": "description",
-      "família": "family",
+      "família": "familyID",
       "em uso": "in%20use",
       "disponível": "available",
       "mais recente": "desc",

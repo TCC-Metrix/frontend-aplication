@@ -53,23 +53,23 @@ export const consultaLinks: List[] = [
 	},
 	{
 		name: "Família",
-		link: "#",
+		link: "/consult/family",
 	},
 	{
 		name: "Funcionário",
-		link: "#",
+		link: "/consult/employee",
 	},
 	{
 		name: "Laboratório",
-		link: "#",
+		link: "/consult/laboratory",
 	},
 	{
 		name: "Fornecedor",
-		link: "#",
+		link: "/consult/supplier",
 	},
 	{
 		name: "Área",
-		link: "#",
+		link: "/consult/area",
 	},
 ];
 

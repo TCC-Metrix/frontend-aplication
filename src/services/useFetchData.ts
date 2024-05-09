@@ -1,5 +1,6 @@
-import { useQueries, useQuery } from "@tanstack/react-query";
-import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement } from "./apiService";
+import { useQuery } from "@tanstack/react-query";
+import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById, getEmployeeFiltered, getEmployeeById } from "./apiService";
+import { Field, FieldValues } from "react-hook-form";
 
 
 //Retorna todos os instrumentos da API
@@ -47,11 +48,55 @@ export function useAllSuppliers() {
 }
 
 
+export function useFamilyFiltered(data: FieldValues, isEnabled: boolean) {
+  return useQuery({
+    queryKey: ["family-filtered"],
+    queryFn: () => getFamilyFiltered(data),
+    refetchOnWindowFocus: false,
+    enabled: isEnabled
+  })
+}
+
+export function useEmployeeFiltered(data: FieldValues, isEnabled: boolean) {
+  return useQuery({
+    queryKey: ["employee-filtered"],
+    queryFn: () => getEmployeeFiltered(data),
+    refetchOnWindowFocus: false,
+    enabled: isEnabled
+  })
+}
+
+export function useFamilyById(id: string | undefined) {
+  return useQuery({
+    queryKey: ["family", id],
+    queryFn: () => getFamilyById(id),
+    refetchOnWindowFocus: false,
+  })
+}
+
+export function useEmployeeById(id: string | undefined) {
+  return useQuery({
+    queryKey: ["employee", id],
+    queryFn: () => getEmployeeById(id),
+    refetchOnWindowFocus: false,
+  })
+}
+
+
 //Retorna somente um instrumento através do ID
 export function useInstrumentById(id: string | undefined) {
   return useQuery({
     queryKey: ["instrument", id],
     queryFn: () => getInstrumentById(id!),
+    refetchOnWindowFocus: false,
+  })
+}
+
+//Retorna somente um instrumento através do ID
+export function useMovementsByInstrument(id: string | undefined) {
+  return useQuery({
+    queryKey: ["all-movements", id],
+    queryFn: () => getAllMovements(id!),
     refetchOnWindowFocus: false,
   })
 }

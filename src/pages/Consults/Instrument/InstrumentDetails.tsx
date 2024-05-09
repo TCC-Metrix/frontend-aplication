@@ -41,7 +41,6 @@ const AdditionalReferences: React.FC<AdditionalReferencesProps> = ({
 const InstrumentDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-
   const { data, isLoading, error } = useInstrumentById(id);
   const {
     data: lastMovementData,
@@ -49,7 +48,7 @@ const InstrumentDetails: React.FC = () => {
     error: lastMovementError,
   } = useLastMovementByInstrument(id);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const formatDate = (date: string) => {
     // Separe o ano, mês e dia
@@ -61,9 +60,35 @@ const InstrumentDetails: React.FC = () => {
   const getMonth = (date: string) => {
     // Separe o ano, mês e dia
     const mes = date.split("-")[1];
-    return mes;
+    const ano = date.split("-")[0];
+    return `${mes}/${ano}`;
   };
 
+  const getLastyearNumber = (date: string) => {
+    const lastDigit = date.split("-")[0].slice(-1);
+
+    if (lastDigit === "1" || lastDigit === "6") {
+      return "#A45729"; //marrom ral 8023
+    }
+
+    if (lastDigit === "2" || lastDigit === "7") {
+      return "#007CB0"; //Azul ral 5015
+    }
+
+    if (lastDigit === "3" || lastDigit === "8") {
+      return "#B0B0A9"; //Cinza (RAL 7038)
+    }
+
+    if (lastDigit === "4" || lastDigit === "9") {
+      return "#61993B"; //Verde (RAL 6018)
+    }
+
+    if (lastDigit === "5" || lastDigit === "10") {
+      return "#F7B500"; //Amarelo (RAL 1023)
+    }
+
+    return "";
+  };
 
   if (isLoading || isLastMovementLoading) return <LoadingPage />;
   if (error || lastMovementError) return <ErrorPage />;
@@ -72,13 +97,28 @@ const InstrumentDetails: React.FC = () => {
     data && (
       <div className="details-container">
         <div className="top-infos-area">
-        <div className="flex-infos-area">
-            <Button className="btn btn-md btn-tertiary" onClickFunction={() => {}}>histórico</Button>
-            <Button className="btn btn-md btn-tertiary" onClickFunction={() => {
-              sessionStorage.setItem("instrument", JSON.stringify(data))
-              sessionStorage.setItem("movement", JSON.stringify(lastMovementData))
-              navigate(`/edit/instrument/${id}`)
-            }}>editar</Button>
+          <div className="flex-infos-area">
+            <Button
+              className="btn btn-md btn-tertiary"
+              onClickFunction={() => {
+                navigate(`/history/instrument/${data.id}`);
+              }}
+            >
+              histórico
+            </Button>
+            <Button
+              className="btn btn-md btn-tertiary"
+              onClickFunction={() => {
+                sessionStorage.setItem("instrument", JSON.stringify(data));
+                sessionStorage.setItem(
+                  "movement",
+                  JSON.stringify(lastMovementData)
+                );
+                navigate(`/edit/instrument/${id}`);
+              }}
+            >
+              editar
+            </Button>
           </div>
           <div className="flex-infos-area">
             <div>
@@ -95,13 +135,15 @@ const InstrumentDetails: React.FC = () => {
             <div>
               <p className="detail-subtitle">situação:</p>
               <p className="detail-content">
-                {data.situation === "active" ? "ativo" : data.situation === "active non-calibratable" ? "ativo não calibrável" : "inativo"}
+                {data.situation === "active"
+                  ? "ativo"
+                  : data.situation === "active non-calibratable"
+                  ? "ativo não calibrável"
+                  : "inativo"}
               </p>
             </div>
           </div>
-
         </div>
-
 
         <div className="details-section-container">
           <div className="instrument-detail-area">
@@ -117,7 +159,7 @@ const InstrumentDetails: React.FC = () => {
 
             {data.additionalReferences.length > 0 ? (
               <AdditionalReferences references={data.additionalReferences} />
-              ) : (
+            ) : (
               <AdditionalReferences references={["-", "-", "-"]} />
             )}
           </div>
@@ -182,14 +224,16 @@ const InstrumentDetails: React.FC = () => {
                     subtitle="motivo"
                     content={
                       lastMovementData.movement.type === "USE_OUTPUT"
-                        ? "uso"
+                        ? "uso interno"
                         : ""
                     }
                   />
                   <DetailItem
                     subtitle="colaborador"
                     content={
-                      lastMovementData.useOutput.receivingResponsible.name
+                      lastMovementData.useOutput.receivingResponsible
+                        ? lastMovementData.useOutput.receivingResponsible.name
+                        : "-"
                     }
                   />
                   <DetailItem
@@ -202,7 +246,11 @@ const InstrumentDetails: React.FC = () => {
                   />
                   <DetailItem
                     subtitle="área"
-                    content={lastMovementData.useOutput.receivingArea}
+                    content={
+                      lastMovementData.useOutput.receivingArea
+                        ? lastMovementData.useOutput.receivingArea.description
+                        : "-"
+                    }
                   />
                 </div>
               </section>
@@ -241,7 +289,26 @@ const InstrumentDetails: React.FC = () => {
             </section>
 
             <section className="other-details-section">
-              <h1 className="detail-title">CALIBRAÇÃO</h1>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "20px",
+                  alignItems: "center"
+                }}
+              >
+                <h1 className="detail-title">CALIBRAÇÃO</h1>
+                {data.nextCalibration && (
+                  <span
+                    className="bolinha"
+                    style={{
+                      backgroundColor: `${getLastyearNumber(
+                        data.nextCalibration
+                      )}`,
+                      display: "block",
+                    }}
+                  ></span>
+                )}
+              </div>
               <div className="details-section no-between">
                 <DetailItem
                   subtitle="próxima calibração"
@@ -251,6 +318,7 @@ const InstrumentDetails: React.FC = () => {
                       : "-"
                   }
                 />
+
                 <DetailItem
                   subtitle="mês base"
                   content={
@@ -259,13 +327,25 @@ const InstrumentDetails: React.FC = () => {
                 />
               </div>
             </section>
-            {(data.situationReason !== null && data.situationReason !== undefined && data.situationReason !== "") && (
-              <div>
-                <h1 className="detail-title">SITUAÇÃO</h1>
-                <p>Motivo: {data.situationReason === "loss" ? "Perda" : "Inconformidade"}</p>
-                <p>{data.situationReason === "loss" ? "N° WorkOn: " : "Nº Análise de risco: "}{data.situationJustification}</p>
-              </div>
-            )}
+            {data.situationReason !== null &&
+              data.situationReason !== undefined &&
+              data.situationReason !== "" && (
+                <div>
+                  <h1 className="detail-title">SITUAÇÃO</h1>
+                  <p>
+                    Motivo:{" "}
+                    {data.situationReason === "loss"
+                      ? "Perda"
+                      : "Inconformidade"}
+                  </p>
+                  <p>
+                    {data.situationReason === "loss"
+                      ? "N° WorkOn: "
+                      : "Nº Análise de risco: "}
+                    {data.situationJustification}
+                  </p>
+                </div>
+              )}
           </div>
         </div>
       </div>
