@@ -27,8 +27,6 @@ const InstrumentRegister = () => {
   const [isLoadingInstrument, setIsLoadingInstrument] =
     useState<boolean>(false);
 
-
-
   const notify = (type: string, message?: string) => {
     type === "success" &&
       toast.success("Instrumeto registrado com sucesso", {
@@ -163,7 +161,7 @@ const InstrumentRegister = () => {
           setIsLoadingInstrument(false);
           notify("success");
           reset();
-          resetField("acquisitionCost");
+          setValue("acquisitionCost", "")
           console.log(data);
         }
       },

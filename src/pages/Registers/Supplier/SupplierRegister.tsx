@@ -41,6 +41,7 @@ const SupplierRegister = () => {
     formState: { errors },
     handleSubmit,
     reset,
+    setValue,
   } = useForm<FormFields>({ resolver: zodResolver(schema) });
 
   const notify = (type: string, message?: string) => {
@@ -92,6 +93,7 @@ const SupplierRegister = () => {
           console.log("Dados do fornecedor:", data);
           notify("success");
           reset();
+          setValue("cnpj", "")
         }
       },
     });
