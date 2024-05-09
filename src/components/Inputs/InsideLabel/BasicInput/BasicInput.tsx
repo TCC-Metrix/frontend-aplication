@@ -13,6 +13,7 @@ interface BasicInputProps {
 }
 
 function BasicInput(props: BasicInputProps) {
+	
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValue: string = event.target.value;
 		// Remove caracteres não numéricos utilizando uma expressão regular
