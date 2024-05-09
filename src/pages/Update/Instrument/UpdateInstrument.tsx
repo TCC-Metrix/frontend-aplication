@@ -130,7 +130,7 @@ const UpdateInstrument: React.FC = () => {
 
   const notify = (type: string, message?: string) => {
     type === "success" &&
-      toast.success("Instrumeto atualizado com sucesso", {
+      toast.success("Instrumento atualizado com sucesso", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -355,7 +355,7 @@ const UpdateInstrument: React.FC = () => {
                 </div>
                 <div style={{ width: "48%" }}>
                   <BasicInput
-                    isRequired={true}
+                    isRequired={false}
                     register={register}
                     inputType="text"
                     inputPlaceholder="inventário"

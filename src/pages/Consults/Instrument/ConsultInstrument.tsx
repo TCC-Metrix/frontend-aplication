@@ -29,6 +29,13 @@ function ConsultInstrument() {
   } = useForm();
   const navigate = useNavigate();
 
+  const column = watch("column")
+
+  useEffect(() => {
+    setValue("value", "")
+    setValue("valueDescription", "")
+  }, [column])  
+
   let filterData = {
     status: watch("status"),
     situation: watch("situation"),
@@ -177,7 +184,7 @@ function ConsultInstrument() {
           <div className="search-area">
             <SelectInput
               placeholder="Buscar por"
-              optionsList={["descrição", "família", "código"]}
+              optionsList={[ "código", "descrição", "família"]}
               id="column"
               register={register}
             />
@@ -208,7 +215,7 @@ function ConsultInstrument() {
 
             <SelectInput
               id="situation"
-              optionsList={["todos", "ativo", "inativo"]}
+              optionsList={["todos", "ativo", "inativo", "ativo não calibrável"]}
               register={register}
               placeholder="situação"
             />

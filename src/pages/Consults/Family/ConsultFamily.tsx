@@ -6,7 +6,7 @@ import {
 } from "../../../services/useFetchData";
 import { Family } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ConsultFamily() {
@@ -16,7 +16,14 @@ function ConsultFamily() {
     formState: { errors },
     handleSubmit,
     watch,
+    setValue
   } = useForm();
+
+  const column = watch("column")
+
+  useEffect(() => {
+    setValue("value", "")
+  }, [column])
 
   const { data: allFamilies, isFetching } = useAllFamilies();
   const navigate = useNavigate()

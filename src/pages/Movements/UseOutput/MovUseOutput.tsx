@@ -253,8 +253,8 @@ export const MoveUseOutput = () => {
 						</thead>
 						<tbody>
 							{tableMainPage.length > 0 ? (
-								tableMainPage.map((item) => (
-									<tr>
+								tableMainPage.map((item, index) => (
+									<tr key={index}>
 										<td className="text">
 											<p className="td-text">{item.code}</p>
 										</td>
@@ -264,8 +264,8 @@ export const MoveUseOutput = () => {
 											<td>
 
 												<select className="dropdown-select-ref">
-													{item.additionalReferences.map((itemr) => (
-														<option value="">{itemr}</option>
+													{item.additionalReferences.map((itemr, indexr) => (
+														<option value="" key={indexr}>{itemr}</option>
 													))}
 												</select>
 											</td>
