@@ -23,6 +23,9 @@ import InstrumentHistory from "./pages/History/InstrumentHistory";
 import ConsultFamily from "./pages/Consults/Family/ConsultFamily";
 import FamilyDetails from "./pages/Consults/Family/FamilyDetails";
 import UpdateFamily from "./pages/Update/Family/UpdateFamily";
+import ConsultEmployee from "./pages/Consults/Employee/ConsultEmployee";
+import EmployeeDetails from "./pages/Consults/Employee/EmployeeDetails";
+import UpdateEmployee from "./pages/Update/Employee/UpdateEmployee";
 
 function App() {
   const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -167,6 +170,15 @@ function App() {
         ></Route>
 
         <Route
+          path="/consult/employee"
+          element={
+            <ProtectedRoute>
+              <ConsultEmployee />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        <Route
           path="/consult/family/:id"
           element={
             <ProtectedRoute>
@@ -176,10 +188,28 @@ function App() {
         ></Route>
 
         <Route
+          path="/consult/employee/:id"
+          element={
+            <ProtectedRoute>
+              <EmployeeDetails />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        <Route
           path="/edit/family/:id"
           element={
             <ProtectedRoute>
               <UpdateFamily />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        <Route
+          path="/edit/employee/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateEmployee />
             </ProtectedRoute>
           }
         ></Route>

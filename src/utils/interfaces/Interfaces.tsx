@@ -101,6 +101,7 @@ export interface Family {
 	calibrationTimeCounter: string;
 }
 
+
 export interface InstrumentToModalTableUseOutput {
 	id: string;
 	code: string;
@@ -116,6 +117,7 @@ export interface GeneralEmployee {
 	id: string;
 	name: string;
 	email: string;
+	edv: number;
 	sector: string;
 }
 
