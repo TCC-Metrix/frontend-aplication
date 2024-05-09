@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById } from "./apiService";
-import { FieldValues } from "react-hook-form";
+import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById, getEmployeeFiltered, getEmployeeById } from "./apiService";
+import { Field, FieldValues } from "react-hook-form";
 
 
 //Retorna todos os instrumentos da API
@@ -57,10 +57,27 @@ export function useFamilyFiltered(data: FieldValues, isEnabled: boolean) {
   })
 }
 
+export function useEmployeeFiltered(data: FieldValues, isEnabled: boolean) {
+  return useQuery({
+    queryKey: ["employee-filtered"],
+    queryFn: () => getEmployeeFiltered(data),
+    refetchOnWindowFocus: false,
+    enabled: isEnabled
+  })
+}
+
 export function useFamilyById(id: string | undefined) {
   return useQuery({
     queryKey: ["family", id],
     queryFn: () => getFamilyById(id),
+    refetchOnWindowFocus: false,
+  })
+}
+
+export function useEmployeeById(id: string | undefined) {
+  return useQuery({
+    queryKey: ["employee", id],
+    queryFn: () => getEmployeeById(id),
     refetchOnWindowFocus: false,
   })
 }

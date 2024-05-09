@@ -1,38 +1,27 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { BasicInput, Button, SelectInput } from "../../../components";
-import {
-  useAllFamilies,
-  useFamilyFiltered,
-} from "../../../services/useFetchData";
-import { Family } from "../../../utils/interfaces/Interfaces";
+import { useAllEmployees, useEmployeeFiltered } from "../../../services/useFetchData";
+import { GeneralEmployee } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function ConsultFamily() {
+function ConsultEmployee() {
   const [enable, setEnable] = useState(false);
   const {
     register,
-    formState: { errors },
+    formState: {errors},
     handleSubmit,
-    watch,
-    setValue
+    watch
   } = useForm();
 
-  const column = watch("column")
-
-  useEffect(() => {
-    setValue("value", "")
-  }, [column])
-
-  const { data: allFamilies, isFetching } = useAllFamilies();
+  const { data: allEmployees, isFetching } = useAllEmployees();
   const navigate = useNavigate()
 
-  const { data, refetch } = useFamilyFiltered(
+  const { data, refetch } = useEmployeeFiltered(
     { column: watch("column"), value: watch("value") },
     enable
   );
-
 
   const handleSubmitSearch = (data: FieldValues) => {
     if (data.value === "") {
@@ -45,20 +34,21 @@ function ConsultFamily() {
 
   const headersList = [
     "Nome",
-    "Freq. Calibração",
-    "Código"
+    "Setor",
+    "Email",
+    "",
   ];
 
   return (
     <div className="consult-page">
       <div className="box-shadow-container">
         <div className="box-shadow-container-header">
-          <h1 className="header-three">Famílias</h1>
+          <h1 className="header-three">Funcionários</h1>
           <p className="normal-text">Filtrar por</p>
           <div className="search-area">
             <SelectInput
               placeholder="Buscar por"
-              optionsList={["descrição", "código"]}
+              optionsList={["nome", "edv"]}
               id="column"
               register={register}
             />
@@ -66,7 +56,7 @@ function ConsultFamily() {
               register={register}
               inputName="value"
               inputPlaceholder={`Busque por ${
-                watch("column") === "code" ? "código" : "descrição"
+                watch("column") === "code" ? "nome" : "edv"
               }`}
               inputStyle="classe-large"
               isRequired={false}
@@ -82,62 +72,64 @@ function ConsultFamily() {
             </Button>
           </div>
         </div>
-
+        
         <div className="box-shadow-container-table-area">
           <div className="table-container-main">
             <table className="table-container">
               <thead>
                 <tr className="first-line">
                   {headersList.map((item, index) => {
-                    return <th key={index}>{item}</th>;
+                    return <th key={index}>{item}</th>
                   })}
                 </tr>
               </thead>
+
               <tbody>
                 {!enable &&
-                  allFamilies?.map((item: Family, index) => {
+                  allEmployees?.map((item: GeneralEmployee, index) => {
                     return (
                       <tr
                         key={index}
                         className="tr-hover"
                         onClick={() => {
-                          navigate(`/consult/family/${item.id}`);
+                          navigate(`/consult/employee/${item.id}`);
                         }}
                       >
                         <td className="text">
-                          <p className="td-text" style={{textTransform: "capitalize"}}>{item.description}</p>
+                          <p className="td-text" style={{textTransform: "capitalize"}}>{item.name}</p>
                         </td>
-                        <td>{item.calibrationFrequencyInMonths}</td>
-                        <td style={{textTransform: "uppercase"}}> {item.code}</td>
+                        <td>{item.sector}</td>
+                        <td>{item.email}</td>
+                        <td style={{ textDecoration: "underline" }}>Editar</td>
                       </tr>
                     );
                   })}
 
-                {enable &&
-                  data?.map((item: Family, index) => {
-                    return (
-                      <tr
-                        key={index}
-                        className="tr-hover"
-                        onClick={() => {
-                            navigate(`/consult/family/${item.id}`);
-                        }}
-                      >
-                        <td className="text">
-                          <p className="td-text">{item.description}</p>
-                        </td>
-                        <td>{item.calibrationFrequencyInMonths}</td>
-                        <td style={{textTransform: "uppercase"}}>{item.code}</td>
-                        
-                      </tr>
-                    );
-                  })}
+                  {enable &&
+                    data?.map((item: GeneralEmployee, index) => {
+                      return (
+                        <tr
+                          key={index}
+                          className="tr-hover"
+                          onClick={() => {
+                            navigate(`/consult/employee/${item.id}`);
+                          }}
+                        >
+                          <td>
+                            <p className="td-text">{item.name}</p>
+                          </td>
+                          <td>{item.sector}</td>
+                          <td style={{ textTransform: "uppercase" }}>{item.email}</td>
+                          <td style={{ textDecoration: "underline" }}>Editar</td>
+                        </tr>
+                      )
+                    })}
               </tbody>
             </table>
           </div>
           {isFetching && (
             <div className="loading-area">
-              <RotatingLines
+              <RotatingLines 
                 visible={true}
                 strokeWidth="5"
                 animationDuration="0.75"
@@ -151,7 +143,6 @@ function ConsultFamily() {
         </div>
       </div>
     </div>
-  );
+  )
 }
-
-export default ConsultFamily;
+export default ConsultEmployee;

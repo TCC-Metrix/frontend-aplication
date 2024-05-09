@@ -77,7 +77,15 @@ export const getFamilyById = async (id: string | undefined) => {
 	return (await instance.get<Family>(`family/${id === undefined ? "" : id}`)).data;
 };
 
+//GET - Retorna os funcionários pelo id
+export const getEmployeeById = async (id: string | undefined) => {
+	return (await instance.get<GeneralEmployee>(`employee/${id === undefined ? "" : id}`)).data;
+};
 
+//GET - Retorna os funcionários filtrados
+export const getEmployeeFiltered = async (data: FieldValues) => {
+	return (await instance.get<GeneralEmployee[]>(`employee/filter?column=${data.column}&value=${data.value}`)).data;
+;}
 
 //GET - Retorna as movimentações pelo ID do instrumento
 export const getAllMovements = async (id: string) => {
@@ -116,6 +124,10 @@ export const postUpdateArea = async (data: FieldValues, id: string) => {
 }
 export const postUpdateFamily = async (data: FieldValues, id: string | undefined) => {
 	return instance.put<FieldValues>(`family/${id}`, data)
+}
+
+export const postUpdateEmployee = async (data: FieldValues, id: string | undefined) => {
+	return instance.put<FieldValues>(`employee/${id}`, data)
 }
 
 export const postAreaRegister = async (data: AreaRegisterPost) => {
