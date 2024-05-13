@@ -29,7 +29,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
   const [isShowingInstrumentsFiltered, setIsShowingInstrumentsFiltered] = useState(false)
   const [instruments, setInstruments] = useState<GeneralInstrument[] | undefined>([])
 
-  // let instruments;
+
 
   const headersList = ["código", "descrição", "família", "próx. calibração"];
 
@@ -49,6 +49,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
     enabled: false,
   };
 
+
   
   const fetchInstrumentsFiltered = async (
     pageParam = 0
@@ -66,7 +67,9 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
     
     return null;
   }
-  
+
+
+
   const {
     data: dataFilter,
     refetch,
@@ -90,7 +93,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
 
   useEffect(() => {
     setInstruments(dataFilter?.pages.flatMap((item) => item.content))
-   
+    // console.log(instruments)
   }, [dataFilter])
 
   
@@ -239,7 +242,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
             ) : isShowingInstrumentsFiltered && isLoading && (
               <tr>
               <td colSpan={headersList.length + 1} className="text">
-                Nenhum instrumento selecionado
+                Nenhum instrumento selecionado 
               </td>
             </tr>
             ) }

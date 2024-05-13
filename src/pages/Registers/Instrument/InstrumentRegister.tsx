@@ -27,8 +27,6 @@ const InstrumentRegister = () => {
   const [isLoadingInstrument, setIsLoadingInstrument] =
     useState<boolean>(false);
 
-
-
   const notify = (type: string, message?: string) => {
     type === "success" &&
       toast.success("Instrumento registrado com sucesso", {
@@ -164,7 +162,7 @@ const InstrumentRegister = () => {
           setIsLoadingInstrument(false);
           notify("success");
           reset();
-          resetField("acquisitionCost");
+          setValue("acquisitionCost", "")
           console.log(data);
         }
       },
@@ -289,7 +287,7 @@ const InstrumentRegister = () => {
               />
               <SelectInput
                 placeholder="situação"
-                optionsList={["ativo", "inativo"]}
+                optionsList={["ativo", "inativo", "ativo não calibrável"]}
                 id="situation"
                 register={register}
               />

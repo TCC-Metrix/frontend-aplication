@@ -15,7 +15,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
-import { msalInstance } from "../../../authSSO/msalInstance";
 
 export const UseReturn = () => {
 	// Estados para controlar o estado dos componentes
@@ -104,7 +103,7 @@ export const UseReturn = () => {
 				} else {
 					setIsLoadingPostUseOutput(false);
 					notify("success", "Movimentação realizada com sucesso");
-					setValue("outputDate", "");
+					setValue("returnDate", "");
 					setValue("shippingResponsible", "");
 					setValue("shippingResponsibleDescription", "");
 					setValue("receivingResponsibleDescription", "");
@@ -130,8 +129,7 @@ export const UseReturn = () => {
 			notify("error", "Nenhum instrumento selecionado");
 			return;
 		}
-		//valueInShippingResponsible = "abcd"
-		//valueInArea = ""
+
 
 		if (
 			(valueInArea === "" || valueInArea === undefined) &&
@@ -159,41 +157,31 @@ export const UseReturn = () => {
 			}
 		});
 
-		if (listExpiredInstruments.length > 0) {
-			const messageInstruments: string = listExpiredInstruments
-				.map((instrument) => `${instrument.code} - ${instrument.description}/ `)
-				.join("");
-			notify(
-				"error",
-				`Instrumentos com calibração vencida ${messageInstruments}`
-			);
 
-			return;
-		}
 
 		const regex = /^(\d{4})-(\d{2})-(\d{2})$/;
-		const match = data.outputDate.match(regex);
+		const match = data.returnDate.match(regex);
 		if (match) {
 			const ano = parseInt(match[1], 10);
 
 			if (match[1].length > 4 || isNaN(ano)) {
-				setError("outputDate", {
+				setError("returnDate", {
 					type: "invalid",
 					message: "Ano inválido",
 				});
 				return;
 			} else if (ano < 2000 || ano > 2100) {
-				setError("outputDate", {
+				setError("returnDate", {
 					type: "invalid",
 					message: "Ano está fora do intervalo válido (2000-2100)",
 				});
 				return;
 			} else {
 				// Limpa qualquer erro existente
-				clearErrors("outputDate");
+				clearErrors("returnDate");
 			}
 		} else {
-			setError("outputDate", {
+			setError("returnDate", {
 				type: "invalid",
 				message: "Formato de data inválido",
 			});
@@ -245,17 +233,7 @@ export const UseReturn = () => {
 										</td>
 										<td>{item.description}</td>
 
-										{item.additionalReferences.length > 0 ? (
-											<td>
-												<select className="dropdown-select-ref">
-													{item.additionalReferences.map((itemr) => (
-														<option value="">{itemr}</option>
-													))}
-												</select>
-											</td>
-										) : (
-											<td>-</td>
-										)}
+										
 									</tr>
 								))
 							) : (
@@ -330,7 +308,7 @@ export const UseReturn = () => {
 									placeholder="data de saída"
 									inputStyle="large-input"
 									register={register}
-									inputName="outputDate"
+									inputName="returnDate"
 									isRequired={true}
 									errors={errors}
 								/>
