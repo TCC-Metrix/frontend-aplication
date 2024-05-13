@@ -15,15 +15,17 @@ import { RotatingLines } from "react-loader-spinner";
 interface ModalSearchInstrumentProps {
 	openModal: boolean,
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
-  setFinalInstruments: React.Dispatch<React.SetStateAction<GeneralInstrument[]>>,
+  setFinalInstruments?: React.Dispatch<React.SetStateAction<GeneralInstrument[]>>,
   isReloaded:boolean,
   setIsReloaded: React.Dispatch<React.SetStateAction<boolean>>,
-  status?: string
+  status?: string,
+  handleConfirmFunction? : (selectedInstruments: GeneralInstrument[]) => void
+  situation?: string
 }
 
 
 
-const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOpenModal, status, setFinalInstruments, isReloaded, setIsReloaded}) => {
+const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situation, setOpenModal, handleConfirmFunction, status, setFinalInstruments, isReloaded, setIsReloaded}) => {
   const [selectedInstruments, setSelectedInstruments] = useState<GeneralInstrument[]>([]);
   const [isScroll, setIsScroll] = useState(false)
   const [isShowingInstrumentsFiltered, setIsShowingInstrumentsFiltered] = useState(false)
@@ -55,7 +57,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
     pageParam = 0
   ): Promise<RootFilter> => {
     const response = await instance.get(
-      `/instrument/deepfilter?&column=${filterData.column}&value=${filterData.value}&status=${status ? status : "available"}&page=${pageParam}&size=7`
+      `/instrument/deepfilter?&column=${filterData.column}&value=${filterData.value}&status=${status ? status : "available"}&page=${pageParam}&situation=${situation ? situation : ""}&size=7`
     );
     return response.data;
   };
@@ -138,7 +140,11 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
   };
 
   const handleConfirmButton = () => {
-    setFinalInstruments(selectedInstruments)
+    console.log(selectedInstruments)
+    if(setFinalInstruments){
+
+      setFinalInstruments(selectedInstruments)
+    }
     setOpenModal(false)
   }
 
@@ -307,7 +313,9 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, setOp
       <div className="last-modal-section">
         
       <p className="underline-p" onClick={() => setIsShowingInstrumentsFiltered(!isShowingInstrumentsFiltered)}>{isShowingInstrumentsFiltered ? "Ver todos" : "Ver instrumentos selecionados"}</p>
-        <button className="btn btn-secondary" onClick={handleConfirmButton}>
+        <button className="btn btn-secondary" onClick={() => {
+          handleConfirmFunction ? handleConfirmFunction(selectedInstruments) : handleConfirmButton()
+        }}>
           <span className="text button-font">
 
           Confirmar

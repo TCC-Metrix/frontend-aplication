@@ -58,7 +58,7 @@ export interface UseReturnPost {
 	instrumentIds: string[];
 	shippingResponsible: string;
 	receivingResponsible: string;
-	area: string;
+	shippingArea: string;
 	returnDate: string;
 }
 
@@ -244,6 +244,16 @@ export interface RootFilter {
 	receivingResponsible: GeneralEmployee
 	returnDate: string
   }
+
+  export interface MovUseOutputData {
+	code: string
+	description: string
+	outputDate: string
+	reason: string
+	employee: string
+	area: any
+  }
+  
 
 
 
