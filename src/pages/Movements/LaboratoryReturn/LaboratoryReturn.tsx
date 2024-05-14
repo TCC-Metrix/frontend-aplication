@@ -253,17 +253,17 @@ export default function LaboratoryReturn() {
 
               ) : (
                 <>
-                  {movementData && movementData.length > 0 ? (
-                    movementData.map((item, index) => (
+                  {tableMainPage && tableMainPage.length > 0 ? (
+                    tableMainPage.map((item, index) => (
                       <tr key={index}>
                         <td className="text">
                           <p className="td-text">{item.code}</p>
                         </td>
                         <td>{item.description}</td>
-                        <td>{formatDate(item.outputDate)}</td>
+                        {/* <td>{formatDate(item.outputDate)}</td>
                         <td>{item.reason}</td>
                         <td>{item.employee !== null ? item.employee : "-"}</td>
-                        <td>{item.area !== null ? item.area : "-"}</td>
+                        <td>{item.area !== null ? item.area : "-"}</td> */}
                       </tr>
                     ))
                   ) : (
