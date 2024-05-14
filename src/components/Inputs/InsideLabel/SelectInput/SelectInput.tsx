@@ -25,15 +25,17 @@ const SelectInput: React.FC<SelectInputProps> = ({
       "inativo": "inactive",
       "descrição": "description",
       "família": "familyID",
-      "em uso": "in%20use",
+      "em uso": "in use",
       "disponível": "available",
       "mais recente": "desc",
-      "mais antigo": "asc",
+      "mais antigo": "asc", 
       "todos": "",
       "código": "code",
       "ativo não calibrável": "active non-calibratable",
       "reprovado na calibração": "failed calibration",
-      "perda": "loss"
+      "perda": "loss",
+      "código cal": "calCode",
+      "calibração externa": "external calibration"
     }
 
     return translations[value] || value;

@@ -16,6 +16,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAllFamilies } from "../../../services/useFetchData";
+import { formatDate } from "./InstrumentDetails";
 
 function ConsultInstrument() {
   const [isFamilyInput, setIsFamilyInput] = useState(false);
@@ -168,12 +169,6 @@ function ConsultInstrument() {
     refetch();
   };
 
-  const formatDate = (date: string) => {
-    // Separe o ano, mês e dia
-    const [ano, mes, dia] = date.split("-");
-    // Retorne a data no formato DD/MM/YYYY
-    return `${dia}/${mes}/${ano}`;
-  };
 
   return (
     <div className="consult-page">
@@ -276,6 +271,7 @@ function ConsultInstrument() {
                           <td>
                             {item.status === "in use" && "Em uso"}
                             {item.status === "available" && "Disponível"}
+                            {item.status === "external calibration" && "calibração externa"}
                           </td>
                           <td>{formatDate(item.acquisitionDate)}</td>
                         </tr>
@@ -298,6 +294,7 @@ function ConsultInstrument() {
                           <td>
                             {item.status === "in use" && "Em uso"}
                             {item.status === "available" && "Disponível"}
+                            {item.status === "external calibration" && "calibração externa"}
                           </td>
                           <td>{formatDate(item.acquisitionDate)}</td>
                         </tr>

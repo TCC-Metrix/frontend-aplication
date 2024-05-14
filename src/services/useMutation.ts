@@ -14,6 +14,7 @@ import {
 	postUpdateArea,
 	postUpdateEmployee,
 	getMovementByInstrumentIds,
+	postLaboratoryOutput,
 
 } from "./apiService";
 import {
@@ -24,6 +25,7 @@ import {
 	LaboratoryRegisterPost,
 	EmployeeRegisterPost,
 	SupplierRegisterPost,
+	LaboratoryPost,
 } from "../utils/interfaces/Interfaces";
 
 export function useGetLastMovementByIds() {
@@ -43,6 +45,21 @@ export function usePostOutputUse() {
 				area: data.area,
 				shippingResponsible: data.shippingResponsible,
 				receivingResponsible: data.receivingResponsible,
+				outputDate: data.outputDate,
+			});
+		},
+	});
+}
+
+
+export function usePostLaboratoryOutput() {
+	return useMutation({
+		mutationFn: (data: LaboratoryPost) => {
+			return postLaboratoryOutput({
+				instrumentIds: data.instrumentIds,
+				shippingResponsible: data.shippingResponsible,
+				motive: data.motive,
+				laboratory: data.laboratory,
 				outputDate: data.outputDate,
 			});
 		},
@@ -87,7 +104,7 @@ export function usePostLaboratoryRegister() {
 	return useMutation({
 		mutationFn: (data: LaboratoryRegisterPost) => {
 			return postLaboratoryRegister({
-				name: data.name,
+				description: data.description,
 				calCode: data.calCode,
 			});
 		},

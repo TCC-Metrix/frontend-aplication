@@ -111,7 +111,7 @@ export const UseReturn = () => {
         } else {
           setIsLoadingPostUseOutput(false);
           notify("success", "Movimentação realizada com sucesso");
-          setValue("returnDate", "");
+          setValue("returnDate", new Date().toISOString().split('T')[0]);
           setValue("shippingResponsible", "");
           setValue("shippingResponsibleDescription", "");
           setValue("receivingResponsibleDescription", "");
@@ -211,12 +211,6 @@ export const UseReturn = () => {
     setOpenModal(false);
   };
 
-  const formatDate = (date: string) => {
-    // Separe o ano, mês e dia
-    const [ano, mes, dia] = date.split("-");
-    // Retorne a data no formato DD/MM/YYYY
-    return `${dia}/${mes}/${ano}`;
-  };
 
   return (
     <main>

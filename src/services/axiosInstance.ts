@@ -1,9 +1,10 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
 import { msalInstance } from "../authSSO/msalInstance";
+import { loginRequest } from "../authSSO/authConfig";
+import { InteractionRequiredAuthError } from "@azure/msal-browser";
+import { AuthenticationResult } from "@azure/msal-common";
 
 //URL em que fazemos as requisições da API
-
-
 const API_URL = "http://10.234.90.186:8081/api/v1/";
 
 
@@ -13,16 +14,30 @@ const instance = axios.create({
 	baseURL: API_URL,
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function acquireToken(
-	config: InternalAxiosRequestConfig<any>
-): Promise<InternalAxiosRequestConfig<any>> {
-	const token = msalInstance.getActiveAccount()?.idToken;
-	console.log(token)
-	config.headers.Authorization = `Bearer ${token}`;
 
-	return config;
+async function acquireToken(
+  config: InternalAxiosRequestConfig
+): Promise<InternalAxiosRequestConfig> {
+  try {
+    const tokenResponse: AuthenticationResult = await msalInstance.acquireTokenSilent(loginRequest);
+    const token = tokenResponse.idToken;
+    config.headers.Authorization = `Bearer ${token}`
+    return config;
+  } catch (error) {
+    if (error instanceof InteractionRequiredAuthError) {
+      // Se ocorrer um erro que requer interação do usuário, redirecione para autenticação interativa
+      await msalInstance.acquireTokenRedirect(loginRequest);
+    } else {
+      // Lida com outros erros de forma apropriada
+      console.error("Erro ao adquirir token:", error);
+      throw error; // Lança o erro para ser tratado pelo chamador
+    }
+
+    // Retorna o objeto de configuração original para garantir que o encadeamento da solicitação continue
+    return config;
+  }
 }
+
 
 instance.interceptors.request.use(acquireToken);
 

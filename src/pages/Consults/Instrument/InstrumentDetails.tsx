@@ -3,6 +3,7 @@ import {
   useInstrumentById,
   useLastMovementByInstrument,
 } from "../../../services/useFetchData";
+import { RootMovement } from "../../../utils/interfaces/Interfaces";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import "./InstrumentDetails.css";
@@ -16,6 +17,9 @@ interface DetailItemProps {
 interface AdditionalReferencesProps {
   references: string[];
 }
+interface DetailItemMovProps {
+  mov: RootMovement | undefined;
+}
 
 const DetailItem: React.FC<DetailItemProps> = ({ subtitle, content }) => (
   <div className="detail-area">
@@ -23,6 +27,50 @@ const DetailItem: React.FC<DetailItemProps> = ({ subtitle, content }) => (
     <p className="detail-content">{content ? content : "-"}</p>
   </div>
 );
+
+
+export const formatDate = (date: string) => {
+  // Separe o ano, mês e dia
+  const [ano, mes, dia] = date.split("-");
+  // Retorne a data no formato DD/MM/YYYY
+  return `${dia}/${mes}/${ano}`;
+};
+
+
+export const DetailItemMov = (lastMovementData: DetailItemMovProps) => {
+  console.log(lastMovementData);
+  if (lastMovementData.mov !== undefined) {
+    return (
+      <div className="details-section">
+        <div className="detail-area">
+          <p className="detail-subtitle">data de saída</p>
+          <p className="detail-content">{lastMovementData.mov.useOutput ?  formatDate(lastMovementData.mov.useOutput.outputDate) : lastMovementData.mov.laboratoryOutput ?  formatDate(lastMovementData.mov.laboratoryOutput.outputDate) : "-"}</p>
+        </div>
+        <div className="detail-area">
+          <p className="detail-subtitle">data de retorno</p>
+          <p className="detail-content">{lastMovementData.mov.useReturn ? formatDate(lastMovementData.mov.useReturn.returnDate) : "-"}</p>  {/*//arrumar para o retorno lab depois */}
+        </div>
+        <div className="detail-area">
+          <p className="detail-subtitle">motivo</p>
+          <p className="detail-content">{lastMovementData.mov.useOutput ? "uso interno" : lastMovementData.mov.laboratoryOutput ? "calibração" : "-"}</p>
+        </div>
+        <div className="detail-area">
+          <p className="detail-subtitle">colaborador</p>
+          <p className="detail-content">{lastMovementData.mov.useOutput && lastMovementData.mov.useOutput.receivingResponsible ? lastMovementData.mov.useOutput.receivingResponsible.name : "-"}</p>
+        </div>
+        <div className="detail-area">
+          <p className="detail-subtitle">laboratório</p>
+          <p className="detail-content">{lastMovementData.mov.laboratoryOutput ? lastMovementData.mov.laboratoryOutput.laboratory.description : "-"}</p>
+        </div>
+        <div className="detail-area">
+          <p className="detail-subtitle">área</p>
+          <p className="detail-content">{lastMovementData.mov.useOutput && lastMovementData.mov.useOutput.receivingArea ? lastMovementData.mov.useOutput.receivingArea.description : "-"}</p>
+        </div>
+      </div>
+    );
+  }
+  return "-";
+};
 
 const AdditionalReferences: React.FC<AdditionalReferencesProps> = ({
   references,
@@ -50,12 +98,7 @@ const InstrumentDetails: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const formatDate = (date: string) => {
-    // Separe o ano, mês e dia
-    const [ano, mes, dia] = date.split("-");
-    // Retorne a data no formato DD/MM/YYYY
-    return `${dia}/${mes}/${ano}`;
-  };
+
 
   const getMonth = (date: string) => {
     // Separe o ano, mês e dia
@@ -209,41 +252,7 @@ const InstrumentDetails: React.FC = () => {
             {lastMovementData ? (
               <section className="other-details-section">
                 <h1 className="detail-title">ÚLTIMA MOVIMENTAÇÃO</h1>
-                <div className="details-section">
-                  <DetailItem
-                    subtitle="data de saída"
-                    content={formatDate(lastMovementData.useOutput ? lastMovementData.useOutput.outputDate : "-")}
-                  />
-                  <DetailItem
-                    subtitle="data de retorno"
-                    content={
-                      lastMovementData.movement.useReturn ? formatDate(lastMovementData.useReturn ? lastMovementData.useReturn.returnDate : "-") : "-"
-                    }
-                  />
-                  <DetailItem
-                    subtitle="motivo"
-                    content={
-                      lastMovementData.movement.type === "USE_OUTPUT"
-                        ? "uso interno" : lastMovementData.movement.type === "USE_RETURN" ? "uso interno" : ""
-                    }
-                  />
-                  <DetailItem
-                    subtitle="colaborador"
-                    content={lastMovementData.useOutput ? lastMovementData?.useOutput?.receivingResponsible?.name : "-"}
-                  />
-                  <DetailItem
-                    subtitle="laboratório"
-                    content={
-                      lastMovementData.movement.type !== "LABORATORY_OUTPUT"
-                        ? "-"
-                        : ""
-                    }
-                  />
-                  <DetailItem
-                    subtitle="área"
-                    content={lastMovementData.useOutput?.receivingArea ? lastMovementData.useOutput.receivingArea.description : "-"}
-                  />
-                </div>
+                <DetailItemMov mov={lastMovementData} />
               </section>
             ) : (
               <section className="other-details-section">
@@ -284,7 +293,7 @@ const InstrumentDetails: React.FC = () => {
                 style={{
                   display: "flex",
                   gap: "20px",
-                  alignItems: "center"
+                  alignItems: "center",
                 }}
               >
                 <h1 className="detail-title">CALIBRAÇÃO</h1>

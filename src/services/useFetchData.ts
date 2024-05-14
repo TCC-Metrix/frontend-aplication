@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById, getEmployeeFiltered, getEmployeeById, getSupplierFiltered } from "./apiService";
+import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById, getEmployeeFiltered, getEmployeeById, getSupplierFiltered, getLaboratories } from "./apiService";
 import { FieldValues } from "react-hook-form";
 
 
@@ -43,6 +43,15 @@ export function useAllSuppliers() {
   return useQuery({
     queryKey: ["suppliers"],
     queryFn: getSuppliers,
+    refetchOnWindowFocus: false
+  })
+}
+
+
+export function useAllLaboratories() {
+  return useQuery({
+    queryKey: ["laboratories"],
+    queryFn: getLaboratories,
     refetchOnWindowFocus: false
   })
 }

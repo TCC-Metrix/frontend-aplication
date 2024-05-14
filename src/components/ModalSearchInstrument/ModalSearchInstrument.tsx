@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import instance from "../../services/axiosInstance";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { RotatingLines } from "react-loader-spinner";
+import { formatDate } from "../../pages/Consults/Instrument/InstrumentDetails";
 
 
 interface ModalSearchInstrumentProps {
@@ -174,7 +175,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situa
               register={register}
               inputName="value"
               inputPlaceholder={`Busque por ${filterData.column === undefined
-                ? "descrição"
+                ? "código"
                 : filterData.column === "description"
                   ? "descrição"
                   : "código"
@@ -230,7 +231,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situa
                     <td>{item.description}</td>
                     <td>{item.familyId.description}</td>
                     <td>
-                      {item.nextCalibration ? item.nextCalibration : "-"}
+                      {item.nextCalibration ? formatDate(item.nextCalibration) : "-"}
                     </td>
                     <td className="text">
                       <input
@@ -265,7 +266,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situa
                     <td>{item.description}</td>
                     <td>{item.familyId.description}</td>
                     <td>
-                    {item.nextCalibration ? item.nextCalibration : "-"}
+                    {item.nextCalibration ? formatDate(item.nextCalibration) : "-"}
                     </td>
                     <td className="text">
                       <input
