@@ -15,7 +15,7 @@ async function acquireToken(
 	config: InternalAxiosRequestConfig<any>
 ): Promise<InternalAxiosRequestConfig<any>> {
 	const token = msalInstance.getActiveAccount()?.idToken;
-
+	console.log(token)
 	config.headers.Authorization = `Bearer ${token}`;
 
 	return config;

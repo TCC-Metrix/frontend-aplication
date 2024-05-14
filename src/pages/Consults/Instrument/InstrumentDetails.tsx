@@ -10,7 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 interface DetailItemProps {
   subtitle: string;
-  content: string | number;
+  content: string | number | undefined;
 }
 
 interface AdditionalReferencesProps {
@@ -212,29 +212,24 @@ const InstrumentDetails: React.FC = () => {
                 <div className="details-section">
                   <DetailItem
                     subtitle="data de saída"
-                    content={formatDate(lastMovementData.useOutput.outputDate)}
+                    content={formatDate(lastMovementData.useOutput ? lastMovementData.useOutput.outputDate : "-")}
                   />
                   <DetailItem
                     subtitle="data de retorno"
                     content={
-                      lastMovementData.movement.type === "USE_OUTPUT" ? "" : ""
+                      lastMovementData.movement.useReturn ? formatDate(lastMovementData.useReturn ? lastMovementData.useReturn.returnDate : "-") : "-"
                     }
                   />
                   <DetailItem
                     subtitle="motivo"
                     content={
                       lastMovementData.movement.type === "USE_OUTPUT"
-                        ? "uso interno"
-                        : ""
+                        ? "uso interno" : lastMovementData.movement.type === "USE_RETURN" ? "uso interno" : ""
                     }
                   />
                   <DetailItem
                     subtitle="colaborador"
-                    content={
-                      lastMovementData.useOutput.receivingResponsible
-                        ? lastMovementData.useOutput.receivingResponsible.name
-                        : "-"
-                    }
+                    content={lastMovementData.useOutput ? lastMovementData?.useOutput?.receivingResponsible?.name : "-"}
                   />
                   <DetailItem
                     subtitle="laboratório"
@@ -246,11 +241,7 @@ const InstrumentDetails: React.FC = () => {
                   />
                   <DetailItem
                     subtitle="área"
-                    content={
-                      lastMovementData.useOutput.receivingArea
-                        ? lastMovementData.useOutput.receivingArea.description
-                        : "-"
-                    }
+                    content={lastMovementData.useOutput?.receivingArea ? lastMovementData.useOutput.receivingArea.description : "-"}
                   />
                 </div>
               </section>
@@ -336,7 +327,7 @@ const InstrumentDetails: React.FC = () => {
                     Motivo:{" "}
                     {data.situationReason === "loss"
                       ? "Perda"
-                      : "Inconformidade"}
+                      : "Reprovado na calibração"}
                   </p>
                   <p>
                     {data.situationReason === "loss"

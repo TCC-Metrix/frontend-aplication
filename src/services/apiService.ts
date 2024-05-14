@@ -17,6 +17,7 @@ import {
 	GeneralSupplier,
 	UseReturnPost,
 	GeneralLaboratory,
+	MovUseOutputData,
 
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
@@ -159,4 +160,10 @@ export const postEmployeeRegister = async (data: EmployeeRegisterPost) => {
 export const postSupplierRegister = async (data: SupplierRegisterPost) => {
 	return instance.post<SupplierRegisterPost>("supplier", data);
 };
+
+export const getMovementByInstrumentIds = async (ids: string[]) => {
+	return instance.post<MovUseOutputData[]>("movement/filter/instruments/last", {
+		instrumentIds : ids
+	})
+}
 

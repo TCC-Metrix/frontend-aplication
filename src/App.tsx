@@ -28,26 +28,33 @@ import ConsultArea from "./pages/Consults/Area/ConsultArea";
 import ConsultEmployee from "./pages/Consults/Employee/ConsultEmployee";
 import EmployeeDetails from "./pages/Consults/Employee/EmployeeDetails";
 import UpdateEmployee from "./pages/Update/Employee/UpdateEmployee";
+import { LaboratoryOutput } from "./pages/Movements/LaboratoryOutput/LaboratoryOutput";
 import ConsultSupplier from "./pages/Consults/Supplier/ConsultSupplier";
+
 
 
 function App() {
   const activeNavbar = useNavbarStore((state) => state.activeNavbar);
   const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 
+
+
   const location = useLocation();
-  const previousLocation = useRef(location);
+	const previousLocation = useRef(location);
 
-  useEffect(() => {
-    setActiveNavbar(false);
-    // Verifica se a localização atual é diferente da localização anterior
-    if (location.pathname !== previousLocation.current.pathname) {
-      //   window.location.reload();
+	useEffect(() => {
+		setActiveNavbar(false)
+		// Verifica se a localização atual é diferente da localização anterior
+		if (location.pathname === previousLocation.current.pathname) {
+		//   window.location.reload();
+		}else if(location.pathname === "/movement/use/output" || location.pathname === "/movement/use/return"){
+      window.location.reload()
     }
+	
+		// Atualiza a localização anterior com a localização atual
+		previousLocation.current = location;
+	  }, [location]);
 
-    // Atualiza a localização anterior com a localização atual
-    previousLocation.current = location;
-  }, [location]);
 
   return (
     <>
@@ -235,6 +242,15 @@ function App() {
             </ProtectedRoute>
           }
         ></Route>
+      <Route
+          path="movement/laboratory/output"
+          element={
+            <ProtectedRoute>
+              <LaboratoryOutput />
+            </ProtectedRoute>
+          }
+        ></Route>
+        
         <Route
           path="/consult/supplier"
           element={

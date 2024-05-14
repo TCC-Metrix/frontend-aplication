@@ -580,8 +580,8 @@ const UpdateInstrument: React.FC = () => {
                 <p>
                   {getValues("situationReason") === "loss"
                     ? "Instrumento inativo por:  perda"
-                    : getValues("situationReason") === "nonconformity"
-                    ? "Instrumento inativo por: inconformidade"
+                    : getValues("situationReason") === "failed calibration"
+                    ? "Instrumento inativo por: reprova na calibração"
                     : ""}
                 </p>
                 <p>
@@ -636,7 +636,7 @@ const UpdateInstrument: React.FC = () => {
               <SelectInput
                 id="situationReason"
                 errors={errors}
-                optionsList={["perda", "inconformidade"]}
+                optionsList={["perda", "reprovado na calibração"]}
                 placeholder="motivo"
                 register={register}
               />

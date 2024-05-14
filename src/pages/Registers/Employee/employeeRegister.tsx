@@ -20,16 +20,6 @@ const schema = z.object({
 		.refine((value) => !/^\s+$/.test(value), {
 			message: "Nome não pode conter apenas espaços em branco",
 		}),
-	edv: z
-		.string()
-		.min(1, "Campo obrigatório")
-		.refine((value) => !/^\s+$/.test(value), {
-			message: "EDV não pode conter apenas espaços em branco",
-		})
-		.transform((value) => parseInt(value))
-		.refine((value) => String(value).length <= 10, {
-			message: "Máximo de 10 dígitos."
-		}),
 	email: z
 		.string()
 		.min(1, "Campo obrigatorio")
@@ -119,7 +109,6 @@ const EmployeeRegister = () => {
 
 			const data = {
 				name: dataApi.name,
-				edv: dataApi.edv,
 				email: dataApi.email,
 				sector: dataApi.sector,
 			};
@@ -150,28 +139,20 @@ const EmployeeRegister = () => {
 							inputType="text"
 							register={register}
 						/>
+						
+						<div className="flex-form-line-inputs-employee-register">
 						<BasicInput
 							errors={errors}
-							isRequired={true}
+							isRequired={false}
 							inputName="email"
 							inputPlaceholder="email"
-							inputStyle="large-input"
+							inputStyle="medium-input"
 							inputType="text"
 							register={register}
 						/>
-						<div className="flex-form-line-inputs-employee-register">
 							<BasicInput
 								errors={errors}
-								isRequired={true}
-								inputName="edv"
-								inputPlaceholder="edv"
-								inputStyle="medium-input"
-								inputType="number"
-								register={register}
-							/>
-							<BasicInput
-								errors={errors}
-								isRequired={true}
+								isRequired={false}
 								inputName="sector"
 								inputPlaceholder="setor"
 								inputStyle="medium-input"

@@ -8,6 +8,7 @@ interface SelectInputProps {
   placeholder: string;
   register: UseFormRegister<FieldValues> | any;
   errors?: any;
+  style?: string
 }
 
 const SelectInput: React.FC<SelectInputProps> = ({
@@ -16,6 +17,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
   placeholder,
   register,
   errors,
+  style
 }) => {
   const translateValue = (value: string): string => {
     const translations: { [key: string]: string } = {
@@ -33,13 +35,14 @@ const SelectInput: React.FC<SelectInputProps> = ({
       "inconformidade": "nonconformity",
       "perda": "loss",
       "nome": "name",
+      "reprovado na calibração": "failed calibration",
     }
 
     return translations[value] || value;
   };
 
   return (
-    <div className={`inside-select-container ${errors && errors[id] ? "error-formatted" : ""}`}>
+    <div className={`inside-select-container ${style ? style : ""} ${errors && errors[id] ? "error-formatted" : ""}`}>
       <div className="label-select">{placeholder}</div>
       <select
         id={id}
