@@ -14,6 +14,7 @@ import {
 	postUpdateArea,
 	postUpdateEmployee,
 	getMovementByInstrumentIds,
+	postUpdateLaboratory,
 
 } from "./apiService";
 import {
@@ -132,6 +133,13 @@ export function useUpdateEmployee(id: string | undefined) {
 	return useMutation({
 		mutationFn: (data: FieldValues) => {
 			return postUpdateEmployee(data, id);
+		}
+	})
+}
+export function useUpdateLaboratory(id: string | undefined) {
+	return useMutation({
+		mutationFn: (data: FieldValues) => {
+			return postUpdateLaboratory(data, id);
 		}
 	})
 }

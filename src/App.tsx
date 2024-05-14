@@ -30,6 +30,8 @@ import EmployeeDetails from "./pages/Consults/Employee/EmployeeDetails";
 import UpdateEmployee from "./pages/Update/Employee/UpdateEmployee";
 import { LaboratoryOutput } from "./pages/Movements/LaboratoryOutput/LaboratoryOutput";
 import ConsultSupplier from "./pages/Consults/Supplier/ConsultSupplier";
+import LaboratoryDetails from "./pages/Consults/Laboratory/LaboratoryDetails";
+import UpdateLaboratory from "./pages/Update/Laboratory/UpdateLaboratory";
 
 
 
@@ -264,6 +266,22 @@ function App() {
           element={
             <ProtectedRoute>
               <ConsultLaboratory />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/consult/laboratory/:id"
+          element={
+            <ProtectedRoute>
+              <LaboratoryDetails />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/edit/laboratory/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateLaboratory />
             </ProtectedRoute>
           }
         ></Route>
