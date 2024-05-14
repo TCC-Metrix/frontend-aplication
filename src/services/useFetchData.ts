@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById, getEmployeeFiltered, getEmployeeById } from "./apiService";
-import { Field, FieldValues } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 
 
 //Retorna todos os instrumentos da API

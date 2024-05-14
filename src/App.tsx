@@ -14,7 +14,7 @@ import AreaRegister from "./pages/Registers/Area/AreaRegister";
 import EmployeeRegister from "./pages/Registers/Employee/employeeRegister";
 import { UseReturn } from "./pages/Movements/UseReturn/UseReturn";
 import { useLocation } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import ConsultInstrument from "./pages/Consults/Instrument/ConsultInstrument";
 import InstrumentDetails from "./pages/Consults/Instrument/InstrumentDetails";
 import UpdateInstrument from "./pages/Update/Instrument/UpdateInstrument";
@@ -27,6 +27,7 @@ import ConsultArea from "./pages/Consults/Area/ConsultArea";
 import ConsultEmployee from "./pages/Consults/Employee/ConsultEmployee";
 import EmployeeDetails from "./pages/Consults/Employee/EmployeeDetails";
 import UpdateEmployee from "./pages/Update/Employee/UpdateEmployee";
+import { LaboratoryOutput } from "./pages/Movements/LaboratoryOutput/LaboratoryOutput";
 
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
 		// Verifica se a localização atual é diferente da localização anterior
 		if (location.pathname === previousLocation.current.pathname) {
 		//   window.location.reload();
-		}else if(location.pathname === "/movement/use/output"){
+		}else if(location.pathname === "/movement/use/output" || location.pathname === "/movement/use/return"){
       window.location.reload()
     }
 	
@@ -235,6 +236,15 @@ function App() {
           element={
             <ProtectedRoute>
               <ConsultArea />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+<Route
+          path="movement/laboratory/output"
+          element={
+            <ProtectedRoute>
+              <LaboratoryOutput />
             </ProtectedRoute>
           }
         ></Route>

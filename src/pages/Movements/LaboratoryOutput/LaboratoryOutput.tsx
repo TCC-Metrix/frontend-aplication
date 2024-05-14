@@ -1,15 +1,16 @@
-import "./UseReturn.css";
+import "./LaboratoryOutput.css";
 import { useState } from "react";
-import { Button, BasicInputFilter, DateInputInside } from "../../../components";
+import {
+  Button,
+  BasicInputFilter,
+  DateInputInside,
+  SelectInput,
+} from "../../../components";
 import {
   GeneralInstrument,
-  MovUseOutputData,
-  UseReturnPost,
+  UsePost,
 } from "../../../utils/interfaces/Interfaces";
-import {
-  useGetLastMovementByIds,
-  usePostReturnUse,
-} from "../../../services/useMutation";
+import { usePostOutputUse } from "../../../services/useMutation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useAllAreas, useAllEmployees } from "../../../services/useFetchData";
 import LoadingPage from "../../LoadingPage/LoadingPage";
@@ -20,25 +21,27 @@ import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
 
-export const UseReturn = () => {
+export const LaboratoryOutput = () => {
   // Estados para controlar o estado dos componentes
   const [isLoadingPostUseOutput, setIsLoadingPostUseOutput] =
     useState<boolean>(false);
   const [tableMainPage, setTableMainPage] = useState<GeneralInstrument[]>([]);
-  const [movementData, setMovementData] = useState<
-    MovUseOutputData[] | undefined
-  >([]);
-  const [isLoadingUseOutputData, setIsLoadingUseOutputData] = useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isReloaded, setIsReloaded] = useState<boolean>(false);
 
+  //Variáveis controladas no contexto da aplicação
+  const listExpiredInstruments: GeneralInstrument[] = [];
+  //Pegar o dia atual
+  const currentDate: Date = new Date();
+  const currentMonth: number = currentDate.getMonth() + 1;
+  const currentYear: number = currentDate.getFullYear();
+
   const headersList = [
     "Código",
-    "Nome",
-    "Data de Saída",
-    "Motivo",
-    "Colaborador",
-    "Área",
+    "Descrição",
+    "Família",
+    "Freq. Calibração",
+    "Próx. Calibração",
   ];
 
   const notify = (type: string, message?: string) => {
@@ -87,11 +90,11 @@ export const UseReturn = () => {
     watch,
   } = useForm();
 
-  const valueInArea = watch("shippingArea");
-  const valueInShippingResponsible = watch("shippingResponsible");
+  const valueInArea = watch("area");
+  const valueInReceivingResponsible = watch("receivingResponsible");
 
   //Hooks de api
-  const postReturnUseMutation = usePostReturnUse(); //posta a saida para uso
+  const postOutputMutation = usePostOutputUse(); //posta a saida para uso
   const { data: allEmployees, isLoading, isError } = useAllEmployees(); //busca todos os funcionarios
   const {
     data: allAreas,
@@ -99,27 +102,25 @@ export const UseReturn = () => {
     isError: isErrorArea,
   } = useAllAreas(); //busca todas as áreas
 
-  const getMovementByIds = useGetLastMovementByIds();
-
-  const handlePostUseOutput: SubmitHandler<UseReturnPost> = (data) => {
+  const handlePostUseOutput: SubmitHandler<UsePost> = (data) => {
     setIsLoadingPostUseOutput(true);
-    postReturnUseMutation.mutate(data, {
-      onSettled: (_, error) => {
+    postOutputMutation.mutate(data, {
+      onSettled: (data, error) => {
         if (error && request.isAxiosError(error)) {
           setIsLoadingPostUseOutput(false);
           notify("error", "Erro ao processar sua solicitação");
         } else {
           setIsLoadingPostUseOutput(false);
           notify("success", "Movimentação realizada com sucesso");
-          setValue("returnDate", "");
+          setValue("outputDate", "");
           setValue("shippingResponsible", "");
           setValue("shippingResponsibleDescription", "");
           setValue("receivingResponsibleDescription", "");
           setValue("receivingResponsible", "");
-          setValue("shippingArea", "");
+          setValue("area", "");
           setValue("areaDescription", "");
           setTableMainPage([]);
-		  setMovementData([])
+          console.log(data);
           setIsReloaded(true);
         }
       },
@@ -130,45 +131,76 @@ export const UseReturn = () => {
   const handleConfirmUseOutput = (data: FieldValues) => {
     const idsList = tableMainPage.map((item) => item.id);
 
+    setIsLoadingPostUseOutput(true);
 
     setIsLoadingPostUseOutput(false);
     if (idsList.length == 0) {
       notify("error", "Nenhum instrumento selecionado");
       return;
     }
+    //valueInReceivingResponsible = "abcd"
+    //valueInArea = ""
 
     if (
       (valueInArea === "" || valueInArea === undefined) &&
-      (valueInShippingResponsible === "" ||
-        valueInShippingResponsible === undefined)
+      (valueInReceivingResponsible === "" ||
+        valueInReceivingResponsible === undefined)
     ) {
-      notify("error", "Informe ao menos uma área ou responsável de entrega");
+      notify(
+        "error",
+        "Informe ao menos uma área ou responsável de recebimento"
+      );
       return;
     }
 
+    tableMainPage.map((item) => {
+      const dateNextCalibration: Date = new Date(
+        item.nextCalibration + "T00:00:00"
+      );
+
+      const monthNextCalibration: number = dateNextCalibration.getMonth() + 1;
+      const yearNextCalibration: number = dateNextCalibration.getFullYear();
+      if (currentYear > yearNextCalibration) {
+        listExpiredInstruments.push(item);
+      } else if (currentMonth >= monthNextCalibration) {
+        listExpiredInstruments.push(item);
+      }
+    });
+
+    // if (listExpiredInstruments.length > 0) {
+    // 	const messageInstruments: string = listExpiredInstruments
+    // 		.map(
+    // 			(instrument) => `${instrument.code} - ${instrument.description}/ `
+    // 		)
+    // 		.join("");
+    // 	notify("error", `Instrumentos com calibração vencida ${messageInstruments}`)
+
+    // 	return;
+    // }
+
     const regex = /^(\d{4})-(\d{2})-(\d{2})$/;
-    const match = data.returnDate.match(regex);
+    const match = data.outputDate.match(regex);
     if (match) {
       const ano = parseInt(match[1], 10);
 
       if (match[1].length > 4 || isNaN(ano)) {
-        setError("returnDate", {
+        setError("outputDate", {
           type: "invalid",
           message: "Ano inválido",
         });
         return;
       } else if (ano < 2000 || ano > 2100) {
-        setError("returnDate", {
+        setError("outputDate", {
           type: "invalid",
           message: "Ano está fora do intervalo válido (2000-2100)",
         });
         return;
       } else {
         // Limpa qualquer erro existente
-        clearErrors("returnDate");
+        clearErrors("outputDate");
       }
     } else {
-      setError("returnDate", {
+      setError("outputDate", {
         type: "invalid",
         message: "Formato de data inválido",
       });
@@ -179,8 +211,8 @@ export const UseReturn = () => {
       instrumentIds: idsList,
       shippingResponsible: data.shippingResponsible,
       receivingResponsible: data.receivingResponsible,
-      shippingArea: data.shippingArea,
-      returnDate: data.returnDate,
+      area: data.area,
+      outputDate: data.outputDate,
     });
   };
 
@@ -191,25 +223,6 @@ export const UseReturn = () => {
   if (isLoading || isLoadingArea) {
     return <LoadingPage />;
   }
-
-  const handleConfirmFunction = (selectedInstruments: GeneralInstrument[]) => {
-    setIsLoadingUseOutputData(true);
-    getMovementByIds.mutate(
-      selectedInstruments.map((instrument) => instrument.id),
-      {
-        onSettled(data, error) {
-          console.log(data);
-          setIsLoadingUseOutputData(false);
-          setMovementData(data?.data);
-          if (error) {
-            console.error(error);
-          }
-        },
-      }
-    );
-    setTableMainPage(selectedInstruments);
-    setOpenModal(false);
-  };
 
   const formatDate = (date: string) => {
     // Separe o ano, mês e dia
@@ -222,7 +235,7 @@ export const UseReturn = () => {
     <main>
       <div className="container-main">
         <div>
-          <h1 className="header-three">Retorno de uso</h1>
+          <h1 className="header-three">Saída para laboratório</h1>
           <p className="text">Instrumento</p>
           <Button className="btn btn-tertiary " onClickFunction={handleModal}>
             Adicionar / Editar
@@ -238,43 +251,28 @@ export const UseReturn = () => {
               </tr>
             </thead>
             <tbody>
-              {isLoadingUseOutputData ? (
-				<td colSpan={5}>
-
-					<RotatingLines
-					  visible={true}
-					  strokeWidth="5"
-					  animationDuration="0.75"
-					  ariaLabel="rotating-lines-loading"
-					  strokeColor="#99aebb"
-					  width="30"
-					/>
-
-				</td>
-
+              {tableMainPage.length > 0 ? (
+                tableMainPage.map((item, index) => (
+                  <tr key={index}>
+                    <td className="text">
+                      <p className="td-text">{item.code}</p>
+                    </td>
+                    <td>{item.description}</td>
+                    <td>{item.familyId.description}</td>
+                    <td>{item.calibrationFrequency}</td>
+                    <td>
+                      {item.nextCalibration
+                        ? formatDate(item.nextCalibration)
+                        : "-"}
+                    </td>
+                  </tr>
+                ))
               ) : (
-                <>
-                  {movementData && movementData.length > 0 ? (
-                    movementData.map((item, index) => (
-                      <tr key={index}>
-                        <td className="text">
-                          <p className="td-text">{item.code}</p>
-                        </td>
-                        <td>{item.description}</td>
-                        <td>{formatDate(item.outputDate)}</td>
-                        <td>{item.reason}</td>
-                        <td>{item.employee !== null ? item.employee : "-"}</td>
-                        <td>{item.area !== null ? item.area : "-"}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={headersList.length + 1} className="text">
-                        Nenhum instrumento selecionado
-                      </td>
-                    </tr>
-                  )}
-                </>
+                <tr>
+                  <td colSpan={headersList.length + 1} className="text">
+                    Nenhum instrumento encontrado
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
@@ -292,50 +290,34 @@ export const UseReturn = () => {
                   register={register}
                   setValue={setValue}
                   getValues={getValues}
-                  isRequired={false}
+                  isRequired={true}
                   errors={errors}
-                  isActive={
-                    valueInArea !== "" && valueInArea !== undefined
-                      ? false
-                      : true
-                  }
+                  isActive={true}
                 />
               </div>
               <div>
                 <BasicInputFilter
                   inputStyle="classe-large"
-                  inputId="receivingResponsible"
-                  inputName="receivingResponsibleDescription"
+                  inputId="laboratory"
+                  inputName="laboratoryDescription"
                   items={allEmployees}
-                  inputPlaceholder="responsável recebimento"
+                  inputPlaceholder="laboratório"
                   register={register}
                   setValue={setValue}
                   getValues={getValues}
                   isRequired={false} //undefined
                   errors={errors}
-                  isActive={true}
                 />
               </div>
             </div>
             <div className="form-column">
-              <div>
-                <BasicInputFilter
-                  inputStyle="classe-large"
-                  inputId="shippingArea"
-                  inputName="areaDescription"
-                  items={allAreas}
-                  inputPlaceholder="área"
+              <div >
+                <SelectInput
+                  id="reason"
+                  optionsList={["calibração", "conserto"]}
+                  placeholder="Motivo"
                   register={register}
-                  setValue={setValue}
-                  getValues={getValues}
-                  isRequired={false} // ""
-                  errors={errors}
-                  isActive={
-                    valueInShippingResponsible !== "" &&
-                    valueInShippingResponsible !== undefined
-                      ? false
-                      : true
-                  }
+                  style="full"
                 />
               </div>
               <div>
@@ -343,7 +325,7 @@ export const UseReturn = () => {
                   placeholder="data de saída"
                   inputStyle="large-input"
                   register={register}
-                  inputName="returnDate"
+                  inputName="outputDate"
                   isRequired={true}
                   errors={errors}
                 />
@@ -377,8 +359,7 @@ export const UseReturn = () => {
           setOpenModal={setOpenModal}
           isReloaded={isReloaded}
           setIsReloaded={setIsReloaded}
-          status="in%20use"
-          handleConfirmFunction={handleConfirmFunction}
+          situation="active"
         />
       </div>
     </main>
