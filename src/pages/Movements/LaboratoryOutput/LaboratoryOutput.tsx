@@ -1,6 +1,11 @@
 import "./LaboratoryOutput.css";
 import { useState } from "react";
-import { Button, BasicInputFilter, DateInputInside } from "../../../components";
+import {
+  Button,
+  BasicInputFilter,
+  DateInputInside,
+  SelectInput,
+} from "../../../components";
 import {
   GeneralInstrument,
   UsePost,
@@ -31,7 +36,13 @@ export const LaboratoryOutput = () => {
   const currentMonth: number = currentDate.getMonth() + 1;
   const currentYear: number = currentDate.getFullYear();
 
-  const headersList = ["Código", "Descrição", "Família", "Freq. Calibração", "Próx. Calibração"];
+  const headersList = [
+    "Código",
+    "Descrição",
+    "Família",
+    "Freq. Calibração",
+    "Próx. Calibração",
+  ];
 
   const notify = (type: string, message?: string) => {
     type === "success" &&
@@ -213,6 +224,13 @@ export const LaboratoryOutput = () => {
     return <LoadingPage />;
   }
 
+  const formatDate = (date: string) => {
+    // Separe o ano, mês e dia
+    const [ano, mes, dia] = date.split("-");
+    // Retorne a data no formato DD/MM/YYYY
+    return `${dia}/${mes}/${ano}`;
+  };
+
   return (
     <main>
       <div className="container-main">
@@ -240,20 +258,13 @@ export const LaboratoryOutput = () => {
                       <p className="td-text">{item.code}</p>
                     </td>
                     <td>{item.description}</td>
-
-                    {item.additionalReferences.length > 0 ? (
-                      <td>
-                        <select className="dropdown-select-ref">
-                          {item.additionalReferences.map((itemr, indexr) => (
-                            <option value="" key={indexr}>
-                              {itemr}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                    ) : (
-                      <td>-</td>
-                    )}
+                    <td>{item.familyId.description}</td>
+                    <td>{item.calibrationFrequency}</td>
+                    <td>
+                      {item.nextCalibration
+                        ? formatDate(item.nextCalibration)
+                        : "-"}
+                    </td>
                   </tr>
                 ))
               ) : (
@@ -287,42 +298,26 @@ export const LaboratoryOutput = () => {
               <div>
                 <BasicInputFilter
                   inputStyle="classe-large"
-                  inputId="receivingResponsible"
-                  inputName="receivingResponsibleDescription"
+                  inputId="laboratory"
+                  inputName="laboratoryDescription"
                   items={allEmployees}
-                  inputPlaceholder="responsável recebimento"
+                  inputPlaceholder="laboratório"
                   register={register}
                   setValue={setValue}
                   getValues={getValues}
                   isRequired={false} //undefined
                   errors={errors}
-                  isActive={
-                    valueInArea !== "" && valueInArea !== undefined
-                      ? false
-                      : true
-                  }
                 />
               </div>
             </div>
             <div className="form-column">
-              <div>
-                <BasicInputFilter
-                  inputStyle="classe-large"
-                  inputId="area"
-                  inputName="areaDescription"
-                  items={allAreas}
-                  inputPlaceholder="área"
+              <div >
+                <SelectInput
+                  id="reason"
+                  optionsList={["calibração", "conserto"]}
+                  placeholder="Motivo"
                   register={register}
-                  setValue={setValue}
-                  getValues={getValues}
-                  isRequired={false} // ""
-                  errors={errors}
-                  isActive={
-                    valueInReceivingResponsible !== "" &&
-                    valueInReceivingResponsible !== undefined
-                      ? false
-                      : true
-                  }
+                  style="full"
                 />
               </div>
               <div>

@@ -327,7 +327,7 @@ const InstrumentDetails: React.FC = () => {
                     Motivo:{" "}
                     {data.situationReason === "loss"
                       ? "Perda"
-                      : "Inconformidade"}
+                      : "Reprovado na calibração"}
                   </p>
                   <p>
                     {data.situationReason === "loss"

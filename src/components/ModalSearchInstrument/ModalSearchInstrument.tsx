@@ -164,7 +164,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situa
           <div className="input-filter">
             <SelectInput
               id="column"
-              optionsList={["descrição", "código"]}
+              optionsList={["código", "descrição"]}
               placeholder="Busque por"
               register={register}
             />
