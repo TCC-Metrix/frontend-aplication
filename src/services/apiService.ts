@@ -88,6 +88,9 @@ export const getEmployeeById = async (id: string | undefined) => {
 export const getEmployeeFiltered = async (data: FieldValues) => {
 	return (await instance.get<GeneralEmployee[]>(`employee/filter?column=${data.column}&value=${data.value}`)).data;
 ;}
+export const getSupplierFiltered = async (data: FieldValues) => {
+	return (await instance.get<GeneralSupplier[]>(`supplier/filter?column=${data.column}&value=${data.value}`)).data;
+;}
 
 //GET - Retorna as movimentações pelo ID do instrumento
 export const getAllMovements = async (id: string) => {

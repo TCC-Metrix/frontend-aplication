@@ -3,7 +3,9 @@ import { msalInstance } from "../authSSO/msalInstance";
 
 //URL em que fazemos as requisições da API
 
+
 const API_URL = "http://10.234.90.186:8081/api/v1/";
+
 
 
 //Definindo a instância da URL para as requisições utilizando AXIOS
@@ -30,3 +32,5 @@ export default instance;
 //10.234.90.186 - julia api
 //10.109.72.48
 //192.168.56.1 julia api senai
+//10.109.71.25 aprigio notebook senai
+//192.168.1.177 aprigio casa

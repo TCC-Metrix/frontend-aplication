@@ -23,11 +23,14 @@ import InstrumentHistory from "./pages/History/InstrumentHistory";
 import ConsultFamily from "./pages/Consults/Family/ConsultFamily";
 import FamilyDetails from "./pages/Consults/Family/FamilyDetails";
 import UpdateFamily from "./pages/Update/Family/UpdateFamily";
+import ConsultLaboratory from "./pages/Consults/Laboratory/ConsultLaboratory";
 import ConsultArea from "./pages/Consults/Area/ConsultArea";
 import ConsultEmployee from "./pages/Consults/Employee/ConsultEmployee";
 import EmployeeDetails from "./pages/Consults/Employee/EmployeeDetails";
 import UpdateEmployee from "./pages/Update/Employee/UpdateEmployee";
 import { LaboratoryOutput } from "./pages/Movements/LaboratoryOutput/LaboratoryOutput";
+import ConsultSupplier from "./pages/Consults/Supplier/ConsultSupplier";
+
 
 
 function App() {
@@ -239,12 +242,28 @@ function App() {
             </ProtectedRoute>
           }
         ></Route>
-
-<Route
+      <Route
           path="movement/laboratory/output"
           element={
             <ProtectedRoute>
               <LaboratoryOutput />
+            </ProtectedRoute>
+          }
+        ></Route>
+        
+        <Route
+          path="/consult/supplier"
+          element={
+            <ProtectedRoute>
+              <ConsultSupplier />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/consult/laboratory"
+          element={
+            <ProtectedRoute>
+              <ConsultLaboratory />
             </ProtectedRoute>
           }
         ></Route>
