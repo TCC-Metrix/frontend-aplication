@@ -1,16 +1,14 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { useState } from "react";
-import { BasicInput, Button } from "../../../components";
+import { BasicInput } from "../../../components";
 import { useAllAreas } from "../../../services/useFetchData";
 import { Area } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
-import { useNavigate } from "react-router-dom";
 import "./ConsultArea.css";
 import { useUpdateArea } from "../../../services/useMutation";
 
 function ConsultArea() {
   const { data: allAreas, isFetching } = useAllAreas();
-  const navigate = useNavigate();
 
   const {
     register,

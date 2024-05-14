@@ -58,7 +58,7 @@ export interface UseReturnPost {
 	instrumentIds: string[];
 	shippingResponsible: string;
 	receivingResponsible: string;
-	area: string;
+	shippingArea: string;
 	returnDate: string;
 }
 
@@ -76,7 +76,6 @@ export interface LaboratoryRegisterPost {
 
 export interface EmployeeRegisterPost {
 	name: string;
-	edv: number;
 	email: string;
 	sector: string;
 }
@@ -211,7 +210,8 @@ export interface RootFilter {
 
   export interface RootMovement {
 	movement: Movement
-	useOutput: UseOutput
+	useOutput?: UseOutput
+	useReturn?: UseReturn,
   }
 
   export interface Movement {
@@ -237,6 +237,26 @@ export interface RootFilter {
 	receivingResponsible: GeneralEmployee
 	outputDate: string
   }
+
+
+  export interface UseReturn {
+	id: string
+	movement: string[]
+	shippingArea: Area
+	shippingResponsible: GeneralEmployee
+	receivingResponsible: GeneralEmployee
+	returnDate: string
+  }
+
+  export interface MovUseOutputData {
+	code: string
+	description: string
+	outputDate: string
+	reason: string
+	employee: string
+	area: any
+  }
+  
 
 
 

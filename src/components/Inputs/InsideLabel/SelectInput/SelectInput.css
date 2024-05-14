@@ -26,6 +26,12 @@
     color: var(--color-grey-06);
 }
 
+.full{
+    width: 100%;
+    box-sizing: border-box;
+    height: 54px;
+}
+
 @media (max-width: 1356px) {
     
     .label-select{

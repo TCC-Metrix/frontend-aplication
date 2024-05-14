@@ -13,6 +13,7 @@ import {
 	postUpdateFamily,
 	postUpdateArea,
 	postUpdateEmployee,
+	getMovementByInstrumentIds,
 
 } from "./apiService";
 import {
@@ -25,15 +26,14 @@ import {
 	SupplierRegisterPost,
 } from "../utils/interfaces/Interfaces";
 
-// //Função que faz um POST na API para retornar os instrumentos de acordo com o filtro
-// export function useGetInstrumentBy() {
-// 	return useMutation({
-// 		mutationFn: (data: SearchPattern, pageParam: number) => getInstrumentBySome(data, pageParam),
-// 		onMutate: () => {},
-// 		onError: () => {},
-// 		onSettled() {},
-// 	});
-// }
+export function useGetLastMovementByIds() {
+	return useMutation({
+		mutationFn: (ids: string[]) => getMovementByInstrumentIds(ids),
+		onMutate: () => {},
+		onError: () => {},
+		onSettled() {},
+	});
+}
 
 export function usePostOutputUse() {
 	return useMutation({
@@ -54,7 +54,7 @@ export function usePostReturnUse() {
 		mutationFn: (data: UseReturnPost) => {
 			return postReturnUse({
 				instrumentIds: data.instrumentIds,
-				area: data.area,
+				shippingArea: data.shippingArea,
 				shippingResponsible: data.shippingResponsible,
 				receivingResponsible: data.receivingResponsible,
 				returnDate: data.returnDate,
@@ -98,7 +98,6 @@ export function usePostEmployeeRegister() {
 		mutationFn: (data: EmployeeRegisterPost) => {
 			return postEmployeeRegister({
 				name: data.name,
-				edv: data.edv,
 				email: data.email,
 				sector: data.sector,
 			});

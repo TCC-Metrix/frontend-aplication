@@ -7,7 +7,7 @@ export const movLinks: List[] = [
 	},
 	{
 		name: "Saída para laboratorio",
-		link: "#",
+		link: "/movement/laboratory/output",
 	},
 	{
 		name: "Retorno de uso",

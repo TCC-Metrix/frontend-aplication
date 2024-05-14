@@ -71,7 +71,7 @@ function BasicInputFilter(props: BasicInputFilterProps) {
 							props.inputName,
 							props.isRequired
 								? {
-									required: `Selecione ao menos um(a) ${props.inputPlaceholder}`,
+									required: `Campo obrigatório`,
 								}
 								: undefined
 						)}
