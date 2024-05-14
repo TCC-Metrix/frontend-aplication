@@ -15,7 +15,7 @@ export const movLinks: List[] = [
 	},
 	{
 		name: "Retorno de laboratório",
-		link: "#",
+		link: "/movement/laboratory/return",
 	},
 ];
 

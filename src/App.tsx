@@ -30,6 +30,7 @@ import EmployeeDetails from "./pages/Consults/Employee/EmployeeDetails";
 import UpdateEmployee from "./pages/Update/Employee/UpdateEmployee";
 import { LaboratoryOutput } from "./pages/Movements/LaboratoryOutput/LaboratoryOutput";
 import ConsultSupplier from "./pages/Consults/Supplier/ConsultSupplier";
+import LaboratoryReturn from "./pages/Movements/LaboratoryReturn/LaboratoryReturn";
 
 
 
@@ -264,6 +265,14 @@ function App() {
           element={
             <ProtectedRoute>
               <ConsultLaboratory />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/movement/laboratory/return"
+          element={
+            <ProtectedRoute>
+              <LaboratoryReturn/>
             </ProtectedRoute>
           }
         ></Route>

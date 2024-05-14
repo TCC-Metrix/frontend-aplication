@@ -1,5 +1,5 @@
-import "./UseReturn.css";
-import { useState } from "react";
+import "./LaboratoryReturn.css";
+import { useEffect, useState } from "react";
 import { Button, BasicInputFilter, DateInputInside } from "../../../components";
 import {
   GeneralInstrument,
@@ -21,7 +21,7 @@ import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
 import { formatDate } from "../../Consults/Instrument/InstrumentDetails";
 
-export const UseReturn = () => {
+export default function LaboratoryReturn() {
   // Estados para controlar o estado dos componentes
   const [isLoadingPostUseOutput, setIsLoadingPostUseOutput] =
     useState<boolean>(false);
@@ -35,12 +35,16 @@ export const UseReturn = () => {
 
   const headersList = [
     "Código",
-    "Nome",
+    "Descrição",
     "Data de Saída",
     "Motivo",
-    "Colaborador",
-    "Área",
+    "Laboratório"
   ];
+
+  useEffect(() => {
+    console.log("mudou", tableMainPage)
+
+  }, [tableMainPage])
 
   const notify = (type: string, message?: string) => {
     type === "success" &&
@@ -217,7 +221,7 @@ export const UseReturn = () => {
     <main>
       <div className="container-main">
         <div>
-          <h1 className="header-three">Retorno de uso</h1>
+          <h1 className="header-three">Retorno de laboratório</h1>
           <p className="text">Instrumento</p>
           <Button className="btn btn-tertiary " onClickFunction={handleModal}>
             Adicionar / Editar
@@ -372,8 +376,9 @@ export const UseReturn = () => {
           setOpenModal={setOpenModal}
           isReloaded={isReloaded}
           setIsReloaded={setIsReloaded}
-          status="in%20use"
+          status="external calibration"
           handleConfirmFunction={handleConfirmFunction}
+          max={1}
         />
       </div>
     </main>
