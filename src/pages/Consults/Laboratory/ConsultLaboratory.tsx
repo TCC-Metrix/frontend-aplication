@@ -1,8 +1,8 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { BasicInput, Button, SelectInput } from "../../../components";
 import {
-	useAllSuppliers,
-	useSupplierFiltered,
+	useAllLaboratories,
+	useLaboratoryFiltered,
 } from "../../../services/useFetchData";
 import { GeneralLaboratory } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
@@ -20,10 +20,10 @@ function ConsultLaboratory() {
 		watch,
 	} = useForm();
 
-	const { data: allSuppliers, isFetching } = useAllSuppliers(); // arrumar qnd pronto
+	const { data: allLaboratories, isFetching } = useAllLaboratories(); // arrumar qnd pronto
 	const navigate = useNavigate();
 
-	const { data, refetch } = useSupplierFiltered(
+	const { data, refetch } = useLaboratoryFiltered(
 		{ column: watch("column"), value: watch("value") },   // arrumar quando pronto
 		enable
 	);
@@ -92,7 +92,7 @@ function ConsultLaboratory() {
 
 								<tbody>
 									{!enable &&
-										allSuppliers?.map((item: GeneralLaboratory, index) => {
+										allLaboratories?.map((item: GeneralLaboratory, index) => {
 											return (
 												<tr
 													key={index}
@@ -106,10 +106,10 @@ function ConsultLaboratory() {
 															className="td-text"
 															style={{ textTransform: "capitalize" }}
 														>
-															{item.name}
+															{item.calCode}
 														</p>
 													</td>
-													<td>{item.cnpj}</td>
+													<td>{item.description}</td>
 													<td style={{ textDecoration: "underline" }}>
 														Editar
 													</td>
@@ -128,9 +128,9 @@ function ConsultLaboratory() {
 													}}
 												>
 													<td>
-														<p className="td-text">{item.name}</p>
+														<p className="td-text">{item.calCode}</p>
 													</td>
-													<td>{item.cnpj}</td>
+													<td>{item.description}</td>
 													<td style={{ textDecoration: "underline" }}>
 														Editar
 													</td>

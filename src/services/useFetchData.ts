@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById, getEmployeeFiltered, getEmployeeById, getSupplierFiltered } from "./apiService";
+import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById, getEmployeeFiltered, getEmployeeById, getSupplierFiltered, getLaboratories, getLaboratoryFiltered } from "./apiService";
 import { FieldValues } from "react-hook-form";
 
 
@@ -32,7 +32,7 @@ export function useAllAreas() {
 //Retorna todas as famílias
 export function useAllFamilies() {
   return useQuery({
-    queryKey: ["famiies"],
+    queryKey: ["families"],
     queryFn: getFamilies,
     refetchOnWindowFocus: false
   })
@@ -46,11 +46,26 @@ export function useAllSuppliers() {
     refetchOnWindowFocus: false
   })
 }
+export function useAllLaboratories() {
+  return useQuery({
+    queryKey: ["laboratory"],
+    queryFn: getLaboratories,
+    refetchOnWindowFocus: false
+  })
+}
 
 export function useSupplierFiltered(data: FieldValues, isEnabled: boolean) {
   return useQuery({
     queryKey: ["supplier-filtered"],
     queryFn: () => getSupplierFiltered(data),
+    refetchOnWindowFocus: false,
+    enabled: isEnabled
+  })
+}
+export function useLaboratoryFiltered(data: FieldValues, isEnabled: boolean) {
+  return useQuery({
+    queryKey: ["laboratory-filtered"],
+    queryFn: () => getLaboratoryFiltered(data),
     refetchOnWindowFocus: false,
     enabled: isEnabled
   })

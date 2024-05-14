@@ -16,6 +16,7 @@ import {
 	RootMovement,
 	GeneralSupplier,
 	UseReturnPost,
+	GeneralLaboratory,
 
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
@@ -44,6 +45,10 @@ export const getFamilies = async () => {
 //GET - Retorna todos as famílias
 export const getSuppliers = async () => {
 	return (await instance.get<GeneralSupplier[]>("supplier/all")).data;
+};
+
+export const getLaboratories = async () => {
+	return (await instance.get<GeneralLaboratory[]>("laboratory/all")).data;
 };
 
 //GET - Retorna todas as areas
@@ -89,6 +94,9 @@ export const getEmployeeFiltered = async (data: FieldValues) => {
 ;}
 export const getSupplierFiltered = async (data: FieldValues) => {
 	return (await instance.get<GeneralSupplier[]>(`supplier/filter?column=${data.column}&value=${data.value}`)).data;
+;}
+export const getLaboratoryFiltered = async (data: FieldValues) => {
+	return (await instance.get<GeneralLaboratory[]>(`laboratory/filter?column=${data.column}&value=${data.value}`)).data;
 ;}
 
 //GET - Retorna as movimentações pelo ID do instrumento

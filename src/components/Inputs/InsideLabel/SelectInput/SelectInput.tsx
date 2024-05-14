@@ -31,7 +31,8 @@ const SelectInput: React.FC<SelectInputProps> = ({
       "código": "code",
       "ativo não calibrável": "active non-calibratable",
       "inconformidade": "nonconformity",
-      "perda": "loss"
+      "perda": "loss",
+      "nome": "name",
     }
 
     return translations[value] || value;

@@ -87,7 +87,7 @@ export function usePostLaboratoryRegister() {
 	return useMutation({
 		mutationFn: (data: LaboratoryRegisterPost) => {
 			return postLaboratoryRegister({
-				name: data.name,
+				description: data.description,
 				calCode: data.calCode,
 			});
 		},

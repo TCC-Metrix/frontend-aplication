@@ -70,7 +70,7 @@ export interface FamilyRegisterPost {
 }
 
 export interface LaboratoryRegisterPost {
-	name: string;
+	description: string;
 	calCode: number;
 }
 
@@ -150,7 +150,9 @@ export interface GeneralSupplier {
 }
 
 export interface GeneralLaboratory {
-	
+	id: string;
+	description: string;
+	calCode: string;
 }
 
 export interface InstrumentToPost {
