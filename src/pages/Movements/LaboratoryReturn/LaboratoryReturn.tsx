@@ -119,10 +119,7 @@ export default function LaboratoryReturn() {
     handleSubmit,
     formState: { errors },
     setValue,
-    clearErrors,
-    setError,
     getValues,
-    watch,
   } = useForm();
 
   //Hooks de api
@@ -209,6 +206,8 @@ export default function LaboratoryReturn() {
     return <LoadingPage />;
   }
 
+
+
   const handleConfirmFunction = (selectedInstruments: GeneralInstrument[]) => {
     setIsLoadingLaboratoryOutputData(true);
     getMovementByIds.mutate(
@@ -226,6 +225,12 @@ export default function LaboratoryReturn() {
     setTableMainPage(selectedInstruments);
     setOpenModal(false);
   };
+
+  // const handleFileChange = (event: any) => {
+  //   const file = event.target.files[0];
+  //   const fileUrl = URL.createObjectURL(file);
+  //   window.open(fileUrl); // Abre o documento quando o usuário seleciona um arquivo
+  // };
 
   return (
     <main>
@@ -296,92 +301,103 @@ export default function LaboratoryReturn() {
         </div>
         <div className="form-section-container">
           <section className="mov-info-lab-return">
+            <BasicInputFilter
+              inputStyle="classe-large"
+              inputId="laboratory"
+              inputName="laboratoryDescription"
+              items={allLaboratories}
+              inputPlaceholder="laboratório"
+              register={register}
+              setValue={setValue}
+              getValues={getValues}
+              isRequired={false}
+              errors={errors}
+            />
+            <DateInputInside
+              placeholder="data de saída"
+              inputStyle="little-input"
+              register={register}
+              inputName="outputDate"
+              isRequired={true}
+              errors={errors}
+            />
 
+            <SelectInput
+              id="motive"
+              optionsList={["calibração", "conserto"]}
+              placeholder="Motivo"
+              register={register}
+            />
 
-          <BasicInputFilter
-                  inputStyle="classe-large"
-                  inputId="laboratory"
-                  inputName="laboratoryDescription"
-                  items={allLaboratories}
-                  inputPlaceholder="laboratório"
-                  register={register}
-                  setValue={setValue}
-                  getValues={getValues}
-                  isRequired={false}
-                  errors={errors}
+            <BasicInputFilter
+              inputStyle="classe-little"
+              inputId="receivingResponsible"
+              inputName="receivingResponsibleDescription"
+              items={allEmployees}
+              inputPlaceholder="responsável recebimento"
+              register={register}
+              setValue={setValue}
+              getValues={getValues}
+              isRequired={false}
+              errors={errors}
+            />
+
+            <DateInputInside
+              placeholder="data de retorno"
+              inputStyle="medium-input"
+              register={register}
+              inputName="returnDate"
+              isRequired={true}
+              errors={errors}
+            />
+
+            <DateInputInside
+              placeholder="data de calibração"
+              inputStyle="medium-input"
+              register={register}
+              inputName="calibrationDate"
+              isRequired={true}
+              errors={errors}
+            />
+
+            <BasicInput
+              inputType="money"
+              inputPlaceholder="custo calibração"
+              inputStyle="medium-input"
+              errors={errors}
+              isRequired={false}
+              inputName="calibrationCost"
+              register={register}
+            />
+
+            <BasicInput
+              inputType="text"
+              inputPlaceholder="Num certificado"
+              inputStyle="medium-input"
+              errors={errors}
+              isRequired={false}
+              inputName="certificateNumber"
+              register={register}
+            />
+            <div>
+              <p>Anexar certificado</p>
+              <div className="custom-file-input">
+                <input
+                  type="file"
+                  id="fileInput"
+                  className="input-file-hidden"
+        
                 />
-          <DateInputInside
-                  placeholder="data de saída"
-                  inputStyle="little-input"
-                  register={register}
-                  inputName="outputDate"
-                  isRequired={true}
-                  errors={errors}
-                />
-                
-                <SelectInput
-                  id="motive"
-                  optionsList={["calibração", "conserto"]}
-                  placeholder="Motivo"
-                  register={register}
-                />
-                
-                <BasicInputFilter
-                  inputStyle="classe-little"
-                  inputId="receivingResponsible"
-                  inputName="receivingResponsibleDescription"
-                  items={allEmployees}
-                  inputPlaceholder="responsável recebimento"
-                  register={register}
-                  setValue={setValue}
-                  getValues={getValues}
-                  isRequired={false}
-                  errors={errors}
-                />
-
-       
-              <DateInputInside
-                placeholder="data de retorno"
-                inputStyle="medium-input"
-                register={register}
-                inputName="returnDate"
-                isRequired={true}
-                errors={errors}
-              />
-
-<DateInputInside
-                placeholder="data de calibração"
-                inputStyle="medium-input"
-                register={register}
-                inputName="calibrationDate"
-                isRequired={true}
-                errors={errors}
-              />
-              
-              <BasicInput
-                inputType="money"
-                inputPlaceholder="custo calibração"
-                inputStyle="medium-input"
-                errors={errors}
-                isRequired={false}
-                inputName="calibrationCost"
-                register={register}
-              />
-
-              
-
-
-<BasicInput
-                inputType="text"
-                inputPlaceholder="Num certificado"
-                inputStyle="medium-input"
-                errors={errors}
-                isRequired={false}
-                inputName="certificateNumber"
-                register={register}
-              />
+                <label htmlFor="fileInput" className="custom-button">
+                  Escolher arquivo
+                </label>
+              </div>
+            </div>
+            
           </section>
         </div>
+        <a href="\\bosch.com\dfsrb\dfsbr\loc\po\Dir_Geral\Dir_Tecnica\Qualidade\Metrologia"> aaaa</a>
+
         <div className="m-auto btn-session-confirm">
           <Button
             className="btn btn-secondary btn-lg"
