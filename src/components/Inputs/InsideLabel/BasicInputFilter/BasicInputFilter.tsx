@@ -77,7 +77,6 @@ const BasicInputFilter: React.FC<BasicInputFilterProps> = ({
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(inputId, "");
     const searchTerm = event.target.value;
-    console.log("hiii", items);
 
 	const filteredOptions = items?.filter((option) => {
 		const searchTermLowerCase = searchTerm.toLowerCase();

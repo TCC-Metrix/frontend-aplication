@@ -169,4 +169,9 @@ export const getMovementByInstrumentIds = async (ids: string[]) => {
 		instrumentIds : ids
 	})
 }
+export const getMovementByInstrumentIdsLabOutput = async (ids: string[]) => {
+	return instance.post<RootMovement[]>("movement/filter/instruments/last", {
+		instrumentIds : ids
+	})
+}
 

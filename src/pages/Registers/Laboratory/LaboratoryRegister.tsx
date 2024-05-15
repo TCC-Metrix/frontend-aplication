@@ -102,7 +102,6 @@ const LaboratoryRegister = () => {
   const handleConfirmLaboratoryRegister = (dataApi: z.infer<typeof schema>) => {
     setIsLoadingPostLaboratoryRegister(true);
 
-    console.log("sksksk")
 
     const data = {
       description: dataApi.description,

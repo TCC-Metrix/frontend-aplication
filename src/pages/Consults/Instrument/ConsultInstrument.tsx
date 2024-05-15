@@ -50,7 +50,6 @@ function ConsultInstrument() {
 
   useEffect(() => {
     if (searchTerm === "familyID") {
-      console.log("familia");
       setIsFamilyInput(true);
     } else {
       setIsFamilyInput(false);

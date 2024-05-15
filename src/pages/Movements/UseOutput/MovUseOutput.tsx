@@ -115,7 +115,6 @@ export const MoveUseOutput = () => {
 					setValue("area", "")
 					setValue("areaDescription", "")
 					setTableMainPage([])
-					console.log(data)
 					setIsReloaded(true)
 				}
 			},

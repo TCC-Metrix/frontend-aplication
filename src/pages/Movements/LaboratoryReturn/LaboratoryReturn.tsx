@@ -1,17 +1,26 @@
 import "./LaboratoryReturn.css";
 import { useEffect, useState } from "react";
-import { Button, BasicInputFilter, DateInputInside } from "../../../components";
+import {
+  Button,
+  BasicInputFilter,
+  DateInputInside,
+  SelectInput,
+  BasicInput,
+} from "../../../components";
 import {
   GeneralInstrument,
-  MovUseOutputData,
+  RootMovement,
   UseReturnPost,
 } from "../../../utils/interfaces/Interfaces";
 import {
-  useGetLastMovementByIds,
+  useGetLastMovementByIdsLabOutput,
   usePostReturnUse,
 } from "../../../services/useMutation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { useAllAreas, useAllEmployees } from "../../../services/useFetchData";
+import {
+  useAllEmployees,
+  useAllLaboratories,
+} from "../../../services/useFetchData";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import { RotatingLines } from "react-loader-spinner";
@@ -23,13 +32,14 @@ import { formatDate } from "../../Consults/Instrument/InstrumentDetails";
 
 export default function LaboratoryReturn() {
   // Estados para controlar o estado dos componentes
-  const [isLoadingPostUseOutput, setIsLoadingPostUseOutput] =
+  const [isLoadingPostLaboratoryOutput, setIsLoadingPostLaboratoryOutput] =
     useState<boolean>(false);
   const [tableMainPage, setTableMainPage] = useState<GeneralInstrument[]>([]);
-  const [movementData, setMovementData] = useState<
-    MovUseOutputData[] | undefined
-  >([]);
-  const [isLoadingUseOutputData, setIsLoadingUseOutputData] = useState(false);
+  const [movementData, setMovementData] = useState<RootMovement[] | undefined>(
+    []
+  );
+  const [isLoadingLaboratoryOutputData, setIsLoadingLaboratoryOutputData] =
+    useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isReloaded, setIsReloaded] = useState<boolean>(false);
 
@@ -38,13 +48,8 @@ export default function LaboratoryReturn() {
     "Descrição",
     "Data de Saída",
     "Motivo",
-    "Laboratório"
+    "Laboratório",
   ];
-
-  useEffect(() => {
-    console.log("mudou", tableMainPage)
-
-  }, [tableMainPage])
 
   const notify = (type: string, message?: string) => {
     type === "success" &&
@@ -81,6 +86,34 @@ export default function LaboratoryReturn() {
     setOpenModal(true);
   };
 
+  useEffect(() => {
+    setValue(
+      "laboratoryDescription",
+      movementData !== undefined && movementData?.length > 0
+        ? movementData[0].laboratoryOutput?.laboratory.description
+        : ""
+    );
+    setValue(
+      "laboratory",
+      movementData !== undefined && movementData?.length > 0
+        ? movementData[0].laboratoryOutput?.laboratory.id
+        : ""
+    );
+    setValue(
+      "laboratoryDescription",
+      movementData !== undefined && movementData?.length > 0
+        ? movementData[0].laboratoryOutput?.laboratory.description
+        : ""
+    );
+    setValue(
+      "outputDate",
+      movementData !== undefined && movementData?.length > 0
+        ? movementData[0].laboratoryOutput?.outputDate
+        : ""
+    );
+  }, [movementData]);
+  console.log(movementData);
+
   const {
     register,
     handleSubmit,
@@ -92,39 +125,28 @@ export default function LaboratoryReturn() {
     watch,
   } = useForm();
 
-  const valueInArea = watch("shippingArea");
-  const valueInShippingResponsible = watch("shippingResponsible");
-
   //Hooks de api
-  const postReturnUseMutation = usePostReturnUse(); //posta a saida para uso
-  const { data: allEmployees, isLoading, isError } = useAllEmployees(); //busca todos os funcionarios
+  const postReturnUseMutation = usePostReturnUse();
+  const { data: allLaboratories, isLoading, isError } = useAllLaboratories();
   const {
-    data: allAreas,
-    isLoading: isLoadingArea,
-    isError: isErrorArea,
-  } = useAllAreas(); //busca todas as áreas
+    data: allEmployees,
+    isLoading: isLoadingEmployees,
+    isError: isErrorEmployees,
+  } = useAllEmployees();
+  const getMovementByIds = useGetLastMovementByIdsLabOutput();
 
-  const getMovementByIds = useGetLastMovementByIds();
-
-  const handlePostUseOutput: SubmitHandler<UseReturnPost> = (data) => {
-    setIsLoadingPostUseOutput(true);
+  const handlePostLaboratoryOutput: SubmitHandler<UseReturnPost> = (data) => {
+    setIsLoadingPostLaboratoryOutput(true);
     postReturnUseMutation.mutate(data, {
       onSettled: (_, error) => {
         if (error && request.isAxiosError(error)) {
-          setIsLoadingPostUseOutput(false);
+          setIsLoadingPostLaboratoryOutput(false);
           notify("error", "Erro ao processar sua solicitação");
         } else {
-          setIsLoadingPostUseOutput(false);
+          setIsLoadingPostLaboratoryOutput(false);
           notify("success", "Movimentação realizada com sucesso");
-          setValue("returnDate", new Date().toISOString().split('T')[0]);
-          setValue("shippingResponsible", "");
-          setValue("shippingResponsibleDescription", "");
-          setValue("receivingResponsibleDescription", "");
-          setValue("receivingResponsible", "");
-          setValue("shippingArea", "");
-          setValue("areaDescription", "");
           setTableMainPage([]);
-		  setMovementData([])
+          setMovementData([]);
           setIsReloaded(true);
         }
       },
@@ -132,55 +154,45 @@ export default function LaboratoryReturn() {
   };
 
   //Busca os ids dos instrumentos dentro da lista de instrumentos e chama função que envia à api
-  const handleConfirmUseOutput = (data: FieldValues) => {
+  const handleConfirmLaboratoryOutput = (data: FieldValues) => {
     const idsList = tableMainPage.map((item) => item.id);
 
-
-    setIsLoadingPostUseOutput(false);
+    setIsLoadingPostLaboratoryOutput(false);
     if (idsList.length == 0) {
       notify("error", "Nenhum instrumento selecionado");
       return;
     }
 
-    if (
-      (valueInArea === "" || valueInArea === undefined) &&
-      (valueInShippingResponsible === "" ||
-        valueInShippingResponsible === undefined)
-    ) {
-      notify("error", "Informe ao menos uma área ou responsável de entrega");
-      return;
-    }
+    // const regex = /^(\d{4})-(\d{2})-(\d{2})$/;
+    // const match = data.returnDate.match(regex);
+    // if (match) {
+    //   const ano = parseInt(match[1], 10);
 
-    const regex = /^(\d{4})-(\d{2})-(\d{2})$/;
-    const match = data.returnDate.match(regex);
-    if (match) {
-      const ano = parseInt(match[1], 10);
+    //   if (match[1].length > 4 || isNaN(ano)) {
+    //     setError("returnDate", {
+    //       type: "invalid",
+    //       message: "Ano inválido",
+    //     });
+    //     return;
+    //   } else if (ano < 2000 || ano > 2100) {
+    //     setError("returnDate", {
+    //       type: "invalid",
+    //       message: "Ano está fora do intervalo válido (2000-2100)",
+    //     });
+    //     return;
+    //   } else {
+    //     // Limpa qualquer erro existente
+    //     clearErrors("returnDate");
+    //   }
+    // } else {
+    //   setError("returnDate", {
+    //     type: "invalid",
+    //     message: "Formato de data inválido",
+    //   });
+    //   return;
+    // }
 
-      if (match[1].length > 4 || isNaN(ano)) {
-        setError("returnDate", {
-          type: "invalid",
-          message: "Ano inválido",
-        });
-        return;
-      } else if (ano < 2000 || ano > 2100) {
-        setError("returnDate", {
-          type: "invalid",
-          message: "Ano está fora do intervalo válido (2000-2100)",
-        });
-        return;
-      } else {
-        // Limpa qualquer erro existente
-        clearErrors("returnDate");
-      }
-    } else {
-      setError("returnDate", {
-        type: "invalid",
-        message: "Formato de data inválido",
-      });
-      return;
-    }
-
-    handlePostUseOutput({
+    handlePostLaboratoryOutput({
       instrumentIds: idsList,
       shippingResponsible: data.shippingResponsible,
       receivingResponsible: data.receivingResponsible,
@@ -189,22 +201,21 @@ export default function LaboratoryReturn() {
     });
   };
 
-  if (isError || isErrorArea) {
+  if (isError || isErrorEmployees) {
     return <ErrorPage />;
   }
 
-  if (isLoading || isLoadingArea) {
+  if (isLoading || isLoadingEmployees) {
     return <LoadingPage />;
   }
 
   const handleConfirmFunction = (selectedInstruments: GeneralInstrument[]) => {
-    setIsLoadingUseOutputData(true);
+    setIsLoadingLaboratoryOutputData(true);
     getMovementByIds.mutate(
       selectedInstruments.map((instrument) => instrument.id),
       {
         onSettled(data, error) {
-          console.log(data);
-          setIsLoadingUseOutputData(false);
+          setIsLoadingLaboratoryOutputData(false);
           setMovementData(data?.data);
           if (error) {
             console.error(error);
@@ -215,7 +226,6 @@ export default function LaboratoryReturn() {
     setTableMainPage(selectedInstruments);
     setOpenModal(false);
   };
-
 
   return (
     <main>
@@ -237,33 +247,39 @@ export default function LaboratoryReturn() {
               </tr>
             </thead>
             <tbody>
-              {isLoadingUseOutputData ? (
-				<td colSpan={5}>
-
-					<RotatingLines
-					  visible={true}
-					  strokeWidth="5"
-					  animationDuration="0.75"
-					  ariaLabel="rotating-lines-loading"
-					  strokeColor="#99aebb"
-					  width="30"
-					/>
-
-				</td>
-
+              {isLoadingLaboratoryOutputData ? (
+                <td colSpan={5}>
+                  <RotatingLines
+                    visible={true}
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    ariaLabel="rotating-lines-loading"
+                    strokeColor="#99aebb"
+                    width="30"
+                  />
+                </td>
               ) : (
                 <>
-                  {tableMainPage && tableMainPage.length > 0 ? (
-                    tableMainPage.map((item, index) => (
+                  {movementData && movementData.length > 0 ? (
+                    movementData.map((item, index) => (
                       <tr key={index}>
-                        <td className="text">
-                          <p className="td-text">{item.code}</p>
+                        <td>
+                          <p className="td-text">{tableMainPage[0].code}</p>
                         </td>
-                        <td>{item.description}</td>
-                        {/* <td>{formatDate(item.outputDate)}</td>
-                        <td>{item.reason}</td>
-                        <td>{item.employee !== null ? item.employee : "-"}</td>
-                        <td>{item.area !== null ? item.area : "-"}</td> */}
+                        <td>{tableMainPage[0].description}</td>
+                        <td>
+                          {formatDate(
+                            item.laboratoryOutput
+                              ? item.laboratoryOutput.outputDate
+                              : "-"
+                          )}
+                        </td>
+                        <td>
+                          {item.laboratoryOutput?.motive === "REPAIR"
+                            ? "conserto"
+                            : "calibração"}
+                        </td>
+                        <td>{item.laboratoryOutput?.laboratory.description}</td>
                       </tr>
                     ))
                   ) : (
@@ -279,30 +295,39 @@ export default function LaboratoryReturn() {
           </table>
         </div>
         <div className="form-section-container">
-          <section className="mov-info">
-            <div className="form-column">
-              <div className="inputs-responsible">
-                <BasicInputFilter
+          <section className="mov-info-lab-return">
+
+
+          <BasicInputFilter
                   inputStyle="classe-large"
-                  inputId="shippingResponsible"
-                  inputName="shippingResponsibleDescription"
-                  items={allEmployees}
-                  inputPlaceholder="responsável entrega"
+                  inputId="laboratory"
+                  inputName="laboratoryDescription"
+                  items={allLaboratories}
+                  inputPlaceholder="laboratório"
                   register={register}
                   setValue={setValue}
                   getValues={getValues}
                   isRequired={false}
                   errors={errors}
-                  isActive={
-                    valueInArea !== "" && valueInArea !== undefined
-                      ? false
-                      : true
-                  }
                 />
-              </div>
-              <div>
+          <DateInputInside
+                  placeholder="data de saída"
+                  inputStyle="little-input"
+                  register={register}
+                  inputName="outputDate"
+                  isRequired={true}
+                  errors={errors}
+                />
+                
+                <SelectInput
+                  id="motive"
+                  optionsList={["calibração", "conserto"]}
+                  placeholder="Motivo"
+                  register={register}
+                />
+                
                 <BasicInputFilter
-                  inputStyle="classe-large"
+                  inputStyle="classe-little"
                   inputId="receivingResponsible"
                   inputName="receivingResponsibleDescription"
                   items={allEmployees}
@@ -310,53 +335,59 @@ export default function LaboratoryReturn() {
                   register={register}
                   setValue={setValue}
                   getValues={getValues}
-                  isRequired={false} //undefined
-                  errors={errors}
-                  isActive={true}
-                />
-              </div>
-            </div>
-            <div className="form-column">
-              <div>
-                <BasicInputFilter
-                  inputStyle="classe-large"
-                  inputId="shippingArea"
-                  inputName="areaDescription"
-                  items={allAreas}
-                  inputPlaceholder="área"
-                  register={register}
-                  setValue={setValue}
-                  getValues={getValues}
-                  isRequired={false} // ""
-                  errors={errors}
-                  isActive={
-                    valueInShippingResponsible !== "" &&
-                    valueInShippingResponsible !== undefined
-                      ? false
-                      : true
-                  }
-                />
-              </div>
-              <div>
-                <DateInputInside
-                  placeholder="data de saída"
-                  inputStyle="large-input"
-                  register={register}
-                  inputName="returnDate"
-                  isRequired={true}
+                  isRequired={false}
                   errors={errors}
                 />
-              </div>
-            </div>
+
+       
+              <DateInputInside
+                placeholder="data de retorno"
+                inputStyle="medium-input"
+                register={register}
+                inputName="returnDate"
+                isRequired={true}
+                errors={errors}
+              />
+
+<DateInputInside
+                placeholder="data de calibração"
+                inputStyle="medium-input"
+                register={register}
+                inputName="calibrationDate"
+                isRequired={true}
+                errors={errors}
+              />
+              
+              <BasicInput
+                inputType="money"
+                inputPlaceholder="custo calibração"
+                inputStyle="medium-input"
+                errors={errors}
+                isRequired={false}
+                inputName="calibrationCost"
+                register={register}
+              />
+
+              
+
+
+<BasicInput
+                inputType="text"
+                inputPlaceholder="Num certificado"
+                inputStyle="medium-input"
+                errors={errors}
+                isRequired={false}
+                inputName="certificateNumber"
+                register={register}
+              />
           </section>
-          <div></div>
         </div>
         <div className="m-auto btn-session-confirm">
           <Button
             className="btn btn-secondary btn-lg"
-            onClickFunction={handleSubmit(handleConfirmUseOutput)}
+            onClickFunction={handleSubmit(handleConfirmLaboratoryOutput)}
           >
-            {isLoadingPostUseOutput ? (
+            {isLoadingPostLaboratoryOutput ? (
               <RotatingLines
                 visible={true}
                 strokeWidth="5"
@@ -383,4 +414,4 @@ export default function LaboratoryReturn() {
       </div>
     </main>
   );
-};
+}

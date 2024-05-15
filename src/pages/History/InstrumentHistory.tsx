@@ -37,7 +37,6 @@ function InstrumentHistory() {
   const view = watch("view");
 
   useEffect(() => {
-    console.log(view);
     if (view === "Uso" || view === undefined) {
       setViewUses(true);
     } else {

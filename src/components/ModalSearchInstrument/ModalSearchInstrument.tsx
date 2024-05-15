@@ -165,7 +165,6 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({
   };
 
   const handleConfirmButton = () => {
-    console.log(selectedInstruments);
     if (setFinalInstruments) {
       setFinalInstruments(selectedInstruments);
     }
@@ -173,10 +172,9 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({
   };
 
   const handleConfirmMaxOneInstrument = (instrument: GeneralInstrument) => {
-    console.log("hii")
     setSelectedInstruments([instrument])
-    console.log(instrument)
     setFinalInstruments && setFinalInstruments([instrument])
+    handleConfirmFunction && handleConfirmFunction([instrument])
     setOpenModal(false)
   }
 

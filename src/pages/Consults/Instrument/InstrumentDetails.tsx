@@ -38,7 +38,6 @@ export const formatDate = (date: string) => {
 
 
 export const DetailItemMov = (lastMovementData: DetailItemMovProps) => {
-  console.log(lastMovementData);
   if (lastMovementData.mov !== undefined) {
     return (
       <div className="details-section">

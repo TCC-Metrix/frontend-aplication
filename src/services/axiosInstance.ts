@@ -24,8 +24,9 @@ async function acquireToken(
     config.headers.Authorization = `Bearer ${token}`
     return config;
   } catch (error) {
-    if (error instanceof InteractionRequiredAuthError) {
+    if (error) {
       // Se ocorrer um erro que requer interação do usuário, redirecione para autenticação interativa
+      console.log("deu erro")
       await msalInstance.acquireTokenRedirect(loginRequest);
     } else {
       // Lida com outros erros de forma apropriada

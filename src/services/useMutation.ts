@@ -15,6 +15,7 @@ import {
 	postUpdateEmployee,
 	getMovementByInstrumentIds,
 	postLaboratoryOutput,
+	getMovementByInstrumentIdsLabOutput,
 
 } from "./apiService";
 import {
@@ -31,6 +32,14 @@ import {
 export function useGetLastMovementByIds() {
 	return useMutation({
 		mutationFn: (ids: string[]) => getMovementByInstrumentIds(ids),
+		onMutate: () => {},
+		onError: () => {},
+		onSettled() {},
+	});
+}
+export function useGetLastMovementByIdsLabOutput() {
+	return useMutation({
+		mutationFn: (ids: string[]) => getMovementByInstrumentIdsLabOutput(ids),
 		onMutate: () => {},
 		onError: () => {},
 		onSettled() {},

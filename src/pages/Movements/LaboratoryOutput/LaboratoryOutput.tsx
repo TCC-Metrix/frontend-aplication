@@ -95,7 +95,7 @@ export const LaboratoryOutput = () => {
   const handlePostLaboratoryOutput: SubmitHandler<LaboratoryPost> = (data) => {
     setIsLoadingPost(true);
     postLaboratoryOutput.mutate(data, {
-      onSettled: (data, error) => {
+      onSettled: (_, error) => {
         if (error && request.isAxiosError(error)) {
           setIsLoadingPost(false);
           notify("error", "Erro ao processar sua solicitação");
@@ -103,7 +103,6 @@ export const LaboratoryOutput = () => {
           setIsLoadingPost(false);
           setTableMainPage([]);
           notify("success", "Movimentação realizada com sucesso")
-          console.log(data);
           setValue("shippingResponsible", "")
           setValue("shippingResponsibleDescription", "")
           setValue("laboratory", "")

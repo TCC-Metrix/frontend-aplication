@@ -199,7 +199,6 @@ export const UseReturn = () => {
       selectedInstruments.map((instrument) => instrument.id),
       {
         onSettled(data, error) {
-          console.log(data);
           setIsLoadingUseOutputData(false);
           setMovementData(data?.data);
           if (error) {

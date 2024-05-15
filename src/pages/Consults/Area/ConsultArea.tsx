@@ -31,10 +31,8 @@ function ConsultArea() {
   };  
 
   const handleConfirm = (data: FieldValues) => {
-    console.log(data)
     updateArea.mutate(data, {
-      onSettled: (data) =>  {
-        console.log(data)
+      onSettled: () =>  {
         window.location.reload()
       }
     })

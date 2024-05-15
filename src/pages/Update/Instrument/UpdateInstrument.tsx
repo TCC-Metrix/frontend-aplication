@@ -197,14 +197,13 @@ const UpdateInstrument: React.FC = () => {
     }
 
     updateInstrument.mutate(dataForm, {
-      onSettled(dataSetted, error) {
+      onSettled(_, error) {
         if (error) {
           console.log(error);
           notify("error");
         } else {
           notify("success");
           navigate(`/consult/instrument/${data?.id}`);
-          console.log(dataSetted);
         }
       },
     });
@@ -636,7 +635,6 @@ const UpdateInstrument: React.FC = () => {
                   <Button
                     className="btn btn-md btn-secondary"
                     onClickFunction={() => {
-                      console.log(situationJustification, situationReason);
                       if (!situationJustification || !situationReason) {
                         // Verifica se algum dos campos está vazio ou nulo e define os erros
                         if (!situationJustification) {
