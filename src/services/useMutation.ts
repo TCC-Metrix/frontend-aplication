@@ -15,7 +15,7 @@ import {
 	postUpdateEmployee,
 	getMovementByInstrumentIds,
 	postUpdateLaboratory,
-
+	postUpdateSupplier,
 } from "./apiService";
 import {
 	AreaRegisterPost,
@@ -133,17 +133,25 @@ export function useUpdateEmployee(id: string | undefined) {
 	return useMutation({
 		mutationFn: (data: FieldValues) => {
 			return postUpdateEmployee(data, id);
-		}
-	})
+		},
+	});
 }
+
 export function useUpdateLaboratory(id: string | undefined) {
 	return useMutation({
 		mutationFn: (data: FieldValues) => {
 			return postUpdateLaboratory(data, id);
-		}
-	})
+		},
+	});
 }
 
+export function useUpdateSupplier(id: string | undefined) {
+	return useMutation({
+		mutationFn: (data: FieldValues) => {
+			return postUpdateSupplier(data, id);
+		},
+	});
+}
 
 export function usePostAreaRegister() {
 	return useMutation({
