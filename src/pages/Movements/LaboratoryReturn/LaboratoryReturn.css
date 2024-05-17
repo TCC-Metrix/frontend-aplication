@@ -7,6 +7,26 @@
 }
 
 
+.input-view-only-container{
+  display:flex;
+  flex-direction: column;
+  padding: 7px 17px;
+  box-sizing: border-box;
+  height: 54px;
+  border: 1px solid var(--color-grey-05);
+  width: 49%;
+}
+
+.placeholder{
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.view-only-value{
+  color: var(--color-grey-08);
+  font-size: 16px;
+}
+
   
   .custom-button {
     background-color: #007bff;
@@ -31,4 +51,8 @@
     top: 0;
     opacity: 0;
     cursor: pointer;
+  }
+
+  h3{
+    color: var(--color-grey-06);
   }

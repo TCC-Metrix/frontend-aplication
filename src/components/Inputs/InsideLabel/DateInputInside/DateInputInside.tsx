@@ -36,7 +36,7 @@ function DateInputInside(props: DateInputInside) {
               required: "Data inválida"
             } : {required: false}
           )}
-          max={new Date().toISOString().split('T')[0]}
+          
           defaultValue={new Date().toISOString().split('T')[0]}
           className={`${
             props.errors[props.inputName] ? "error-formatted" : "inside-date-input"

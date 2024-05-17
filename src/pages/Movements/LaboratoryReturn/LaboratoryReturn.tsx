@@ -111,6 +111,19 @@ export default function LaboratoryReturn() {
         ? movementData[0].laboratoryOutput?.outputDate
         : ""
     );
+
+    setValue(
+      "instrument",
+      tableMainPage !== undefined && tableMainPage?.length > 0
+        ? tableMainPage[0].description
+        : ""
+    );
+    setValue(
+      "code",
+      tableMainPage !== undefined && tableMainPage?.length > 0
+        ? tableMainPage[0].code
+        : ""
+    );
   }, [movementData]);
   console.log(movementData);
 
@@ -206,8 +219,6 @@ export default function LaboratoryReturn() {
     return <LoadingPage />;
   }
 
-
-
   const handleConfirmFunction = (selectedInstruments: GeneralInstrument[]) => {
     setIsLoadingLaboratoryOutputData(true);
     getMovementByIds.mutate(
@@ -237,166 +248,157 @@ export default function LaboratoryReturn() {
       <div className="container-main">
         <div>
           <h1 className="header-three">Retorno de laboratório</h1>
-          <p className="text">Instrumento</p>
-          <Button className="btn btn-tertiary " onClickFunction={handleModal}>
-            Adicionar / Editar
-          </Button>
         </div>
-        <div className="flex-center-table scroll">
-          <table className="table-container ">
-            <thead>
-              <tr className="first-line ">
-                {headersList.map((item, index) => {
-                  return <th key={index}>{item}</th>;
-                })}
-              </tr>
-            </thead>
-            <tbody>
-              {isLoadingLaboratoryOutputData ? (
-                <td colSpan={5}>
-                  <RotatingLines
-                    visible={true}
-                    strokeWidth="5"
-                    animationDuration="0.75"
-                    ariaLabel="rotating-lines-loading"
-                    strokeColor="#99aebb"
-                    width="30"
-                  />
-                </td>
-              ) : (
-                <>
-                  {movementData && movementData.length > 0 ? (
-                    movementData.map((item, index) => (
-                      <tr key={index}>
-                        <td>
-                          <p className="td-text">{tableMainPage[0].code}</p>
-                        </td>
-                        <td>{tableMainPage[0].description}</td>
-                        <td>
-                          {formatDate(
-                            item.laboratoryOutput
-                              ? item.laboratoryOutput.outputDate
-                              : "-"
-                          )}
-                        </td>
-                        <td>
-                          {item.laboratoryOutput?.motive === "REPAIR"
-                            ? "conserto"
-                            : "calibração"}
-                        </td>
-                        <td>{item.laboratoryOutput?.laboratory.description}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={headersList.length + 1} className="text">
-                        Nenhum instrumento selecionado
-                      </td>
-                    </tr>
-                  )}
-                </>
-              )}
-            </tbody>
-          </table>
-        </div>
+
         <div className="form-section-container">
-          <section className="mov-info-lab-return">
-            <BasicInputFilter
-              inputStyle="classe-large"
-              inputId="laboratory"
-              inputName="laboratoryDescription"
-              items={allLaboratories}
-              inputPlaceholder="laboratório"
-              register={register}
-              setValue={setValue}
-              getValues={getValues}
-              isRequired={false}
-              errors={errors}
-            />
-            <DateInputInside
-              placeholder="data de saída"
-              inputStyle="little-input"
-              register={register}
-              inputName="outputDate"
-              isRequired={true}
-              errors={errors}
-            />
-
-            <SelectInput
-              id="motive"
-              optionsList={["calibração", "conserto"]}
-              placeholder="Motivo"
-              register={register}
-            />
-
-            <BasicInputFilter
-              inputStyle="classe-little"
-              inputId="receivingResponsible"
-              inputName="receivingResponsibleDescription"
-              items={allEmployees}
-              inputPlaceholder="responsável recebimento"
-              register={register}
-              setValue={setValue}
-              getValues={getValues}
-              isRequired={false}
-              errors={errors}
-            />
-
-            <DateInputInside
-              placeholder="data de retorno"
-              inputStyle="medium-input"
-              register={register}
-              inputName="returnDate"
-              isRequired={true}
-              errors={errors}
-            />
-
-            <DateInputInside
-              placeholder="data de calibração"
-              inputStyle="medium-input"
-              register={register}
-              inputName="calibrationDate"
-              isRequired={true}
-              errors={errors}
-            />
-
-            <BasicInput
-              inputType="money"
-              inputPlaceholder="custo calibração"
-              inputStyle="medium-input"
-              errors={errors}
-              isRequired={false}
-              inputName="calibrationCost"
-              register={register}
-            />
-
-            <BasicInput
-              inputType="text"
-              inputPlaceholder="Num certificado"
-              inputStyle="medium-input"
-              errors={errors}
-              isRequired={false}
-              inputName="certificateNumber"
-              register={register}
-            />
-            <div>
-              <p>Anexar certificado</p>
-              <div className="custom-file-input">
-                <input
-                  type="file"
-                  id="fileInput"
-                  className="input-file-hidden"
-        
-                />
-                <label htmlFor="fileInput" className="custom-button">
-                  Escolher arquivo
-                </label>
+          <div>
+            <h3>Instrumento</h3>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: "20px",
+              }}
+            >
+              <Button
+                className="btn btn-tertiary btn-sm"
+                onClickFunction={handleModal}
+              >
+                Adicionar / Editar
+              </Button>
+              <div className="input-view-only-container">
+                <span className="placeholder">Descrição</span>
+                <span className="view-only-value">
+                  {tableMainPage.length > 0
+                    ? tableMainPage[0].description
+                    : "-"}
+                </span>
+              </div>
+              <div className="input-view-only-container">
+                <span className="placeholder">Código</span>
+                <span className="view-only-value">
+                  {tableMainPage.length > 0
+                    ? tableMainPage[0].description
+                    : "-"}
+                </span>
               </div>
             </div>
-            
-          </section>
+          </div>
+          <div>
+            <h3>Calibração</h3>
+            <section className="mov-info-lab-return">
+              <BasicInputFilter
+                inputStyle="classe-little"
+                inputId="laboratory"
+                inputName="laboratoryDescription"
+                items={allLaboratories}
+                inputPlaceholder="laboratório"
+                register={register}
+                setValue={setValue}
+                getValues={getValues}
+                isRequired={false}
+                errors={errors}
+              />
+              <DateInputInside
+                placeholder="data de saída"
+                inputStyle="little-input"
+                register={register}
+                inputName="outputDate"
+                isRequired={true}
+                errors={errors}
+              />
+
+              <SelectInput
+                id="motive"
+                optionsList={["calibração", "conserto"]}
+                placeholder="Motivo"
+                register={register}
+              />
+
+              <BasicInputFilter
+                inputStyle="classe-little"
+                inputId="receivingResponsible"
+                inputName="receivingResponsibleDescription"
+                items={allEmployees}
+                inputPlaceholder="responsável recebimento"
+                register={register}
+                setValue={setValue}
+                getValues={getValues}
+                isRequired={false}
+                errors={errors}
+              />
+
+              <DateInputInside
+                placeholder="data de retorno"
+                inputStyle="little-input"
+                register={register}
+                inputName="returnDate"
+                isRequired={true}
+                errors={errors}
+              />
+
+              <DateInputInside
+                placeholder="data de calibração"
+                inputStyle="little-input"
+                register={register}
+                inputName="calibrationDate"
+                isRequired={true}
+                errors={errors}
+              />
+
+              <BasicInput
+                inputType="money"
+                inputPlaceholder="custo calibração"
+                inputStyle="little-input"
+                errors={errors}
+                isRequired={false}
+                inputName="calibrationCost"
+                register={register}
+              />
+            </section>
+          </div>
+
+          <div>
+            <h3>Certificado e análise</h3>
+            <div style={{ display: "flex", justifyContent: "space-between", gap: "20px", flexWrap: "wrap" }}>
+              <BasicInput
+                inputType="text"
+                inputPlaceholder="Num certificado"
+                inputStyle="little-input"
+                errors={errors}
+                isRequired={false}
+                inputName="certificateNumber"
+                register={register}
+              />
+
+              <BasicInput
+                inputType="text"
+                inputPlaceholder="Caminho certificado"
+                inputStyle="little-input"
+                errors={errors}
+                isRequired={false}
+                inputName="certificatePath"
+                register={register}
+              />
+              <BasicInput
+                inputType="text"
+                inputPlaceholder="Caminho planilha de análise"
+                inputStyle="little-input"
+                errors={errors}
+                isRequired={false}
+                inputName="certificatePath"
+                register={register}
+              />
+                <SelectInput
+                id="conclusion"
+                optionsList={["calibração", "conserto"]}
+                placeholder="Conclusão"
+                register={register}
+              />
+            </div>
+          </div>
+
         </div>
-        <a href="\\bosch.com\dfsrb\dfsbr\loc\po\Dir_Geral\Dir_Tecnica\Qualidade\Metrologia"> aaaa</a>
 
         <div className="m-auto btn-session-confirm">
           <Button
