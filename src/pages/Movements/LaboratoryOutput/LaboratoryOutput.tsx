@@ -7,8 +7,7 @@ import {
   SelectInput,
 } from "../../../components";
 import {
-  GeneralInstrument,
-  LaboratoryPost,
+  GeneralInstrument, LaboratoryOutputPost,
 } from "../../../utils/interfaces/Interfaces";
 import { usePostLaboratoryOutput } from "../../../services/useMutation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -92,7 +91,7 @@ export const LaboratoryOutput = () => {
     isError: isErrorLaboratories,
   } = useAllLaboratories(); //busca todas as áreas
 
-  const handlePostLaboratoryOutput: SubmitHandler<LaboratoryPost> = (data) => {
+  const handlePostLaboratoryOutput: SubmitHandler<LaboratoryOutputPost> = (data) => {
     setIsLoadingPost(true);
     postLaboratoryOutput.mutate(data, {
       onSettled: (_, error) => {

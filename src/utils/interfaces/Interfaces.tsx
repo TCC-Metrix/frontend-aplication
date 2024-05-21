@@ -54,12 +54,23 @@ export interface UsePost {
 	outputDate: string;
 }
 
-export interface LaboratoryPost {
+export interface LaboratoryOutputPost {
 	instrumentIds: string[];
 	shippingResponsible: string;
 	motive: string;
 	laboratory: string;
 	outputDate: string;
+}
+
+export interface LaboratoryReturnPost {
+	returnResponsible: string,
+	movement: string,
+	returnDate: string,
+	calibrationDate: string,
+	calibrationCost: string,
+	certificateNumber: string,
+	certificatePath: string,
+	conclusion: string,
 }
 
 export interface UseReturnPost {

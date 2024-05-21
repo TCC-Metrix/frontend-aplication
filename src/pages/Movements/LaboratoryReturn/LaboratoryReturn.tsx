@@ -9,11 +9,13 @@ import {
 } from "../../../components";
 import {
   GeneralInstrument,
+  LaboratoryReturnPost,
   RootMovement,
   UseReturnPost,
 } from "../../../utils/interfaces/Interfaces";
 import {
   useGetLastMovementByIdsLabOutput,
+  usePostLaboratoryReturn,
   usePostReturnUse,
 } from "../../../services/useMutation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -106,7 +108,7 @@ export default function LaboratoryReturn() {
   } = useForm();
 
   //Hooks de api
-  const postReturnUseMutation = usePostReturnUse();
+  const postLaboratoryReturn = usePostLaboratoryReturn();
   const {
     data: allEmployees,
     isLoading: isLoadingEmployees,
@@ -114,9 +116,9 @@ export default function LaboratoryReturn() {
   } = useAllEmployees();
   const getMovementByIds = useGetLastMovementByIdsLabOutput();
 
-  const handlePostLaboratoryOutput: SubmitHandler<UseReturnPost> = (data) => {
+  const handlePostLaboratoryReturn: SubmitHandler<LaboratoryReturnPost> = (data) => {
     setIsLoadingPostLaboratoryOutput(true);
-    postReturnUseMutation.mutate(data, {
+    postLaboratoryReturn.mutate(data, {
       onSettled: (_, error) => {
         if (error && request.isAxiosError(error)) {
           setIsLoadingPostLaboratoryOutput(false);
@@ -171,12 +173,15 @@ export default function LaboratoryReturn() {
     //   return;
     // }
 
-    handlePostLaboratoryOutput({
-      instrumentIds: idsList,
-      shippingResponsible: data.shippingResponsible,
-      receivingResponsible: data.receivingResponsible,
-      shippingArea: data.shippingArea,
+    handlePostLaboratoryReturn({
+      calibrationCost: data.calibrationCost,
+      calibrationDate: data.calibrationDate,
+      certificateNumber: data.certificateNumber,
+      certificatePath: data.certificatePath,
+      conclusion: data.conclusion,
       returnDate: data.returnDate,
+      returnResponsible: data.returnResponsible,
+      movement: movementData ? movementData[0].movement.id :  ""
     });
   };
 
@@ -357,8 +362,8 @@ export default function LaboratoryReturn() {
               />
               <BasicInputFilter
                 inputStyle="classe-little"
-                inputId="receivingResponsible"
-                inputName="receivingResponsibleDescription"
+                inputId="returnResponsible"
+                inputName="returnResponsibleDescription"
                 items={allEmployees}
                 inputPlaceholder="responsável retorno"
                 register={register}

@@ -35,6 +35,7 @@ import UpdateLaboratory from "./pages/Update/Laboratory/UpdateLaboratory";
 import SupplierDetails from "./pages/Consults/Supplier/SupplierDetails";
 import UpdateSupplier from "./pages/Update/Supplier/UpdateSupplier";
 import LaboratoryReturn from "./pages/Movements/LaboratoryReturn/LaboratoryReturn";
+import ConsultLaboratory from "./pages/Consults/Laboratory/ConsultLaboratory";
 
 
 function App() {
@@ -304,11 +305,7 @@ function App() {
 						</ProtectedRoute>
 					}
 				></Route>
-			</Routes>
-			<ToastContainer />
-		</>
-	);
-        <Route
+<Route
           path="/consult/area"
           element={
             <ProtectedRoute>
@@ -350,11 +347,12 @@ function App() {
             </ProtectedRoute>
           }
         ></Route> */}
-      </Routes>
-      <ToastContainer />
-    </>
-  );
 
+			</Routes>
+			<ToastContainer />
+		</>
+	);
+        
 }
 
 export default App;

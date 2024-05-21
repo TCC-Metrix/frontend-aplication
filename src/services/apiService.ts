@@ -18,8 +18,8 @@ import {
 	UseReturnPost,
 	GeneralLaboratory,
 	MovUseOutputData,
-	GeneralLaboratory,
-	LaboratoryPost,
+	LaboratoryOutputPost,
+	LaboratoryReturnPost,
 
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
@@ -64,9 +64,6 @@ export const getInstrumentsFiltered = async (pageParam = 0, status: string, situ
 	return (await instance.get<RootFilter>(`/instrument/deepfilter?status=${status === "todos" ? "" : status}&situation=${situation === "todos" ? "" : situation}&column=${column}&value=${value}&sortedBy=${sortedBy}&page=${pageParam}&size=20`)).data;
 };
 
-export const getLaboratories = async () => {
-	return (await instance.get<GeneralLaboratory[]>("laboratory/all")).data;
-};
 
 
 export const getLastMovement = async (id: string) => {
@@ -135,8 +132,11 @@ export const postOutputUse = async (data: UsePost) => {
 };
 
 
-export const postLaboratoryOutput = async (data: LaboratoryPost) => {
-	return instance.post<LaboratoryPost>("laboratory_output", data);
+export const postLaboratoryOutput = async (data: LaboratoryOutputPost) => {
+	return instance.post<LaboratoryOutputPost>("laboratory_output", data);
+};
+export const postLaboratoryReturn = async (data: LaboratoryReturnPost) => {
+	return instance.post<LaboratoryReturnPost>("laboratory_return", data);
 };
 
 export const postReturnUse = async (data: UseReturnPost) => {
