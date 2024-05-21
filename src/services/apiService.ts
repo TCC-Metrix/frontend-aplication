@@ -16,6 +16,7 @@ import {
 	RootMovement,
 	GeneralSupplier,
 	UseReturnPost,
+	GeneralLaboratory,
 	MovUseOutputData,
 	GeneralLaboratory,
 	LaboratoryPost,
@@ -47,6 +48,10 @@ export const getFamilies = async () => {
 //GET - Retorna todos as famílias
 export const getSuppliers = async () => {
 	return (await instance.get<GeneralSupplier[]>("supplier/all")).data;
+};
+
+export const getLaboratories = async () => {
+	return (await instance.get<GeneralLaboratory[]>("laboratory/all")).data;
 };
 
 //GET - Retorna todas as areas
@@ -89,6 +94,13 @@ export const getFamilyById = async (id: string | undefined) => {
 export const getEmployeeById = async (id: string | undefined) => {
 	return (await instance.get<GeneralEmployee>(`employee/${id === undefined ? "" : id}`)).data;
 };
+export const getLaboratoryById = async (id: string | undefined) => {
+	return (await instance.get<GeneralLaboratory>(`laboratory/${id === undefined ? "" : id}`)).data;
+};
+
+export const getSupplierById = async (id: string | undefined) => {
+	return (await instance.get<GeneralSupplier>(`supplier/${id === undefined ? "" : id}`)).data;
+};
 
 //GET - Retorna os funcionários filtrados
 export const getEmployeeFiltered = async (data: FieldValues) => {
@@ -96,6 +108,9 @@ export const getEmployeeFiltered = async (data: FieldValues) => {
 ;}
 export const getSupplierFiltered = async (data: FieldValues) => {
 	return (await instance.get<GeneralSupplier[]>(`supplier/filter?column=${data.column}&value=${data.value}`)).data;
+;}
+export const getLaboratoryFiltered = async (data: FieldValues) => {
+	return (await instance.get<GeneralLaboratory[]>(`laboratory/filter?column=${data.column}&value=${data.value}`)).data;
 ;}
 
 //GET - Retorna as movimentações pelo ID do instrumento
@@ -148,6 +163,14 @@ export const postUpdateFamily = async (data: FieldValues, id: string | undefined
 
 export const postUpdateEmployee = async (data: FieldValues, id: string | undefined) => {
 	return instance.put<FieldValues>(`employee/${id}`, data)
+}
+
+export const postUpdateLaboratory = async (data: FieldValues, id: string | undefined) => {
+	return instance.put<FieldValues>(`laboratory/${id}`, data)
+}
+
+export const postUpdateSupplier = async (data: FieldValues, id: string | undefined) => {
+	return instance.put<FieldValues>(`supplier/${id}`, data)
 }
 
 export const postAreaRegister = async (data: AreaRegisterPost) => {
