@@ -8,7 +8,8 @@ interface SelectInputProps {
   placeholder: string;
   register: UseFormRegister<FieldValues> | any;
   errors?: any;
-  style?: string
+  style?: string;
+  disabled? : boolean
 }
 
 const SelectInput: React.FC<SelectInputProps> = ({
@@ -17,7 +18,8 @@ const SelectInput: React.FC<SelectInputProps> = ({
   placeholder,
   register,
   errors,
-  style
+  style,
+  disabled
 }) => {
   const translateValue = (value: string): string => {
     const translations: { [key: string]: string } = {
@@ -25,10 +27,10 @@ const SelectInput: React.FC<SelectInputProps> = ({
       "inativo": "inactive",
       "descrição": "description",
       "família": "familyID",
-      "em uso": "in%20use",
+      "em uso": "in use",
       "disponível": "available",
       "mais recente": "desc",
-      "mais antigo": "asc",
+      "mais antigo": "asc", 
       "todos": "",
       "código": "code",
       "ativo não calibrável": "active non-calibratable",
@@ -36,6 +38,9 @@ const SelectInput: React.FC<SelectInputProps> = ({
       "perda": "loss",
       "nome": "name",
       "reprovado na calibração": "failed calibration",
+      "código cal": "calCode",
+      "calibração": "calibration",
+      "calibração externa": "external calibration"
     }
 
     return translations[value] || value;
@@ -48,6 +53,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
         id={id}
         {...register(id)}
         className="inside-select"
+        disabled={disabled ? disabled : false}
       >
         {optionsList.map((item) => (
           <option key={item} value={translateValue(item)}>

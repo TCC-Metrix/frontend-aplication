@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { useUpdateInstrument } from "../../../services/useMutation";
 import { toast } from "react-toastify";
 import { FormValues } from "../../../utils/types/instrument";
+import { DetailItemMov, formatDate } from "../../Consults/Instrument/InstrumentDetails";
 
 interface DetailItemProps {
   subtitle: string;
@@ -157,10 +158,7 @@ const UpdateInstrument: React.FC = () => {
       );
   };
 
-  const formatDate = (date: string) => {
-    const [ano, mes, dia] = date.split("-");
-    return `${dia}/${mes}/${ano}`;
-  };
+
 
   const getMonth = (date: string) => {
     // Separe o ano, mês e dia
@@ -199,14 +197,13 @@ const UpdateInstrument: React.FC = () => {
     }
 
     updateInstrument.mutate(dataForm, {
-      onSettled(dataSetted, error) {
+      onSettled(_, error) {
         if (error) {
           console.log(error);
           notify("error");
         } else {
           notify("success");
           navigate(`/consult/instrument/${data?.id}`);
-          console.log(dataSetted);
         }
       },
     });
@@ -460,50 +457,7 @@ const UpdateInstrument: React.FC = () => {
             {lastMovementData ? (
               <section className="other-details-section">
                 <h1 className="detail-title">ÚLTIMA MOVIMENTAÇÃO</h1>
-                <div className="details-section">
-                  <DetailItem
-                    subtitle="data de saída"
-                    content={formatDate(lastMovementData.useOutput.outputDate)}
-                  />
-                  <DetailItem
-                    subtitle="data de retorno"
-                    content={
-                      lastMovementData.movement.type === "USE_OUTPUT" ? "" : ""
-                    }
-                  />
-                  <DetailItem
-                    subtitle="motivo"
-                    content={
-                      lastMovementData.movement.type === "USE_OUTPUT"
-                        ? "uso"
-                        : ""
-                    }
-                  />
-                  <DetailItem
-                    subtitle="colaborador"
-                    content={
-                      lastMovementData.useOutput.receivingResponsible
-                        ? lastMovementData.useOutput.receivingResponsible.name
-                        : "-"
-                    }
-                  />
-                  <DetailItem
-                    subtitle="laboratório"
-                    content={
-                      lastMovementData.movement.type !== "LABORATORY_OUTPUT"
-                        ? "-"
-                        : ""
-                    }
-                  />
-                  <DetailItem
-                    subtitle="área"
-                    content={
-                      lastMovementData.useOutput.receivingArea
-                        ? lastMovementData.useOutput.receivingArea.description
-                        : "-"
-                    }
-                  />
-                </div>
+                <DetailItemMov mov={lastMovementData}/>
               </section>
             ) : (
               <section className="other-details-section">
@@ -681,7 +635,6 @@ const UpdateInstrument: React.FC = () => {
                   <Button
                     className="btn btn-md btn-secondary"
                     onClickFunction={() => {
-                      console.log(situationJustification, situationReason);
                       if (!situationJustification || !situationReason) {
                         // Verifica se algum dos campos está vazio ou nulo e define os erros
                         if (!situationJustification) {

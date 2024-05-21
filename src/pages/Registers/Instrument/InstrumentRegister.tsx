@@ -141,7 +141,7 @@ const InstrumentRegister = () => {
   const handlePostInstrument: SubmitHandler<FieldValues> = (data) => {
     setIsLoadingInstrument(true);
     postInstrument.mutate(data, {
-      onSettled: (data, error) => {
+      onSettled: (_, error) => {
         if (error && request.isAxiosError(error)) {
           const errorAxios = error as AxiosError;
           setIsLoadingInstrument(false);
@@ -163,7 +163,6 @@ const InstrumentRegister = () => {
           notify("success");
           reset();
           setValue("acquisitionCost", "")
-          console.log(data);
         }
       },
     });

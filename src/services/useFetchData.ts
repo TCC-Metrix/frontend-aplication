@@ -54,6 +54,15 @@ export function useAllLaboratories() {
   })
 }
 
+
+export function useAllLaboratories() {
+  return useQuery({
+    queryKey: ["laboratories"],
+    queryFn: getLaboratories,
+    refetchOnWindowFocus: false
+  })
+}
+
 export function useSupplierFiltered(data: FieldValues, isEnabled: boolean) {
   return useQuery({
     queryKey: ["supplier-filtered"],

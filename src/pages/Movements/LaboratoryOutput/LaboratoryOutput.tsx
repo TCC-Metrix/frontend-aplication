@@ -8,11 +8,11 @@ import {
 } from "../../../components";
 import {
   GeneralInstrument,
-  UsePost,
+  LaboratoryPost,
 } from "../../../utils/interfaces/Interfaces";
-import { usePostOutputUse } from "../../../services/useMutation";
+import { usePostLaboratoryOutput } from "../../../services/useMutation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { useAllAreas, useAllEmployees } from "../../../services/useFetchData";
+import {  useAllEmployees, useAllLaboratories } from "../../../services/useFetchData";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import { RotatingLines } from "react-loader-spinner";
@@ -20,21 +20,16 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
+import { formatDate } from "../../Consults/Instrument/InstrumentDetails";
 
 export const LaboratoryOutput = () => {
   // Estados para controlar o estado dos componentes
-  const [isLoadingPostUseOutput, setIsLoadingPostUseOutput] =
+  const [isLoadingPost, setIsLoadingPost] =
     useState<boolean>(false);
   const [tableMainPage, setTableMainPage] = useState<GeneralInstrument[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isReloaded, setIsReloaded] = useState<boolean>(false);
 
-  //Variáveis controladas no contexto da aplicação
-  const listExpiredInstruments: GeneralInstrument[] = [];
-  //Pegar o dia atual
-  const currentDate: Date = new Date();
-  const currentMonth: number = currentDate.getMonth() + 1;
-  const currentYear: number = currentDate.getFullYear();
 
   const headersList = [
     "Código",
@@ -51,7 +46,6 @@ export const LaboratoryOutput = () => {
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
         draggable: true,
         progress: undefined,
         theme: "light",
@@ -65,7 +59,6 @@ export const LaboratoryOutput = () => {
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
-          pauseOnHover: true,
           draggable: true,
           progress: undefined,
           theme: "light",
@@ -87,40 +80,34 @@ export const LaboratoryOutput = () => {
     clearErrors,
     setError,
     getValues,
-    watch,
   } = useForm();
 
-  const valueInArea = watch("area");
-  const valueInReceivingResponsible = watch("receivingResponsible");
 
   //Hooks de api
-  const postOutputMutation = usePostOutputUse(); //posta a saida para uso
+  const postLaboratoryOutput = usePostLaboratoryOutput(); 
   const { data: allEmployees, isLoading, isError } = useAllEmployees(); //busca todos os funcionarios
   const {
-    data: allAreas,
-    isLoading: isLoadingArea,
-    isError: isErrorArea,
-  } = useAllAreas(); //busca todas as áreas
+    data: allLaboratories,
+    isLoading: isLoadingLaboratories,
+    isError: isErrorLaboratories,
+  } = useAllLaboratories(); //busca todas as áreas
 
-  const handlePostUseOutput: SubmitHandler<UsePost> = (data) => {
-    setIsLoadingPostUseOutput(true);
-    postOutputMutation.mutate(data, {
-      onSettled: (data, error) => {
+  const handlePostLaboratoryOutput: SubmitHandler<LaboratoryPost> = (data) => {
+    setIsLoadingPost(true);
+    postLaboratoryOutput.mutate(data, {
+      onSettled: (_, error) => {
         if (error && request.isAxiosError(error)) {
-          setIsLoadingPostUseOutput(false);
+          setIsLoadingPost(false);
           notify("error", "Erro ao processar sua solicitação");
         } else {
-          setIsLoadingPostUseOutput(false);
-          notify("success", "Movimentação realizada com sucesso");
-          setValue("outputDate", "");
-          setValue("shippingResponsible", "");
-          setValue("shippingResponsibleDescription", "");
-          setValue("receivingResponsibleDescription", "");
-          setValue("receivingResponsible", "");
-          setValue("area", "");
-          setValue("areaDescription", "");
+          setIsLoadingPost(false);
           setTableMainPage([]);
-          console.log(data);
+          notify("success", "Movimentação realizada com sucesso")
+          setValue("shippingResponsible", "")
+          setValue("shippingResponsibleDescription", "")
+          setValue("laboratory", "")
+          setValue("laboratoryDescription", "")
+          setValue("outputDate", new Date().toISOString().split('T')[0])
           setIsReloaded(true);
         }
       },
@@ -128,55 +115,19 @@ export const LaboratoryOutput = () => {
   };
 
   //Busca os ids dos instrumentos dentro da lista de instrumentos e chama função que envia à api
-  const handleConfirmUseOutput = (data: FieldValues) => {
+  const handleConfirmLabOutput = (data: FieldValues) => {
     const idsList = tableMainPage.map((item) => item.id);
 
-    setIsLoadingPostUseOutput(true);
+    setIsLoadingPost(true);
 
-    setIsLoadingPostUseOutput(false);
+    setIsLoadingPost(false);
     if (idsList.length == 0) {
       notify("error", "Nenhum instrumento selecionado");
       return;
     }
-    //valueInReceivingResponsible = "abcd"
-    //valueInArea = ""
 
-    if (
-      (valueInArea === "" || valueInArea === undefined) &&
-      (valueInReceivingResponsible === "" ||
-        valueInReceivingResponsible === undefined)
-    ) {
-      notify(
-        "error",
-        "Informe ao menos uma área ou responsável de recebimento"
-      );
-      return;
-    }
 
-    tableMainPage.map((item) => {
-      const dateNextCalibration: Date = new Date(
-        item.nextCalibration + "T00:00:00"
-      );
 
-      const monthNextCalibration: number = dateNextCalibration.getMonth() + 1;
-      const yearNextCalibration: number = dateNextCalibration.getFullYear();
-      if (currentYear > yearNextCalibration) {
-        listExpiredInstruments.push(item);
-      } else if (currentMonth >= monthNextCalibration) {
-        listExpiredInstruments.push(item);
-      }
-    });
-
-    // if (listExpiredInstruments.length > 0) {
-    // 	const messageInstruments: string = listExpiredInstruments
-    // 		.map(
-    // 			(instrument) => `${instrument.code} - ${instrument.description}/ `
-    // 		)
-    // 		.join("");
-    // 	notify("error", `Instrumentos com calibração vencida ${messageInstruments}`)
-
-    // 	return;
-    // }
 
     const regex = /^(\d{4})-(\d{2})-(\d{2})$/;
     const match = data.outputDate.match(regex);
@@ -207,29 +158,24 @@ export const LaboratoryOutput = () => {
       return;
     }
 
-    handlePostUseOutput({
+    handlePostLaboratoryOutput({
       instrumentIds: idsList,
       shippingResponsible: data.shippingResponsible,
-      receivingResponsible: data.receivingResponsible,
-      area: data.area,
+      laboratory: data.laboratory,
+      motive: data.motive,
       outputDate: data.outputDate,
     });
   };
 
-  if (isError || isErrorArea) {
+  if (isError || isErrorLaboratories) {
     return <ErrorPage />;
   }
 
-  if (isLoading || isLoadingArea) {
+  if (isLoading || isLoadingLaboratories) {
     return <LoadingPage />;
   }
 
-  const formatDate = (date: string) => {
-    // Separe o ano, mês e dia
-    const [ano, mes, dia] = date.split("-");
-    // Retorne a data no formato DD/MM/YYYY
-    return `${dia}/${mes}/${ano}`;
-  };
+
 
   return (
     <main>
@@ -300,12 +246,12 @@ export const LaboratoryOutput = () => {
                   inputStyle="classe-large"
                   inputId="laboratory"
                   inputName="laboratoryDescription"
-                  items={allEmployees}
+                  items={allLaboratories}
                   inputPlaceholder="laboratório"
                   register={register}
                   setValue={setValue}
                   getValues={getValues}
-                  isRequired={false} //undefined
+                  isRequired={true} //undefined
                   errors={errors}
                 />
               </div>
@@ -313,7 +259,7 @@ export const LaboratoryOutput = () => {
             <div className="form-column">
               <div >
                 <SelectInput
-                  id="reason"
+                  id="motive"
                   optionsList={["calibração", "conserto"]}
                   placeholder="Motivo"
                   register={register}
@@ -337,9 +283,9 @@ export const LaboratoryOutput = () => {
         <div className="m-auto btn-session-confirm">
           <Button
             className="btn btn-secondary btn-lg"
-            onClickFunction={handleSubmit(handleConfirmUseOutput)}
+            onClickFunction={handleSubmit(handleConfirmLabOutput)}
           >
-            {isLoadingPostUseOutput ? (
+            {isLoadingPost ? (
               <RotatingLines
                 visible={true}
                 strokeWidth="5"

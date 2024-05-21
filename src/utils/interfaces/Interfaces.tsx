@@ -54,6 +54,14 @@ export interface UsePost {
 	outputDate: string;
 }
 
+export interface LaboratoryPost {
+	instrumentIds: string[];
+	shippingResponsible: string;
+	motive: string;
+	laboratory: string;
+	outputDate: string;
+}
+
 export interface UseReturnPost {
 	instrumentIds: string[];
 	shippingResponsible: string;
@@ -214,16 +222,26 @@ export interface RootFilter {
 	movement: Movement
 	useOutput?: UseOutput
 	useReturn?: UseReturn,
+	laboratoryOutput?: LaboratoryOutput
   }
 
   export interface Movement {
 	id: string
 	type: string
 	instrument: string
-	laboratoryOutput: any
+	laboratoryOutput: string
 	useOutput: string
-	useReturn: any
+	useReturn: string
 	createdAt: string
+  }
+
+  export interface LaboratoryOutput {
+	id: string
+	movements: string[]
+	shippingResponsible: GeneralEmployee
+	laboratory: GeneralLaboratory
+	motive: string
+	outputDate: string
   }
 
   export interface Area {
@@ -239,6 +257,7 @@ export interface RootFilter {
 	receivingResponsible: GeneralEmployee
 	outputDate: string
   }
+
 
 
   export interface UseReturn {

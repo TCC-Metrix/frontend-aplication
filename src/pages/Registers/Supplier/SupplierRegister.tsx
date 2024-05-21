@@ -77,7 +77,7 @@ const SupplierRegister = () => {
   ) => {
     setIsLoadingPostSupplierRegister(true);
     postSupplierMutation.mutate(data, {
-      onSettled: (data, error) => {
+      onSettled: (_, error) => {
         setIsLoadingPostSupplierRegister(false);
         if (error && request.isAxiosError(error)) {
           const errorAxios = error as AxiosError;
@@ -90,7 +90,6 @@ const SupplierRegister = () => {
           notify("error", "Erro ao processar a solicitação.");
         } else {
           // Se não houver erro, assumimos que a solicitação foi bem-sucedida
-          console.log("Dados do fornecedor:", data);
           notify("success");
           reset();
           setValue("cnpj", "")
@@ -100,7 +99,6 @@ const SupplierRegister = () => {
   };
 
   const handleConfirmSupplierRegister = (dataApi: z.infer<typeof schema>) => {
-    console.log(dataApi.cnpj);
 
     setIsLoadingPostSupplierRegister(true);
 

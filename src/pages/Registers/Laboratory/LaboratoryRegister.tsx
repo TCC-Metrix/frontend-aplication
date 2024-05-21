@@ -19,7 +19,7 @@ const schema = z.object({
     .refine((value) => !/^\s+$/.test(value), {
       message: "Nome não pode conter apenas espaços em branco",
     }),
-  calibrationCode: z
+  calCode: z
     .string()
     .min(1, "Campo obrigatorio")
     .refine((value) => !/^\s+$/.test(value), {
@@ -102,7 +102,6 @@ const LaboratoryRegister = () => {
   const handleConfirmLaboratoryRegister = (dataApi: z.infer<typeof schema>) => {
     setIsLoadingPostLaboratoryRegister(true);
 
-    setIsLoadingPostLaboratoryRegister(false);
 
     const data = {
       description: dataApi.description,
@@ -137,7 +136,7 @@ const LaboratoryRegister = () => {
             <BasicInput
               errors={errors}
               isRequired={true}
-              inputName="calibrationCode"
+              inputName="calCode"
               inputPlaceholder="codigo cal"
               inputStyle="large-input"
               inputType="text"
