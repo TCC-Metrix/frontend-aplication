@@ -30,6 +30,7 @@ const DetailItem: React.FC<DetailItemProps> = ({ subtitle, content }) => (
 
 
 export const formatDate = (date: string) => {
+
   // Separe o ano, mês e dia
   const [ano, mes, dia] = date.split("-");
   // Retorne a data no formato DD/MM/YYYY

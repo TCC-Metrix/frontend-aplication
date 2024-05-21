@@ -8,7 +8,8 @@ interface SelectInputProps {
   placeholder: string;
   register: UseFormRegister<FieldValues> | any;
   errors?: any;
-  style?: string
+  style?: string;
+  disabled? : boolean
 }
 
 const SelectInput: React.FC<SelectInputProps> = ({
@@ -17,7 +18,8 @@ const SelectInput: React.FC<SelectInputProps> = ({
   placeholder,
   register,
   errors,
-  style
+  style,
+  disabled
 }) => {
   const translateValue = (value: string): string => {
     const translations: { [key: string]: string } = {
@@ -35,6 +37,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
       "reprovado na calibração": "failed calibration",
       "perda": "loss",
       "código cal": "calCode",
+      "calibração": "calibration",
       "calibração externa": "external calibration"
     }
 
@@ -48,6 +51,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
         id={id}
         {...register(id)}
         className="inside-select"
+        disabled={disabled ? disabled : false}
       >
         {optionsList.map((item) => (
           <option key={item} value={translateValue(item)}>

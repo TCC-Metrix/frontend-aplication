@@ -19,7 +19,6 @@ import {
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {
   useAllEmployees,
-  useAllLaboratories,
 } from "../../../services/useFetchData";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import ErrorPage from "../../ErrorPage/ErrorPage";
@@ -42,14 +41,6 @@ export default function LaboratoryReturn() {
     useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isReloaded, setIsReloaded] = useState<boolean>(false);
-
-  const headersList = [
-    "Código",
-    "Descrição",
-    "Data de Saída",
-    "Motivo",
-    "Laboratório",
-  ];
 
   const notify = (type: string, message?: string) => {
     type === "success" &&
@@ -87,45 +78,24 @@ export default function LaboratoryReturn() {
   };
 
   useEffect(() => {
-    setValue(
-      "laboratoryDescription",
-      movementData !== undefined && movementData?.length > 0
-        ? movementData[0].laboratoryOutput?.laboratory.description
-        : ""
-    );
-    setValue(
-      "laboratory",
-      movementData !== undefined && movementData?.length > 0
-        ? movementData[0].laboratoryOutput?.laboratory.id
-        : ""
-    );
-    setValue(
-      "laboratoryDescription",
-      movementData !== undefined && movementData?.length > 0
-        ? movementData[0].laboratoryOutput?.laboratory.description
-        : ""
-    );
-    setValue(
-      "outputDate",
-      movementData !== undefined && movementData?.length > 0
-        ? movementData[0].laboratoryOutput?.outputDate
-        : ""
-    );
-
-    setValue(
-      "instrument",
-      tableMainPage !== undefined && tableMainPage?.length > 0
-        ? tableMainPage[0].description
-        : ""
-    );
-    setValue(
-      "code",
-      tableMainPage !== undefined && tableMainPage?.length > 0
-        ? tableMainPage[0].code
-        : ""
-    );
+    if (movementData !== undefined && movementData?.length > 0) {
+      const mov = movementData[0].laboratoryOutput;
+      setValue("laboratory", mov?.laboratory.id);
+      setValue("motive", mov?.motive);
+      setValue("laboratoryDescription", mov?.laboratory.description);
+      setValue("outputDate", mov?.outputDate);
+    } else {
+      setValue("laboratory", "-");
+      setValue("motive", "-");
+      setValue("laboratoryDescription", "-");
+      setValue("outputDate", "-");
+    }
+    if (tableMainPage !== undefined && tableMainPage.length > 0) {
+      const instrument = tableMainPage[0];
+      setValue("instrument", instrument.description);
+      setValue("code", instrument.code);
+    }
   }, [movementData]);
-  console.log(movementData);
 
   const {
     register,
@@ -137,7 +107,6 @@ export default function LaboratoryReturn() {
 
   //Hooks de api
   const postReturnUseMutation = usePostReturnUse();
-  const { data: allLaboratories, isLoading, isError } = useAllLaboratories();
   const {
     data: allEmployees,
     isLoading: isLoadingEmployees,
@@ -211,11 +180,11 @@ export default function LaboratoryReturn() {
     });
   };
 
-  if (isError || isErrorEmployees) {
+  if (isErrorEmployees) {
     return <ErrorPage />;
   }
 
-  if (isLoading || isLoadingEmployees) {
+  if (isLoadingEmployees) {
     return <LoadingPage />;
   }
 
@@ -237,12 +206,6 @@ export default function LaboratoryReturn() {
     setOpenModal(false);
   };
 
-  // const handleFileChange = (event: any) => {
-  //   const file = event.target.files[0];
-  //   const fileUrl = URL.createObjectURL(file);
-  //   window.open(fileUrl); // Abre o documento quando o usuário seleciona um arquivo
-  // };
-
   return (
     <main>
       <div className="container-main">
@@ -253,19 +216,22 @@ export default function LaboratoryReturn() {
         <div className="form-section-container">
           <div>
             <h3>Instrumento</h3>
+            <button
+              className="btn btn-tertiary"
+              onClick={handleModal}
+              style={{ marginBottom: "20px" }}
+            >
+              <span className="text button-font">Buscar instrumento</span>
+            </button>
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: "left",
+                width: "100%",
                 gap: "20px",
+                flexWrap: "wrap",
               }}
             >
-              <Button
-                className="btn btn-tertiary btn-sm"
-                onClickFunction={handleModal}
-              >
-                Adicionar / Editar
-              </Button>
               <div className="input-view-only-container">
                 <span className="placeholder">Descrição</span>
                 <span className="view-only-value">
@@ -277,9 +243,43 @@ export default function LaboratoryReturn() {
               <div className="input-view-only-container">
                 <span className="placeholder">Código</span>
                 <span className="view-only-value">
-                  {tableMainPage.length > 0
-                    ? tableMainPage[0].description
+                  {tableMainPage.length > 0 ? tableMainPage[0].code : "-"}
+                </span>
+              </div>
+              <div className="input-view-only-container">
+                <span className="placeholder">Laboratório</span>
+                <span className="view-only-value">
+                  {movementData !== undefined && movementData?.length > 0
+                    ? movementData[0].laboratoryOutput?.laboratory.description
+                    : "-"}{" "}
+                  {movementData !== undefined && movementData?.length > 0
+                    ? "/ " +
+                      movementData[0].laboratoryOutput?.laboratory.calCode
+                    : ""}
+                </span>
+              </div>
+              <div className="input-view-only-container">
+                <span className="placeholder">Data de saída</span>
+                <span className="view-only-value">
+                  {movementData !== undefined && movementData?.length > 0
+                    ? formatDate(
+                        movementData[0].laboratoryOutput
+                          ? movementData[0].laboratoryOutput.outputDate
+                          : ""
+                      )
                     : "-"}
+                </span>
+              </div>
+              <div className="input-view-only-container">
+                <span className="placeholder">Motivo</span>
+                <span className="view-only-value">
+                  {movementData !== undefined &&
+                    movementData.length > 0 ?
+                    (movementData[0].laboratoryOutput?.motive === "repair"
+                      ? "Conserto"
+                      : movementData[0].laboratoryOutput?.motive ===
+                        "external_calibration"
+                      && "Calibração Externa") : "-"}
                 </span>
               </div>
             </div>
@@ -287,46 +287,7 @@ export default function LaboratoryReturn() {
           <div>
             <h3>Calibração</h3>
             <section className="mov-info-lab-return">
-              <BasicInputFilter
-                inputStyle="classe-little"
-                inputId="laboratory"
-                inputName="laboratoryDescription"
-                items={allLaboratories}
-                inputPlaceholder="laboratório"
-                register={register}
-                setValue={setValue}
-                getValues={getValues}
-                isRequired={false}
-                errors={errors}
-              />
-              <DateInputInside
-                placeholder="data de saída"
-                inputStyle="little-input"
-                register={register}
-                inputName="outputDate"
-                isRequired={true}
-                errors={errors}
-              />
 
-              <SelectInput
-                id="motive"
-                optionsList={["calibração", "conserto"]}
-                placeholder="Motivo"
-                register={register}
-              />
-
-              <BasicInputFilter
-                inputStyle="classe-little"
-                inputId="receivingResponsible"
-                inputName="receivingResponsibleDescription"
-                items={allEmployees}
-                inputPlaceholder="responsável recebimento"
-                register={register}
-                setValue={setValue}
-                getValues={getValues}
-                isRequired={false}
-                errors={errors}
-              />
 
               <DateInputInside
                 placeholder="data de retorno"
@@ -360,7 +321,14 @@ export default function LaboratoryReturn() {
 
           <div>
             <h3>Certificado e análise</h3>
-            <div style={{ display: "flex", justifyContent: "space-between", gap: "20px", flexWrap: "wrap" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                rowGap: "20px",
+                flexWrap: "wrap",
+              }}
+            >
               <BasicInput
                 inputType="text"
                 inputPlaceholder="Num certificado"
@@ -373,31 +341,34 @@ export default function LaboratoryReturn() {
 
               <BasicInput
                 inputType="text"
-                inputPlaceholder="Caminho certificado"
+                inputPlaceholder="Caminho certificado / planilha "
                 inputStyle="little-input"
                 errors={errors}
                 isRequired={false}
                 inputName="certificatePath"
                 register={register}
               />
-              <BasicInput
-                inputType="text"
-                inputPlaceholder="Caminho planilha de análise"
-                inputStyle="little-input"
-                errors={errors}
-                isRequired={false}
-                inputName="certificatePath"
-                register={register}
-              />
-                <SelectInput
+
+              <SelectInput
                 id="conclusion"
-                optionsList={["calibração", "conserto"]}
+                optionsList={["conforme", "não conforme"]}
                 placeholder="Conclusão"
                 register={register}
               />
+              <BasicInputFilter
+                inputStyle="classe-little"
+                inputId="receivingResponsible"
+                inputName="receivingResponsibleDescription"
+                items={allEmployees}
+                inputPlaceholder="responsável retorno"
+                register={register}
+                setValue={setValue}
+                getValues={getValues}
+                isRequired={false}
+                errors={errors}
+              />
             </div>
           </div>
-
         </div>
 
         <div className="m-auto btn-session-confirm">

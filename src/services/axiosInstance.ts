@@ -1,7 +1,6 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
 import { msalInstance } from "../authSSO/msalInstance";
 import { loginRequest } from "../authSSO/authConfig";
-import { InteractionRequiredAuthError } from "@azure/msal-browser";
 import { AuthenticationResult } from "@azure/msal-common";
 
 //URL em que fazemos as requisições da API

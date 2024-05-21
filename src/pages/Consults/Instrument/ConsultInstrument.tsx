@@ -14,7 +14,7 @@ import instance from "../../../services/axiosInstance";
 import { RootFilter } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAllFamilies } from "../../../services/useFetchData";
 import { formatDate } from "./InstrumentDetails";
 
@@ -129,8 +129,8 @@ function ConsultInstrument() {
     },
   });
 
-  const instruments = data?.pages.flatMap((item) => item.content);
-  let instrumentsFiltered = dataFilter?.pages.flatMap((item) => item.content);
+  const instruments = useMemo(() => data?.pages.flatMap((item) => item.content), [data]);
+  let instrumentsFiltered = useMemo(() => dataFilter?.pages.flatMap((item) => item.content), [dataFilter]);
 
   const headersList = [
     "Código",
@@ -149,13 +149,22 @@ function ConsultInstrument() {
   }
 
   const handleSubmitSearch = async (data: FieldValues) => {
+    console.log(data)
     if (
       data.status === "todos" &&
       data.situation === "todos" &&
       data.sortedBy === "desc" &&
-      data.value.length === 0
+      data.value === ""
     ) {
+      console.log("entrou")
+      console.log(instruments)
       instrumentsFiltered = instruments;
+      // return
+    }
+
+
+    if(data.status === '' && data.situation === '' ){
+      return
     }
 
     filterData.enabled = true;
