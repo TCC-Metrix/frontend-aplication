@@ -34,8 +34,10 @@ const SelectInput: React.FC<SelectInputProps> = ({
       "todos": "",
       "código": "code",
       "ativo não calibrável": "active non-calibratable",
-      "reprovado na calibração": "failed calibration",
+      "inconformidade": "nonconformity",
       "perda": "loss",
+      "nome": "name",
+      "reprovado na calibração": "failed calibration",
       "código cal": "calCode",
       "calibração": "calibration",
       "calibração externa": "external calibration"

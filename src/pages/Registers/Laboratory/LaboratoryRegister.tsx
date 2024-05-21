@@ -105,7 +105,7 @@ const LaboratoryRegister = () => {
 
     const data = {
       description: dataApi.description,
-      calCode: dataApi.calCode,
+      calCode: dataApi.calibrationCode,
     };
 
     handlePostLaboratoryRegister(data);

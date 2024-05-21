@@ -157,9 +157,9 @@ export interface GeneralSupplier {
 }
 
 export interface GeneralLaboratory {
-	id: string,
-	description: string,
-	calCode: string
+	id: string;
+	description: string;
+	calCode: string;
 }
 
 export interface InstrumentToPost {
