@@ -14,8 +14,9 @@ import instance from "../../../services/axiosInstance";
 import { RootFilter } from "../../../utils/interfaces/Interfaces";
 import { RotatingLines } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAllFamilies } from "../../../services/useFetchData";
+import { formatDate } from "./InstrumentDetails";
 
 function ConsultInstrument() {
   const [isFamilyInput, setIsFamilyInput] = useState(false);
@@ -49,7 +50,6 @@ function ConsultInstrument() {
 
   useEffect(() => {
     if (searchTerm === "familyID") {
-      console.log("familia");
       setIsFamilyInput(true);
     } else {
       setIsFamilyInput(false);
@@ -129,8 +129,8 @@ function ConsultInstrument() {
     },
   });
 
-  const instruments = data?.pages.flatMap((item) => item.content);
-  let instrumentsFiltered = dataFilter?.pages.flatMap((item) => item.content);
+  const instruments = useMemo(() => data?.pages.flatMap((item) => item.content), [data]);
+  let instrumentsFiltered = useMemo(() => dataFilter?.pages.flatMap((item) => item.content), [dataFilter]);
 
   const headersList = [
     "Código",
@@ -149,13 +149,22 @@ function ConsultInstrument() {
   }
 
   const handleSubmitSearch = async (data: FieldValues) => {
+    console.log(data)
     if (
       data.status === "todos" &&
       data.situation === "todos" &&
       data.sortedBy === "desc" &&
-      data.value.length === 0
+      data.value === ""
     ) {
+      console.log("entrou")
+      console.log(instruments)
       instrumentsFiltered = instruments;
+      // return
+    }
+
+
+    if(data.status === '' && data.situation === '' ){
+      return
     }
 
     filterData.enabled = true;
@@ -168,12 +177,6 @@ function ConsultInstrument() {
     refetch();
   };
 
-  const formatDate = (date: string) => {
-    // Separe o ano, mês e dia
-    const [ano, mes, dia] = date.split("-");
-    // Retorne a data no formato DD/MM/YYYY
-    return `${dia}/${mes}/${ano}`;
-  };
 
   return (
     <div className="consult-page">
@@ -276,6 +279,7 @@ function ConsultInstrument() {
                           <td>
                             {item.status === "in use" && "Em uso"}
                             {item.status === "available" && "Disponível"}
+                            {item.status === "external calibration" && "calibração externa"}
                           </td>
                           <td>{formatDate(item.acquisitionDate)}</td>
                         </tr>
@@ -298,6 +302,7 @@ function ConsultInstrument() {
                           <td>
                             {item.status === "in use" && "Em uso"}
                             {item.status === "available" && "Disponível"}
+                            {item.status === "external calibration" && "calibração externa"}
                           </td>
                           <td>{formatDate(item.acquisitionDate)}</td>
                         </tr>

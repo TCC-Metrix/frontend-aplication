@@ -107,7 +107,7 @@ export const MoveUseOutput = () => {
 				} else {
 					setIsLoadingPostUseOutput(false);
 					notify("success", "Movimentação realizada com sucesso");
-					setValue("outputDate", "")
+					setValue("outputDate", new Date().toISOString().split('T')[0])
 					setValue("shippingResponsible", "")
 					setValue("shippingResponsibleDescription", "")
 					setValue("receivingResponsibleDescription", "")
@@ -115,7 +115,6 @@ export const MoveUseOutput = () => {
 					setValue("area", "")
 					setValue("areaDescription", "")
 					setTableMainPage([])
-					console.log(data)
 					setIsReloaded(true)
 				}
 			},

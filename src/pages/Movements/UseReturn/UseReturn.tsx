@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
+import { formatDate } from "../../Consults/Instrument/InstrumentDetails";
 
 export const UseReturn = () => {
   // Estados para controlar o estado dos componentes
@@ -111,7 +112,7 @@ export const UseReturn = () => {
         } else {
           setIsLoadingPostUseOutput(false);
           notify("success", "Movimentação realizada com sucesso");
-          setValue("returnDate", "");
+          setValue("returnDate", new Date().toISOString().split('T')[0]);
           setValue("shippingResponsible", "");
           setValue("shippingResponsibleDescription", "");
           setValue("receivingResponsibleDescription", "");
@@ -198,7 +199,6 @@ export const UseReturn = () => {
       selectedInstruments.map((instrument) => instrument.id),
       {
         onSettled(data, error) {
-          console.log(data);
           setIsLoadingUseOutputData(false);
           setMovementData(data?.data);
           if (error) {
@@ -211,12 +211,6 @@ export const UseReturn = () => {
     setOpenModal(false);
   };
 
-  const formatDate = (date: string) => {
-    // Separe o ano, mês e dia
-    const [ano, mes, dia] = date.split("-");
-    // Retorne a data no formato DD/MM/YYYY
-    return `${dia}/${mes}/${ano}`;
-  };
 
   return (
     <main>

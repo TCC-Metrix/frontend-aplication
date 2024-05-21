@@ -90,7 +90,7 @@ a {
 	font-size: 12px;
 }
 
-.text {
+.text, td {
 	font-size: 14px;
 }
 

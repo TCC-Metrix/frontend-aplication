@@ -10,30 +10,50 @@ import { useForm } from "react-hook-form";
 import instance from "../../services/axiosInstance";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { RotatingLines } from "react-loader-spinner";
-
+import { formatDate } from "../../pages/Consults/Instrument/InstrumentDetails";
 
 interface ModalSearchInstrumentProps {
-	openModal: boolean,
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
-  setFinalInstruments?: React.Dispatch<React.SetStateAction<GeneralInstrument[]>>,
-  isReloaded:boolean,
-  setIsReloaded: React.Dispatch<React.SetStateAction<boolean>>,
-  status?: string,
-  handleConfirmFunction? : (selectedInstruments: GeneralInstrument[]) => void
-  situation?: string
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setFinalInstruments?: React.Dispatch<
+    React.SetStateAction<GeneralInstrument[]>
+  >;
+  isReloaded: boolean;
+  setIsReloaded: React.Dispatch<React.SetStateAction<boolean>>;
+  status?: string;
+  handleConfirmFunction?: (selectedInstruments: GeneralInstrument[]) => void;
+  situation?: string;
+  max?: number;
 }
 
+const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({
+  openModal,
+  max,
+  situation,
+  setOpenModal,
+  handleConfirmFunction,
+  status,
+  setFinalInstruments,
+  isReloaded,
+  setIsReloaded,
+}) => {
+  const [selectedInstruments, setSelectedInstruments] = useState<
+    GeneralInstrument[]
+  >([]);
+  const [isScroll, setIsScroll] = useState(false);
+  const [isShowingInstrumentsFiltered, setIsShowingInstrumentsFiltered] =
+    useState(false);
+  const [instruments, setInstruments] = useState<
+    GeneralInstrument[] | undefined
+  >([]);
 
-
-const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situation, setOpenModal, handleConfirmFunction, status, setFinalInstruments, isReloaded, setIsReloaded}) => {
-  const [selectedInstruments, setSelectedInstruments] = useState<GeneralInstrument[]>([]);
-  const [isScroll, setIsScroll] = useState(false)
-  const [isShowingInstrumentsFiltered, setIsShowingInstrumentsFiltered] = useState(false)
-  const [instruments, setInstruments] = useState<GeneralInstrument[] | undefined>([])
-
-
-
-  const headersList = ["código", "descrição", "família", "próx. calibração"];
+  const headersList = [
+    "código",
+    "descrição",
+    "família",
+    "próx. calibração",
+    "",
+  ];
 
   const {
     formState: { errors },
@@ -43,34 +63,32 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situa
     watch,
   } = useForm();
 
-
-
   let filterData = {
     column: watch("column"),
     value: watch("value"),
     enabled: false,
   };
 
-
-  
   const fetchInstrumentsFiltered = async (
     pageParam = 0
   ): Promise<RootFilter> => {
     const response = await instance.get(
-      `/instrument/deepfilter?&column=${filterData.column}&value=${filterData.value}&status=${status ? status : "available"}&page=${pageParam}&situation=${situation ? situation : ""}&size=7`
+      `/instrument/deepfilter?&column=${filterData.column}&value=${
+        filterData.value
+      }&status=${status ? status : "available"}&page=${pageParam}&situation=${
+        situation ? situation : ""
+      }&size=7`
     );
     return response.data;
   };
-  
+
   function calculateNextPage(pageable: RootFilter): number | null {
     if (pageable.pageable.pageNumber < pageable.totalPages) {
       return pageable.pageable.pageNumber + 1;
     }
-    
+
     return null;
   }
-
-
 
   const {
     data: dataFilter,
@@ -78,7 +96,7 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situa
     fetchNextPage: fetchNextFilteredPage,
     isLoading,
     isFetching,
-    hasNextPage
+    hasNextPage,
   } = useInfiniteQuery({
     queryKey: ["instrumentsFilteredModalSearch"],
     queryFn: ({ pageParam }) => fetchInstrumentsFiltered(pageParam),
@@ -88,45 +106,50 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situa
     },
     enabled: filterData.enabled,
   });
-  
-
-
-
 
   useEffect(() => {
-    setInstruments(dataFilter?.pages.flatMap((item) => item.content))
+    setInstruments(dataFilter?.pages.flatMap((item) => item.content));
     // console.log(instruments)
-  }, [dataFilter])
+  }, [dataFilter]);
 
-  
   useEffect(() => {
-    if(isReloaded){
-      reset()
-      setSelectedInstruments([])
-      setInstruments([])
-      setIsReloaded(false)
+    if (isReloaded) {
+      reset();
+      setSelectedInstruments([]);
+      setInstruments([]);
+      setIsReloaded(false);
     }
-  }, [isReloaded])
-  
+  }, [isReloaded]);
+
   useEffect(() => {
-    instruments !== undefined && instruments?.length > 5 ? setIsScroll(true) : setIsScroll(false)
-  }, [instruments])
-  
+    instruments !== undefined && instruments?.length > 5
+      ? setIsScroll(true)
+      : setIsScroll(false);
+  }, [instruments]);
+
   const handleSearchButton = () => {
-    setIsShowingInstrumentsFiltered(false)
+    setIsShowingInstrumentsFiltered(false);
     filterData.enabled = true;
     refetch();
   };
 
-
-
   const handleRowClick = (item: GeneralInstrument) => {
-    handleCheckboxChange({ target: { checked: !selectedInstruments.some(selectedItem => selectedItem.id === item.id) } } as React.ChangeEvent<HTMLInputElement>, item);
+    handleCheckboxChange(
+      {
+        target: {
+          checked: !selectedInstruments.some(
+            (selectedItem) => selectedItem.id === item.id
+          ),
+        },
+      } as React.ChangeEvent<HTMLInputElement>,
+      item
+    );
   };
 
-
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, item: GeneralInstrument) => {
+  const handleCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    item: GeneralInstrument
+  ) => {
     const isChecked = event.target.checked;
 
     // Se o checkbox estiver marcado, adiciona o item à lista selectedInstruments
@@ -134,17 +157,24 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situa
       setSelectedInstruments([...selectedInstruments, item]);
     } else {
       // Se o checkbox estiver desmarcado, remove o item da lista selectedInstruments
-      const filteredInstruments = selectedInstruments.filter(selectedItem => selectedItem.id !== item.id);
+      const filteredInstruments = selectedInstruments.filter(
+        (selectedItem) => selectedItem.id !== item.id
+      );
       setSelectedInstruments(filteredInstruments);
     }
   };
 
   const handleConfirmButton = () => {
-    console.log(selectedInstruments)
-    if(setFinalInstruments){
-
-      setFinalInstruments(selectedInstruments)
+    if (setFinalInstruments) {
+      setFinalInstruments(selectedInstruments);
     }
+    setOpenModal(false);
+  };
+
+  const handleConfirmMaxOneInstrument = (instrument: GeneralInstrument) => {
+    setSelectedInstruments([instrument])
+    setFinalInstruments && setFinalInstruments([instrument])
+    handleConfirmFunction && handleConfirmFunction([instrument])
     setOpenModal(false)
   }
 
@@ -173,12 +203,13 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situa
               errors={errors}
               register={register}
               inputName="value"
-              inputPlaceholder={`Busque por ${filterData.column === undefined
-                ? "descrição"
-                : filterData.column === "description"
+              inputPlaceholder={`Busque por ${
+                filterData.column === undefined
+                  ? "código"
+                  : filterData.column === "description"
                   ? "descrição"
                   : "código"
-                }`}
+              }`}
               inputStyle="classe-large"
               isRequired={true}
             />
@@ -196,104 +227,138 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situa
         </div>
       </div>
       {isLoading && (
-        <div style={{display: "flex", justifyContent: "center", height: "100%"    }}>
+        <div
+          style={{ display: "flex", justifyContent: "center", height: "100%" }}
+        >
           <RotatingLines
-          visible={true}
-          strokeWidth="5"
-          animationDuration="0.75"
-          ariaLabel="rotating-lines-loading"
-          strokeColor="#99aebb"
-          width="40"
-        />
+            visible={true}
+            strokeWidth="5"
+            animationDuration="0.75"
+            ariaLabel="rotating-lines-loading"
+            strokeColor="#99aebb"
+            width="40"
+          />
         </div>
-            )}
-      { !isLoading && <div className={`modal-content ${isScroll ? "scroll" : ""}`}>
-
-        <table className="table-container ">
-          <thead>
-            <tr className="first-line ">
-              {headersList.map((item, index) => {
-                return <th key={index}>{item}</th>;
-              })}
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-
-            {isShowingInstrumentsFiltered && selectedInstruments.length > 0 ? (
-              selectedInstruments?.map((item: GeneralInstrument, index) => {
-                return (
-                  <tr key={index} className="tr-hover" onClick={() => handleRowClick(item)}>
-                    <td className="text">
-                      <p className="td-text">{item.code}</p>
-                    </td>
-                    <td>{item.description}</td>
-                    <td>{item.familyId.description}</td>
-                    <td>
-                      {item.nextCalibration ? item.nextCalibration : "-"}
-                    </td>
-                    <td className="text">
-                      <input
-                        type="checkbox"
-                        id={item.id.toString()}
-                        checked={selectedInstruments.some(selectedItem => selectedItem.id === item.id)}
-                        onChange={(event) =>
-                          handleCheckboxChange(event, item)
-                        }
-                      />
-                    </td>
-                  </tr>
-                );
-              })
-            ) : isShowingInstrumentsFiltered && isLoading && (
-              <tr>
-              <td colSpan={headersList.length + 1} className="text">
-                Nenhum instrumento selecionado 
-              </td>
-            </tr>
-            ) }
-
-
-
-            {!isShowingInstrumentsFiltered && instruments !== undefined && instruments?.length > 0 ? (
-              instruments?.map((item: GeneralInstrument, index) => {
-                return (
-                  <tr key={index} className="tr-hover" onClick={() => handleRowClick(item)}>
-                    <td className="text">
-                      <p className="td-text">{item.code}</p>
-                    </td>
-                    <td>{item.description}</td>
-                    <td>{item.familyId.description}</td>
-                    <td>
-                    {item.nextCalibration ? item.nextCalibration : "-"}
-                    </td>
-                    <td className="text">
-                      <input
-                        type="checkbox"
-                        id={item.id.toString()}
-                        checked={selectedInstruments.some(selectedItem => selectedItem.id === item.id)}
-                        onChange={(event) =>
-                          handleCheckboxChange(event, item)
-                        }
-                      />
-                    </td>
-                  </tr>
-                );
-              })
-            ) : !isShowingInstrumentsFiltered && (
-              <tr>
-                <td colSpan={headersList.length + 1} className="text">
-                  Nenhum instrumento encontrado
-                </td>
-              </tr>
-            )}
-
-          </tbody>
-        </table>
-      </div >}
-      {(instruments !== undefined && instruments.length >= 7 && hasNextPage && !isShowingInstrumentsFiltered) && (
-      <p className="underline-p" onClick={() => fetchNextFilteredPage()}>carregar mais</p>
       )}
+      {!isLoading && (
+        <div className={`modal-content ${isScroll ? "scroll" : ""}`}>
+          <table className="table-container ">
+            <thead>
+              <tr className="first-line ">
+                {headersList.map((item, index) => {
+                  if (max) {
+                    if (item === "") {
+                      return;
+                    }
+                  }
+                  return <th key={index}>{item}</th>;
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {isShowingInstrumentsFiltered && selectedInstruments.length > 0
+                ? selectedInstruments?.map((item: GeneralInstrument, index) => {
+                    return (
+                      <tr
+                        key={index}
+                        className="tr-hover"
+                        onClick={() => {
+                           handleRowClick(item);
+                        }}
+                      >
+                        <td className="text">
+                          <p className="td-text">{item.code}</p>
+                        </td>
+                        <td>{item.description}</td>
+                        <td>{item.familyId.description}</td>
+                        <td>
+                          {item.nextCalibration
+                            ? formatDate(item.nextCalibration)
+                            : "-"}
+                        </td>
+                        {max === undefined && (
+                          <td className="text">
+                            <input
+                              type="checkbox"
+                              id={item.id.toString()}
+                              checked={selectedInstruments.some(
+                                (selectedItem) => selectedItem.id === item.id
+                              )}
+                              onChange={(event) =>
+                                handleCheckboxChange(event, item)
+                              }
+                            />
+                          </td>
+                        )}
+                      </tr>
+                    );
+                  })
+                : isShowingInstrumentsFiltered &&
+                  isLoading && (
+                    <tr>
+                      <td colSpan={headersList.length + 1} className="text">
+                        Nenhum instrumento selecionado
+                      </td>
+                    </tr>
+                  )}
+
+              {!isShowingInstrumentsFiltered &&
+              instruments !== undefined &&
+              instruments?.length > 0
+                ? instruments?.map((item: GeneralInstrument, index) => {
+                    return (
+                      <tr
+                        key={index}
+                        className="tr-hover"
+                        onClick={() => {max ? handleConfirmMaxOneInstrument(item) : handleRowClick(item)}}
+                      >
+                        <td className="text">
+                          <p className="td-text">{item.code}</p>
+                        </td>
+                        <td>{item.description}</td>
+                        <td>{item.familyId.description}</td>
+                        <td>
+                          {item.nextCalibration
+                            ? formatDate(item.nextCalibration)
+                            : "-"}
+                        </td>
+
+                        {max === undefined && (
+                          <td className="text">
+                            <input
+                              type="checkbox"
+                              id={item.id.toString()}
+                              checked={selectedInstruments.some(
+                                (selectedItem) => selectedItem.id === item.id
+                              )}
+                              onChange={(event) =>
+                                handleCheckboxChange(event, item)
+                              }
+                            />
+                          </td>
+                        )}
+                      </tr>
+                    );
+                  })
+                : !isShowingInstrumentsFiltered && (
+                    <tr>
+                      <td colSpan={headersList.length + 1} className="text">
+                        Nenhum instrumento encontrado
+                      </td>
+                    </tr>
+                  )}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {instruments !== undefined &&
+        instruments.length >= 7 &&
+        hasNextPage &&
+        !isShowingInstrumentsFiltered && (
+          <p className="underline-p" onClick={() => fetchNextFilteredPage()}>
+            carregar mais
+          </p>
+        )}
       {isFetching && (
         <div className="loading-area">
           <RotatingLines
@@ -303,29 +368,38 @@ const ModalSearchInstrument: FC<ModalSearchInstrumentProps> = ({openModal, situa
             ariaLabel="rotating-lines-loading"
             strokeColor="#99aebb"
             width="20"
-
           />
-
         </div>
-      )
-      }
+      )}
 
       <div className="last-modal-section">
-        
-      <p className="underline-p" onClick={() => setIsShowingInstrumentsFiltered(!isShowingInstrumentsFiltered)}>{isShowingInstrumentsFiltered ? "Ver todos" : "Ver instrumentos selecionados"}</p>
-        <button className="btn btn-secondary" onClick={() => {
-          handleConfirmFunction ? handleConfirmFunction(selectedInstruments) : handleConfirmButton()
-        }}>
-          <span className="text button-font">
-
-          Confirmar
-          </span>
-        </button>
-
-
+        {max === undefined && (
+          <>
+            <p
+              className="underline-p"
+              onClick={() =>
+                setIsShowingInstrumentsFiltered(!isShowingInstrumentsFiltered)
+              }
+            >
+              {isShowingInstrumentsFiltered
+                ? "Ver todos"
+                : "Ver instrumentos selecionados"}
+            </p>
+            <button
+              className="btn btn-secondary"
+              onClick={() => {
+                handleConfirmFunction
+                  ? handleConfirmFunction(selectedInstruments)
+                  : handleConfirmButton();
+              }}
+            >
+              <span className="text button-font">Confirmar</span>
+            </button>
+          </>
+        )}
       </div>
-    </Modal >
+    </Modal>
   );
-}
+};
 
 export default ModalSearchInstrument;
