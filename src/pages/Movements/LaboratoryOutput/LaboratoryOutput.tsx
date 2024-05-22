@@ -7,7 +7,7 @@ import {
   SelectInput,
 } from "../../../components";
 import {
-  GeneralInstrument, LaboratoryOutputPost,
+  GeneralInstrument,
 } from "../../../utils/interfaces/Interfaces";
 import { usePostLaboratoryOutput } from "../../../services/useMutation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -20,6 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
 import { formatDate } from "../../Consults/Instrument/InstrumentDetails";
+import { LaboratoryOutputPost } from "../../../utils/interfaces/MovementsInterfaces";
 
 export const LaboratoryOutput = () => {
   // Estados para controlar o estado dos componentes

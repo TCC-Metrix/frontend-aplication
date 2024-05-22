@@ -9,14 +9,10 @@ import {
 } from "../../../components";
 import {
   GeneralInstrument,
-  LaboratoryReturnPost,
-  RootMovement,
-  UseReturnPost,
 } from "../../../utils/interfaces/Interfaces";
 import {
   useGetLastMovementByIdsLabOutput,
   usePostLaboratoryReturn,
-  usePostReturnUse,
 } from "../../../services/useMutation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -30,6 +26,7 @@ import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
 import { formatDate } from "../../Consults/Instrument/InstrumentDetails";
+import { LaboratoryReturnPost, RootMovement } from "../../../utils/interfaces/MovementsInterfaces";
 
 export default function LaboratoryReturn() {
   // Estados para controlar o estado dos componentes
@@ -102,10 +99,16 @@ export default function LaboratoryReturn() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
     setValue,
     getValues,
+    reset,
+    
   } = useForm();
+
+  useEffect(() => {
+    reset({})
+  }, [isSubmitSuccessful])
 
   //Hooks de api
   const postLaboratoryReturn = usePostLaboratoryReturn();
@@ -204,6 +207,14 @@ export default function LaboratoryReturn() {
           if (error) {
             console.error(error);
           }
+          reset(formValues => {
+            console.log(formValues)
+            return ({...formValues})
+          })
+          setValue("calibrationCost", "")
+          
+          
+
         },
       }
     );
@@ -369,7 +380,7 @@ export default function LaboratoryReturn() {
                 register={register}
                 setValue={setValue}
                 getValues={getValues}
-                isRequired={false}
+                isRequired={true}
                 errors={errors}
               />
             </div>

@@ -3,7 +3,7 @@ import {
   useInstrumentById,
   useLastMovementByInstrument,
 } from "../../../services/useFetchData";
-import { RootMovement } from "../../../utils/interfaces/Interfaces";
+import { RootMovement } from "../../../utils/interfaces/MovementsInterfaces";
 import ErrorPage from "../../ErrorPage/ErrorPage";
 import LoadingPage from "../../LoadingPage/LoadingPage";
 import "./InstrumentDetails.css";

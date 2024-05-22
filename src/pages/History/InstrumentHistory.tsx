@@ -21,8 +21,8 @@ function InstrumentHistory() {
   const headersList = [
     "Data de saída",
     "Data de retorno",
-    "Recebido por",
     "Entregue por",
+    "Tecnico/Area",
     "Motivo",
   ];
 
@@ -77,38 +77,26 @@ function InstrumentHistory() {
               <tbody>
                 {viewUses &&
                   movementsData?.map((item) => {
-                    if (item.laboratoryOutput) {
+                    console.log(typeof(item))
+                    if (item.reason === "calibração") {
                       return;
                     }
                     return (
                       <tr className="tr-hover" onClick={() => {}}>
                         <td className="text">
-                          <p className="td-text">
-                            {formatDate(
-                              item.useOutput ? item.useOutput.outputDate : ""
-                            )}
-                          </p>
+                            {formatDate(item.outputDate)}
                         </td>
                         <td className="text">
-                          <p className="td-text">
-                            {item.useReturn
-                              ? formatDate(item.useReturn?.returnDate)
-                              : "-"}
-                          </p>
+                            {item.returnDate ? formatDate(item.returnDate) : "-"}
                         </td>
                         <td className="text">
-                          {item.useOutput?.receivingResponsible
-                            ? item.useOutput.receivingResponsible.name
-                            : item.useOutput?.receivingArea.description}
+                            {item.shippedBy ? item.shippedBy : "-"}
                         </td>
                         <td className="text">
-                          {item.useOutput?.shippingResponsible.name}
+                            {item.receivedBy}
                         </td>
                         <td className="text">
-                          {item.movement.type === "USE_OUTPUT" ||
-                          item.movement.type === "USE_RETURN"
-                            ? "Uso interno"
-                            : ""}
+                            {item.reason}
                         </td>
                       </tr>
                     );
@@ -116,36 +104,25 @@ function InstrumentHistory() {
 
                 {!viewUses &&
                   movementsData?.map((item, index) => {
-                    if(item.useOutput){
+                    if(item.reason === "uso interno"){
                       return
                     }
                     return (
                       <tr className="tr-hover" key={index} onClick={() => {}}>
                         <td className="text">
-                          <p className="td-text">
-                            {item.laboratoryOutput?.outputDate}
-                           
-                          </p>
+                          {formatDate(item.outputDate)}
                         </td>
                         <td className="text">
-                          <p className="td-text">
-                           -
-                          </p>
+                          {item.calibrationDate ? formatDate(item.calibrationDate) : "-"}
                         </td>
                         <td className="text">
-                          <p className="td-text">
-                           -
-                          </p>
+                          {item.certificateNumber ? item.certificateNumber : "-"}
                         </td>
                         <td className="text">
-                          <p className="td-text">
-                           {item.laboratoryOutput?.motive === "REPAIR" ? "conserto" : "calibração"}
-                          </p>
+                          {item.reason}
                         </td>
                         <td className="text">
-                          <p className="td-text">
-                          {item.laboratoryOutput?.laboratory.description}
-                          </p>
+                          {item.laboratory ? item.laboratory : "-"}
                         </td>
                       </tr>
                     );

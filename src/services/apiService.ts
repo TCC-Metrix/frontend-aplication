@@ -4,7 +4,6 @@ import {
 	GeneralEmployee,
 	GeneralInstrument,
 	SearchPattern,
-	UsePost,
 	Family,
 	AreaRegisterPost,
 	LaboratoryRegisterPost,
@@ -13,16 +12,14 @@ import {
   FamilyRegisterPost,
 	SupplierRegisterPost,
 	RootFilter,
-	RootMovement,
 	GeneralSupplier,
-	UseReturnPost,
+
 	GeneralLaboratory,
-	MovUseOutputData,
-	LaboratoryOutputPost,
-	LaboratoryReturnPost,
+
 
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
+import { HistoryMovement, LaboratoryOutputPost, LaboratoryReturnPost, MovUseOutputData, RootMovement, UseMovement, UsePost, UseReturnPost } from "../utils/interfaces/MovementsInterfaces";
 
 
 interface InstrumentsFiltered {
@@ -112,7 +109,7 @@ export const getLaboratoryFiltered = async (data: FieldValues) => {
 
 //GET - Retorna as movimentações pelo ID do instrumento
 export const getAllMovements = async (id: string) => {
-	return (await instance.get<RootMovement[]>(`movement/filter/instrument/${id}`)).data;
+	return (await instance.get<HistoryMovement[]>(`movement/filter/instrument/${id}`)).data;
 };
 
 //POST - Função para retornar os instrumentos de acordo com os filtros selecionados
