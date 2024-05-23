@@ -56,7 +56,7 @@ function ConsultEmployee() {
               register={register}
               inputName="value"
               inputPlaceholder={`Busque por ${
-                watch("column") === "code" ? "nome" : "edv"
+                watch("column") === "name" ? "nome" : "edv"
               }`}
               inputStyle="classe-large"
               isRequired={false}
