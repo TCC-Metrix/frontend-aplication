@@ -7,7 +7,6 @@ import {
 } from "../../../components";
 import {
 	GeneralInstrument,
-	UsePost,
 } from "../../../utils/interfaces/Interfaces";
 import {
 	usePostOutputUse,
@@ -21,6 +20,7 @@ import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
+import { UsePost } from "../../../utils/interfaces/MovementsInterfaces";
 
 export const MoveUseOutput = () => {
 	// Estados para controlar o estado dos componentes
