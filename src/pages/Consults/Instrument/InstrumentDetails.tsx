@@ -1,6 +1,7 @@
 import { Button } from "../../../components";
 import {
   useInstrumentById,
+  useLastCalibrationByInstrument,
   useLastMovementByInstrument,
 } from "../../../services/useFetchData";
 import { RootMovement } from "../../../utils/interfaces/MovementsInterfaces";
@@ -48,7 +49,7 @@ export const DetailItemMov = (lastMovementData: DetailItemMovProps) => {
         </div>
         <div className="detail-area">
           <p className="detail-subtitle">data de retorno</p>
-          <p className="detail-content">{lastMovementData.mov.useReturn ? formatDate(lastMovementData.mov.useReturn.returnDate) : "-"}</p>  {/*//arrumar para o retorno lab depois */}
+          <p className="detail-content">{lastMovementData.mov.useReturn ? formatDate(lastMovementData.mov.useReturn.returnDate) : lastMovementData.mov.laboratoryReturn ? formatDate(lastMovementData.mov.laboratoryReturn.returnDate) : "-"}</p>  {/*//arrumar para o retorno lab depois */}
         </div>
         <div className="detail-area">
           <p className="detail-subtitle">motivo</p>
@@ -56,7 +57,7 @@ export const DetailItemMov = (lastMovementData: DetailItemMovProps) => {
         </div>
         <div className="detail-area">
           <p className="detail-subtitle">colaborador</p>
-          <p className="detail-content">{lastMovementData.mov.useOutput && lastMovementData.mov.useOutput.receivingResponsible ? lastMovementData.mov.useOutput.receivingResponsible.name : "-"}</p>
+          <p className="detail-content">{lastMovementData.mov.useOutput && lastMovementData.mov.useOutput.receivingResponsible ? lastMovementData.mov.useOutput.receivingResponsible.name : lastMovementData.mov.laboratoryOutput ? lastMovementData.mov.laboratoryOutput.shippingResponsible.name : "-"}</p>
         </div>
         <div className="detail-area">
           <p className="detail-subtitle">laboratório</p>
@@ -96,6 +97,15 @@ const InstrumentDetails: React.FC = () => {
     error: lastMovementError,
   } = useLastMovementByInstrument(id);
 
+  const {
+    data: lastCalibrationData,
+    isLoading: isLastCalibrationLoading,
+    error: lastCalibrationError,
+  } = useLastCalibrationByInstrument(id);
+
+
+  console.log(lastCalibrationData)
+
   const navigate = useNavigate();
 
 
@@ -133,8 +143,8 @@ const InstrumentDetails: React.FC = () => {
     return "";
   };
 
-  if (isLoading || isLastMovementLoading) return <LoadingPage />;
-  if (error || lastMovementError) return <ErrorPage />;
+  if (isLoading || isLastMovementLoading || isLastCalibrationLoading) return <LoadingPage />;
+  if (error || lastMovementError || lastCalibrationError ) return <ErrorPage />;
 
   return (
     data && (
@@ -272,19 +282,18 @@ const InstrumentDetails: React.FC = () => {
               <h1 className="detail-title">ÚLTIMA CALIBRAÇÃO</h1>
               <div className="details-section">
                 <DetailItem
-                  subtitle="data de aquisição"
-                  content={formatDate(data.acquisitionDate)}
-                />
-                <DetailItem subtitle="inventário" content={data.inventory} />
-                <DetailItem
-                  subtitle="fornecedor"
-                  content={data.supplier !== null ? data.supplier.name : "-"}
+                  subtitle="data de calibração"
+                  content={lastCalibrationData && formatDate(lastCalibrationData.calibrationDate ? lastCalibrationData.calibrationDate : "-")}
                 />
                 <DetailItem
-                  subtitle="custo de aquisição"
-                  content={data.acquisitionCost}
+                  subtitle="laboratório"
+                  content={lastCalibrationData && lastCalibrationData.laboratory ? lastCalibrationData.laboratory : "-"}
                 />
-                <DetailItem subtitle="num. série" content={data.serieNumber} />
+                <DetailItem
+                  subtitle="Numero certificado"
+                  content={lastCalibrationData && lastCalibrationData.certificateNumber ? lastCalibrationData.certificateNumber : "-"}
+                />
+                <DetailItem subtitle="Conclusão" content={(lastCalibrationData && lastCalibrationData.conclusion) ? lastCalibrationData.conclusion === "compliant" ? "conforme" : lastCalibrationData.conclusion === "non conformity" ? "não conforme" : "-" : "-" } />
               </div>
             </section>
 

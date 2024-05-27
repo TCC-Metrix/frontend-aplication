@@ -159,7 +159,6 @@ function ConsultInstrument() {
       console.log("entrou")
       console.log(instruments)
       instrumentsFiltered = instruments;
-      // return
     }
 
 

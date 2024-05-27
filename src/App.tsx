@@ -51,8 +51,7 @@ function App() {
 		if (location.pathname === previousLocation.current.pathname) {
 			//   window.location.reload();
 		} else if (
-			location.pathname === "/movement/use/output" ||
-			location.pathname === "/movement/use/return"
+			location.pathname.includes("movement")
 		) {
 			window.location.reload();
 		}

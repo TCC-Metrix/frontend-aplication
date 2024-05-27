@@ -454,44 +454,9 @@ const UpdateInstrument: React.FC = () => {
                 )}
               </div>
             </section>
-            {lastMovementData ? (
-              <section className="other-details-section">
-                <h1 className="detail-title">ÚLTIMA MOVIMENTAÇÃO</h1>
-                <DetailItemMov mov={lastMovementData}/>
-              </section>
-            ) : (
-              <section className="other-details-section">
-                <h1 className="detail-title">ÚLTIMA MOVIMENTAÇÃO</h1>
-                <div className="details-section">
-                  <DetailItem subtitle="data de saída" content={"-"} />
-                  <DetailItem subtitle="data de retorno" content={"-"} />
-                  <DetailItem subtitle="motivo" content={"-"} />
-                  <DetailItem subtitle="colaborador" content={"-"} />
-                  <DetailItem subtitle="laboratório" content={"-"} />
-                  <DetailItem subtitle="área" content={"-"} />
-                </div>
-              </section>
-            )}
 
-            <section className="other-details-section">
-              <h1 className="detail-title">ÚLTIMA CALIBRAÇÃO</h1>
-              <div className="details-section">
-                <DetailItem
-                  subtitle="data de aquisição"
-                  content={formatDate(data.acquisitionDate)}
-                />
-                <DetailItem subtitle="inventário" content={data.inventory} />
-                <DetailItem
-                  subtitle="fornecedor"
-                  content={data.acquisitionDate}
-                />
-                <DetailItem
-                  subtitle="custo de aquisição"
-                  content={data.acquisitionCost}
-                />
-                <DetailItem subtitle="num. série" content={data.serieNumber} />
-              </div>
-            </section>
+
+
 
             <section className="other-details-section">
             <div

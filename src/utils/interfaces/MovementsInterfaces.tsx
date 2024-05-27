@@ -5,6 +5,7 @@ export interface RootMovement {
 	useOutput?: UseOutput
 	useReturn?: UseReturn,
 	laboratoryOutput?: LaboratoryOutput
+	laboratoryReturn?: LaboratoryReturn
   }
 
 
@@ -116,7 +117,18 @@ export interface InstrumentUseOutput {
     certificateNumber?: any; // Propriedade opcional
     reason: string;
     laboratory?: string; // Propriedade opcional
+	conclusion?: string;
   }
 
   
-
+  export interface LaboratoryReturn {
+	id: string
+	movement: string
+	calibrationCost: string
+	certificateNumber: string
+	certificatePath: string
+	conclusion: string
+	returnResponsible: GeneralEmployee
+	returnDate: string
+	calibrationDate: string
+  }

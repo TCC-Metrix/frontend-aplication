@@ -29,15 +29,12 @@ import { formatDate } from "../../Consults/Instrument/InstrumentDetails";
 import { LaboratoryReturnPost, RootMovement } from "../../../utils/interfaces/MovementsInterfaces";
 
 export default function LaboratoryReturn() {
-  // Estados para controlar o estado dos componentes
   const [isLoadingPostLaboratoryOutput, setIsLoadingPostLaboratoryOutput] =
     useState<boolean>(false);
   const [tableMainPage, setTableMainPage] = useState<GeneralInstrument[]>([]);
   const [movementData, setMovementData] = useState<RootMovement[] | undefined>(
     []
   );
-  const [isLoadingLaboratoryOutputData, setIsLoadingLaboratoryOutputData] =
-    useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isReloaded, setIsReloaded] = useState<boolean>(false);
 
@@ -72,7 +69,6 @@ export default function LaboratoryReturn() {
 
   //Abre o modal
   const handleModal = () => {
-    // setIsPopupActive(true);
     setOpenModal(true);
   };
 
@@ -197,12 +193,10 @@ export default function LaboratoryReturn() {
   }
 
   const handleConfirmFunction = (selectedInstruments: GeneralInstrument[]) => {
-    setIsLoadingLaboratoryOutputData(true);
     getMovementByIds.mutate(
       selectedInstruments.map((instrument) => instrument.id),
       {
         onSettled(data, error) {
-          setIsLoadingLaboratoryOutputData(false);
           setMovementData(data?.data);
           if (error) {
             console.error(error);
@@ -227,11 +221,7 @@ export default function LaboratoryReturn() {
       <div className="container-main">
         <div>
           <h1 className="header-three">Retorno de laboratório</h1>
-        </div>
-
-        <div className="form-section-container">
-          <div>
-            <h3>Instrumento</h3>
+          <h3>Instrumento</h3>
             <button
               className="btn btn-tertiary"
               onClick={handleModal}
@@ -239,6 +229,11 @@ export default function LaboratoryReturn() {
             >
               <span className="text button-font">Buscar instrumento</span>
             </button>
+        </div>
+
+        <div className="form-section-container">
+          <div>
+
             <div
               style={{
                 display: "flex",

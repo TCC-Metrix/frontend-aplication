@@ -19,7 +19,7 @@ import {
 
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
-import { HistoryMovement, LaboratoryOutputPost, LaboratoryReturnPost, MovUseOutputData, RootMovement, UseMovement, UsePost, UseReturnPost } from "../utils/interfaces/MovementsInterfaces";
+import { HistoryMovement, LaboratoryOutputPost, LaboratoryReturnPost, MovUseOutputData, RootMovement, UsePost, UseReturnPost } from "../utils/interfaces/MovementsInterfaces";
 
 
 interface InstrumentsFiltered {
@@ -65,6 +65,9 @@ export const getInstrumentsFiltered = async (pageParam = 0, status: string, situ
 
 export const getLastMovement = async (id: string) => {
 	return (await instance.get<RootMovement>(`movement/last?id=${id}`)).data
+}
+export const getLastCalibration = async (id: string) => {
+	return (await instance.get<HistoryMovement>(`movement/calibration/last?id=${id}`)).data
 }
 
 

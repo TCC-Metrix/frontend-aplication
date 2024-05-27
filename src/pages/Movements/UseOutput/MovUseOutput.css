@@ -3,14 +3,6 @@ main {
 	justify-content: center;
 }
 
-.container-main {
-    flex-direction: column;
-    width: 80%;
-    max-width: 1440px;
-    margin-top: 7%;
-    display: flex;
-    gap: 3rem;
-}
 
 .mov-info {
     width: 52%;

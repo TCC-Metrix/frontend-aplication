@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById, getEmployeeFiltered, getEmployeeById, getSupplierFiltered, getLaboratories, getLaboratoryFiltered, getLaboratoryById, getSupplierById } from "./apiService";
+import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById, getEmployeeFiltered, getEmployeeById, getSupplierFiltered, getLaboratories, getLaboratoryFiltered, getLaboratoryById, getSupplierById, getLastCalibration } from "./apiService";
 import { FieldValues } from "react-hook-form";
 
 
@@ -145,6 +145,13 @@ export function useLastMovementByInstrument(id: string | undefined) {
   return useQuery({
     queryKey: ["last-movement", id],
     queryFn: () => getLastMovement(id!),
+    refetchOnWindowFocus: false,
+  })
+}
+export function useLastCalibrationByInstrument(id: string | undefined) {
+  return useQuery({
+    queryKey: ["last-calibration", id],
+    queryFn: () => getLastCalibration(id!),
     refetchOnWindowFocus: false,
   })
 }
