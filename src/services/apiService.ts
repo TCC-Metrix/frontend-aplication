@@ -4,7 +4,6 @@ import {
 	GeneralEmployee,
 	GeneralInstrument,
 	SearchPattern,
-	UsePost,
 	Family,
 	AreaRegisterPost,
 	LaboratoryRegisterPost,
@@ -13,16 +12,14 @@ import {
   FamilyRegisterPost,
 	SupplierRegisterPost,
 	RootFilter,
-	RootMovement,
 	GeneralSupplier,
-	UseReturnPost,
+
 	GeneralLaboratory,
-	MovUseOutputData,
-	GeneralLaboratory,
-	LaboratoryPost,
+
 
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
+import { HistoryMovement, LaboratoryOutputPost, LaboratoryReturnPost, MovUseOutputData, RootMovement, UsePost, UseReturnPost } from "../utils/interfaces/MovementsInterfaces";
 
 
 interface InstrumentsFiltered {
@@ -64,13 +61,13 @@ export const getInstrumentsFiltered = async (pageParam = 0, status: string, situ
 	return (await instance.get<RootFilter>(`/instrument/deepfilter?status=${status === "todos" ? "" : status}&situation=${situation === "todos" ? "" : situation}&column=${column}&value=${value}&sortedBy=${sortedBy}&page=${pageParam}&size=20`)).data;
 };
 
-export const getLaboratories = async () => {
-	return (await instance.get<GeneralLaboratory[]>("laboratory/all")).data;
-};
 
 
 export const getLastMovement = async (id: string) => {
 	return (await instance.get<RootMovement>(`movement/last?id=${id}`)).data
+}
+export const getLastCalibration = async (id: string) => {
+	return (await instance.get<HistoryMovement>(`movement/calibration/last?id=${id}`)).data
 }
 
 
@@ -115,7 +112,7 @@ export const getLaboratoryFiltered = async (data: FieldValues) => {
 
 //GET - Retorna as movimentações pelo ID do instrumento
 export const getAllMovements = async (id: string) => {
-	return (await instance.get<RootMovement[]>(`movement/filter/instrument/${id}`)).data;
+	return (await instance.get<HistoryMovement[]>(`movement/filter/instrument/${id}`)).data;
 };
 
 //POST - Função para retornar os instrumentos de acordo com os filtros selecionados
@@ -135,8 +132,11 @@ export const postOutputUse = async (data: UsePost) => {
 };
 
 
-export const postLaboratoryOutput = async (data: LaboratoryPost) => {
-	return instance.post<LaboratoryPost>("laboratory_output", data);
+export const postLaboratoryOutput = async (data: LaboratoryOutputPost) => {
+	return instance.post<LaboratoryOutputPost>("laboratory_output", data);
+};
+export const postLaboratoryReturn = async (data: LaboratoryReturnPost) => {
+	return instance.post<LaboratoryReturnPost>("laboratory_return", data);
 };
 
 export const postReturnUse = async (data: UseReturnPost) => {

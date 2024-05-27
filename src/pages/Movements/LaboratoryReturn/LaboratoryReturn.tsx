@@ -9,12 +9,10 @@ import {
 } from "../../../components";
 import {
   GeneralInstrument,
-  RootMovement,
-  UseReturnPost,
 } from "../../../utils/interfaces/Interfaces";
 import {
   useGetLastMovementByIdsLabOutput,
-  usePostReturnUse,
+  usePostLaboratoryReturn,
 } from "../../../services/useMutation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -28,17 +26,15 @@ import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
 import { formatDate } from "../../Consults/Instrument/InstrumentDetails";
+import { LaboratoryReturnPost, RootMovement } from "../../../utils/interfaces/MovementsInterfaces";
 
 export default function LaboratoryReturn() {
-  // Estados para controlar o estado dos componentes
   const [isLoadingPostLaboratoryOutput, setIsLoadingPostLaboratoryOutput] =
     useState<boolean>(false);
   const [tableMainPage, setTableMainPage] = useState<GeneralInstrument[]>([]);
   const [movementData, setMovementData] = useState<RootMovement[] | undefined>(
     []
   );
-  const [isLoadingLaboratoryOutputData, setIsLoadingLaboratoryOutputData] =
-    useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isReloaded, setIsReloaded] = useState<boolean>(false);
 
@@ -73,7 +69,6 @@ export default function LaboratoryReturn() {
 
   //Abre o modal
   const handleModal = () => {
-    // setIsPopupActive(true);
     setOpenModal(true);
   };
 
@@ -100,13 +95,19 @@ export default function LaboratoryReturn() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
     setValue,
     getValues,
+    reset,
+    
   } = useForm();
 
+  useEffect(() => {
+    reset({})
+  }, [isSubmitSuccessful])
+
   //Hooks de api
-  const postReturnUseMutation = usePostReturnUse();
+  const postLaboratoryReturn = usePostLaboratoryReturn();
   const {
     data: allEmployees,
     isLoading: isLoadingEmployees,
@@ -114,9 +115,9 @@ export default function LaboratoryReturn() {
   } = useAllEmployees();
   const getMovementByIds = useGetLastMovementByIdsLabOutput();
 
-  const handlePostLaboratoryOutput: SubmitHandler<UseReturnPost> = (data) => {
+  const handlePostLaboratoryReturn: SubmitHandler<LaboratoryReturnPost> = (data) => {
     setIsLoadingPostLaboratoryOutput(true);
-    postReturnUseMutation.mutate(data, {
+    postLaboratoryReturn.mutate(data, {
       onSettled: (_, error) => {
         if (error && request.isAxiosError(error)) {
           setIsLoadingPostLaboratoryOutput(false);
@@ -171,12 +172,15 @@ export default function LaboratoryReturn() {
     //   return;
     // }
 
-    handlePostLaboratoryOutput({
-      instrumentIds: idsList,
-      shippingResponsible: data.shippingResponsible,
-      receivingResponsible: data.receivingResponsible,
-      shippingArea: data.shippingArea,
+    handlePostLaboratoryReturn({
+      calibrationCost: data.calibrationCost,
+      calibrationDate: data.calibrationDate,
+      certificateNumber: data.certificateNumber,
+      certificatePath: data.certificatePath,
+      conclusion: data.conclusion,
       returnDate: data.returnDate,
+      returnResponsible: data.returnResponsible,
+      movement: movementData ? movementData[0].movement.id :  ""
     });
   };
 
@@ -189,16 +193,22 @@ export default function LaboratoryReturn() {
   }
 
   const handleConfirmFunction = (selectedInstruments: GeneralInstrument[]) => {
-    setIsLoadingLaboratoryOutputData(true);
     getMovementByIds.mutate(
       selectedInstruments.map((instrument) => instrument.id),
       {
         onSettled(data, error) {
-          setIsLoadingLaboratoryOutputData(false);
           setMovementData(data?.data);
           if (error) {
             console.error(error);
           }
+          reset(formValues => {
+            console.log(formValues)
+            return ({...formValues})
+          })
+          setValue("calibrationCost", "")
+          
+          
+
         },
       }
     );
@@ -211,11 +221,7 @@ export default function LaboratoryReturn() {
       <div className="container-main">
         <div>
           <h1 className="header-three">Retorno de laboratório</h1>
-        </div>
-
-        <div className="form-section-container">
-          <div>
-            <h3>Instrumento</h3>
+          <h3>Instrumento</h3>
             <button
               className="btn btn-tertiary"
               onClick={handleModal}
@@ -223,6 +229,11 @@ export default function LaboratoryReturn() {
             >
               <span className="text button-font">Buscar instrumento</span>
             </button>
+        </div>
+
+        <div className="form-section-container">
+          <div>
+
             <div
               style={{
                 display: "flex",
@@ -357,14 +368,14 @@ export default function LaboratoryReturn() {
               />
               <BasicInputFilter
                 inputStyle="classe-little"
-                inputId="receivingResponsible"
-                inputName="receivingResponsibleDescription"
+                inputId="returnResponsible"
+                inputName="returnResponsibleDescription"
                 items={allEmployees}
                 inputPlaceholder="responsável retorno"
                 register={register}
                 setValue={setValue}
                 getValues={getValues}
-                isRequired={false}
+                isRequired={true}
                 errors={errors}
               />
             </div>
