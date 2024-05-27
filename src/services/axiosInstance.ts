@@ -4,7 +4,7 @@ import { loginRequest } from "../authSSO/authConfig";
 import { AuthenticationResult } from "@azure/msal-common";
 
 //URL em que fazemos as requisições da API
-const API_URL = "http://10.234.90.186:8081/api/v1/";
+const API_URL = "http://10.109.71.12:8081/api/v1/";
 
 
 
@@ -14,32 +14,32 @@ const instance = axios.create({
 });
 
 
-async function acquireToken(
-  config: InternalAxiosRequestConfig
-): Promise<InternalAxiosRequestConfig> {
-  try {
-    const tokenResponse: AuthenticationResult = await msalInstance.acquireTokenSilent(loginRequest);
-    const token = tokenResponse.idToken;
-    config.headers.Authorization = `Bearer ${token}`
-    return config;
-  } catch (error) {
-    if (error) {
-      // Se ocorrer um erro que requer interação do usuário, redirecione para autenticação interativa
-      console.log("deu erro")
-      await msalInstance.acquireTokenRedirect(loginRequest);
-    } else {
-      // Lida com outros erros de forma apropriada
-      console.error("Erro ao adquirir token:", error);
-      throw error; // Lança o erro para ser tratado pelo chamador
-    }
+// async function acquireToken(
+//   config: InternalAxiosRequestConfig
+// ): Promise<InternalAxiosRequestConfig> {
+//   try {
+//     const tokenResponse: AuthenticationResult = await msalInstance.acquireTokenSilent(loginRequest);
+//     const token = tokenResponse.idToken;
+//     config.headers.Authorization = `Bearer ${token}`
+//     return config;
+//   } catch (error) {
+//     if (error) {
+//       // Se ocorrer um erro que requer interação do usuário, redirecione para autenticação interativa
+//       console.log("deu erro")
+//       await msalInstance.acquireTokenRedirect(loginRequest);
+//     } else {
+//       // Lida com outros erros de forma apropriada
+//       console.error("Erro ao adquirir token:", error);
+//       throw error; // Lança o erro para ser tratado pelo chamador
+//     }
 
-    // Retorna o objeto de configuração original para garantir que o encadeamento da solicitação continue
-    return config;
-  }
-}
+//     // Retorna o objeto de configuração original para garantir que o encadeamento da solicitação continue
+//     return config;
+//   }
+// }
 
 
-instance.interceptors.request.use(acquireToken);
+// instance.interceptors.request.use(acquireToken);
 
 export default instance;
 

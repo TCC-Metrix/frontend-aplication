@@ -62,7 +62,7 @@ function ConsultSupplier() {
 								register={register}
 								inputName="value"
 								inputPlaceholder={`Busque por ${
-									watch("column") === "nome" ? "nome" : "cnpj"
+									watch("column") === "name" ? "nome" : "cnpj"
 								}`}
 								inputStyle="classe-large"
 								isRequired={false}
