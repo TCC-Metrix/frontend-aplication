@@ -169,9 +169,18 @@ function ConsultInstrument() {
 			// return
 		}
 
-		if (data.status === "" && data.situation === "") {
-			return;
-		}
+  const handleSubmitSearch = async (data: FieldValues) => {
+    console.log(data)
+    if (
+      data.status === "todos" &&
+      data.situation === "todos" &&
+      data.sortedBy === "desc" &&
+      data.value === ""
+    ) {
+      console.log("entrou")
+      console.log(instruments)
+      instrumentsFiltered = instruments;
+    }
 
 		filterData.enabled = true;
 

@@ -1,24 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-	getArea,
-	getEmployees,
-	getInstrumentById,
-	getInstruments,
-	getFamilies,
-	getSuppliers,
-	getInstrumentsFiltered,
-	getLastMovement,
-	getAllMovements,
-	getFamilyFiltered,
-	getFamilyById,
-	getEmployeeFiltered,
-	getEmployeeById,
-	getSupplierFiltered,
-	getLaboratories,
-	getLaboratoryFiltered,
-	getLaboratoryById,
-	getSupplierById,
-} from "./apiService";
+import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById, getEmployeeFiltered, getEmployeeById, getSupplierFiltered, getLaboratories, getLaboratoryFiltered, getLaboratoryById, getSupplierById, getLastCalibration } from "./apiService";
 import { FieldValues } from "react-hook-form";
 
 //Retorna todos os instrumentos da API
@@ -165,25 +146,18 @@ export function useLastMovementByInstrument(id: string | undefined) {
 	});
 }
 
-export function useInstrumentDeepFiltered(
-	pageParam = 0,
-	status: string,
-	situation: string,
-	column: string,
-	value: string,
-	sortedBy: string
-) {
-	return useQuery({
-		queryKey: ["instrumentFiltered"],
-		queryFn: () =>
-			getInstrumentsFiltered(
-				pageParam,
-				status,
-				situation,
-				column,
-				value,
-				sortedBy
-			),
-		refetchOnWindowFocus: false,
-	});
+export function useLastCalibrationByInstrument(id: string | undefined) {
+  return useQuery({
+    queryKey: ["last-calibration", id],
+    queryFn: () => getLastCalibration(id!),
+    refetchOnWindowFocus: false,
+  })
+}
+
+export function useInstrumentDeepFiltered(pageParam = 0, status: string, situation: string, column: string, value: string, sortedBy: string){
+  return useQuery({
+    queryKey: ["instrumentFiltered"],
+    queryFn: () => getInstrumentsFiltered(pageParam , status, situation, column, value, sortedBy),
+    refetchOnWindowFocus: false,
+  })
 }

@@ -8,7 +8,6 @@ import {
 } from "../../../components";
 import {
   GeneralInstrument,
-  LaboratoryPost,
 } from "../../../utils/interfaces/Interfaces";
 import { usePostLaboratoryOutput } from "../../../services/useMutation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -21,6 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
 import { formatDate } from "../../Consults/Instrument/InstrumentDetails";
+import { LaboratoryOutputPost } from "../../../utils/interfaces/MovementsInterfaces";
 
 export const LaboratoryOutput = () => {
   // Estados para controlar o estado dos componentes
@@ -92,7 +92,7 @@ export const LaboratoryOutput = () => {
     isError: isErrorLaboratories,
   } = useAllLaboratories(); //busca todas as áreas
 
-  const handlePostLaboratoryOutput: SubmitHandler<LaboratoryPost> = (data) => {
+  const handlePostLaboratoryOutput: SubmitHandler<LaboratoryOutputPost> = (data) => {
     setIsLoadingPost(true);
     postLaboratoryOutput.mutate(data, {
       onSettled: (_, error) => {

@@ -50,8 +50,7 @@ function App() {
 		if (location.pathname === previousLocation.current.pathname) {
 			//   window.location.reload();
 		} else if (
-			location.pathname === "/movement/use/output" ||
-			location.pathname === "/movement/use/return"
+			location.pathname.includes("movement")
 		) {
 			window.location.reload();
 		}
@@ -304,40 +303,49 @@ function App() {
 						</ProtectedRoute>
 					}
 				></Route>
-				<Route
-					path="/consult/area"
-					element={
-						<ProtectedRoute>
-							<ConsultArea />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="movement/laboratory/output"
-					element={
-						<ProtectedRoute>
-							<LaboratoryOutput />
-						</ProtectedRoute>
-					}
-				></Route>
+<Route
+          path="/consult/area"
+          element={
+            <ProtectedRoute>
+              <ConsultArea />
+            </ProtectedRoute>
+          }
+        ></Route>
+      <Route
+          path="movement/laboratory/output"
+          element={
+            <ProtectedRoute>
+              <LaboratoryOutput />
+            </ProtectedRoute>
+          }
+        ></Route>
+        
+      <Route
+          path="movement/laboratory/return"
+          element={
+            <ProtectedRoute>
+              <LaboratoryReturn />
+            </ProtectedRoute>
+          }
+        ></Route>
+        
+        <Route
+          path="/consult/supplier"
+          element={
+            <ProtectedRoute>
+              <ConsultSupplier />
+            </ProtectedRoute>
+          }
+        ></Route>
+        {/* <Route
+          path="/consult/laboratory"
+          element={
+            <ProtectedRoute>
+              <ConsultLaboratory />
+            </ProtectedRoute>
+          }
+        ></Route> */}
 
-				<Route
-					path="movement/laboratory/return"
-					element={
-						<ProtectedRoute>
-							<LaboratoryReturn />
-						</ProtectedRoute>
-					}
-				></Route>
-
-				<Route
-					path="/consult/supplier"
-					element={
-						<ProtectedRoute>
-							<ConsultSupplier />
-						</ProtectedRoute>
-					}
-				></Route>
 			</Routes>
 			<ToastContainer />
 		</>
