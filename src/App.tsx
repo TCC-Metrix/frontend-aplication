@@ -37,7 +37,6 @@ import UpdateSupplier from "./pages/Update/Supplier/UpdateSupplier";
 import LaboratoryReturn from "./pages/Movements/LaboratoryReturn/LaboratoryReturn";
 import ConsultLaboratory from "./pages/Consults/Laboratory/ConsultLaboratory";
 
-
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
@@ -351,7 +350,6 @@ function App() {
 			<ToastContainer />
 		</>
 	);
-        
 }
 
 export default App;

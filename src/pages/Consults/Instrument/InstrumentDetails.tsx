@@ -1,4 +1,5 @@
 import { Button } from "../../../components";
+import { useNavbarStore } from "../../../store";
 import {
   useInstrumentById,
   useLastCalibrationByInstrument,
@@ -11,33 +12,32 @@ import "./InstrumentDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface DetailItemProps {
-  subtitle: string;
-  content: string | number | undefined;
+	subtitle: string;
+	content: string | number | undefined;
 }
 
 interface AdditionalReferencesProps {
-  references: string[];
+	references: string[];
 }
 interface DetailItemMovProps {
-  mov: RootMovement | undefined;
+	mov: RootMovement | undefined;
 }
 
 const DetailItem: React.FC<DetailItemProps> = ({ subtitle, content }) => (
-  <div className="detail-area">
-    <p className="detail-subtitle">{subtitle}</p>
-    <p className="detail-content">{content ? content : "-"}</p>
-  </div>
+	<div className="detail-area">
+		<p className="detail-subtitle">{subtitle}</p>
+		<p className="detail-content">{content ? content : "-"}</p>
+	</div>
 );
 
+const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 
 export const formatDate = (date: string) => {
-
-  // Separe o ano, mês e dia
-  const [ano, mes, dia] = date.split("-");
-  // Retorne a data no formato DD/MM/YYYY
-  return `${dia}/${mes}/${ano}`;
+	// Separe o ano, mês e dia
+	const [ano, mes, dia] = date.split("-");
+	// Retorne a data no formato DD/MM/YYYY
+	return `${dia}/${mes}/${ano}`;
 };
-
 
 export const DetailItemMov = (lastMovementData: DetailItemMovProps) => {
   if (lastMovementData.mov !== undefined) {
@@ -74,17 +74,17 @@ export const DetailItemMov = (lastMovementData: DetailItemMovProps) => {
 };
 
 const AdditionalReferences: React.FC<AdditionalReferencesProps> = ({
-  references,
+	references,
 }) => (
-  <>
-    {references.map((item, index) => (
-      <DetailItem
-        key={index}
-        subtitle={`referência adicional ${index + 1}`}
-        content={item}
-      />
-    ))}
-  </>
+	<>
+		{references.map((item, index) => (
+			<DetailItem
+				key={index}
+				subtitle={`referência adicional ${index + 1}`}
+				content={item}
+			/>
+		))}
+	</>
 );
 
 const InstrumentDetails: React.FC = () => {

@@ -62,7 +62,7 @@ function ConsultLaboratory() {
                 register={register}
                 inputName="value"
                 inputPlaceholder={`Busque por ${
-                  watch("column") === "nome" ? "nome" : "código cal"
+                  watch("column") === "name" ? "nome" : "código cal"
                 }`}
                 inputStyle="classe-large"
                 isRequired={false}
