@@ -32,7 +32,6 @@ function UpdateEmployee() {
     register,
     formState: { errors },
     handleSubmit,
-    setValue
   } = useForm({ defaultValues: initialValues });
 
   const notify = (type: string, message?: string) => {
@@ -124,7 +123,13 @@ function UpdateEmployee() {
             <Button
               className="btn btn-md btn-primary-red"
               onClickFunction={() => {
-                navigate(`/edit/employee/${employeeData?.id}`)
+                const confirmed = window.confirm(
+                  "Tem certeza que deseja sair desta página? Se sair, suas alterações não serão salvas."
+                );
+                if (confirmed) {
+                  navigate(`/consult/employee/${employeeData?.id}`);
+                } else {
+                }
               }}
             >
               Cancelar

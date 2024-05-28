@@ -155,7 +155,13 @@ function UpdateFamily() {
             <Button
               className="btn btn-md btn-primary-red"
               onClickFunction={() => {
-                navigate(`/edit/family/${familyData?.id}`);
+                const confirmed = window.confirm(
+                  "Tem certeza que deseja sair desta página? Se sair, suas alterações não serão salvas."
+                );
+                if (confirmed) {
+                  navigate(`/consult/family/${familyData?.id}`);
+                } else {
+                }
               }}
             >
               Cancelar
