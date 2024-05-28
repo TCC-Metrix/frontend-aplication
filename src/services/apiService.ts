@@ -13,10 +13,7 @@ import {
 	SupplierRegisterPost,
 	RootFilter,
 	GeneralSupplier,
-	UseReturnPost,
-	MovUseOutputData,
 	GeneralLaboratory,
-	LaboratoryPost,
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
 import { HistoryMovement, LaboratoryOutputPost, LaboratoryReturnPost, MovUseOutputData, RootMovement, UsePost, UseReturnPost } from "../utils/interfaces/MovementsInterfaces";
