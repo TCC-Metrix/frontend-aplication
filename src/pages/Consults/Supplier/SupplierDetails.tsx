@@ -41,7 +41,16 @@ function SupplierDetails() {
 							</p>
 						</div>
 					</div>
-					<div style={{ marginTop: "50px", width: "fit-content" }}>
+					<div style={{ display: "flex", marginTop: "50px", width: "fit-content", gap: "5px" }}>
+						<Button
+							className="btn btn-md btn-secondary"
+							onClickFunction={() => {
+								sessionStorage.setItem("supplier", JSON.stringify(data));
+								navigate(`/edit/supplier/${id}`);
+							}}
+						>
+							voltar
+						</Button>
 						<Button
 							className="btn btn-md btn-tertiary"
 							onClickFunction={() => {
