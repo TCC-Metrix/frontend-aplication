@@ -36,6 +36,7 @@ import SupplierDetails from "./pages/Consults/Supplier/SupplierDetails";
 import UpdateSupplier from "./pages/Update/Supplier/UpdateSupplier";
 import LaboratoryReturn from "./pages/Movements/LaboratoryReturn/LaboratoryReturn";
 import ConsultLaboratory from "./pages/Consults/Laboratory/ConsultLaboratory";
+import Home from "./pages/Home/Home";
 
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
@@ -332,6 +333,14 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<ConsultSupplier />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/home"
+					element={
+						<ProtectedRoute>
+							<Home />
 						</ProtectedRoute>
 					}
 				></Route>

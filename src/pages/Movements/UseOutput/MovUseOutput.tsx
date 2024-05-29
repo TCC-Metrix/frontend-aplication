@@ -21,6 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
 import { UsePost } from "../../../utils/interfaces/MovementsInterfaces";
+import { msalInstance } from "../../../authSSO/msalInstance";
 
 export const MoveUseOutput = () => {
 	// Estados para controlar o estado dos componentes
@@ -121,7 +122,7 @@ export const MoveUseOutput = () => {
 		});
 	};
 
-
+console.log(msalInstance.getActiveAccount()?.idToken)
 
 
 	//Busca os ids dos instrumentos dentro da lista de instrumentos e chama função que envia à api

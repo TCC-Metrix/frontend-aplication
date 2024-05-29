@@ -3,8 +3,6 @@ import { useState } from "react";
 import { Button, BasicInputFilter, DateInputInside } from "../../../components";
 import {
   GeneralInstrument,
-  MovUseOutputData,
-  UseReturnPost,
 } from "../../../utils/interfaces/Interfaces";
 import {
   useGetLastMovementByIds,
@@ -20,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
 import { formatDate } from "../../Consults/Instrument/InstrumentDetails";
+import { MovUseOutputData, UseReturnPost } from "../../../utils/interfaces/MovementsInterfaces";
 
 export const UseReturn = () => {
   // Estados para controlar o estado dos componentes
