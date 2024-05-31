@@ -155,19 +155,7 @@ function ConsultInstrument() {
 		return <ErrorPage />;
 	}
 
-	const handleSubmitSearch = async (data: FieldValues) => {
-		console.log(data);
-		if (
-			data.status === "todos" &&
-			data.situation === "todos" &&
-			data.sortedBy === "desc" &&
-			data.value === ""
-		) {
-			console.log("entrou");
-			console.log(instruments);
-			instrumentsFiltered = instruments;
-			// return
-		}
+
 
   const handleSubmitSearch = async (data: FieldValues) => {
     console.log(data)
@@ -378,5 +366,6 @@ function ConsultInstrument() {
 		</div>
 	);
 }
+
 
 export default ConsultInstrument;
