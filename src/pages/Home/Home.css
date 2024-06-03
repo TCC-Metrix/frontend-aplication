@@ -1,0 +1,9 @@
+.container-main-home {
+	flex-direction: column;
+	width: 80%;
+	max-width: 1440px;
+	margin-top: 7%;
+	display: flex;
+	gap: 3rem;
+    justify-content: center;
+}
