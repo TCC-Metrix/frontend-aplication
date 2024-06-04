@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMsal } from "@azure/msal-react";
 import { useAllCalibrations } from "../../services/useFetchData";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import LoadingPage from "../LoadingPage/LoadingPage";
@@ -6,11 +7,14 @@ import "./Home.css";
 import { RotatingLines } from "react-loader-spinner";
 import { formatDate } from "../Consults/Instrument/InstrumentDetails";
 const Home = () => {
+	const { instance } = useMsal();
+	const account = instance.getActiveAccount();
 	const [isLoadingCalibrationData, setIsLoadingCalibrationData] =
 		useState(false);
 	const headersList = ["Código", "Nome", "Próx. Calibração"];
 	const { data: allCalibrations, isLoading, isError } = useAllCalibrations();
 	console.log(allCalibrations);
+	console.log(account)
 
 	if (isError || isError) {
 		return <ErrorPage />;
@@ -28,7 +32,7 @@ const Home = () => {
 		<main>
 			<div className="container-main-home">
 				<div>
-					<h1 className="header-three">Bem vindo(a), Jaque!</h1>
+					<h1 className="header-three">Bem vindo(a), {account?.name?.split(" ").slice(1,2)}!</h1>
 					<p className="text">Próximos instrumentos a serem calibrados</p>
 				</div>
 				<div className="flex-center-table">
