@@ -1,10 +1,29 @@
-import { useAllCalibrations } from '../../services/useFetchData';
-import './Home.css'
+import { useState } from "react";
+import { useAllCalibrations } from "../../services/useFetchData";
+import ErrorPage from "../ErrorPage/ErrorPage";
+import LoadingPage from "../LoadingPage/LoadingPage";
+import "./Home.css";
+import { RotatingLines } from "react-loader-spinner";
+import { formatDate } from "../Consults/Instrument/InstrumentDetails";
 const Home = () => {
-	const headersList = ["Código", "Nome"];
-	const { data: allCalibrations } = useAllCalibrations();
+	const [isLoadingCalibrationData, setIsLoadingCalibrationData] =
+		useState(false);
+	const headersList = ["Código", "Nome", "Próx. Calibração"];
+	const { data: allCalibrations, isLoading, isError } = useAllCalibrations();
 	console.log(allCalibrations);
-	
+
+	if (isError || isError) {
+		return <ErrorPage />;
+	}
+
+	if (isLoading || isLoading) {
+		return <LoadingPage />;
+	}
+
+	if (allCalibrations === undefined){
+		return
+	}
+
 	return (
 		<main>
 			<div className="container-main-home">
@@ -22,26 +41,38 @@ const Home = () => {
 							</tr>
 						</thead>
 						<tbody>
-							<>
-								<tr>
-									<td className="text">
-										<p className="td-text">2133</p>
-									</td>
-									<td>Description</td>
-								</tr>
-								<tr>
-									<td className="text">
-										<p className="td-text">2133</p>
-									</td>
-									<td>Description</td>
-								</tr>
-								<tr>
-									<td className="text">
-										<p className="td-text">2133</p>
-									</td>
-									<td>Description</td>
-								</tr>
-							</>
+							{isLoadingCalibrationData ? (
+								<td colSpan={5}>
+									<RotatingLines
+										visible={true}
+										strokeWidth="5"
+										animationDuration="0.75"
+										ariaLabel="rotating-lines-loading"
+										strokeColor="#99aebb"
+										width="30"
+									/>
+								</td>
+							) : (
+								<>
+									{allCalibrations.length > 0 ? (
+										allCalibrations.map((item, index) => (
+											<tr key={index}>
+												<td className="text">
+													<p className="td-text">{item.code}</p>
+												</td>
+												<td>{item.description}</td>
+												<td>{formatDate(item.nextCalibration)}</td>
+											</tr>
+										))
+									) : (
+										<tr>
+											<td colSpan={headersList.length + 1} className="text">
+												Nenhum instrumento a ser calibrado neste mês.
+											</td>
+										</tr>
+									)}
+								</>
+							)}
 						</tbody>
 					</table>
 				</div>
