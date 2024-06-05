@@ -336,7 +336,7 @@ export const UseReturn = () => {
               </div>
               <div>
                 <DateInputInside
-                  placeholder="data de saída"
+                  placeholder="data de retorno"
                   inputStyle="large-input"
                   register={register}
                   inputName="returnDate"

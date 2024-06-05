@@ -11,10 +11,20 @@ const Home = () => {
 	const account = instance.getActiveAccount();
 	const [isLoadingCalibrationData, setIsLoadingCalibrationData] =
 		useState(false);
-	const headersList = ["Código", "Nome", "Próx. Calibração"];
+	const headersList = ["Código", "Nome", "Próx. Calibração", "Estado"];
 	const { data: allCalibrations, isLoading, isError } = useAllCalibrations();
 	console.log(allCalibrations);
-	console.log(account)
+	console.log(account);
+
+	const validateDate = (date: string): string => {
+		const today = new Date();
+		const input = new Date(date);
+		if (input < today) {
+			return "vencida";
+		} else {
+			return "a vencer";
+		}
+	};
 
 	if (isError || isError) {
 		return <ErrorPage />;
@@ -24,15 +34,17 @@ const Home = () => {
 		return <LoadingPage />;
 	}
 
-	if (allCalibrations === undefined){
-		return
+	if (allCalibrations === undefined) {
+		return;
 	}
 
 	return (
 		<main>
 			<div className="container-main-home">
 				<div>
-					<h1 className="header-three">Bem vindo(a), {account?.name?.split(" ").slice(1,2)}!</h1>
+					<h1 className="header-three">
+						Bem vindo(a), {account?.name?.split(" ").slice(1, 2)}!
+					</h1>
 					<p className="text">Próximos instrumentos a serem calibrados</p>
 				</div>
 				<div className="flex-center-table">
@@ -66,6 +78,18 @@ const Home = () => {
 												</td>
 												<td>{item.description}</td>
 												<td>{formatDate(item.nextCalibration)}</td>
+												<td>
+													<span
+														className={
+															validateDate(formatDate(item.nextCalibration)) ==
+															"vencida"
+																? "state-instrument-td-red"
+																: "state-instrument-td-yellow"
+														}
+													>
+														{validateDate(formatDate(item.nextCalibration))}
+													</span>
+												</td>
 											</tr>
 										))
 									) : (

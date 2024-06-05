@@ -7,3 +7,19 @@
 	gap: 3rem;
     justify-content: center;
 }
+
+.state-instrument-td-red{
+	background-color: rgba(255, 0, 0, 0.2);
+	border-radius: 7px;
+	padding: 5px 15px;
+	color: rgb(255, 0, 0);
+	font-weight: 600;
+}
+
+.state-instrument-td-yellow{
+	background-color: rgba(255, 234, 0, 0.1);
+	border-radius: 7px;
+	padding: 5px 15px;
+	color: rgb(255, 225, 0);
+	font-weight: 600;
+}
