@@ -19,11 +19,19 @@ const Home = () => {
 	const validateDate = (date: string): string => {
 		const today = new Date();
 		const input = new Date(date);
-		if (input < today) {
+		if (input.getMonth < today.getMonth) {
 			return "vencida";
 		} else {
 			return "a vencer";
 		}
+	};
+
+	const formatDateHome = (date: string) => {
+
+		// Separe o ano, mês e dia
+		const [ano, mes] = date.split("-");
+		// Retorne a data no formato DD/MM/YYYY
+		return `${mes}/${ano}`;
 	};
 
 	if (isError || isError) {
@@ -77,17 +85,17 @@ const Home = () => {
 													<p className="td-text">{item.code}</p>
 												</td>
 												<td>{item.description}</td>
-												<td>{formatDate(item.nextCalibration)}</td>
+												<td>{formatDateHome(item.nextCalibration)}</td>
 												<td>
 													<span
 														className={
-															validateDate(formatDate(item.nextCalibration)) ==
+															validateDate(formatDateHome(item.nextCalibration)) ==
 															"vencida"
 																? "state-instrument-td-red"
 																: "state-instrument-td-yellow"
 														}
 													>
-														{validateDate(formatDate(item.nextCalibration))}
+														{validateDate(formatDateHome(item.nextCalibration))}
 													</span>
 												</td>
 											</tr>
