@@ -1,4 +1,4 @@
-import { Area, GeneralEmployee, GeneralLaboratory } from "./Interfaces"
+import { Area, GeneralEmployee, GeneralLaboratory, GeneralSupplier } from "./Interfaces"
 
 export interface RootMovement {
 	movement: Movement
@@ -131,4 +131,37 @@ export interface InstrumentUseOutput {
 	returnResponsible: GeneralEmployee
 	returnDate: string
 	calibrationDate: string
+  }
+
+  export interface FamilyRegisterGet {
+	id: string;
+	code: string;
+	description: string;
+	calibrationFrequencyInMonths: number;
+	calibrationTimeCounter: string;
+}
+
+
+  export interface GeneralCalibrations {
+	id: string
+	code: string
+	description: string
+	serieNumber: string
+	inventory: string
+	acquisitionDate: string
+	supplier: GeneralSupplier
+	manufacturer: string
+	familyId: FamilyRegisterGet
+	additionalReferences: string[]
+	acceptanceCriteria: string
+	measurementUnit: string
+	situation: string
+	situationReason: string
+	situationJustification: string
+	situationChangedDate: string
+	acquisitionCost: string
+	costCenter: string
+	calibrationFrequency: number
+	status: string
+	nextCalibration: string
   }

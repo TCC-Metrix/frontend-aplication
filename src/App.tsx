@@ -36,274 +36,209 @@ import ConsultLaboratory from "./pages/Consults/Laboratory/ConsultLaboratory";
 import FamilyDetails from "./pages/Consults/Family/FamilyDetails";
 import InstrumentHistory from "./pages/History/InstrumentHistory";
 import ConsultFamily from "./pages/Consults/Family/ConsultFamily";
+import Home from "./pages/Home/Home";
+import MovementUseOutput from "./pages/Consults/Movement/MovementUse";
+import MovementCalibration from "./pages/Consults/Movement/MovementCalibration";
 
 function App() {
-	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
-	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
+  const activeNavbar = useNavbarStore((state) => state.activeNavbar);
+  const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 
-	const location = useLocation();
-	const previousLocation = useRef(location);
+  const location = useLocation();
+  const previousLocation = useRef(location);
 
-	useEffect(() => {
-		setActiveNavbar(false);
-		// Verifica se a localização atual é diferente da localização anterior
-		if (location.pathname === previousLocation.current.pathname) {
-			//   window.location.reload();
-		} else if (
-			location.pathname.includes("movement")
-		) {
-			window.location.reload();
-		}
+  useEffect(() => {
+    setActiveNavbar(false);
+    // Verifica se a localização atual é diferente da localização anterior
+    if (location.pathname === previousLocation.current.pathname) {
+      //   window.location.reload();
+    } else if (location.pathname.includes("movement") && !location.pathname.includes("consult")) {
+      window.location.reload();
+    }
 
-		// Atualiza a localização anterior com a localização atual
-		previousLocation.current = location;
-	}, [location]);
+    // Atualiza a localização anterior com a localização atual
+    previousLocation.current = location;
+  }, [location]);
 
-	return (
-		<>
-			<ProtectedRoute>
-				<NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
-			</ProtectedRoute>
+  return (
+    <>
+      <ProtectedRoute>
+        <NavBar activeNavbar={activeNavbar} setActiveNavbar={setActiveNavbar} />
+      </ProtectedRoute>
 
-			<Routes>
-				<Route path="/login" element={<PreLogin />}></Route>
-				<Route
-					path="/movement/use/output"
-					element={
-						<ProtectedRoute>
-							<MoveUseOutput />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/register/instrument"
-					element={
-						<ProtectedRoute>
-							<InstrumentRegister />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/error"
-					element={
-						<ProtectedRoute>
-							<ErrorPage />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/register/laboratory"
-					element={
-						<ProtectedRoute>
-							<LaboratoryRegister />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route path="/login" element={<PreLogin />}></Route>
-				<Route
-					path="/movement/use/output"
-					element={
-						<ProtectedRoute>
-							<MoveUseOutput />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/movement/use/return"
-					element={
-						<ProtectedRoute>
-							<UseReturn />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/register/family"
-					element={
-						<ProtectedRoute>
-							<FamilyRegister />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/register/supplier"
-					element={
-						<ProtectedRoute>
-							<SupplierRegister />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/register/area"
-					element={
-						<ProtectedRoute>
-							<AreaRegister />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/register/employee"
-					element={
-						<ProtectedRoute>
-							<EmployeeRegister />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/consult/instrument"
-					element={
-						<ProtectedRoute>
-							<ConsultInstrument />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/consult/instrument/:id"
-					element={
-						<ProtectedRoute>
-							<InstrumentDetails />
-						</ProtectedRoute>
-					}
-				></Route>
+      <Routes>
+        <Route path="/login" element={<PreLogin />}></Route>
+        <Route
+          path="/movement/use/output"
+          element={
+            <ProtectedRoute>
+              <MoveUseOutput />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/register/instrument"
+          element={
+            <ProtectedRoute>
+              <InstrumentRegister />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/error"
+          element={
+            <ProtectedRoute>
+              <ErrorPage />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/register/laboratory"
+          element={
+            <ProtectedRoute>
+              <LaboratoryRegister />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route path="/login" element={<PreLogin />}></Route>
+        <Route
+          path="/movement/use/output"
+          element={
+            <ProtectedRoute>
+              <MoveUseOutput />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/movement/use/return"
+          element={
+            <ProtectedRoute>
+              <UseReturn />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/register/family"
+          element={
+            <ProtectedRoute>
+              <FamilyRegister />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/register/supplier"
+          element={
+            <ProtectedRoute>
+              <SupplierRegister />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/register/area"
+          element={
+            <ProtectedRoute>
+              <AreaRegister />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/register/employee"
+          element={
+            <ProtectedRoute>
+              <EmployeeRegister />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/consult/instrument"
+          element={
+            <ProtectedRoute>
+              <ConsultInstrument />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/consult/instrument/:id"
+          element={
+            <ProtectedRoute>
+              <InstrumentDetails />
+            </ProtectedRoute>
+          }
+        ></Route>
 
-				<Route
-					path="/edit/instrument/:id"
-					element={
-						<ProtectedRoute>
-							<UpdateInstrument />
-						</ProtectedRoute>
-					}
-				></Route>
+        <Route
+          path="/edit/instrument/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateInstrument />
+            </ProtectedRoute>
+          }
+        ></Route>
 
-				<Route
-					path="/consult/family"
-					element={
-						<ProtectedRoute>
-							<ConsultFamily />
-						</ProtectedRoute>
-					}
-				></Route>
+        <Route
+          path="/consult/family"
+          element={
+            <ProtectedRoute>
+              <ConsultFamily />
+            </ProtectedRoute>
+          }
+        ></Route>
 
-				<Route
-					path="/consult/employee"
-					element={
-						<ProtectedRoute>
-							<ConsultEmployee />
-						</ProtectedRoute>
-					}
-				></Route>
+        <Route
+          path="/consult/employee"
+          element={
+            <ProtectedRoute>
+              <ConsultEmployee />
+            </ProtectedRoute>
+          }
+        ></Route>
 
-				<Route
-					path="/consult/family/:id"
-					element={
-						<ProtectedRoute>
-							<FamilyDetails />
-						</ProtectedRoute>
-					}
-				></Route>
+        <Route
+          path="/consult/family/:id"
+          element={
+            <ProtectedRoute>
+              <FamilyDetails />
+            </ProtectedRoute>
+          }
+        ></Route>
 
-				<Route
-					path="/consult/employee/:id"
-					element={
-						<ProtectedRoute>
-							<EmployeeDetails />
-						</ProtectedRoute>
-					}
-				></Route>
+        <Route
+          path="/consult/employee/:id"
+          element={
+            <ProtectedRoute>
+              <EmployeeDetails />
+            </ProtectedRoute>
+          }
+        ></Route>
 
-				<Route
-					path="/edit/family/:id"
-					element={
-						<ProtectedRoute>
-							<UpdateFamily />
-						</ProtectedRoute>
-					}
-				></Route>
+        <Route
+          path="/edit/family/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateFamily />
+            </ProtectedRoute>
+          }
+        ></Route>
 
-				<Route
-					path="/edit/employee/:id"
-					element={
-						<ProtectedRoute>
-							<UpdateEmployee />
-						</ProtectedRoute>
-					}
-				></Route>
+        <Route
+          path="/edit/employee/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateEmployee />
+            </ProtectedRoute>
+          }
+        ></Route>
 
-				<Route
-					path="/history/instrument/:id"
-					element={
-						<ProtectedRoute>
-							<InstrumentHistory />
-						</ProtectedRoute>
-					}
-				></Route>
+        <Route
+          path="/history/instrument/:id"
+          element={
+            <ProtectedRoute>
+              <InstrumentHistory />
+            </ProtectedRoute>
+          }
+        ></Route>
 
-				<Route
-					path="/consult/area"
-					element={
-						<ProtectedRoute>
-							<ConsultArea />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="movement/laboratory/output"
-					element={
-						<ProtectedRoute>
-							<LaboratoryOutput />
-						</ProtectedRoute>
-					}
-				></Route>
-
-				<Route
-					path="/consult/supplier"
-					element={
-						<ProtectedRoute>
-							<ConsultSupplier />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/consult/laboratory"
-					element={
-						<ProtectedRoute>
-							<ConsultLaboratory />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/consult/laboratory/:id"
-					element={
-						<ProtectedRoute>
-							<LaboratoryDetails />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/edit/laboratory/:id"
-					element={
-						<ProtectedRoute>
-							<UpdateLaboratory />
-						</ProtectedRoute>
-					}
-				></Route>
-
-				<Route
-					path="/consult/supplier/:id"
-					element={
-						<ProtectedRoute>
-							<SupplierDetails />
-						</ProtectedRoute>
-					}
-				></Route>
-				<Route
-					path="/edit/supplier/:id"
-					element={
-						<ProtectedRoute>
-							<UpdateSupplier />
-						</ProtectedRoute>
-					}
-				></Route>
-<Route
+        <Route
           path="/consult/area"
           element={
             <ProtectedRoute>
@@ -311,7 +246,7 @@ function App() {
             </ProtectedRoute>
           }
         ></Route>
-      <Route
+        <Route
           path="movement/laboratory/output"
           element={
             <ProtectedRoute>
@@ -319,8 +254,90 @@ function App() {
             </ProtectedRoute>
           }
         ></Route>
-        
-      <Route
+
+        <Route
+          path="/consult/supplier"
+          element={
+            <ProtectedRoute>
+              <ConsultSupplier />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/consult/laboratory"
+          element={
+            <ProtectedRoute>
+              <ConsultLaboratory />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/consult/laboratory/:id"
+          element={
+            <ProtectedRoute>
+              <LaboratoryDetails />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/edit/laboratory/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateLaboratory />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        <Route
+          path="/consult/supplier/:id"
+          element={
+            <ProtectedRoute>
+              <SupplierDetails />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/edit/supplier/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateSupplier />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/consult/area"
+          element={
+            <ProtectedRoute>
+              <ConsultArea />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/consult/movement/use/:id"
+          element={
+            <ProtectedRoute>
+              <MovementUseOutput />
+            </ProtectedRoute>
+          }
+        ></Route>
+		<Route
+          path="/consult/movement/calibration/:id"
+          element={
+            <ProtectedRoute>
+              <MovementCalibration />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="movement/laboratory/output"
+          element={
+            <ProtectedRoute>
+              <LaboratoryOutput />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        <Route
           path="movement/laboratory/return"
           element={
             <ProtectedRoute>
@@ -328,12 +345,20 @@ function App() {
             </ProtectedRoute>
           }
         ></Route>
-        
+
         <Route
           path="/consult/supplier"
           element={
             <ProtectedRoute>
               <ConsultSupplier />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
             </ProtectedRoute>
           }
         ></Route>
@@ -345,11 +370,10 @@ function App() {
             </ProtectedRoute>
           }
         ></Route> */}
-
-			</Routes>
-			<ToastContainer />
-		</>
-	);
+      </Routes>
+      <ToastContainer />
+    </>
+  );
 }
 
 export default App;

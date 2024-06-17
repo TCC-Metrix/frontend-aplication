@@ -13,6 +13,8 @@ function InstrumentHistory() {
   const { id } = useParams();
   const { register, watch } = useForm();
 
+  const navigate = useNavigate();
+
   // const navigate = useNavigate();
 
   const { data: movementsData, isLoading: isLoadingMovements } =
@@ -82,7 +84,11 @@ function InstrumentHistory() {
                       return;
                     }
                     return (
-                      <tr className="tr-hover" onClick={() => {}}>
+                      <tr className="tr-hover" onClick={() => {
+                        
+                        // navigate(`/consult/movement/use/${}`)
+                        
+                        }}>
                         <td className="text">
                             {formatDate(item.outputDate)}
                         </td>

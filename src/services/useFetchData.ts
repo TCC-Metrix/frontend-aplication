@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById, getEmployeeFiltered, getEmployeeById, getSupplierFiltered, getLaboratories, getLaboratoryFiltered, getLaboratoryById, getSupplierById, getLastCalibration } from "./apiService";
+import { getArea, getEmployees, getInstrumentById, getInstruments, getFamilies, getSuppliers, getInstrumentsFiltered, getLastMovement, getAllMovements, getFamilyFiltered, getFamilyById, getEmployeeFiltered, getEmployeeById, getSupplierFiltered, getLaboratories, getLaboratoryFiltered, getLaboratoryById, getSupplierById, getLastCalibration, getCalibrations } from "./apiService";
 import { FieldValues } from "react-hook-form";
 
 //Retorna todos os instrumentos da API
@@ -153,6 +153,15 @@ export function useLastCalibrationByInstrument(id: string | undefined) {
     refetchOnWindowFocus: false,
   })
 }
+
+export function useAllCalibrations() {
+	return useQuery({
+		queryKey: ["calibrations"],
+		queryFn: getCalibrations,
+		refetchOnWindowFocus: false,
+	});
+}
+
 
 export function useInstrumentDeepFiltered(pageParam = 0, status: string, situation: string, column: string, value: string, sortedBy: string){
   return useQuery({

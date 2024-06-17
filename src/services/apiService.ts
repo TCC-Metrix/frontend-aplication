@@ -13,13 +13,10 @@ import {
 	SupplierRegisterPost,
 	RootFilter,
 	GeneralSupplier,
-	UseReturnPost,
-	MovUseOutputData,
 	GeneralLaboratory,
-	LaboratoryPost,
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
-import { HistoryMovement, LaboratoryOutputPost, LaboratoryReturnPost, MovUseOutputData, RootMovement, UsePost, UseReturnPost } from "../utils/interfaces/MovementsInterfaces";
+import { GeneralCalibrations, HistoryMovement, LaboratoryOutputPost, LaboratoryReturnPost, MovUseOutputData, RootMovement, UsePost, UseReturnPost } from "../utils/interfaces/MovementsInterfaces";
 
 interface InstrumentsFiltered {
 	content: GeneralInstrument[];
@@ -74,6 +71,11 @@ export const getInstrumentById = async (id: string) => {
 	return (await instance.get<GeneralInstrument>(`instrument/filter/${id}`))
 		.data;
 };
+
+export const getCalibrations = async () => {
+	return (await instance.get<GeneralCalibrations[]>("instrument/calibration")).data;
+};
+
 
 //GET - Retorna a família filtrada
 export const getFamilyFiltered = async (data: FieldValues) => {

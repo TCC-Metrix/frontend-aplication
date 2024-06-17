@@ -1,9 +1,9 @@
-import React from 'react'
+
 
 function MovementUseOutput() {
   return (
-    <div>
-      
+    <div className="details-container">
+      <p>hi</p>
     </div>
   )
 }

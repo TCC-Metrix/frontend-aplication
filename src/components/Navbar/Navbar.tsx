@@ -64,7 +64,7 @@ export default function NavBar({ activeNavbar, setActiveNavbar }: NavBarProps) {
 				<img src={Logo} alt="logoRexroth" className="logoImg"></img>
 				<ul>
 					<li>
-						<p className="nav-header-option text">Início</p>
+						<p className="nav-header-option text"><a href="/">Início</a></p>
 					</li>
 					<NavDropdown
 						option={dropdownVisible.Mov}
