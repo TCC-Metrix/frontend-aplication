@@ -1,5 +1,5 @@
 import { Button } from "../../../components";
-import { useNavbarStore } from "../../../store";
+// import { useNavbarStore } from "../../../store";
 import {
   useInstrumentById,
   useLastCalibrationByInstrument,
@@ -30,7 +30,7 @@ const DetailItem: React.FC<DetailItemProps> = ({ subtitle, content }) => (
 	</div>
 );
 
-const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
+// const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 
 export const formatDate = (date: string) => {
 	// Separe o ano, mês e dia
