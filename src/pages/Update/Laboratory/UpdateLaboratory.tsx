@@ -30,7 +30,6 @@ function UpdateLaboratory() {
     register,
     formState: { errors },
     handleSubmit,
-    setValue
   } = useForm({ defaultValues: initialValues });
 
   const notify = (type: string, message?: string) => {

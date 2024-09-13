@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { useUpdateInstrument } from "../../../services/useMutation";
 import { toast } from "react-toastify";
 import { FormValues } from "../../../utils/types/instrument";
-import { DetailItemMov, formatDate } from "../../Consults/Instrument/InstrumentDetails";
+import {  formatDate } from "../../Consults/Instrument/InstrumentDetails";
 
 interface DetailItemProps {
   subtitle: string;

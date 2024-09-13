@@ -103,7 +103,7 @@ export interface InstrumentToModalTableUseOutput {
 	family: string;
 	calibrationFrequency: number;
 	nextCalibration: string;
-	additionalReferences: [];
+	additionalReferences: string[];
 	nextCalibrationHide: string;
 }
 

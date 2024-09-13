@@ -7,8 +7,8 @@ import {
 } from "../../../components";
 import {
 	GeneralInstrument,
-	UsePost,
 } from "../../../utils/interfaces/Interfaces";
+import { UsePost } from "../../../utils/interfaces/MovementsInterfaces";
 import {
 	usePostOutputUse,
 } from "../../../services/useMutation";
@@ -100,7 +100,7 @@ export const MoveUseOutput = () => {
 	const handlePostUseOutput: SubmitHandler<UsePost> = (data) => {
 		setIsLoadingPostUseOutput(true);
 		postOutputMutation.mutate(data, {
-			onSettled: (data, error) => {
+			onSettled: (_, error) => {
 				if (error && request.isAxiosError(error)) {
 					setIsLoadingPostUseOutput(false);
 					notify("error", "Erro ao processar sua solicitação")

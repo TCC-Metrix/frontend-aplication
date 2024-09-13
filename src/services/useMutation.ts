@@ -23,14 +23,12 @@ import {
 import {
 	AreaRegisterPost,
 	FamilyRegisterPost,
-	UsePost,
-	UseReturnPost,
 	LaboratoryRegisterPost,
 	EmployeeRegisterPost,
 	SupplierRegisterPost,
-	LaboratoryOutputPost,
-	LaboratoryReturnPost,
 } from "../utils/interfaces/Interfaces";
+
+import { UsePost, UseReturnPost, LaboratoryOutputPost, LaboratoryReturnPost } from "../utils/interfaces/MovementsInterfaces";
 
 export function useGetLastMovementByIds() {
 	return useMutation({

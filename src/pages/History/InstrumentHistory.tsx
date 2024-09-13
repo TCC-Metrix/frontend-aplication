@@ -1,6 +1,6 @@
 import "./InstrumentHistory.css";
 import LoadingPage from "../LoadingPage/LoadingPage";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { useMovementsByInstrument } from "../../services/useFetchData";
 import { SelectInput } from "../../components";
 import { useForm } from "react-hook-form";

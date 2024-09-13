@@ -2,10 +2,9 @@ import "./UseReturn.css";
 import { useState } from "react";
 import { Button, BasicInputFilter, DateInputInside } from "../../../components";
 import {
-  GeneralInstrument,
-  MovUseOutputData,
-  UseReturnPost,
+  GeneralInstrument
 } from "../../../utils/interfaces/Interfaces";
+import { MovUseOutputData, UseReturnPost } from "../../../utils/interfaces/MovementsInterfaces";
 import {
   useGetLastMovementByIds,
   usePostReturnUse,

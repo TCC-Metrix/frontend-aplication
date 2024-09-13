@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import "./Modal.css";
 import Button from "../Buttons/Button";
 import {IoIosClose} from 'react-icons/io'
