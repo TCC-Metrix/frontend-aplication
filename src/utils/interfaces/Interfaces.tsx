@@ -55,6 +55,13 @@ export interface FamilyRegisterPost {
 	calibrationFrequencyInMonths: number;
 	calibrationTimeCounter: string;
 }
+export interface FamilyRegisterGet {
+	id: string;
+	code: string;
+	description: string;
+	calibrationFrequencyInMonths: number;
+	calibrationTimeCounter: string;
+}
 
 export interface LaboratoryRegisterPost {
 	description: string;
@@ -82,6 +89,29 @@ export interface GeneralSupplier {
 	cnpj: string;
 }
 
+export interface GeneralCalibrations {
+  id: string
+  code: string
+  description: string
+  serieNumber: string
+  inventory: string
+  acquisitionDate: string
+  supplier: GeneralSupplier
+  manufacturer: string
+  familyId: FamilyRegisterGet
+  additionalReferences: string[]
+  acceptanceCriteria: string
+  measurementUnit: string
+  situation: string
+  situationReason: string
+  situationJustification: string
+  situationChangedDate: string
+  acquisitionCost: string
+  costCenter: string
+  calibrationFrequency: number
+  status: string
+  nextCalibration: string
+}
 
 export interface Option {
 	value: string;

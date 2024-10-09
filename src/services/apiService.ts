@@ -14,6 +14,7 @@ import {
 	RootFilter,
 	GeneralSupplier,
 	GeneralLaboratory,
+	GeneralCalibrations,
 } from "../utils/interfaces/Interfaces";
 import instance from "./axiosInstance";
 import { HistoryMovement, LaboratoryOutputPost, LaboratoryReturnPost, MovUseOutputData, RootMovement, UsePost, UseReturnPost } from "../utils/interfaces/MovementsInterfaces";
@@ -42,6 +43,9 @@ export const getFamilies = async () => {
 //GET - Retorna todos as famílias
 export const getSuppliers = async () => {
 	return (await instance.get<GeneralSupplier[]>("supplier/all")).data;
+};
+export const getCalibrations = async () => {
+	return (await instance.get<GeneralCalibrations[]>("instrument/calibration")).data;
 };
 
 export const getLaboratories = async () => {

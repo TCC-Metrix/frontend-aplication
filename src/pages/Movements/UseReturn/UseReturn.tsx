@@ -19,6 +19,8 @@ import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
 import { formatDate } from "../../Consults/Instrument/InstrumentDetails";
+import { MovUseOutputData, UseReturnPost } from "../../../utils/interfaces/MovementsInterfaces";
+import { msalInstance } from "../../../authSSO/msalInstance";
 
 export const UseReturn = () => {
   // Estados para controlar o estado dos componentes
@@ -174,6 +176,8 @@ export const UseReturn = () => {
       });
       return;
     }
+
+    console.log(msalInstance.getActiveAccount()?.idToken)
 
     handlePostUseOutput({
       instrumentIds: idsList,
@@ -333,7 +337,7 @@ export const UseReturn = () => {
               </div>
               <div>
                 <DateInputInside
-                  placeholder="data de saída"
+                  placeholder="data de retorno"
                   inputStyle="large-input"
                   register={register}
                   inputName="returnDate"

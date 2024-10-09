@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { useAllFamilies } from "../../../services/useFetchData";
 import { formatDate } from "./InstrumentDetails";
-import { useNavbarStore } from "../../../store";
 
 function ConsultInstrument() {
 	const [isFamilyInput, setIsFamilyInput] = useState(false);
@@ -30,7 +29,7 @@ function ConsultInstrument() {
 		setValue,
 	} = useForm();
 	const navigate = useNavigate();
-	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
+
 	const column = watch("column");
 
 	useEffect(() => {
@@ -155,20 +154,22 @@ function ConsultInstrument() {
 		return <ErrorPage />;
 	}
 
+	const handleSubmitSearch = async (data: FieldValues) => {
+		console.log(data);
+		if (
+			data.status === "todos" &&
+			data.situation === "todos" &&
+			data.sortedBy === "desc" &&
+			data.value === ""
+		) {
+			console.log("entrou");
+			console.log(instruments);
+			instrumentsFiltered = instruments;
+		}
 
-
-  const handleSubmitSearch = async (data: FieldValues) => {
-    console.log(data)
-    if (
-      data.status === "todos" &&
-      data.situation === "todos" &&
-      data.sortedBy === "desc" &&
-      data.value === ""
-    ) {
-      console.log("entrou")
-      console.log(instruments)
-      instrumentsFiltered = instruments;
-    }
+		if (data.status === "" && data.situation === "") {
+			return;
+		}
 
 		filterData.enabled = true;
 
@@ -181,185 +182,178 @@ function ConsultInstrument() {
 	};
 
 	return (
-		<div
-			className="background-container-main"
-			onClick={() => {
-				setActiveNavbar(false);
-			}}
-		>
-			<div className="consult-page">
-				<div className="box-shadow-container">
-					<div className="box-shadow-container-header">
-						<h1 className="header-three">Instrumentos</h1>
-						<p className="normal-text">Filtrar por</p>
-						<div className="search-area">
-							<SelectInput
-								placeholder="Buscar por"
-								optionsList={["código", "descrição", "família"]}
-								id="column"
+		<div className="consult-page">
+			<div className="box-shadow-container">
+				<div className="box-shadow-container-header">
+					<h1 className="header-three">Instrumentos</h1>
+					<p className="normal-text">Filtrar por</p>
+					<div className="search-area">
+						<SelectInput
+							placeholder="Buscar por"
+							optionsList={["código", "descrição", "família"]}
+							id="column"
+							register={register}
+						/>
+						{isFamilyInput ? (
+							<BasicInputFilter
 								register={register}
+								inputName="valueDescription"
+								inputPlaceholder="Busque por familia"
+								inputStyle="classe-large"
+								isRequired={false}
+								inputId="value"
+								items={allFamilies}
+								getValues={getValues}
+								setValue={setValue}
+								errors={errors}
 							/>
-							{isFamilyInput ? (
-								<BasicInputFilter
-									register={register}
-									inputName="valueDescription"
-									inputPlaceholder="Busque por familia"
-									inputStyle="classe-large"
-									isRequired={false}
-									inputId="value"
-									items={allFamilies}
-									getValues={getValues}
-									setValue={setValue}
-									errors={errors}
-								/>
-							) : (
-								<BasicInput
-									register={register}
-									inputName="value"
-									inputPlaceholder="Busque por isso "
-									inputStyle="large-input"
-									isRequired={false}
-									inputType="text"
-									errors={errors}
-								/>
-							)}
-
-							<SelectInput
-								id="situation"
-								optionsList={[
-									"todos",
-									"ativo",
-									"inativo",
-									"ativo não calibrável",
-								]}
+						) : (
+							<BasicInput
 								register={register}
-								placeholder="situação"
+								inputName="value"
+								inputPlaceholder="Busque por isso "
+								inputStyle="large-input"
+								isRequired={false}
+								inputType="text"
+								errors={errors}
 							/>
-							<SelectInput
-								id="status"
-								optionsList={[
-									"todos",
-									"em uso",
-									"calibração externa",
-									"disponível",
-								]}
-								register={register}
-								placeholder="status"
-							/>
-							<SelectInput
-								id="sortedBy"
-								optionsList={["mais recente", "mais antigo"]}
-								register={register}
-								placeholder="data de aquisição"
-							/>
-
-							<Button
-								className="btn btn-sm btn-tertiary"
-								onClickFunction={handleSubmit(handleSubmitSearch)}
-							>
-								{" "}
-								Pesquisar{" "}
-							</Button>
-						</div>
-					</div>
-
-					<div className="box-shadow-container-table-area">
-						<div className="table-container-main">
-							<table className="table-container">
-								<thead>
-									<tr className="first-line">
-										{headersList.map((item, index) => {
-											return <th key={index}>{item}</th>;
-										})}
-									</tr>
-								</thead>
-								<tbody>
-									{instrumentsFiltered === undefined && isSuccess
-										? instruments?.map((item: GeneralInstrument, index) => {
-												return (
-													<tr
-														key={index}
-														className="tr-hover"
-														onClick={() => {
-															navigate(`/consult/instrument/${item.id}`);
-														}}
-													>
-														<td className="text">
-															<p className="td-text">{item.code}</p>
-														</td>
-														<td>{item.description}</td>
-														<td>{item.familyId.description}</td>
-														<td>
-															{item.status === "in use" && "Em uso"}
-															{item.status === "available" && "Disponível"}
-															{item.status === "external calibration" &&
-																"calibração externa"}
-														</td>
-														<td>{formatDate(item.acquisitionDate)}</td>
-													</tr>
-												);
-										  })
-										: instrumentsFiltered?.map((item, index) => {
-												return (
-													<tr
-														key={index}
-														className="tr-hover"
-														onClick={() =>
-															navigate(`/consult/instrument/${item.id}`)
-														}
-													>
-														<td className="text">
-															<p className="td-text">{item.code}</p>
-														</td>
-														<td>{item.description}</td>
-														<td>{item.familyId.description}</td>
-														<td>
-															{item.status === "in use" && "Em uso"}
-															{item.status === "available" && "Disponível"}
-															{item.status === "external calibration" &&
-																"calibração externa"}
-														</td>
-														<td>{formatDate(item.acquisitionDate)}</td>
-													</tr>
-												);
-										  })}
-								</tbody>
-							</table>
-						</div>
-						{isFetching && (
-							<div className="loading-area">
-								<RotatingLines
-									visible={true}
-									strokeWidth="5"
-									animationDuration="0.75"
-									ariaLabel="rotating-lines-loading"
-									strokeColor="#99aebb"
-									width="50"
-								/>
-							</div>
 						)}
-						<div className="load-more-area">
-							{(hasNextPage === true &&
-								instrumentsFiltered === undefined &&
-								instruments !== undefined &&
-								instruments.length >= 15) ||
-							(hasNextFilteredPage === true &&
-								instrumentsFiltered !== undefined &&
-								instrumentsFiltered.length >= 15) ? (
-								<Button
-									className="btn btn-md btn-secondary"
-									onClickFunction={() =>
-										instrumentsFiltered !== undefined
-											? fetchNextFilteredPage()
-											: fetchNextPage()
-									}
-								>
-									ver mais
-								</Button>
-							) : (
-								<></>
-							)}
+
+						<SelectInput
+							id="situation"
+							optionsList={[
+								"todos",
+								"ativo",
+								"inativo",
+								"ativo não calibrável",
+							]}
+							register={register}
+							placeholder="situação"
+						/>
+						<SelectInput
+							id="status"
+							optionsList={[
+								"todos",
+								"em uso",
+								"calibração externa",
+								"disponível",
+							]}
+							register={register}
+							placeholder="status"
+						/>
+						<SelectInput
+							id="sortedBy"
+							optionsList={["mais recente", "mais antigo"]}
+							register={register}
+							placeholder="data de aquisição"
+						/>
+
+						<Button
+							className="btn btn-sm btn-tertiary"
+							onClickFunction={handleSubmit(handleSubmitSearch)}
+						>
+							{" "}
+							Pesquisar{" "}
+						</Button>
+					</div>
+				</div>
+
+				<div className="box-shadow-container-table-area">
+					<div className="table-container-main">
+						<table className="table-container">
+							<thead>
+								<tr className="first-line">
+									{headersList.map((item, index) => {
+										return <th key={index}>{item}</th>;
+									})}
+								</tr>
+							</thead>
+							<tbody>
+								{instrumentsFiltered === undefined && isSuccess
+									? instruments?.map((item: GeneralInstrument, index) => {
+											return (
+												<tr
+													key={index}
+													className="tr-hover"
+													onClick={() => {
+														navigate(`/consult/instrument/${item.id}`);
+													}}
+												>
+													<td className="text">
+														<p className="td-text">{item.code}</p>
+													</td>
+													<td>{item.description}</td>
+													<td>{item.familyId.description}</td>
+													<td>
+														{item.status === "in use" && "Em uso"}
+														{item.status === "available" && "Disponível"}
+														{item.status === "external calibration" &&
+															"calibração externa"}
+													</td>
+													<td>{formatDate(item.acquisitionDate)}</td>
+												</tr>
+											);
+									  })
+									: instrumentsFiltered?.map((item, index) => {
+											return (
+												<tr
+													key={index}
+													className="tr-hover"
+													onClick={() =>
+														navigate(`/consult/instrument/${item.id}`)
+													}
+												>
+													<td className="text">
+														<p className="td-text">{item.code}</p>
+													</td>
+													<td>{item.description}</td>
+													<td>{item.familyId.description}</td>
+													<td>
+														{item.status === "in use" && "Em uso"}
+														{item.status === "available" && "Disponível"}
+														{item.status === "external calibration" &&
+															"calibração externa"}
+													</td>
+													<td>{formatDate(item.acquisitionDate)}</td>
+												</tr>
+											);
+									  })}
+							</tbody>
+						</table>
+					</div>
+					{isFetching && (
+						<div className="loading-area">
+							<RotatingLines
+								visible={true}
+								strokeWidth="5"
+								animationDuration="0.75"
+								ariaLabel="rotating-lines-loading"
+								strokeColor="#99aebb"
+								width="50"
+							/>
 						</div>
+					)}
+					<div className="load-more-area">
+						{(hasNextPage === true &&
+							instrumentsFiltered === undefined &&
+							instruments !== undefined &&
+							instruments.length >= 15) ||
+						(hasNextFilteredPage === true &&
+							instrumentsFiltered !== undefined &&
+							instrumentsFiltered.length >= 15) ? (
+							<Button
+								className="btn btn-md btn-secondary"
+								onClickFunction={() =>
+									instrumentsFiltered !== undefined
+										? fetchNextFilteredPage()
+										: fetchNextPage()
+								}
+							>
+								ver mais
+							</Button>
+						) : (
+							<></>
+						)}
 					</div>
 				</div>
 			</div>

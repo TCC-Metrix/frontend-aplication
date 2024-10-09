@@ -27,6 +27,7 @@ import {
 	EmployeeRegisterPost,
 	SupplierRegisterPost,
 } from "../utils/interfaces/Interfaces";
+import { LaboratoryOutputPost, LaboratoryReturnPost, UsePost, UseReturnPost } from "../utils/interfaces/MovementsInterfaces";
 
 import { UsePost, UseReturnPost, LaboratoryOutputPost, LaboratoryReturnPost } from "../utils/interfaces/MovementsInterfaces";
 

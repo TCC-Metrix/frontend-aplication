@@ -4,15 +4,13 @@ import { loginRequest } from "../authSSO/authConfig";
 import { AuthenticationResult } from "@azure/msal-common";
 
 //URL em que fazemos as requisições da API
+
 const API_URL = "http://10.21.240.172:8081/api/v1/";
-
-
 
 //Definindo a instância da URL para as requisições utilizando AXIOS
 const instance = axios.create({
 	baseURL: API_URL,
 });
-
 
 async function acquireToken(
   config: InternalAxiosRequestConfig

@@ -33,6 +33,7 @@ import SupplierDetails from "./pages/Consults/Supplier/SupplierDetails";
 import UpdateSupplier from "./pages/Update/Supplier/UpdateSupplier";
 import LaboratoryReturn from "./pages/Movements/LaboratoryReturn/LaboratoryReturn";
 import ConsultLaboratory from "./pages/Consults/Laboratory/ConsultLaboratory";
+import Home from "./pages/Home/Home";
 import FamilyDetails from "./pages/Consults/Family/FamilyDetails";
 import InstrumentHistory from "./pages/History/InstrumentHistory";
 import ConsultFamily from "./pages/Consults/Family/ConsultFamily";
@@ -49,9 +50,7 @@ function App() {
 		// Verifica se a localização atual é diferente da localização anterior
 		if (location.pathname === previousLocation.current.pathname) {
 			//   window.location.reload();
-		} else if (
-			location.pathname.includes("movement")
-		) {
+		} else if (location.pathname.includes("movement")) {
 			window.location.reload();
 		}
 
@@ -303,41 +302,49 @@ function App() {
 						</ProtectedRoute>
 					}
 				></Route>
-<Route
-          path="/consult/area"
-          element={
-            <ProtectedRoute>
-              <ConsultArea />
-            </ProtectedRoute>
-          }
-        ></Route>
-      <Route
-          path="movement/laboratory/output"
-          element={
-            <ProtectedRoute>
-              <LaboratoryOutput />
-            </ProtectedRoute>
-          }
-        ></Route>
-        
-      <Route
-          path="movement/laboratory/return"
-          element={
-            <ProtectedRoute>
-              <LaboratoryReturn />
-            </ProtectedRoute>
-          }
-        ></Route>
-        
-        <Route
-          path="/consult/supplier"
-          element={
-            <ProtectedRoute>
-              <ConsultSupplier />
-            </ProtectedRoute>
-          }
-        ></Route>
-        {/* <Route
+				<Route
+					path="/consult/area"
+					element={
+						<ProtectedRoute>
+							<ConsultArea />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="movement/laboratory/output"
+					element={
+						<ProtectedRoute>
+							<LaboratoryOutput />
+						</ProtectedRoute>
+					}
+				></Route>
+
+				<Route
+					path="movement/laboratory/return"
+					element={
+						<ProtectedRoute>
+							<LaboratoryReturn />
+						</ProtectedRoute>
+					}
+				></Route>
+
+				<Route
+					path="/consult/supplier"
+					element={
+						<ProtectedRoute>
+							<ConsultSupplier />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/home"
+					element={
+						<ProtectedRoute>
+							<Home />
+						</ProtectedRoute>
+					}
+				></Route>
+				{/* <Route
           path="/consult/laboratory"
           element={
             <ProtectedRoute>
@@ -345,7 +352,6 @@ function App() {
             </ProtectedRoute>
           }
         ></Route> */}
-
 			</Routes>
 			<ToastContainer />
 		</>

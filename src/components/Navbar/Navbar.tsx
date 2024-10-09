@@ -10,6 +10,7 @@ import {
 import { DropdownState } from "../../utils/interfaces/Interfaces";
 import Menu from "../Menu/Menu";
 import NavDropdown from "../NavDropdown/NavDropdown";
+import { Link } from "react-router-dom";
 
 interface NavBarProps {
 	activeNavbar: boolean;
@@ -64,7 +65,11 @@ export default function NavBar({ activeNavbar, setActiveNavbar }: NavBarProps) {
 				<img src={Logo} alt="logoRexroth" className="logoImg"></img>
 				<ul>
 					<li>
-						<p className="nav-header-option text">Início</p>
+						<p className="nav-header-option text">
+							<Link to={"/home"} className="text">
+								Início
+							</Link>
+						</p>
 					</li>
 					<NavDropdown
 						option={dropdownVisible.Mov}
@@ -103,11 +108,11 @@ export default function NavBar({ activeNavbar, setActiveNavbar }: NavBarProps) {
 						setActiveNavbar={setActiveNavbar}
 					/>
 				</ul>
-			<img
-				src={LogoMetrix}
-				alt="logo-metrix"
-				className="logo-metrix-navbar"
-			></img>
+				<img
+					src={LogoMetrix}
+					alt="logo-metrix"
+					className="logo-metrix-navbar"
+				></img>
 			</nav>
 			{isMenuClicked && <div className="overlay" onClick={updateMenu}></div>}
 			<div className="menu-toggle" onClick={updateMenu}>

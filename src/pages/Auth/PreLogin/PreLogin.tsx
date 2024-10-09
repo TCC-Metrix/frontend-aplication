@@ -12,7 +12,7 @@ function PreLogin() {
 
 	useEffect(() => {
 		if (accounts[0] && inProgress == "none") {
-			navigate("/");
+			navigate("/home");
 		}
 	}, [accounts, inProgress]);
 
