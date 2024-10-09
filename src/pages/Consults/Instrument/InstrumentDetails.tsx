@@ -1,4 +1,5 @@
 import { Button } from "../../../components";
+// import { useNavbarStore } from "../../../store";
 import {
   useInstrumentById,
   useLastCalibrationByInstrument,
@@ -29,6 +30,7 @@ const DetailItem: React.FC<DetailItemProps> = ({ subtitle, content }) => (
   </div>
 );
 
+// const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
 
 export const formatDate = (date: string) => {
 

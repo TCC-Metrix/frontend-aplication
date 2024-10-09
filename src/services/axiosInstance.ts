@@ -4,7 +4,8 @@ import { loginRequest } from "../authSSO/authConfig";
 import { AuthenticationResult } from "@azure/msal-common";
 
 //URL em que fazemos as requisições da API
-const API_URL = "http://10.234.241.199:8081/api/v1/";
+
+const API_URL = "http://10.21.240.172:8081/api/v1/";
 
 //Definindo a instância da URL para as requisições utilizando AXIOS
 const instance = axios.create({
@@ -35,13 +36,15 @@ async function acquireToken(
   }
 }
 
+
 instance.interceptors.request.use(acquireToken);
 
 export default instance;
 
 //10.234.89.143 - prates api
-//10.234.90.186 - julia api
+//10.234.81.80 - julia api
 //10.109.72.48
 //192.168.56.1 julia api senai
 //10.109.71.25 aprigio notebook senai
 //192.168.1.177 aprigio casa
+//10.21.240.172 server

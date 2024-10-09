@@ -67,7 +67,7 @@ const AreaRegister = () => {
   const handlePostAreaRegister: SubmitHandler<AreaRegisterPost> = (data) => {
     setIsLoadingPostAreaRegister(true);
     postAreaMutation.mutate(data, {
-      onSettled: (data, error) => {
+      onSettled: (_, error) => {
         setIsLoadingPostAreaRegister(false);
         if (error && request.isAxiosError(error)) {
           const errorAxios = error as AxiosError;

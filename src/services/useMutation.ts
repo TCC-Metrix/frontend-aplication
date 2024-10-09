@@ -29,6 +29,8 @@ import {
 } from "../utils/interfaces/Interfaces";
 import { LaboratoryOutputPost, LaboratoryReturnPost, UsePost, UseReturnPost } from "../utils/interfaces/MovementsInterfaces";
 
+import { UsePost, UseReturnPost, LaboratoryOutputPost, LaboratoryReturnPost } from "../utils/interfaces/MovementsInterfaces";
+
 export function useGetLastMovementByIds() {
 	return useMutation({
 		mutationFn: (ids: string[]) => getMovementByInstrumentIds(ids),
