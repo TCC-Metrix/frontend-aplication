@@ -1,0 +1,21 @@
+.container-main-general-report {
+    flex-direction: column;
+    width: 100%;
+    max-width: 1440px;
+    margin-top: 7%;
+    display: flex;
+    align-items: center;
+}
+
+.general-report-container {
+    display: flex;
+    gap: 10px;
+    width: 500px;
+}
+
+.general-report-container .inside-select-container {
+    position: relative;
+    padding-right: 12px;
+    width: calc(50% - 5px);
+    border: 1px solid var(--color-grey-05);
+}

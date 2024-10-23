@@ -5,7 +5,8 @@ import { AuthenticationResult } from "@azure/msal-common";
 
 //URL em que fazemos as requisições da API
 
-const API_URL = "http://10.21.240.172:8081/api/v1/";
+// const API_URL = "http://10.21.240.172:8081/api/v1/";
+const API_URL = "http://ca0vmdcbr01.br.bosch.com:8765/api/v1/";
 
 //Definindo a instância da URL para as requisições utilizando AXIOS
 const instance = axios.create({

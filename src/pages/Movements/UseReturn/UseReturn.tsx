@@ -19,7 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import request from "axios";
 import ModalSearchInstrument from "../../../components/ModalSearchInstrument/ModalSearchInstrument";
 import { formatDate } from "../../Consults/Instrument/InstrumentDetails";
-import { MovUseOutputData, UseReturnPost } from "../../../utils/interfaces/MovementsInterfaces";
+// import { MovUseOutputData, UseReturnPost } from "../../../utils/interfaces/MovementsInterfaces";
 import { msalInstance } from "../../../authSSO/msalInstance";
 
 export const UseReturn = () => {

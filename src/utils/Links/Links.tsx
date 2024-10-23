@@ -76,10 +76,10 @@ export const consultaLinks: List[] = [
 export const relatorioLinks: List[] = [
 	{
 		name: "Geral",
-		link: "#",
+		link: "/reports/general-report",
 	},
 	{
 		name: "Padrão IGI interna",
-		link: "#",
+		link: "/reports/igi-report",
 	},
 ];

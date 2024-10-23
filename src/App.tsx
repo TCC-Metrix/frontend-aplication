@@ -38,6 +38,9 @@ import FamilyDetails from "./pages/Consults/Family/FamilyDetails";
 import InstrumentHistory from "./pages/History/InstrumentHistory";
 import ConsultFamily from "./pages/Consults/Family/ConsultFamily";
 
+import IGIReport from "./pages/Reports/IGIReport/IGIReport";
+import GeneralReport from "./pages/Reports/GeneralReport/GeneralReport";
+
 function App() {
 	const activeNavbar = useNavbarStore((state) => state.activeNavbar);
 	const setActiveNavbar = useNavbarStore((state) => state.setActiveNavbar);
@@ -341,6 +344,22 @@ function App() {
 					element={
 						<ProtectedRoute>
 							<Home />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/reports/igi-report"
+					element={
+						<ProtectedRoute>
+							<IGIReport />
+						</ProtectedRoute>
+					}
+				></Route>
+				<Route
+					path="/reports/general-report"
+					element={
+						<ProtectedRoute>
+							<GeneralReport />
 						</ProtectedRoute>
 					}
 				></Route>
