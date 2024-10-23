@@ -1,8 +1,7 @@
 .container-main-general-report {
     flex-direction: column;
     width: 100%;
-    max-width: 1440px;
-    margin-top: 7%;
+    margin-top: 10%;
     display: flex;
     align-items: center;
 }
@@ -11,6 +10,8 @@
     display: flex;
     gap: 10px;
     width: 500px;
+    margin-bottom: 50px;
+    margin-top: 40px;
 }
 
 .general-report-container .inside-select-container {
@@ -18,4 +19,36 @@
     padding-right: 12px;
     width: calc(50% - 5px);
     border: 1px solid var(--color-grey-05);
+}
+
+.container-general-report {
+    width: 950px;
+}
+
+.report-params-list-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+h1.params-column-title {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    margin-bottom: 18px;
+}
+
+.params-column .container-checkbox {
+    gap: 10px;
+    padding-bottom: 8px;
+}
+
+.right-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.right-button .m-auto {
+    margin: 0;
+    margin-top: 50px;
+    margin-bottom: 140px;
 }
