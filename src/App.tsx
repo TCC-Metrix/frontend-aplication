@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { useNavbarStore } from "./store";
 import PreLogin from "./pages/Auth/PreLogin/PreLogin";
+import Error from "./pages/Auth/Error/Error"
 import { ProtectedRoute } from "./authSSO/protectedRoute";
 import NavBar from "./components/Navbar/Navbar";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
@@ -69,6 +70,7 @@ function App() {
 
 			<Routes>
 				<Route path="/login" element={<PreLogin />}></Route>
+				<Route path="/error" element={<Error />}></Route>
 				<Route
 					path="/movement/use/output"
 					element={
