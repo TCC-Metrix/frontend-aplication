@@ -70,11 +70,11 @@ function App() {
 
 			<Routes>
 				<Route path="/login" element={<PreLogin />}></Route>
-				<Route path="/error" element={<Error />}></Route>
+				<Route path="/errorLogin" element={<Error />}></Route>
 				<Route
 					path="/movement/use/output"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<MoveUseOutput />
 						</ProtectedRoute>
 					}
@@ -82,7 +82,7 @@ function App() {
 				<Route
 					path="/register/instrument"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<InstrumentRegister />
 						</ProtectedRoute>
 					}
@@ -90,7 +90,7 @@ function App() {
 				<Route
 					path="/error"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<ErrorPage />
 						</ProtectedRoute>
 					}
@@ -98,7 +98,7 @@ function App() {
 				<Route
 					path="/register/laboratory"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<LaboratoryRegister />
 						</ProtectedRoute>
 					}
@@ -107,7 +107,7 @@ function App() {
 				<Route
 					path="/movement/use/output"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<MoveUseOutput />
 						</ProtectedRoute>
 					}
@@ -115,7 +115,7 @@ function App() {
 				<Route
 					path="/movement/use/return"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<UseReturn />
 						</ProtectedRoute>
 					}
@@ -123,7 +123,7 @@ function App() {
 				<Route
 					path="/register/family"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin']}>
 							<FamilyRegister />
 						</ProtectedRoute>
 					}
@@ -131,7 +131,7 @@ function App() {
 				<Route
 					path="/register/supplier"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<SupplierRegister />
 						</ProtectedRoute>
 					}
@@ -139,7 +139,7 @@ function App() {
 				<Route
 					path="/register/area"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<AreaRegister />
 						</ProtectedRoute>
 					}
@@ -147,7 +147,7 @@ function App() {
 				<Route
 					path="/register/employee"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<EmployeeRegister />
 						</ProtectedRoute>
 					}
@@ -155,7 +155,7 @@ function App() {
 				<Route
 					path="/consult/instrument"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<ConsultInstrument />
 						</ProtectedRoute>
 					}
@@ -163,7 +163,7 @@ function App() {
 				<Route
 					path="/consult/instrument/:id"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<InstrumentDetails />
 						</ProtectedRoute>
 					}
@@ -172,7 +172,7 @@ function App() {
 				<Route
 					path="/edit/instrument/:id"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<UpdateInstrument />
 						</ProtectedRoute>
 					}
@@ -181,7 +181,7 @@ function App() {
 				<Route
 					path="/consult/family"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<ConsultFamily />
 						</ProtectedRoute>
 					}
@@ -190,7 +190,7 @@ function App() {
 				<Route
 					path="/consult/employee"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<ConsultEmployee />
 						</ProtectedRoute>
 					}
@@ -199,7 +199,7 @@ function App() {
 				<Route
 					path="/consult/family/:id"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<FamilyDetails />
 						</ProtectedRoute>
 					}
@@ -208,7 +208,7 @@ function App() {
 				<Route
 					path="/consult/employee/:id"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<EmployeeDetails />
 						</ProtectedRoute>
 					}
@@ -217,7 +217,7 @@ function App() {
 				<Route
 					path="/edit/family/:id"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin']}>
 							<UpdateFamily />
 						</ProtectedRoute>
 					}
@@ -226,7 +226,7 @@ function App() {
 				<Route
 					path="/edit/employee/:id"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<UpdateEmployee />
 						</ProtectedRoute>
 					}
@@ -235,7 +235,7 @@ function App() {
 				<Route
 					path="/history/instrument/:id"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<InstrumentHistory />
 						</ProtectedRoute>
 					}
@@ -244,7 +244,7 @@ function App() {
 				<Route
 					path="/consult/area"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<ConsultArea />
 						</ProtectedRoute>
 					}
@@ -252,7 +252,7 @@ function App() {
 				<Route
 					path="movement/laboratory/output"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<LaboratoryOutput />
 						</ProtectedRoute>
 					}
@@ -261,7 +261,7 @@ function App() {
 				<Route
 					path="/consult/supplier"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<ConsultSupplier />
 						</ProtectedRoute>
 					}
@@ -269,7 +269,7 @@ function App() {
 				<Route
 					path="/consult/laboratory"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<ConsultLaboratory />
 						</ProtectedRoute>
 					}
@@ -277,7 +277,7 @@ function App() {
 				<Route
 					path="/consult/laboratory/:id"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<LaboratoryDetails />
 						</ProtectedRoute>
 					}
@@ -285,7 +285,7 @@ function App() {
 				<Route
 					path="/edit/laboratory/:id"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<UpdateLaboratory />
 						</ProtectedRoute>
 					}
@@ -294,7 +294,7 @@ function App() {
 				<Route
 					path="/consult/supplier/:id"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<SupplierDetails />
 						</ProtectedRoute>
 					}
@@ -302,7 +302,7 @@ function App() {
 				<Route
 					path="/edit/supplier/:id"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<UpdateSupplier />
 						</ProtectedRoute>
 					}
@@ -310,7 +310,7 @@ function App() {
 				<Route
 					path="/consult/area"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<ConsultArea />
 						</ProtectedRoute>
 					}
@@ -318,7 +318,7 @@ function App() {
 				<Route
 					path="movement/laboratory/output"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<LaboratoryOutput />
 						</ProtectedRoute>
 					}
@@ -327,7 +327,7 @@ function App() {
 				<Route
 					path="movement/laboratory/return"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<LaboratoryReturn />
 						</ProtectedRoute>
 					}
@@ -336,7 +336,7 @@ function App() {
 				<Route
 					path="/consult/supplier"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<ConsultSupplier />
 						</ProtectedRoute>
 					}
@@ -344,7 +344,7 @@ function App() {
 				<Route
 					path="/home"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<Home />
 						</ProtectedRoute>
 					}
@@ -352,7 +352,7 @@ function App() {
 				<Route
 					path="/reports/igi-report"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<IGIReport />
 						</ProtectedRoute>
 					}
@@ -360,7 +360,7 @@ function App() {
 				<Route
 					path="/reports/general-report"
 					element={
-						<ProtectedRoute>
+						<ProtectedRoute requiredRoles={['MetrixAdmin', 'MetrixUser']}>
 							<GeneralReport />
 						</ProtectedRoute>
 					}

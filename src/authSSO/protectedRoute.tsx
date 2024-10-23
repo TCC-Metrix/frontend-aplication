@@ -1,13 +1,15 @@
 import { useMsal } from "@azure/msal-react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { ReactNode } from "react";
 
 interface ProtectedRouteProps {
 	children: ReactNode;
+	requiredRoles?: string[];
 }
 
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ children, requiredRoles }: ProtectedRouteProps) => {
 	const { accounts } = useMsal();
+	const location = useLocation()
 
 	if (!accounts[0]) {
 		return <Navigate to="/login" />;
@@ -16,10 +18,10 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 	const account = accounts[0]
 	const roles = account.idTokenClaims?.roles || []
 
-	const hasAccess = roles.includes('MetrixAdmin') || roles.includes('MetrixUser')
+	const hasAccess = requiredRoles ? requiredRoles.some((role) => roles.includes(role)) : true
 
 	if (!hasAccess) {
-		return <Navigate to="/error" />;
+		return <Navigate to="/errorLogin" state={{ from: location }} />
 	}
 
 	return children;
