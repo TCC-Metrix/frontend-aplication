@@ -93,7 +93,7 @@ export default function IGIReport() {
                         />
                     </div>
 
-                    <div className="m-auto btn-session-confirm">
+                    <div className="right-button">
                         <Button
                             className="btn btn-secondary btn-lg"
                             onClickFunction={handleSubmit(handleGenerateIGIReport)}
